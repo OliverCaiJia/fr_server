@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'authAdmin' => \App\Http\Middleware\AuthenticateAdmin::class,
         'menu' => \App\Http\Middleware\GetMenu::class,
+        'valiAdmin' => \App\Http\Middleware\ValidateAdminMiddleware::class,
     ];
 }

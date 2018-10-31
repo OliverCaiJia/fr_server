@@ -1,0 +1,14 @@
+.input_custom {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.span_custom {
+    text-align: left !important;
+    padding-left: 0 !important;
+}
+
+.table_custom {
+    width: 100%;
+    overflow-x: scroll;
+}

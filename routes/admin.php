@@ -95,5 +95,57 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::post('import', 'OrderController@import')->name('order.import');
         //订单导入模板下载
         Route::get('template', 'OrderController@template')->name('order.download.template');
+
+        //------复审放款-------
+        Route::group(['prefix' => 'loan'], function () {
+            //利率设置
+            Route::any('', [
+                'middleware' => ['valiAdmin:LoanIntRate'],
+                'as' => 'order.loan.interest_rate',
+                'uses' => 'LoanController@interestRate',
+            ]);
+            //立即放款
+            Route::any('pass', [
+                'middleware' => ['valiAdmin:LoanIntRate'],
+                'as' => 'order.loan.pass',
+                'uses' => 'LoanController@pass',
+            ]);
+            //拒绝放款
+            Route::any('refuse', [
+                'as' => 'order.loan.refuse',
+                'uses' => 'LoanController@refuse',
+            ]);
+            //已拒绝放款
+            Route::any('refused', [
+                'as' => 'order.loan.refused',
+                'uses' => 'LoanController@refused',
+            ]);
+        });
+
+        //还款管理
+        Route::group(['prefix' => 'repaymanage'], function () {
+            Route::any('repaying', [
+                'as' => 'order.repaymanage.repaying',
+                'uses' => 'OrderController@repaying',
+            ]);
+            Route::any('overduerepaying', [
+                'as' => 'order.repaymanage.overduerepaying',
+                'uses' => 'OrderController@overdueRepaying',
+            ]);
+            Route::any('repayed', [
+                'as' => 'order.repaymanage.repayed',
+                'uses' => 'OrderController@repayed',
+            ]);
+            Route::any('repaydetail', [
+                'middleware' => ['valiAdmin:RepayDetail'],
+                'as' => 'order.repaymanage.repaydetail',
+                'uses' => 'OrderController@repayDetail',
+            ]);
+            Route::any('overduerepaydetail', [
+                'middleware' => ['valiAdmin:OverdueRepayDetail'],
+                'as' => 'order.repaymanage.overduerepaydetail',
+                'uses' => 'OrderController@overdueRepayDetail',
+            ]);
+        });
     });
 });

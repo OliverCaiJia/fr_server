@@ -18,6 +18,7 @@
     <link href="{{ asset('vendor/hui/css/font-awesome.min93e3.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/hui/css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/hui/css/style.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     @yield('css')
 </head>
 
@@ -27,6 +28,8 @@
 </div>
 <script src="{{ asset('vendor/hui/js/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/hui/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/hui/js/plugins/validate/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('vendor/hui/js/plugins/validate/messages_zh.min.js') }}"></script>
 @yield('js')
 </body>
 </html>

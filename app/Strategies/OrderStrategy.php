@@ -7,6 +7,7 @@ use App\Helpers\Formater\NumberFormater;
 use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Admin\Order\OrderBasicInfoFactory;
 use App\Models\Factory\Admin\Order\OrderFactory;
+use App\Models\Factory\Admin\Order\SaasOrderFactory;
 use App\Models\Factory\Admin\Users\UserReportFactory;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserReport;
@@ -237,5 +238,44 @@ class OrderStrategy extends AppStrategy
         $orderids = array_column($orderids, 'id');
 
         return $orderids;
+    }
+
+    /**
+     * @param $certifyIds
+     *
+     * @return mixed
+     */
+    public static function getCertifyTextForList($certifyIds)
+    {
+        $text = [];
+        foreach (OrderConstant::CERTIFY_ITEM_ID_TEXTS as $key => $item) {
+            if ($certifyIds[$key]) {
+                $text[] = $item;
+            }
+        }
+
+        return implode(' | ', $text);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return array
+     */
+    public static function getOrderInfoBySaasOrderSaasId($id)
+    {
+        $orderId = SaasOrderFactory::getInfoById($id)->order_id;
+
+        return OrderFactory::getOrderInfoById($orderId);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return array
+     */
+    public static function getOrderInfoById($id)
+    {
+        return OrderFactory::getOrderInfoById($id);
     }
 }

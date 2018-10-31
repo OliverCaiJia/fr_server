@@ -283,4 +283,34 @@ class Utils
     {
         return $loop->index + 1 + ($data->currentPage() - 1) * $data->perPage();
     }
+
+    /**
+     * 多维数组，按字段排序.
+     *
+     * @param $list  array 需要排序的二维数组
+     * @param $field array 欲排序的字段
+     *
+     * @return mixed
+     *
+     * $list = sortByCols($list, array(
+     * 'parent' => SORT_ASC,
+     * 'value' => SORT_DESC,
+     * ));
+     */
+    public static function sortByCols($list, $field)
+    {
+        $sort_arr = array();
+        $sort_rule = '';
+        foreach ($field as $sort_field => $sort_way) {
+            foreach ($list as $key => $val) {
+                $sort_arr[$sort_field][$key] = $val[$sort_field];
+            }
+            $sort_rule .= '$sort_arr["' . $sort_field . '"],' . $sort_way . ',';
+        }
+        if (empty($sort_arr) || empty($sort_rule)) {
+            return $list;
+        }
+        eval('array_multisort(' . $sort_rule . ' $list);');
+        return $list;
+    }
 }

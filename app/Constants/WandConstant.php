@@ -8,6 +8,7 @@ class WandConstant extends AppConstant
         'CASH_LOAN' => '现金贷',
         'COMPENSATION' => '信用卡代偿',
         'CONSUMSTAGE' => '消费分期',
+        'CUSTOMER_FINANCE' => '消费分期',
         'CREDITPAY' => '信用支付',
         'DATACOVERGE' => '数据聚合平台',
         'DIVERSION' => '导流平台',

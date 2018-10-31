@@ -49,12 +49,30 @@ class UserOrderStrategy extends AppStrategy
      */
     public static function getStatusText($status)
     {
-        if ($status == 1) {
-            return '待处理';
-        } elseif ($status == 2) {
-            return '已通过';
-        } elseif ($status == 3) {
-            return '已拒绝';
+        switch ($status) {
+            case 1:
+                $status = '待初审订单';
+                break;
+            case 2:
+                $status = '待放款订单';
+                break;
+            case 3:
+                $status = '审核不通过';
+                break;
+            case 4:
+                $status = '已拒绝放款';
+                break;
+            case 5:
+                $status = '待还款订单';
+                break;
+            case 6:
+                $status = '逾期未还订单';
+                break;
+            case 7:
+                $status = '已还款订单';
+                break;
         }
+
+        return $status;
     }
 }

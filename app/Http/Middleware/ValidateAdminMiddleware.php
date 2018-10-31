@@ -38,7 +38,9 @@ class ValidateAdminMiddleware
                 $validator = new $validator($request->all());
 
                 if (!$validator->passes()) {
-                    return AdminResponseFactory::ajaxError($validator->errors()->first());
+                    return redirect()->back()
+                        ->withErrors($validator->validator)
+                        ->withInput();
                 }
             }
         }

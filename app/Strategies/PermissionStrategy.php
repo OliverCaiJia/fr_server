@@ -2,6 +2,7 @@
 
 namespace App\Strategies;
 
+use App\Helpers\Utils;
 use Gate;
 
 class PermissionStrategy extends AppStrategy
@@ -24,12 +25,14 @@ class PermissionStrategy extends AppStrategy
                         $item['children'][] = $value;
                     }
                 }
+
                 if (isset($item['children'])) {
+                    $item['children'] = Utils::sortByCols($item['children'], ['position' => 'SORT_ASC']);
                     $tmp[] = $item;
                 }
             }
         }
 
-        return $tmp;
+        return Utils::sortByCols($tmp, ['position' => 'SORT_ASC']);
     }
 }

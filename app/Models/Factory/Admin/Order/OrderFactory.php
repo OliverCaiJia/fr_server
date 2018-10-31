@@ -5,7 +5,7 @@ namespace App\Models\Factory\Admin\Order;
 use App\Models\AbsBaseModel;
 use App\Models\Orm\SaasOrderSaas;
 use App\Models\Orm\UserOrder;
-use App\Models\Orm\UserOrderRefuseReason;
+use App\Models\Orm\UserOrderRefuseLoanReason;
 
 class OrderFactory extends AbsBaseModel
 {
@@ -94,7 +94,7 @@ class OrderFactory extends AbsBaseModel
      */
     public static function insertRefuseReason($orderId, $reason)
     {
-        return UserOrderRefuseReason::updateOrCreate(['saas_order_id' => $orderId], [
+        return UserOrderRefuseLoanReason::updateOrCreate(['saas_order_id' => $orderId], [
             'saas_order_id' => $orderId,
             'reason' => $reason
         ]);
@@ -109,7 +109,7 @@ class OrderFactory extends AbsBaseModel
      */
     public static function getReasonByOrderId($orderId)
     {
-        $reason = UserOrderRefuseReason::where(['saas_order_id' => $orderId])->first();
+        $reason = UserOrderRefuseLoanReason::where(['saas_order_id' => $orderId])->first();
         return $reason ? $reason->reason : '';
     }
 
@@ -182,5 +182,34 @@ class OrderFactory extends AbsBaseModel
         }
 
         return $query->get()->all();
+    }
+
+    /**
+     * 插入订单放款拒绝原因
+     *
+     * @param $orderId
+     * @param $reason
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function insertLoanRefuseReason($orderId, $reason)
+    {
+        return UserOrderRefuseLoanReason::updateOrCreate(['saas_order_id' => $orderId], [
+            'saas_order_id' => $orderId,
+            'reason' => $reason
+        ]);
+    }
+
+    /**
+     * 通过订单ID获得拒绝放款理由
+     *
+     * @param $orderId
+     *
+     * @return mixed|string
+     */
+    public static function getLoanReasonByOrderId($orderId)
+    {
+        $reason = UserOrderRefuseLoanReason::where(['saas_order_id' => $orderId])->first();
+        return $reason ? $reason->reason : '';
     }
 }

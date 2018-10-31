@@ -50,6 +50,18 @@
                                 </a>
                             @endif
                         @endif
+                        @if($status == \App\Constants\OrderConstant::ORDER_STATUS_PASSED)
+                            <a href="{{ route('admin.order.loan.pass') }}?order_id={{$order->id}}&type=loan">
+                                <button class="btn btn-primary btn-sm" type="button">
+                                    立即放款
+                                </button>
+                            </a>
+                            <a href="{{ route('admin.order.loan.refuse') }}?order_id={{$order->id}}">
+                                <button class="btn btn-primary btn-sm" type="button">
+                                    拒绝放款
+                                </button>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -82,6 +94,11 @@
                             多头借贷
                         </a>
                     </li>
+                    <li>
+                        <a href="#iou-platform" role="tab" data-toggle="tab">
+                            借条平台
+                        </a>
+                    </li>
                     <li class="">
                         <a data-toggle="tab" href="#tab-6" aria-expanded="false">
                             综合信用
@@ -103,21 +120,27 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">姓名：</label></td>
-                                    <td>{{ $basicInfo['name'] ?? ($userBasic['name'] ?? '暂无数据') }}
-                                        <span class="status">已三要素实名认证</span>
+                                    <td>{{ $basicInfo['name'] ?? '暂无数据' }}
+                                        @if($order->userReport->basic_info_id)
+                                            <span class="status">已三要素实名认证</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">身份证号：</label></td>
                                     <td>
-                                        {{ $basicInfo['id_card'] ?? ($userBasic['id_card'] ?? '暂无数据') }}
-                                        <span class="status">已三要素实名认证</span>
+                                        {{ $basicInfo['id_card'] ?? '暂无数据' }}
+                                        @if($order->userReport->basic_info_id)
+                                            <span class="status">已三要素实名认证</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">手机号：</label></td>
-                                    <td>{{ $basicInfo['mobile'] ?? ($userBasic['mobile'] ?? '暂无数据') }}
-                                        <span class="status">运营商已认证</span>
+                                    <td>{{ $basicInfo['mobile'] ?? ($userBasic['mobile'] ?? \App\Models\Factory\Admin\Users\UsersFactory::getUserInfoById($order->userReport->user_id)['mobile']) }}
+                                        @if($carrier)
+                                            <span class="status">运营商已认证</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -159,15 +182,15 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">年龄：</label></td>
-                                    <td>{{ $userBasic['age'] ?? '暂无数据' }}</td>
+                                    <td>{{ isset($basicInfo['id_card']) ? (isset($userBasic['age']) ? $userBasic['age'] : \App\Strategies\UserReportStrategy::getAgeByIdCardForBlade($basicInfo['id_card'] ?? ($userBasic['id_card'] ?? ''))) : '暂无数据' }}</td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">性别：</label></td>
-                                    <td>{{ $userBasic['gender'] ?? '暂无数据' }}</td>
+                                    <td>{{ isset($basicInfo['id_card']) ? (isset($userBasic['gender']) ? $userBasic['gender'] : \App\Strategies\UserReportStrategy::getGenderByIdCardForBlade($basicInfo['id_card'] ?? ($userBasic['id_card'] ?? ''))) : '暂无数据' }}</td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">户籍地址：</label></td>
-                                    <td>{{ $userBasic['native_place'] ?? '暂无数据' }}</td>
+                                    <td>{{ isset($basicInfo['id_card']) ? (isset($userBasic['native_place']) ? $userBasic['native_place'] : ($basicInfo['province'].$basicInfo['city'].$basicInfo['region'] ?: '暂无数据')) : '暂无数据' }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-center">
@@ -221,7 +244,8 @@
                                         <td><label class="control-label">证件号：</label></td>
                                         <td><label class="control-label">{{ $userBasic['id_card'] }}</label></td>
                                         <td><label class="control-label">报告获取时间：</label></td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <?php $assignedAt = \App\Strategies\UserReportStrategy::getAssignedAt($order->id, Auth::user()->saas_auth_id); ?>
+                                        <td>{{ $assignedAt }}</td>
                                     </tr>
                                     <tr>
                                         <td><label class="control-label"> 运营商：</label></td>
@@ -1504,7 +1528,7 @@
                                     <tr>
                                         <td>姓名:{{ $basicInfo['name'] ?? ($userBasic['name'] ?? '暂无数据') }}</td>
                                         <td>身份证号:{{ $basicInfo['id_card'] ?? ($userBasic['id_card'] ?? '暂无数据') }}</td>
-                                        <td>查询日期:{{ $multilateralLending->created_at }}</td>
+                                        <td>查询日期:{{ $assignedAt }}</td>
                                     </tr>
                                     <tr class="trbg">
                                         <td colspan="2">评估项目</td>
@@ -1583,6 +1607,91 @@
                                     特别说明：<br>
                                     1.贷款行为分/置信度: 新颜征信综合自身海量用户的历史贷款数据，利用机器学习的方法构建贷款行为动态评估模型，并由此计算出用户的贷款行为分及置信 度。 其中，贷款行为分是对该用户历史贷款行为的综合评估，取值范围1-1000分;置信度是对贷款行为分的结果可靠程度的评估，取值范围50-100分。
                                 </span>
+                            @else
+                                暂无数据
+                            @endif
+                        </div>
+                    </div>
+                    {{-- 借条平台 --}}
+                    <div class="tab-pane fade" id="iou-platform">
+                        <div class="panel-body">
+                            @if($order->UserReport->iou_platform_id)
+                                <?php $iouPlatformInfo = \App\Models\Orm\CertifyIouPlatform::find($order->UserReport->iou_platform_id); ?>
+                                <table class="table table-condensed table-hover" width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td><label class="control-label">姓名：</label></td>
+                                        <td>{{ $basicInfo['name'] ?? ($userBasic['name'] ?? '暂无数据') }}</td>
+                                        <td><label class="control-label">身份证号码：</label></td>
+                                        <td>{{ $basicInfo['id_card'] ?? ($userBasic['id_card'] ?? '暂无数据') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">性别：</label></td>
+                                        <td>{{ $userBasic['gender'] ?? '暂无数据' }}</td>
+                                        <td><label class="control-label">年龄：</label></td>
+                                        <td>{{ $userBasic['age'] ?? '暂无数据' }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                @if($iouPlatformInfo->jiedaibao_info)
+                                    <table class="table table-condensed table-hover" width="100%">
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <h5>借XX</h5>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">是否高风险用户：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['is_high_risk_user'] ?? '0' }}</td>
+                                            <td><label class="control-label">最近一次访问日期：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['last_visit_dt'] ?? '暂无数据' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">30天以上逾期次数：</label></td>
+                                            <td>{{ isset($iouPlatformInfo->jiedaibao_info['30d_overdue_cnt']) ? $iouPlatformInfo->jiedaibao_info['30d_overdue_cnt'] : '0' }}</td>
+                                            <td><label class="control-label">历史逾期金额：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['his_overdue_amt'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">最近一次逾期时间：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['last_overdue_dt'] ?? '0'  }}</td>
+                                            <td><label class="control-label">最近一次逾期金额：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['his_overdue_amt'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">当前逾期金额：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['curr_overdue_amt'] ?? '0'  }}</td>
+                                            <td><label class="control-label">当前逾期最大天数：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['curr_overdue_days'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">首次逾期时间：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['first_overdue_dt'] ?? '0'  }}</td>
+                                            <td><label class="control-label">首次逾期金额：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['first_overdue_amt'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">最近一次还款时间：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['last_repay_tm'] ?? '0'  }}</td>
+                                            <td><label class="control-label">总还款次数：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['repay_times'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">正在进行的贷款笔数：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['curr_debt_product_cnt'] ?? '0'  }}</td>
+                                            <td><label class="control-label">历史贷款笔数：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['total_in_order_cnt'] ?? '0'  }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label">历史总借款金额：</label></td>
+                                            <td>{{ $iouPlatformInfo->jiedaibao_info['curr_debt_product_cnt'] ?? '0'  }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                @else
+                                    暂无数据
+                                @endif
                             @else
                                 暂无数据
                             @endif
@@ -1724,7 +1833,7 @@
                                             'M4' => '91~120天',
                                             'M5' => '121~150天',
                                             'M6' => '151~180天',
-                                            'M6' => '大于180天',
+                                            'M6+' => '大于180天',
                                         ];?>
                                         <td>{{ isset($blacklistRecord['overdue_status']) ? $overdue_status[$blacklistRecord['overdue_status']] : '暂无数据'}}</td>
                                     </tr>
@@ -2107,6 +2216,39 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-12">
+            <br>
+            <div class="col-sm-5"></div>
+            <div class="col-sm2">
+                @if($status == \App\Constants\OrderConstant::ORDER_STATUS_PENDING)
+                    @if(substr(url()->previous(), -5) != 'order')
+                        <a href="{{ route('admin.order.pending.detail.passOrder') }}?order_id={{$order->id}}">
+                            <button class="btn btn-primary btn-sm" type="button">
+                                通过审批
+                            </button>
+                        </a>
+                        <a href="{{ route('admin.order.pending.detail.refuseOrder') }}?order_id={{$order->id}}">
+                            <button class="btn btn-primary btn-sm" type="button">
+                                拒绝申请
+                            </button>
+                        </a>
+                    @endif
+                @endif
+                @if($status == \App\Constants\OrderConstant::ORDER_STATUS_PASSED)
+                    <a href="{{ route('admin.order.loan.pass') }}?order_id={{$order->id}}&type=loan">
+                        <button class="btn btn-primary btn-sm" type="button">
+                            立即放款
+                        </button>
+                    </a>
+                    <a href="{{ route('admin.order.loan.refuse') }}?order_id={{$order->id}}">
+                        <button class="btn btn-primary btn-sm" type="button">
+                            拒绝放款
+                        </button>
+                    </a>
+                @endif
+            </div>
+            <div class="col-sm-5"></div>
         </div>
     </div>
 @endsection

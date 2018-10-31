@@ -56,4 +56,16 @@ class SaasPersonStrategy extends AppStrategy
 
         return SaasPersonFactory::getAllPersonBySaasId($saasId);
     }
+
+    /**
+     * @param $userId
+     *
+     * @return mixed
+     */
+    public static function getPersonNameById($userId)
+    {
+        $person = SaasPersonFactory::getPersonInfo($userId);
+
+        return $person->name ?: $person->username;
+    }
 }

@@ -10,9 +10,14 @@ use App\Models\Chain\Order\Pass\DoPassOrderHandler;
 use App\Models\Chain\Order\Refuse\DoRefuseOrderHandler;
 use App\Models\Factory\Admin\Order\OrderFactory;
 use App\Models\Factory\Admin\Order\SaasOrderFactory;
+use App\Models\Factory\Admin\Saas\SaasOrderInterestRateFactory;
+use App\Models\Factory\Admin\Saas\SaasOrderRepaymentInfoFactory;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
+use App\Models\Orm\SaasOrderInterestRate;
+use App\Models\Orm\SaasOrderRepaymentInfo;
 use App\Models\Orm\SaasOrderSaas;
 use App\Models\Orm\UserOrder;
+use App\Models\Orm\UserOrderBasicInfo;
 use App\Models\Orm\UserReport;
 use App\Strategies\CertifyTaobaoStrategy;
 use App\Strategies\OrderStrategy;
@@ -36,18 +41,22 @@ class OrderController extends Controller
     {
         $start = $request->input('start') ?: Carbon::now()->subMonth();
         $end = $request->input('end', Carbon::now()->endOfDay());
-        $ageLow = $request->input('age_low');
-        $ageHigh = $request->input('age_high');
-        $province = $request->input('province');
+        $ageLow = $request->input('age_low'); //年龄上限
+        $ageHigh = $request->input('age_high'); //年龄下限
+        $province = $request->input('province'); //户籍省份
+        $applyStatus = $request->input('apply_status'); //订单申请状态
 
         $query = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
             ->leftJoin(UserReport::TABLE_NAME, UserReport::TABLE_NAME . '.id', UserOrder::TABLE_NAME . '.user_report_id')
             ->select(
                 UserOrder::TABLE_NAME . '.*',
+                UserOrder::TABLE_NAME . '.id as order_id',
                 SaasOrderSaas::TABLE_NAME.'.id as saas_order_id',
-                UserReport::TABLE_NAME . '.age',
-                UserReport::TABLE_NAME . '.province',
-                SaasOrderSaas::TABLE_NAME . '.assigned_at'
+                SaasOrderSaas::TABLE_NAME.'.person_id',
+                UserReport::TABLE_NAME . '.id as report_id',
+                UserReport::TABLE_NAME . '.*',
+                SaasOrderSaas::TABLE_NAME . '.assigned_at',
+                SaasOrderSaas::TABLE_NAME . '.updated_at as check_time'
             );
 
         $orders = $query->when($start, function ($query) use ($start, $end) {
@@ -60,10 +69,11 @@ class OrderController extends Controller
             return $query->where(UserReport::TABLE_NAME . '.age', '<=', $ageHigh);
         })->when($province, function ($query) use ($province) {
             return $query->where(UserReport::TABLE_NAME . '.province', $province);
+        })->when($applyStatus, function ($query) use ($applyStatus) {
+            return $query->where(UserOrder::TABLE_NAME . '.apply_status', $applyStatus);
         });
 
-        $operatorIds = SaasPersonStrategy::getSubIdsById(Auth::user()->id);
-        $orders = $orders->whereIn(SaasOrderSaas::TABLE_NAME . '.person_id', $operatorIds)
+        $orders = $orders->where(SaasOrderSaas::TABLE_NAME . '.person_id', Auth::user()->id)
             ->where(SaasOrderSaas::TABLE_NAME . '.status', OrderConstant::ORDER_STATUS_REFUSED);
 
         $orders = $orders->orderBy(SaasOrderSaas::TABLE_NAME . '.assigned_at', 'desc')->paginate(10);
@@ -85,10 +95,20 @@ class OrderController extends Controller
         $ageLow = $request->input('age_low');
         $ageHigh = $request->input('age_high');
         $province = $request->input('province');
+        $applyStatus = $request->input('apply_status'); //订单申请状态
 
         $orders = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
             ->leftJoin(UserReport::TABLE_NAME, UserReport::TABLE_NAME . '.id', UserOrder::TABLE_NAME . '.user_report_id')
-            ->select([UserOrder::TABLE_NAME . '.*', 'age', 'province', SaasOrderSaas::TABLE_NAME . '.assigned_at'])
+            ->select(
+                UserOrder::TABLE_NAME . '.*',
+                UserOrder::TABLE_NAME . '.id as order_id',
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id',
+                SaasOrderSaas::TABLE_NAME.'.person_id',
+                UserReport::TABLE_NAME . '.id as report_id',
+                UserReport::TABLE_NAME . '.*',
+                SaasOrderSaas::TABLE_NAME . '.assigned_at',
+                SaasOrderSaas::TABLE_NAME . '.updated_at as check_time'
+            )
             ->when($start, function ($query) use ($start, $end) {
                 return $query->where(SaasOrderSaas::TABLE_NAME . '.assigned_at', '>=', $start);
             })->when($end, function ($query) use ($end) {
@@ -99,10 +119,11 @@ class OrderController extends Controller
                 return $query->where(UserReport::TABLE_NAME . '.age', '<=', $ageHigh);
             })->when($province, function ($query) use ($province) {
                 return $query->where(UserReport::TABLE_NAME . '.province', $province);
+            })->when($applyStatus, function ($query) use ($applyStatus) {
+                return $query->where(UserOrder::TABLE_NAME . '.apply_status', $applyStatus);
             });
 
-        $operatorIds = SaasPersonStrategy::getSubIdsById(Auth::user()->id);
-        $orders = $orders->whereIn(SaasOrderSaas::TABLE_NAME . '.person_id', $operatorIds)
+        $orders = $orders->where(SaasOrderSaas::TABLE_NAME . '.person_id', Auth::user()->id)
             ->where(SaasOrderSaas::TABLE_NAME . '.status', OrderConstant::ORDER_STATUS_PASSED);
 
         $orders = $orders->orderBy(UserOrder::TABLE_NAME . '.id', 'desc')->paginate(10);
@@ -124,10 +145,20 @@ class OrderController extends Controller
         $ageLow = $request->input('age_low');
         $ageHigh = $request->input('age_high');
         $province = $request->input('province');
+        $applyStatus = $request->input('apply_status');
 
         $orders = UserOrder::join(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
             ->join(UserReport::TABLE_NAME, UserReport::TABLE_NAME . '.id', UserOrder::TABLE_NAME . '.user_report_id')
-            ->select([UserOrder::TABLE_NAME . '.*', 'age', 'province', SaasOrderSaas::TABLE_NAME . '.assigned_at'])
+            ->select(
+                UserOrder::TABLE_NAME . '.*',
+                UserOrder::TABLE_NAME . '.id as order_id',
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id',
+                SaasOrderSaas::TABLE_NAME.'.person_id',
+                UserReport::TABLE_NAME . '.id as report_id',
+                UserReport::TABLE_NAME . '.*',
+                SaasOrderSaas::TABLE_NAME . '.assigned_at',
+                SaasOrderSaas::TABLE_NAME . '.updated_at as check_time'
+            )
             ->when($start, function ($query) use ($start, $end) {
                 return $query->where(SaasOrderSaas::TABLE_NAME . '.assigned_at', '>=', $start);
             })->when($end, function ($query) use ($end) {
@@ -138,6 +169,8 @@ class OrderController extends Controller
                 return $query->where(UserReport::TABLE_NAME . '.age', '<=', $ageHigh);
             })->when($province, function ($query) use ($province) {
                 return $query->where(UserReport::TABLE_NAME . '.province', $province);
+            })->when($applyStatus, function ($query) use ($applyStatus) {
+                return $query->where(UserOrder::TABLE_NAME . '.apply_status', $applyStatus);
             });
 
         $orders = $orders->where(SaasOrderSaas::TABLE_NAME . '.person_id', Auth::user()->id)
@@ -298,6 +331,7 @@ class OrderController extends Controller
         $start = $request->input('start') ?: Carbon::now()->subMonth();
         $end = $request->input('end', Carbon::now()->endOfDay());
         $status = $request->input('status');
+        $applyStatus = $request->input('apply_status');
         $userName = $request->input('user_name');
         $userIdCard = $request->input('user_id_card');
         $userMobile = $request->input('user_mobile');
@@ -312,7 +346,23 @@ class OrderController extends Controller
 
         $query = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
             ->leftJoin(UserReport::TABLE_NAME, UserReport::TABLE_NAME . '.id', UserOrder::TABLE_NAME . '.user_report_id')
-            ->select(SaasOrderSaas::TABLE_NAME.'.id as saas_order_id', SaasOrderSaas::TABLE_NAME . '.status', 'user_report_id', UserOrder::TABLE_NAME . '.id', SaasOrderSaas::TABLE_NAME . '.created_at', SaasOrderSaas::TABLE_NAME . '.assigned_at', 'saas_channel_detail', 'source', SaasOrderSaas::TABLE_NAME . '.order_price', UserReport::TABLE_NAME . '.age', UserReport::TABLE_NAME . '.province');
+            ->leftJoin(UserOrderBasicInfo::TABLE_NAME, UserOrderBasicInfo::TABLE_NAME.'.id', UserReport::TABLE_NAME.'.basic_info_id')
+            ->select(
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id',
+                SaasOrderSaas::TABLE_NAME . '.status as saas_order_status',
+                'user_report_id',
+                UserOrder::TABLE_NAME . '.id as order_id',
+                SaasOrderSaas::TABLE_NAME . '.created_at',
+                SaasOrderSaas::TABLE_NAME . '.assigned_at',
+                'saas_channel_detail',
+                'source',
+                SaasOrderSaas::TABLE_NAME . '.order_price',
+                UserReport::TABLE_NAME . '.age',
+                UserReport::TABLE_NAME . '.province',
+                UserOrder::TABLE_NAME.'.apply_status',
+                UserReport::TABLE_NAME.'.*',
+                UserOrderBasicInfo::TABLE_NAME.'.monthly_income'
+            );
 
         $query->selectRaw(env('DB_PREFIX') . SaasOrderSaas::TABLE_NAME . '.order_price as price');
 
@@ -320,12 +370,16 @@ class OrderController extends Controller
             return $query->where(SaasOrderSaas::TABLE_NAME . '.assigned_at', '>=', $start);
         })->when($end, function ($query) use ($end) {
             return $query->where(SaasOrderSaas::TABLE_NAME . '.assigned_at', '<=', $end);
-        })->when($status, function ($query) use ($status) {
+        })->when($status != 6 ? $status : $status = 5, function ($query) use ($status) {
             return $query->where(SaasOrderSaas::TABLE_NAME . '.status', $status);
+        })->when($status != 6 ? '': date('Y-m-d'), function ($query) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '<', date('Y-m-d'));
         })->when($province, function ($query) use ($province) {
             return $query->where(UserReport::TABLE_NAME . '.province', $province);
         })->when($userFilter, function ($query) use ($orderIds) {
             return $query->whereIn(SaasOrderSaas::TABLE_NAME . '.order_id', $orderIds);
+        })->when($applyStatus, function ($query) use ($applyStatus) {
+            return $query->where(UserOrder::TABLE_NAME . '.apply_status', '=', $applyStatus);
         });
 
         $personIds = SaasPersonStrategy::getPersonIdsByUserId(Auth::user()->id);
@@ -352,10 +406,11 @@ class OrderController extends Controller
      * 订单详情
      *
      * @param $id
+     * @param Request $request
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         $order = OrderFactory::getDetail($id);
         $personIds = SaasPersonStrategy::getPersonIdsByUserId(Auth::user()->id);
@@ -363,7 +418,9 @@ class OrderController extends Controller
         $taobaoId = $order->userReport->taobao_id;
         $taobaoInfo = CertifyTaobaoStrategy::getAndDealTaobaoInfoById($taobaoId);
 
-        return view('admin.order.detail', compact('order', 'status', 'taobaoInfo'));
+        $type = $request->input('type', 'pending');
+
+        return view('admin.order.detail', compact('order', 'status', 'taobaoInfo', 'type'));
     }
 
     /**
@@ -423,5 +480,299 @@ class OrderController extends Controller
     {
         event(new OperationLogEvent(101));
         return response()->download(public_path('order/订单导入模板.xlsx'));
+    }
+
+    /**
+     * 待还款
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function repaying(Request $request)
+    {
+        $repaymentDateStart = $request->input('repayment_date_start') ?: date('Y-m-d');
+        $repaymentDateEnd = $request->input('repayment_date_end') ?: '';
+        $lendingDateStart = $request->input('lending_date_start') ?: '';
+        $lendingDateEnd = $request->input('lending_date_end') ?: '';
+        $userName = $request->input('user_name');
+        $userMobile = $request->input('user_mobile');
+        $orderIds = 0;
+        $userFilter = false;
+
+        if ($userName || $userMobile) {
+            $userFilter = true;
+            $orderIds = OrderStrategy::getOrderIdByUserInfo($userName, '', $userMobile);
+        }
+
+        $query = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
+            ->leftJoin(SaasOrderInterestRate::TABLE_NAME, SaasOrderInterestRate::TABLE_NAME . '.saas_order_id', SaasOrderSaas::TABLE_NAME . '.id')
+            ->select(
+                UserOrder::TABLE_NAME .'.user_id',
+                UserOrder::TABLE_NAME .'.user_report_id',
+                SaasOrderInterestRate::TABLE_NAME.'.loan_amounts',
+                SaasOrderInterestRate::TABLE_NAME.'.lending_date',
+                SaasOrderInterestRate::TABLE_NAME.'.repayment_date',
+                SaasOrderInterestRate::TABLE_NAME.'.normal_day_rate',
+                SaasOrderInterestRate::TABLE_NAME.'.service_rate',
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id'
+            )
+            ->where(SaasOrderSaas::TABLE_NAME . '.person_id', '=', Auth::user()->id);
+
+        $query = $query->when($repaymentDateStart, function ($query) use ($repaymentDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '>=', $repaymentDateStart);
+        })->when($repaymentDateEnd, function ($query) use ($repaymentDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '<=', $repaymentDateEnd);
+        })->when($lendingDateStart, function ($query) use ($lendingDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '>=', $lendingDateStart);
+        })->when($lendingDateEnd, function ($query) use ($lendingDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '<=', $lendingDateEnd);
+        })->when(true, function ($query) {
+            return $query->where(SaasOrderSaas::TABLE_NAME . '.status', OrderConstant::ORDER_STATUS_LOAN_PENDING);
+        })->when($userFilter, function ($query) use ($orderIds) {
+            return $query->whereIn(SaasOrderSaas::TABLE_NAME . '.order_id', $orderIds);
+        });
+
+        $orders = $query->orderBy(SaasOrderInterestRate::TABLE_NAME.'.lending_date', 'desc')
+            ->orderBy(SaasOrderSaas::TABLE_NAME.'.order_id', 'desc')
+            ->paginate(10);
+
+        return view('admin.order.repaymanage.repaying', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
+     * 逾期未还款订单
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function overdueRepaying(Request $request)
+    {
+        $overdueDayMin = $request->input('overdue_day_min') ?: 1;
+        $overdueDayMax = $request->input('overdue_day_max') ?: '';
+        $repaymentDateStart = $request->input('repayment_date_start') ?: '';
+        $repaymentDateEnd = $request->input('repayment_date_end') ?: date("Y-m-d", strtotime("-1 day"));
+
+        if ($overdueDayMin && $repaymentDateEnd) {
+            $overdueDateMin = date("Y-m-d", strtotime("-". $overdueDayMin ." day"));
+            if (strtotime($overdueDateMin) < strtotime($repaymentDateEnd)) {
+                $repaymentDateEnd = $overdueDateMin;
+            }
+        }
+        if ($overdueDayMax && $repaymentDateStart) {
+            $overdueDateMax = date("Y-m-d", strtotime("-". $overdueDayMax ." day"));
+            if (strtotime($overdueDateMax) > strtotime($repaymentDateStart)) {
+                $repaymentDateStart = $overdueDateMax;
+            }
+        } elseif ($overdueDayMax && empty($repaymentDateStart)) {
+            $repaymentDateStart = date("Y-m-d", strtotime("-". $overdueDayMax ." day"));
+        }
+
+        $lendingDateStart = $request->input('lending_date_start') ?: '';
+        $lendingDateEnd = $request->input('lending_date_end') ?: '';
+        $userName = $request->input('user_name');
+        $userMobile = $request->input('user_mobile');
+        $orderIds = 0;
+        $userFilter = false;
+
+        if ($userName || $userMobile) {
+            $userFilter = true;
+            $orderIds = OrderStrategy::getOrderIdByUserInfo($userName, '', $userMobile);
+        }
+
+        $query = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
+            ->leftJoin(SaasOrderInterestRate::TABLE_NAME, SaasOrderInterestRate::TABLE_NAME . '.saas_order_id', SaasOrderSaas::TABLE_NAME . '.id')
+            ->select(
+                UserOrder::TABLE_NAME .'.user_id',
+                UserOrder::TABLE_NAME .'.user_report_id',
+                SaasOrderInterestRate::TABLE_NAME.'.loan_amounts',
+                SaasOrderInterestRate::TABLE_NAME.'.lending_date',
+                SaasOrderInterestRate::TABLE_NAME.'.repayment_date',
+                SaasOrderInterestRate::TABLE_NAME.'.normal_day_rate',
+                SaasOrderInterestRate::TABLE_NAME.'.service_rate',
+                SaasOrderInterestRate::TABLE_NAME.'.overdue_daily_rate',
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id'
+            )
+            ->where(SaasOrderSaas::TABLE_NAME . '.person_id', '=', Auth::user()->id);
+
+        $query = $query->when($repaymentDateStart, function ($query) use ($repaymentDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '>=', $repaymentDateStart);
+        })->when($repaymentDateEnd, function ($query) use ($repaymentDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '<=', $repaymentDateEnd);
+        })->when($lendingDateStart, function ($query) use ($lendingDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '>=', $lendingDateStart);
+        })->when($lendingDateEnd, function ($query) use ($lendingDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '<=', $lendingDateEnd);
+        })->when(true, function ($query) {
+            return $query->where(SaasOrderSaas::TABLE_NAME . '.status', OrderConstant::ORDER_STATUS_LOAN_PENDING);
+        })->when($userFilter, function ($query) use ($orderIds) {
+            return $query->whereIn(SaasOrderSaas::TABLE_NAME . '.order_id', $orderIds);
+        });
+
+        $orders = $query->orderBy(SaasOrderInterestRate::TABLE_NAME.'.lending_date', 'desc')
+            ->orderBy(SaasOrderSaas::TABLE_NAME.'.order_id', 'desc')
+            ->paginate(10);
+
+        return view('admin.order.repaymanage.overdueRepaying', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
+     * 已还款
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function repayed(Request $request)
+    {
+        $overdueDayMin = $request->input('overdue_day_min');
+        $overdueDayMax = $request->input('overdue_day_max');
+        $repaymentDateStart = $request->input('repayment_date_start');
+        $repaymentDateEnd = $request->input('repayment_date_end');
+        $lendingDateStart = $request->input('lending_date_start') ?: '';
+        $lendingDateEnd = $request->input('lending_date_end') ?: '';
+        $userName = $request->input('user_name');
+        $userMobile = $request->input('user_mobile');
+        $repaymentMethod = $request->input('repayment_method');
+        $type = $request->input('type');
+        $realRepaymentDateStart = $request->input('real_repayment_date_start');
+        $realRepaymentDateEnd = $request->input('real_repayment_date_end');
+        $orderIds = 0;
+        $userFilter = false;
+
+        if ($userName || $userMobile) {
+            $userFilter = true;
+            $orderIds = OrderStrategy::getOrderIdByUserInfo($userName, '', $userMobile);
+        }
+
+        $query = UserOrder::leftJoin(SaasOrderSaas::TABLE_NAME, 'order_id', UserOrder::TABLE_NAME . '.id')
+            ->leftJoin(SaasOrderInterestRate::TABLE_NAME, SaasOrderInterestRate::TABLE_NAME . '.saas_order_id', SaasOrderSaas::TABLE_NAME . '.id')
+            ->leftJoin(SaasOrderRepaymentInfo::TABLE_NAME, SaasOrderRepaymentInfo::TABLE_NAME . '.saas_order_id', SaasOrderSaas::TABLE_NAME . '.id')
+            ->select(
+                UserOrder::TABLE_NAME .'.user_id',
+                UserOrder::TABLE_NAME .'.user_report_id',
+                SaasOrderInterestRate::TABLE_NAME.'.loan_amounts',
+                SaasOrderInterestRate::TABLE_NAME.'.lending_date',
+                SaasOrderInterestRate::TABLE_NAME.'.repayment_date',
+                SaasOrderInterestRate::TABLE_NAME.'.normal_day_rate',
+                SaasOrderInterestRate::TABLE_NAME.'.service_rate',
+                SaasOrderInterestRate::TABLE_NAME.'.overdue_daily_rate',
+                SaasOrderSaas::TABLE_NAME.'.id as saas_order_id',
+                SaasOrderRepaymentInfo::TABLE_NAME.'.overdue_days',
+                SaasOrderRepaymentInfo::TABLE_NAME.'.type',
+                SaasOrderRepaymentInfo::TABLE_NAME.'.repayment_date as real_repayment_date',
+                SaasOrderRepaymentInfo::TABLE_NAME.'.repayment_amount',
+                SaasOrderRepaymentInfo::TABLE_NAME.'.repayment_method'
+            )
+            ->where(SaasOrderSaas::TABLE_NAME . '.person_id', '=', Auth::user()->id);
+
+        $query = $query->when($repaymentMethod, function ($query) use ($repaymentMethod) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.repayment_method', '=', $repaymentMethod);
+        })->when($type, function ($query) use ($type) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.type', '=', $type);
+        })->when($realRepaymentDateStart, function ($query) use ($realRepaymentDateStart) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.repayment_date', '>=', $realRepaymentDateStart);
+        })->when($realRepaymentDateEnd, function ($query) use ($realRepaymentDateEnd) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.repayment_date', '>=', $realRepaymentDateEnd);
+        })->when($overdueDayMin, function ($query) use ($overdueDayMin) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.overdue_days', '>=', $overdueDayMin);
+        })->when($overdueDayMax, function ($query) use ($overdueDayMax) {
+            return $query->where(SaasOrderRepaymentInfo::TABLE_NAME . '.overdue_days', '<=', $overdueDayMax);
+        })->when($repaymentDateStart, function ($query) use ($repaymentDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '>=', $repaymentDateStart);
+        })->when($repaymentDateEnd, function ($query) use ($repaymentDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.repayment_date', '<=', $repaymentDateEnd);
+        })->when($lendingDateStart, function ($query) use ($lendingDateStart) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '>=', $lendingDateStart);
+        })->when($lendingDateEnd, function ($query) use ($lendingDateEnd) {
+            return $query->where(SaasOrderInterestRate::TABLE_NAME . '.lending_date', '<=', $lendingDateEnd);
+        })->when(true, function ($query) {
+            return $query->where(SaasOrderSaas::TABLE_NAME . '.status', OrderConstant::ORDER_STATUS_LOAN_FINISHED);
+        })->when($userFilter, function ($query) use ($orderIds) {
+            return $query->whereIn(SaasOrderSaas::TABLE_NAME . '.order_id', $orderIds);
+        });
+
+        $orders = $query->orderBy(SaasOrderInterestRate::TABLE_NAME.'.lending_date', 'desc')
+            ->orderBy(SaasOrderSaas::TABLE_NAME.'.order_id', 'desc')
+            ->paginate(10);
+
+        return view('admin.order.repaymanage.repayed', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
+     * 还款标记
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function repayDetail(Request $request)
+    {
+        $saasOrderId = $request->input('saas_order_id');
+
+        if ($request->isMethod('post')) {
+            $params = [
+                'where' => [
+                    'saas_order_id' => $saasOrderId
+                ]
+            ];
+            $getInfo = SaasOrderRepaymentInfoFactory::getOne($params);
+
+            if (empty($getInfo)) {
+                $insertData = $request->except('_token');
+                SaasOrderRepaymentInfoFactory::insertGetId($insertData);
+                SaasOrderFactory::updateStatus($saasOrderId, OrderConstant::ORDER_STATUS_LOAN_FINISHED);
+            }
+
+            return redirect()->route('admin.order.repaymanage.repaying')->with('success', '成功！');
+        }
+
+        $saasOrderInfo = SaasOrderInterestRateFactory::getBySaasOrderId($saasOrderId);
+
+        return view('admin.order.repaymanage.repayDetail', [
+            'saasOrderInfo' => $saasOrderInfo
+        ]);
+    }
+
+    /**
+     * 逾期还款标记
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function overdueRepayDetail(Request $request)
+    {
+        $saasOrderId = $request->input('saas_order_id');
+
+        if ($request->isMethod('post')) {
+            $params = [
+                'where' => [
+                    'saas_order_id' => $saasOrderId
+                ]
+            ];
+            $getInfo = SaasOrderRepaymentInfoFactory::getOne($params);
+
+            if (empty($getInfo)) {
+                $insertData = $request->except('_token');
+                SaasOrderRepaymentInfoFactory::insertGetId($insertData);
+                SaasOrderFactory::updateStatus($saasOrderId, OrderConstant::ORDER_STATUS_LOAN_FINISHED);
+            }
+
+            return redirect()->route('admin.order.repaymanage.overduerepaying')->with('success', '成功！');
+        }
+
+        $saasOrderInfo = SaasOrderInterestRateFactory::getBySaasOrderId($saasOrderId);
+
+        return view('admin.order.repaymanage.overdueRepayDetail', [
+            'saasOrderInfo' => $saasOrderInfo
+        ]);
     }
 }

@@ -31,7 +31,7 @@ class RoleController extends Controller
         $role = SaasRole::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
 
         $permissionAll = [];
-        $permission = SaasPermission::all();
+        $permission = SaasPermission::all()->sortBy('position');
         foreach ($permission as $v) {
             $permissionAll[$v['parent_id']][] = $v;
         }
@@ -48,7 +48,8 @@ class RoleController extends Controller
     public function create()
     {
         $permissionAll = [];
-        $permission = SaasPermission::all();
+        $permission = SaasPermission::all()->sortBy('position');
+
         foreach ($permission as $v) {
             $permissionAll[$v['parent_id']][] = $v;
         }

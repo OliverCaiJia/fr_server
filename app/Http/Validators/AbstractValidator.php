@@ -15,7 +15,7 @@ abstract class AbstractValidator
      *
      * @var \Illuminate\Validation\Factory
      */
-    protected $validator;
+    public $validator;
 
     /**
      * Validation data key => value array

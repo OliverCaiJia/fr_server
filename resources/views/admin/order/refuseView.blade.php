@@ -12,7 +12,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="order_id" value="{{ $id }}">
                 <div class="form-group">
-                    <input type="text" placeholder="请输入拒绝理由" name="reason" class="form-control input-lg" required>
+                    <input type="text" placeholder="请输入拒绝理由" name="reason" class="form-control input-lg" maxlength="100" required>
                     <div class=""></div>
                 </div>
                 <button type="submit" class="btn btn-sm btn-primary"> 提交 </button>
