@@ -1,0 +1,8 @@
+/public/storage
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+/nbproject
+bootstrap/cache/packages.php
+bootstrap/cache/services.php

@@ -303,7 +303,7 @@ class Utils
         $sort_rule = '';
         foreach ($field as $sort_field => $sort_way) {
             foreach ($list as $key => $val) {
-                $sort_arr[$sort_field][$key] = $val[$sort_field];
+                $sort_arr[$sort_field][$key] = $val;
             }
             $sort_rule .= '$sort_arr["' . $sort_field . '"],' . $sort_way . ',';
         }
