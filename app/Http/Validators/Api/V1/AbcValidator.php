@@ -42,9 +42,10 @@ class AbcValidator extends ApiValidator
      * @var Array
      */
     public $codes = array(
-        'keywords.required' => '1001',
-        'keywords.is_username' => '1002',
-        'keywords.is_not_email' => '1003',
+        'mobile.required' => '1001',
+        'mobile.is_username' => '1002',
+        'mobile.is_not_email' => '1003',
+        'mobile.is_phone' => '1007',
         'password.required' => '1004',
         'password.alpha_num' => '1005',
         'password.size' => '1006',

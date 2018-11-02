@@ -44,7 +44,7 @@ class ValidateApiMiddleware
                 $validatorKey = '';
                 foreach ($validator->getValidator()->failed() as $key => $val)
                 {
-                    $validatorKey .= $key . '.' . array_keys($val)[0];
+                    $validatorKey .= $key . '.' . snake_case(array_keys($val)[0]);
                     break;
                 }
                 foreach ($validator->getCodes() as $key => $code)

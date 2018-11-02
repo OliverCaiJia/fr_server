@@ -68,6 +68,7 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Validators/Admin/LoanIntRateValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Validators/Admin/LoanIntRateValidator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Validators/Admin/OverdueRepayDetailValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Validators/Admin/OverdueRepayDetailValidator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Validators/Admin/RepayDetailValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Validators/Admin/RepayDetailValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Validators/Api/V1/AbcValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Validators/Api/V1/AbcValidator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/ViewComposers/ProfileComposer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/ViewComposers/ProfileComposer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Listeners/OperationLogListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/OperationLogListener.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Listeners/OrderActionListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/OrderActionListener.php" afterDir="false" />
@@ -9019,20 +9020,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ValidateApiMiddleware.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ValidateApiMiddleware.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateApiMiddleware.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="56" column="17" lean-forward="true" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+            <state relative-caret-position="392">
+              <caret line="49" column="65" lean-forward="true" selection-start-line="49" selection-start-column="65" selection-end-line="49" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbcValidator.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AbcValidator.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Validators/Api/V1/AbcValidator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+            <state relative-caret-position="201">
+              <caret line="47" column="36" lean-forward="true" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
               <folding>
                 <element signature="e#46#68#0#PHP" expanded="true" />
               </folding>
@@ -9043,7 +9044,7 @@
       <file leaf-file-name="ValidateAdminMiddleware.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateAdminMiddleware.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
+            <state relative-caret-position="501">
               <caret line="37" selection-start-line="37" selection-end-line="37" />
             </state>
           </provider>
@@ -9160,8 +9161,8 @@
         <option value="$PROJECT_DIR$/routes/api/v1.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/ValidateAdminMiddleware.php" />
         <option value="$PROJECT_DIR$/app/Http/Validators/Web/V1/AbcValidator.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/ValidateApiMiddleware.php" />
         <option value="$PROJECT_DIR$/app/Http/Validators/Api/V1/AbcValidator.php" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/ValidateApiMiddleware.php" />
       </list>
     </option>
   </component>
@@ -9373,12 +9374,12 @@
       <workItem from="1541037251930" duration="20890000" />
       <workItem from="1541123675596" duration="1475000" />
       <workItem from="1541127075265" duration="21000" />
-      <workItem from="1541127182240" duration="12870000" />
+      <workItem from="1541127182240" duration="13697000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37293000" />
+    <option name="totallyTimeSpent" value="38120000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -9390,7 +9391,7 @@
       <window_info anchor="bottom" id="Version Control" order="4" />
       <window_info anchor="bottom" id="Run" order="7" />
       <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.07975871" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.07975871" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="bottom" id="Find" order="6" />
@@ -9410,6 +9411,11 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://Z:/website/dev.data.witlending.com/ZJ_DataAnalysis/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php">
@@ -9692,29 +9698,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateAdminMiddleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="67" column="51" lean-forward="true" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Validators/Api/V1/AuthValidator.php">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Validators/Web/WebValidator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" lean-forward="true" selection-end-line="8" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Validators/Web/V1/AbcValidator.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -9733,20 +9718,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateApiMiddleware.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateAdminMiddleware.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="56" column="17" lean-forward="true" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+        <state relative-caret-position="501">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Validators/Web/WebValidator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" lean-forward="true" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="67" column="51" lean-forward="true" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Validators/Api/V1/AbcValidator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        <state relative-caret-position="201">
+          <caret line="47" column="36" lean-forward="true" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
           <folding>
             <element signature="e#46#68#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateApiMiddleware.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="49" column="65" lean-forward="true" selection-start-line="49" selection-start-column="65" selection-end-line="49" selection-end-column="65" />
         </state>
       </provider>
     </entry>
