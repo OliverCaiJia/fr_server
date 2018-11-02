@@ -31,7 +31,7 @@ class ValidateAdminMiddleware
      */
     public function handle(Request $request, Closure $next, $validator = null)
     {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') || $request->isMethod('GET')) {
             $type = $request->segment(1);
             if ($validator) {
                 $validator = $this->namespace . '\\' . studly_case($type) . '\\' . studly_case($validator) . 'Validator';

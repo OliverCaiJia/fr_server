@@ -4,5 +4,5 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
         return view('admin');
     })->name('index');
 
-    Route::any('login', ['uses' => 'AuthController@login']);
+    Route::any('login', ['middleware' => ['valiApi:abc'],'uses' => 'AuthController@login']);
 });
