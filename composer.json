@@ -9,6 +9,7 @@
         "arcanedev/log-viewer": "^4.1",
         "barryvdh/laravel-cors": "^0.11.2",
         "fideloper/proxy": "~3.3",
+        "guzzlehttp/guzzle": "^6.3",
         "ionepub/idcard": "^1.1",
         "jenssegers/agent": "^2.5",
         "laracasts/utilities": "^2.1",
