@@ -178,6 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
 
+        /*
+         * 第三方
+         */
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*

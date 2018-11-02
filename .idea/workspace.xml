@@ -9041,11 +9041,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JiguangPushService.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JiguangPushService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Services/Core/Push/Jiguang/JiguangPushService.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="25">
               <caret line="1" column="41" lean-forward="true" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/app.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -9072,15 +9081,6 @@
         <entry file="file://$PROJECT_DIR$/app/Services/Core/Message/Sms/SmsFactory.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1725" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WebFactory.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/Factory/Web/WebFactory.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-            </state>
           </provider>
         </entry>
       </file>
@@ -9160,6 +9160,7 @@
         <option value="$PROJECT_DIR$/app/Services/Core/Validator/Scorpion/Mozhang/MozhangConfig.php" />
         <option value="$PROJECT_DIR$/app/Services/Core/Validator/Scorpion/Mozhang/MozhangService.php" />
         <option value="$PROJECT_DIR$/app/Services/Core/Push/Jiguang/JiguangPushService.php" />
+        <option value="$PROJECT_DIR$/config/app.php" />
       </list>
     </option>
   </component>
@@ -9301,88 +9302,12 @@
             <path>
               <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
               <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Push" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Push" type="462c0819:PsiDirectoryNode" />
-              <item name="Jiguang" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Tools" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Validator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Validator" type="462c0819:PsiDirectoryNode" />
-              <item name="Scorpion" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="Validator" type="462c0819:PsiDirectoryNode" />
-              <item name="Scorpion" type="462c0819:PsiDirectoryNode" />
-              <item name="Mozhang" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sd_fruitloan-server" type="b2602c69:ProjectViewProjectNode" />
               <item name="sd_fruitloan-server" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -9429,12 +9354,12 @@
       <workItem from="1541037251930" duration="20890000" />
       <workItem from="1541123675596" duration="1475000" />
       <workItem from="1541127075265" duration="21000" />
-      <workItem from="1541127182240" duration="15094000" />
+      <workItem from="1541127182240" duration="15321000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39517000" />
+    <option name="totallyTimeSpent" value="39744000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -9446,7 +9371,7 @@
       <window_info anchor="bottom" id="Version Control" order="4" />
       <window_info anchor="bottom" id="Run" order="7" />
       <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.2774799" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2774799" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="bottom" id="Find" order="6" />
@@ -9473,13 +9398,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/Auth/LoginController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="101" column="23" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Helpers/Utils.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7575">
@@ -9818,6 +9736,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25">
           <caret line="1" column="41" lean-forward="true" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
         </state>
       </provider>
     </entry>
