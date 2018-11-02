@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 //'middleware' => ['auth:api'],
-Route::group(['as' => 'api.'], function () {
+Route::group(['middleware' => ['authApi'],'as' => 'api.'], function () {
     Route::get('/', function () {
         dd('sdfsdafasd');
         return view('admin');
