@@ -71,6 +71,9 @@ class Handler extends ExceptionHandler
                 case 'api':
                     return response()->json(['error' => 'Not Found'], 404);
                     break;
+                case 'web':
+                    return redirect('/web/index');
+                    break;
                 default:
                     return redirect('/admin');
             }

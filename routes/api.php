@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//'middleware' => ['auth:api'],
-Route::group(['middleware' => ['authApi'],'as' => 'api.'], function () {
-    Route::get('/', function () {
-        dd('sdfsdafasd');
-        return view('admin');
-    })->name('index');
-});
 
+/**
+ * Load all routes
+ */
+foreach (File::allFiles(__DIR__ . '/api') as $partial)
+{
+    require_once $partial->getPathname();
+}

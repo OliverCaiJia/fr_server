@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('admin');
-});
+foreach (File::allFiles(__DIR__ . '/web') as $partial)
+{
+    require_once $partial->getPathname();
+}
