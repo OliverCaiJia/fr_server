@@ -5,4 +5,7 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
     })->name('index');
 
     Route::any('login', ['middleware' => ['valiApi:abc'],'uses' => 'AuthController@login']);
+
+    //创蓝短信test
+    Route::any('test', ['uses' => 'TestController@sms']);
 });
