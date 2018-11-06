@@ -23,7 +23,7 @@ class SaasPerson extends Authenticatable
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_persons';
+    const TABLE_NAME = 'admin_persons';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -55,7 +55,7 @@ class SaasPerson extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(SaasRole::class, 'saas_role_user', 'user_id', 'role_id');
+        return $this->belongsToMany(SaasRole::class, 'admin_role_user', 'user_id', 'role_id');
     }
 
     // 判断用户是否具有某权限

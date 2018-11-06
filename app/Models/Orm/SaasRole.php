@@ -13,7 +13,7 @@ class SaasRole extends AbsBaseModel
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_roles';
+    const TABLE_NAME = 'admin_roles';
     const PRIMARY_KEY = 'id';
 
     /**

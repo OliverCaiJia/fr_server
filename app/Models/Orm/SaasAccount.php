@@ -11,7 +11,7 @@ class SaasAccount extends AbsBaseModel
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_accounts';
+    const TABLE_NAME = 'admin_accounts';
     const PRIMARY_KEY = 'id';
 
     /**

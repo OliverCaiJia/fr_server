@@ -16,7 +16,7 @@ class SaasAuth extends AbsBaseModel
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_authes';
+    const TABLE_NAME = 'admin_authes';
     const PRIMARY_KEY = 'id';
 
     /**

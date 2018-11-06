@@ -13,7 +13,7 @@ class SaasPermission extends AbsBaseModel
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_permissions';
+    const TABLE_NAME = 'admin_permissions';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -31,6 +31,6 @@ class SaasPermission extends AbsBaseModel
 
     public function roles()
     {
-        return $this->belongsToMany(SaasRole::class, 'saas_permission_role', 'permission_id', 'role_id');
+        return $this->belongsToMany(SaasRole::class, 'admin_permission_role', 'permission_id', 'role_id');
     }
 }
