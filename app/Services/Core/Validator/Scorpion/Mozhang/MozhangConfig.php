@@ -9,123 +9,71 @@
 
 namespace App\Services\Core\Validator\Scorpion\Mozhang;
 
-use App\Services\AppService;
 
 class MozhangConfig
 {
 
-    const SCORPIO_ARL = 'https://api.51datakey.com';
-    const TIANCHUANG_API_URPI_UL = 'http://api.tcredit.com';
-    const ZHIMA_API_URL = 'https://zmopenapi.zmxy.com.cn/openapi.do';
-    //face++
-    const FACEID_API_URL = 'https://api.faceid.com';
+    const SCORPIO_URL = 'https://api.51datakey.com'; //魔蝎ApiUrl
 
+    const SCORPIO_METHOD = ['moxie.api.risk.magicwand2.anti-fraud', //魔杖2.0系列-反欺诈
+                            'moxie.api.risk.magicwand2.application', //魔杖2.0系列-申请准入
+                            'moxie.api.risk.magicwand2.credit.qualification', //魔杖2.0系列-额度评估(电商)
+                            'moxie.api.risk.magicwand2.post-load', //魔杖2.0系列-贷后行为
+                            'moxie.api.risk.magicwand2.black-gray', //魔杖2.0系列-黑灰名单
+                            'moxie.api.risk.magicwand2.multi-info']; //魔杖2.0系列-多头报告
 
 
     /**
-     * 天创tokenid
+     * 魔蝎app_id
+     *
+     * @param string $app_id
+     * @return string
+     */
+    public static function getScorpioAppId()
+    {
+        return "d47c3d555b9040ad857d05839a671537";
+    }
+
+    /**
+     * 魔蝎secret
+     *
+     * @param string $secret
+     * @return string
+     */
+    public static function getScorpioSecret()
+    {
+        return "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDKJKi7UkWWcLzuXmc6Pa4tUAYEDlU5zuU8+LxOEs2ogPUjEF2QnHM/hDNpecHpWiWxR01lMhDqoOcQevZdzH2/2edtl5byPmGywMIknjxEbiK/hAcD0XaGuxH2yHsbLL2pnqY7ySKpBCT6rBW8LrZg8DsOTeF7cjc+0CVSCOGGH7itQxf7c8JtsjnM0gLMTdw+V8cFjVAT5ZESqnTU6mrRiLRAsKrSNz1z0p1i8LAmiFbAC46WNsPGLeLFbJHjGn56odIpzPRso2UEL+sZ2aO8Paf4NJ6uci11xKfzAEiQo8L2gT5y9CYZPihOqlj7tFmFtWRyYsNNVZuGhEBrPAD9AgMBAAECggEBALy4RvNDlwYh0LF2X0dniHJzcHpe60BiIXCwBBWbxndXlgUbZU76UTpucRU7AEecyu3cVKxydoqml7KyKcpefNQdWsvdJ6aXiNy6y0YmmLuGW1iTqXzuFIsqoVXVy+EN/zAZlrbgTEShQujoug4LSmfsQCZVnXqDooI5D26sLejpkDAFpFqOq5p6oPEAWJOH5E5AZwOTbsIU4pSQyiJ+WqGiiyR8eF7yqO/oUT59hHOnxxorpKcWJr94Ao8r2AoO1HviZPAwSsOPRWF1uL9XVuB6D5unpbXTp5Z3gPvQIy4s+hU98JjIlKUsNpOFxT111J4c9Mi+hquvw6Cx0o51HZ0CgYEA+JwoLTSQZG0khQPB258+ZJd5jQsfGRonU9qtcuWheG4V6/5mOej/E2D4RcV7zSqF5f4YUzaQyt3W5vqbkIUWTrFV4vCIOizjrwJq+5lpksmaaYETEgWlPFZTx8GPxdwu7s/eqM348yRvPYwQfQa2WMcFEil3WDYmUFgRvNUupHsCgYEA0CbnmBy1/rB1KB6qzQGnP34/HF4xVe9sL//ctlcykOAehnCXyJK24vjV5NxErbERgQVrMFmOpJAyH0OC8nj2SgrU5TNUkpoMasVRZZZevk9MKVD2lyjIzVlNMDHWIvTKFNsmn/nahRxcStbVYuyussz/+0zRXNSbSmSWOUKD4ucCgYBR9flw3dF0ql7N021H4HoLY7zY+P+poOuyQ3fHV1kigPiNMvO0x9HAK8nuBqtH+mrmZhzS4jxeBUDiKWC8BoRSMTildrMSqtXtTpjCldMuZ3SWr8z/tgjBmZxJUND7ZBm89Z7se+tFDY/29IRDE8FuBz7uu+jylfePqVk/rfCQnQKBgAvP2V6Zan58dvmC3ABsMph4yo4KjlQpFQOYSmcSha0Q+sp4QzS/lp9EraaiFUeh/7NJom6I9n5CLIX3p8uor5k+ChzDj+4NzdyVO+w+3zt/dnv1uziSuOpmQeoVOeib6YfLc+KqJAtfs6EPleZaNgOxfGk/T7Yr3nAXSysOqjtLAoGANOMg2AQWuN2l5oqAEHJYhPQ6xrqCCA0OOMqDlfv7P+XoVVrhso7ZXqAdSDrcLFZVqUzKnkSN546s0HwhcqXWVKkxEFERnwqkug3glbn+6GppM+ysYhgx74Nzs1DFoZDNWM/y/YP+l8HGc4xp/Mm5HjS3ECbXWnBQCQUYO8W5fIw=";
+    }
+
+    /**
+     * 魔蝎format
+     *
+     * @param string $format
+     * @return string
+     */
+    public static function getScorpioFormat()
+    {
+        return "JSON";
+    }
+
+    /**
+     * 魔蝎sign_type
      *
      * @return string
      */
-    public static function getTianChuangTokenid()
+    public static function getScorpioSignType()
     {
-        return '2f57cee2-9317-4f95-9e72-c4551fbfa3c7';
+        return "RSA";
     }
 
     /**
-     * 天创appid
+     * 魔蝎version
      *
      * @return string
      */
-    public static function getTianChuangAppid()
+    public static function getScorpioVersion()
     {
-        return 'b0a98c44-607d-4beb-97dd-a62abd738ce6';
-    }
-
-    /**
-     * 魔蝎apikey
-     *
-     * @param string $apikey
-     * @return string
-     */
-    public static function getScorpioApiKey($apikey = 'apikey')
-    {
-        return $apikey . ' a7d197f11ff54578800a0dfe76a5e648';
-    }
-
-    /**
-     * 魔蝎token
-     *
-     * @param string $token
-     * @return string
-     */
-    public static function getScorpioToken($token = 'token')
-    {
-        return $token . ' 5d10c2bbf76c4fa8b3761f2976035353';
-    }
-
-    /**
-     * 魔蝎回调接口中hmacsha256的生成秘钥
-     *
-     * @return string
-     */
-    public static function getScorpioCallBackSecret()
-    {
-        return '27c7e4bc518c48d095d9caf544771876';
-    }
-
-    /**
-     * 芝麻信用评分appid
-     * @return string
-     */
-    public static function getZhimaCreditScoreAppId()
-    {
-        return '1004660';
-    }
-
-    /**
-     * 芝麻信用评分产品代码
-     * @return string
-     */
-    public static function getScoreProductCode()
-    {
-        return 'w1010100100000000001';
-    }
-
-    /**
-     * 芝麻行业关注名单appid
-     * @return string
-     */
-    public static function getZhimaCreditWatchlistAppId()
-    {
-        return '1004686';
-    }
-
-    /**
-     * 行业关注名单产品代码
-     * @return string
-     */
-    public static function getWatchlistProductCode()
-    {
-        return 'w1010100100000000022';
-    }
-
-    /**
-     * face++ AppKey
-     * @return string
-     */
-    public static function getFaceidAppKey()
-    {
-        return PRODUCTION_ENV ? 'z81-ezAIUEUQcBI8RDtbcIDL1ENqxtRf' : 'Dbu3X9xgX6FRT6Ft7ymdH8DGbuTRVlen';
-    }
-
-    /**
-     * face++ AppSecret
-     * @return string
-     */
-    public static function getFaceidAppSecret()
-    {
-        return PRODUCTION_ENV ? '001Y-YSN4DDGauyux8OrrrLEIixo_2am' : 'nyg1gwC2p96Zf046huK8QttzxEpuBgQD';
+        return "1.0";
     }
 
 }
