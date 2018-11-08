@@ -23,18 +23,18 @@ class BannersController extends Controller
 
 
     /**
-     * Æô¶¯Ò³¹ã¸æ
+     * å¯åŠ¨é¡µå¹¿å‘Š
      */
     public function launchAdvertisement()
     {
-//Æô¶¯Ò³µÄÎ»ÖÃ
+//å¯åŠ¨é¡µçš„ä½ç½®
         $position = 3;
-//²éÑ¯ĞèÒªÍÆËÍµÄĞÅÏ¢
+//æŸ¥è¯¢éœ€è¦æ¨é€çš„ä¿¡æ¯
         $push = PushFactory::fetchPopup($position);
         if (empty($push)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500); //ÔİÎŞÊı¾İ
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500); //æš‚æ— æ•°æ®
         }
-//Ö´ĞĞ´ÎÊıµş¼Ó
+//æ‰§è¡Œæ¬¡æ•°å åŠ 
         PushFactory::updateDoCounts($push['id']);
         $pushArr = PushStrategy::getPopup($push);
         return RestResponseFactory::ok($pushArr);
