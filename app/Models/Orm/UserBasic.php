@@ -4,7 +4,7 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class Channel extends AbsBaseModel
+class UserBasic extends AbsBaseModel
 {
     public $timestamps = false;
     public $incrementing = true;

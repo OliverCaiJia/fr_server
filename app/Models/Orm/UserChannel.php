@@ -4,13 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserInfo extends AbsBaseModel
+class UserChannel extends AbsBaseModel
 {
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'user_info';
+    const TABLE_NAME = 'user_channel';
     const PRIMARY_KEY = 'id';
 
     /**

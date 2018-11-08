@@ -4,7 +4,7 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class SaasChannel extends AbsBaseModel
+class SysConfig extends AbsBaseModel
 {
     public $timestamps = false;
     public $incrementing = true;
