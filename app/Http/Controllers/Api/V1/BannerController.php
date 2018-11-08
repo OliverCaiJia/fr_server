@@ -33,7 +33,9 @@ class BannerController extends ApiController
         return RestResponseFactory::ok();
     }
 
-    public function groom() {
+
+    public function groom(Request $request)
+    {
         return RestResponseFactory::ok();
     }
 }
