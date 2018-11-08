@@ -34,29 +34,7 @@ class SmsController extends Controller
      */
     public function password(Request $request)
     {
-        $data['mobile'] = $request->input('mobile');
-
-        //验证短信1分钟之内不能重复发送
-        $not_exprise = SmsFactory::checkCodeExistenceTime($data['mobile'], 'password');
-        if (!$not_exprise)
-        {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1201), 1201);
-        }
-
-        $code = mt_rand(1000, 9999);
-        //$data['message'] = "验证码：{$code}，请勿泄露，关注官方微信“速贷之家官微”，畅享在线客服，第一时间获取最新借款动态！";
-        $data['message'] = "验证码：{$code}，请勿泄露。关注官方微信“速贷之家官微”";
-        $data['code'] = $code;
-        $re = SmsService::i()->to($data);
-        $random = [];
-        $random['sign'] = TokenGenerator::generateToken();
-        SmsFactory::putSmsCodeToCache('password_code_' . $data['mobile'], $code);
-        SmsFactory::putSmsCodeToCache('password_random_' . $data['mobile'], $random);
-        if (!$re)
-        {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1205), 1205);
-        }
-        return RestResponseFactory::ok($random);
+        return RestResponseFactory::ok();
     }
 
     /**
@@ -67,37 +45,7 @@ class SmsController extends Controller
      */
     public function forgetPwd(Request $request)
     {
-        $data['mobile'] = $request->input('mobile');
-
-        //验证短信1分钟之内不能重复发送
-        $not_exprise = SmsFactory::checkCodeExistenceTime($data['mobile'], 'forgetpwd');
-        if (!$not_exprise)
-        {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1201), 1201);
-        }
-
-        //验证用户是否存在
-        $userinfo = UserFactory::getIdByMobile($data['mobile']);
-        if (empty($userinfo))
-        {
-            // 用户名不存在
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1106), 1106);
-        }
-
-        // 发送短信
-        $code = mt_rand(1000, 9999);
-        $data['message'] = "验证码：{$code}，请勿泄露。关注官方微信“速贷之家官微”";
-        $data['code'] = $code;
-        $re = SmsService::i()->to($data);
-        $random = [];
-        $random['sign'] = TokenGenerator::generateToken();
-        SmsFactory::putSmsCodeToCache('forget_password_code_' . $data['mobile'], $code);
-        SmsFactory::putSmsCodeToCache('forget_password_random_' . $data['mobile'], $random);
-        if (!$re)
-        {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1205), 1205);
-        }
-        return RestResponseFactory::ok($random);
+        return RestResponseFactory::ok();
     }
 
     /**

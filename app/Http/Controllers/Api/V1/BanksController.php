@@ -74,4 +74,22 @@ class BanksController extends Controller
     }
 
 
+    /**
+     * 基础信息 —— 获取银行列表
+     */
+    public function support()
+    {
+        $data = ["list" => [[
+            "user_bank_id" => 12,
+            "bankname" => "中国农业银行",
+            "banklogo" => "http =>//image.sudaizhijia.com/123.jpg",
+            "account" => "6228****************1619",
+            "realname" => "",
+            "card_default" => 1]],
+            "pageCount" => 1,
+            "quota_bank_link" => "http://dev.data.fruitloan_server.com/api/v1/user/payment/confirm/support_bank.html"];
+        return RestResponseFactory::ok($data);
+    }
+
+
 }
