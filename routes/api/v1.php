@@ -44,9 +44,9 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
             // 检测和识别中华人民共和国第二代身份证正面
-            $router->post('faceid/front', ['middleware' => ['auth', 'valiApi:idcardFront'], 'uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);
+            $router->get('faceid/front', ['uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);//'middleware' => ['auth', 'valiApi:idcardFront'],
             // 检测和识别中华人民共和国第二代身份证反面
-            $router->post('faceid/back', ['middleware' => ['auth', 'valiApi:idcardBack'], 'uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);
+            $router->get('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);//'middleware' => ['auth', 'valiApi:idcardBack'],
             //天创验证身份证合法信息
             $router->post('tcredit', ['middleware' => ['auth'], 'uses' => 'UserIdentityController@checkIdcardFromTianchuang']);
 
@@ -77,7 +77,7 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
             //订单详情
             $router->get('info',['uses' => 'OrderController@info']);
             //创建订单
-            $router->post('create',['uses' => 'OrderController@create']);
+            $router->get('create',['uses' => 'OrderController@create']);
             //订单状态
             $router->get('status',['uses' => 'OrderController@status']);
         });

@@ -18,7 +18,8 @@ class ValidatorService extends AppService
     const TIANCHUANG_API_URL = 'http://api.tcredit.com';
     const ZHIMA_API_URL = 'https://zmopenapi.zmxy.com.cn/openapi.do';
     //face++
-    const FACEID_API_URL = 'https://api.faceid.com';
+    const FACEID_API_URL = 'https://api.megvii.com';
+    const FACEID_API_URI = '/faceid/v3/ocridcard';
 
     public static $services;
 
@@ -126,7 +127,7 @@ class ValidatorService extends AppService
      */
     public static function getFaceidAppKey()
     {
-        return PRODUCTION_ENV ? 'z81-ezAIUEUQcBI8RDtbcIDL1ENqxtRf' : 'Dbu3X9xgX6FRT6Ft7ymdH8DGbuTRVlen';
+//        return PRODUCTION_ENV ? 'z81-ezAIUEUQcBI8RDtbcIDL1ENqxtRf' : 'Dbu3X9xgX6FRT6Ft7ymdH8DGbuTRVlen';
     }
 
     /**
@@ -135,7 +136,7 @@ class ValidatorService extends AppService
      */
     public static function getFaceidAppSecret()
     {
-        return PRODUCTION_ENV ? '001Y-YSN4DDGauyux8OrrrLEIixo_2am' : 'nyg1gwC2p96Zf046huK8QttzxEpuBgQD';
+//        return PRODUCTION_ENV ? '001Y-YSN4DDGauyux8OrrrLEIixo_2am' : 'nyg1gwC2p96Zf046huK8QttzxEpuBgQD';
     }
 
 }
