@@ -19,12 +19,12 @@ class BorrowController extends ApiController
             "platform_id" => 126,
             "is_urge" => 0,
             "is_comment" => 0,
-            "created_at" => "2018-01-13ÉêÇë",
+            "created_at" => "2018-01-13ç”³è¯·",
             "created_time" => "2018/01/13",
-            "platform_product_name" => "Î´ÅÜÅú¿äÁ½¾ä",
+            "platform_product_name" => "æœªè·‘æ‰¹å¤¸ä¸¤å¥",
             "product_logo" => "http://image.sudaizhijia.com/test/20171225/platform/20171225133701-785.jpg",
-            "loan_money" => "5Íò-1500ÍòÔª",
-            "period_time" => "24-60ÔÂ",
+            "loan_money" => "5ä¸‡-1500ä¸‡å…ƒ",
+            "period_time" => "24-60æœˆ",
             "service_mobile" => ""
         ];
         return RestResponseFactory::ok($res);
