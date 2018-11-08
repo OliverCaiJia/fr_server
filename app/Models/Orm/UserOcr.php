@@ -4,11 +4,14 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserOrderRefuseReason extends AbsBaseModel
+class UserOcr extends AbsBaseModel
 {
-    const TABLE_NAME = 'user_order_refuse_reasons';
+    /**
+     *
+     *  设置表名
+     */
+    const TABLE_NAME = 'user_ocr';
     const PRIMARY_KEY = 'id';
-    public $timestamps = true;
 
     /**
      * The database table used by the model.

@@ -4,15 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class CertifyIouPlatform extends AbsBaseModel
+class VersionUpgrade extends AbsBaseModel
 {
-    public $timestamps = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'certify_iou_platforms';
+    const TABLE_NAME = 'version_upgrade';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -27,9 +25,4 @@ class CertifyIouPlatform extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-
-    protected $casts = [
-        'jiedaibao_info' => 'array',
-        'gushistory_info' => 'array',
-    ];
 }

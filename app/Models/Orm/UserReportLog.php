@@ -4,16 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class CertifyMultilateralLending extends AbsBaseModel
+class UserReportLog extends AbsBaseModel
 {
-    public $timestamps = true;
-    public $incrementing = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'certify_multilateral_lendings';
+    const TABLE_NAME = 'user_report_log';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -28,10 +25,4 @@ class CertifyMultilateralLending extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-    //隐藏字段
-    protected $hidden = [];
-
-    protected $casts = [
-        'result_detail' => 'array',
-    ];
 }

@@ -3,20 +3,14 @@
 namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
-use Illuminate\Notifications\Notifiable;
 
-class SaasOrderInterestRate extends AbsBaseModel
+class UserSuggest extends AbsBaseModel
 {
-    use Notifiable;
-
-    public $timestamps = true;
-    public $incrementing = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_order_interest_rates';
+    const TABLE_NAME = 'user_suggest';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -31,6 +25,4 @@ class SaasOrderInterestRate extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-    //隐藏字段
-    protected $hidden = [];
 }

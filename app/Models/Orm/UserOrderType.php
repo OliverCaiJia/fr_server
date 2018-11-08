@@ -4,13 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class SaasOperationLog extends AbsBaseModel
+class UserOrderType extends AbsBaseModel
 {
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_operation_logs';
+    const TABLE_NAME = 'user_order_type';
     const PRIMARY_KEY = 'id';
 
     /**

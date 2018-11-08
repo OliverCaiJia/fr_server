@@ -4,11 +4,14 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserOrderOperationLog extends AbsBaseModel
+class UserMultiinfo extends AbsBaseModel
 {
-    const TABLE_NAME = 'user_order_operation_logs';
+    /**
+     *
+     *  设置表名
+     */
+    const TABLE_NAME = 'user_multiinfo';
     const PRIMARY_KEY = 'id';
-    public $timestamps = true;
 
     /**
      * The database table used by the model.

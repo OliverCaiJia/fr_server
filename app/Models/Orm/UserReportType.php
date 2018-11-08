@@ -4,12 +4,14 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserOrderBasicInfo extends AbsBaseModel
+class UserReportType extends AbsBaseModel
 {
-    const TABLE_NAME = 'order_basic_infos';
+    /**
+     *
+     *  设置表名
+     */
+    const TABLE_NAME = 'user_report_type';
     const PRIMARY_KEY = 'id';
-
-    public $timestamps = true;
 
     /**
      * The database table used by the model.
@@ -23,8 +25,4 @@ class UserOrderBasicInfo extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-
-    protected $casts = [
-        'contacts' => 'array',
-    ];
 }

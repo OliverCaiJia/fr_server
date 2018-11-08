@@ -2,18 +2,16 @@
 
 namespace App\Models\Orm;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\AbsBaseModel;
 
-class UserOrder extends Authenticatable
+
+class UserOrder extends AbsBaseModel
 {
-    use Notifiable;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'user_orders';
+    const TABLE_NAME = 'user_order';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -30,18 +28,4 @@ class UserOrder extends Authenticatable
     protected $guarded = [];
     //隐藏字段
     protected $hidden = [];
-
-    protected $casts = [
-        'saas_channel_detail' => 'array'
-    ];
-
-    public function userReport()
-    {
-        return $this->hasOne(UserReport::class, 'id', 'user_report_id');
-    }
-
-    public function saasAuths()
-    {
-        return $this->hasMany(SaasOrderSaas::class, 'order_id', 'id');
-    }
 }

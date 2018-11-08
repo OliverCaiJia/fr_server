@@ -3,20 +3,14 @@
 namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
-use Illuminate\Notifications\Notifiable;
 
-class SaasOrderSaas extends AbsBaseModel
+class UserPersonal extends AbsBaseModel
 {
-    use Notifiable;
-
-    public $timestamps = true;
-    public $incrementing = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'saas_order_saas';
+    const TABLE_NAME = 'user_personal';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -31,6 +25,4 @@ class SaasOrderSaas extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-    //隐藏字段
-    protected $hidden = [];
 }

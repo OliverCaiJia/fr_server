@@ -4,16 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class CertifyZhima extends AbsBaseModel
+class UserRealname extends AbsBaseModel
 {
-    public $timestamps = true;
-    public $incrementing = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'certify_zhimas';
+    const TABLE_NAME = 'user_realname';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -28,6 +25,4 @@ class CertifyZhima extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-    //隐藏字段
-    protected $hidden = [];
 }

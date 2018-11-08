@@ -4,16 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class CertifyCarrierLog extends AbsBaseModel
+class VersionConfig extends AbsBaseModel
 {
-    public $timestamps = true;
-    public $incrementing = true;
-
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'certify_carriers_log';
+    const TABLE_NAME = 'version_config';
     const PRIMARY_KEY = 'id';
 
     /**
@@ -28,6 +25,4 @@ class CertifyCarrierLog extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-    //隐藏字段
-    protected $hidden = [];
 }

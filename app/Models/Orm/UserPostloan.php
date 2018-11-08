@@ -4,11 +4,14 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class CertifyTaobaoLog extends AbsBaseModel
+class UserPostloan extends AbsBaseModel
 {
-    const TABLE_NAME = 'certify_taobaos_log';
+    /**
+     *
+     *  设置表名
+     */
+    const TABLE_NAME = 'user_postloan';
     const PRIMARY_KEY = 'id';
-    public $timestamps = true;
 
     /**
      * The database table used by the model.
@@ -22,8 +25,4 @@ class CertifyTaobaoLog extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
-
-    protected $casts = [
-        'response_data' => 'array',
-    ];
 }
