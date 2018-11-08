@@ -1,16 +1,16 @@
 <?php
-Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1','as' => 'api.','prefix' => 'v1'], function ($router) {
 
     /**
      *   Auth API
      */
     $router->group(['prefix' => 'auth'], function ($router) {
         // 正常登陆
-        $router->post('login', ['middleware' => ['valiApi:login'], 'uses' => 'AuthController@login']);
+        $router->any('login', ['uses' => 'AuthController@login']);
         //快捷注册
-        $router->post('quicklogin', ['middleware' => ['valiApi:quicklogin'], 'uses' => 'AuthController@quickRegister']);
+        $router->any('quicklogin', ['uses' => 'AuthController@quickLogin']);
         // 用户退出
-        $router->post('logout', ['uses' => 'AuthController@logout']);
+        $router->any('logout', ['uses' => 'AuthController@logout']);
     });
 
     /**
@@ -18,11 +18,11 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
      */
     $router->group(['prefix' => 'sms'], function ($router) {
         //注册短信验证码
-        $router->post('register', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@register']);
+        $router->any('register', ['uses' => 'SmsController@register']);
         //修改密码短信验证码
-        $router->post('password', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@password']);
+        $router->any('password', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@password']);
         //忘记密码
-        $router->post('forgetPwd', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@forgetPwd']);
+        $router->any('forgetPwd', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@forgetPwd']);
     });
 
     /**
@@ -48,26 +48,26 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'api.','pr
             // 检测和识别中华人民共和国第二代身份证反面
             $router->post('faceid/back', ['middleware' => ['auth', 'valiApi:idcardBack'], 'uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);
             //天创验证身份证合法信息
-            $router->post('tcredit', ['middleware' => ['auth'], 'uses' => 'UserIdentityController@checkIdcardFromTianchuang']);
+            $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);
 
         });
 
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->post('card/add', ['middleware' => ['valiApi:bankId'], 'uses' => 'BanksController@add']);
+            $router->any('card/add', ['middleware' => ['valiApi:bankId'], 'uses' => 'BanksController@add']);
             //银行卡校验
-            $router->post('card/verify', ['middleware' => ['valiApi:bankId'],'uses' => 'BanksController@verify']);
+            $router->any('card/verify', ['middleware' => ['valiApi:bankId'],'uses' => 'BanksController@verify']);
             //银行卡删除
-            $router->post('card/delete', ['uses' => 'BanksController@delete']);
+            $router->any('card/delete', ['uses' => 'BanksController@delete']);
             //银行卡列表
-            $router->get('card/list', ['uses' => 'BanksController@list']);
+            $router->any('card/list', ['uses' => 'BanksController@list']);
             //修改默认银行卡
-            $router->post('card/update/default', ['uses' => 'BanksController@updateDefault']);
+            $router->any('card/update/default', ['uses' => 'BanksController@updateDefault']);
             //支付确认页面
-            $router->post('confirm', ['uses' => 'PaymentController@confirm']);
+            $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
-            $router->get('bank/support', ['uses' => 'BanksController@support']);
+            $router->any('bank/support', ['uses' => 'BanksController@support']);
         });
 
         //订单

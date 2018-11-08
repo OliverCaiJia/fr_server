@@ -16,7 +16,21 @@ class AuthController extends ApiController
      */
     public function login(Request $request)
     {
-        return RestResponseFactory::ok();
+        $arr = [
+            'code' => 200,
+            'message' => 'OK',
+            'data' => [
+                'uid' => 1,
+                'moblid' => '13999999999',
+                'status' => 1,
+                'access_token' => 'EQKDSGh69Koevj3zUgtO7L8D0YLLlWva',
+            ],
+            'error_code' => 0,
+            'error_message' => '',
+            'time' => '2017-09-05 10:43:55'
+        ];
+
+        return RestResponseFactory::ok($arr);
     }
 
     /**
@@ -26,7 +40,20 @@ class AuthController extends ApiController
      */
     public function quickLogin(Request $request)
     {
-        return RestResponseFactory::ok();
+        $arr = [
+            'code' => 200,
+            'message' => 'OK',
+            'data' => [
+                'uid' => 1,
+                'moblid' => '13999999999',
+                'status' => 1,
+                'access_token' => 'EQKDSGh69Koevj3zUgtO7L8D0YLLlWva',
+            ],
+            'error_code' => 0,
+            'error_message' => '',
+            'time' => '2017-09-05 10:43:55'
+        ];
+        return RestResponseFactory::ok($arr);
     }
 
     /**
