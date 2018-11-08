@@ -2,7 +2,7 @@
 
 namespace App\Models\Factory;
 
-use App\Models\AbsModelFactory;
+use App\Models\Factory\Api\ApiFactory;
 use App\Models\Orm\UserBankcard;
 
 /**
@@ -10,7 +10,7 @@ use App\Models\Orm\UserBankcard;
  * @package App\Models\Factory
  * 银行卡工厂
  */
-class UserBankcardFactory extends AbsModelFactory
+class UserBankcardFactory extends ApiFactory
 {
     /**
      * @return bool
@@ -66,14 +66,14 @@ class UserBankcardFactory extends AbsModelFactory
     }
 
     /**
-     * @param $bank_card_no 银行卡号
+     * @param $id 主键id
      * @param $is_default 是否默认 0不是，1是
      * @return int
      * 更改默认值
      */
-    public static function userBankUpdate($bank_card_no,$is_default)
+    public static function userBankUpdate($id,$is_default)
     {
-        $bankUpdate = UserBankcard::where(['bank_card_no' => $bank_card_no])
+        $bankUpdate = UserBankcard::where(['id' => $id])
             ->update(['is_default' => $is_default]);
 
         return $bankUpdate;
