@@ -14,7 +14,7 @@ class UserOrderStrategy extends AppStrategy
      *
      * @return string
      */
-    public static function createOrderId($type = 'SD')
+    public static function createOrderId($type = 'SGD')
     {
         $nid = date('Y') . date('m') . date('d') . date('H') . date('i') . date('s') . '-' . Utils::randomNumber();
 
