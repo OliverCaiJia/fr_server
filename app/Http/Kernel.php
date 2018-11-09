@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'menu' => \App\Http\Middleware\GetMenu::class,
         'valiAdmin' => \App\Http\Middleware\ValidateAdminMiddleware::class,
         'valiApi' => \App\Http\Middleware\ValidateApiMiddleware::class,
+        'sign' => \App\Http\Middleware\SignMiddleware::class,
     ];
 }
