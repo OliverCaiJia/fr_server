@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Strategies\SaasAuthStrategy;
+use App\Strategies\AdminAuthStrategy;
 use Closure;
 use Route;
 use URL;
@@ -27,7 +27,7 @@ class AuthenticateAdmin
     {
         $user = Auth::guard('admin')->user();
 
-        $isValid = SaasAuthStrategy::isAvailableAccount($user->saas_auth_id);
+        $isValid = AdminAuthStrategy::isAvailableAccount($user->saas_auth_id);
         if (!$isValid || ($user->is_deleted == 1)) {
             Auth::guard('admin')->logout();
             $request->session()->invalidate();
