@@ -14,7 +14,7 @@ use App\Helpers\RestResponseFactory;
  *
  * @author zhaoqiying
  */
-class AuthMiddleware
+class AuthWebMiddleware
 {
 
     /**

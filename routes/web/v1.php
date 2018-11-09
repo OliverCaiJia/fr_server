@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'web.','prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($router) {
     Route::get('/', function () {
         return view('admin');
     })->name('index');
@@ -11,7 +11,7 @@ Route::group(['namespace' => 'V1','middleware' => ['authApi'],'as' => 'web.','pr
         // 
         $router->any('register', ['uses' => 'AgreementController@register']);
         //
-        $router->any('credit', ['uses' => 'AgreementController@credit']);
+        $router->any('credit', ['middleware' => ['authWeb'],'uses' => 'AgreementController@credit']);
         // 
         $router->any('faceid', ['uses' => 'AgreementController@faceid']);
     }); 
