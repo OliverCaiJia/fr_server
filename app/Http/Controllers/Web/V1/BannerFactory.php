@@ -8,7 +8,7 @@ use App\Models\Orm\Banner;
 /**
  * Class BanksFactory
  * @package App\Models\Factory
- * 银行卡工厂
+ * 获取banner
  */
 class BannerFactory extends ApiFactory
 {
