@@ -1,1 +1,1 @@
-invite/home
+web/invite/home
