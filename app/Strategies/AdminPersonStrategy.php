@@ -4,7 +4,7 @@ namespace App\Strategies;
 
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 
-class SaasPersonStrategy extends AppStrategy
+class AdminPersonStrategy extends AppStrategy
 {
     /**
      * 通过主键 id 获取所有下级 id
