@@ -15,17 +15,60 @@ class BannerFactory extends ApiFactory
     /**
      * @param $banner_type_id
      * @return array
-     * 获取指定类型banner
+     * 根据类型id获取banner
      */
-    public static function bannerList($banner_type_id)
+    public static function getBannerListByTypeId($banner_type_id)
     {
         $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
             ->where(['banner_type_id',$banner_type_id])
-            ->get()
-            ->toArray();
+            ->get();
 
-        return $bannerList;
+        return $bannerList ? $bannerList->toArry() : [];
     }
 
+    /**
+     * @param $banner_type_id
+     * @return array
+     * 根据类型id获取指定类型banner
+     */
+
+    public static function getBannerByTypeId($banner_type_id)
+    {
+        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+            ->where(['banner_type_id',$banner_type_id])
+            ->first();
+
+        return $bannerList ? $bannerList->toArry() : [];
+    }
+
+    /**
+     * @param $banner_type_nid
+     * @return array
+     *根据类型标识获取banner
+     */
+
+    public static function getBannerListByTypeNid($banner_type_nid)
+    {
+        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+            ->where(['banner_type_nid',$banner_type_nid])
+            ->get();
+
+        return $bannerList ? $bannerList->toArray() : [];
+    }
+
+    /**
+     * @param $banner_type_nid
+     * @return array
+     * 根据类型标识获取指定banner
+     */
+
+    public static function getBannerByTypeNid($banner_type_nid)
+    {
+        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+            ->where(['banner_type_nid',$banner_type_nid])
+            ->first();
+
+        return $bannerList ? $bannerList->toArry() : [];
+    }
 
 }
