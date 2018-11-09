@@ -3,6 +3,7 @@
 namespace App\Models\Factory\Api;
 
 use App\Helpers\Utils;
+use App\Helpers\Generator\TokenGenerator;
 use App\Models\Orm\UserAuth;
 
 /**
@@ -127,6 +128,40 @@ class UserAuthFactory extends ApiFactory
     public static function updateOrcreate($data)
     {
         return UserAuth::updateOrCreate(['mobile' => $data['mobile']], $data);
+    }
+
+    /**
+     * 设置用户密码和Token
+     * @param $user_id
+     * @param $password
+     */
+    public static function setUserPasswordAndToken($userId, $password)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'accessToken' => TokenGenerator::generateToken()]);
+    }
+
+    /**
+     * 设置用户密码
+     * @param $user_id
+     * @param $password
+     */
+    public static function setUserPassword($userId, $password)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['password' => $password]);
+    }
+
+    /**
+     * @param $mobile
+     * @param $pwd
+     * @return mixed
+     * 忘记密码 —— 修改密码
+     */
+    public static function updatePwdByMobile($mobile, $pwd)
+    {
+        $updateMobile = UserAuth::where(['mobile' => $mobile])
+            ->update(['password' => $pwd]);
+
+        return $updateMobile;
     }
 
 }

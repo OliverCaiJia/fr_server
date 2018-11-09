@@ -1,1 +1,1 @@
-user/report
+web/user/report
