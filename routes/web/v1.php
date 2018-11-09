@@ -11,7 +11,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
         // 
         $router->any('register', ['uses' => 'AgreementController@register']);
         //
-        $router->any('credit', ['middleware' => ['authWeb'],'uses' => 'AgreementController@credit']);
+        $router->any('credit', ['uses' => 'AgreementController@credit']);
         // 
         $router->any('faceid', ['uses' => 'AgreementController@faceid']);
     }); 
@@ -29,7 +29,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
      */
     $router->group(['prefix' => 'user'], function ($router) {
         // 
-        $router->any('report', ['uses' => 'UserController@report']);
+        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
     }); 
 
 });

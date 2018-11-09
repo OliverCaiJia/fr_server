@@ -34,8 +34,9 @@ class AuthWebMiddleware
             } else {
                 return RestResponseFactory::unauthorized('Unauthorized', 401, 'Unauthorized');
             }
+            return $next($request);
         }
-        return $next($request);
+        return redirect('/web/401');
     }
 
 }

@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('/401', function () {
+    return view('errors.401');
+})->name('401');
+
+
 foreach (File::allFiles(__DIR__ . '/web') as $partial)
 {
     require_once $partial->getPathname();
