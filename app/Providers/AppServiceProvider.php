@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        define("PRODUCTION_ENV", $this->app->environment('production'));
     }
 
     /**
