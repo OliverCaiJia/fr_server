@@ -1,25 +1,14 @@
 <?php
 
-namespace App\Models\Factory;
+namespace App\Models\Factory\Api;
 
 use App\Helpers\Utils;
-use App\Models\Factory\Api\ApiFactory;
-use App\Models\Orm\UserAlipay;
-use App\Models\Orm\UserBanks;
-use App\Models\Orm\UserIdentity;
-use App\Models\Orm\UserProfile;
 use App\Models\Orm\UserRealname;
-use App\Strategies\BankStrategy;
-use App\Strategies\UserCertifyStrategy;
-use App\Strategies\SexStrategy;
-use App\Strategies\UserIdentityStrategy;
-use App\Strategies\UserinfoStrategy;
-use App\Strategies\UserProfileStrategy;
 
 /**
- * Class UserinfoFactory
- * @package App\Models\Factory
  * 用户实名信息工厂类
+ * Class UserRealnameFactory
+ * @package App\Models\Factory\Api
  */
 class UserRealnameFactory extends ApiFactory
 {

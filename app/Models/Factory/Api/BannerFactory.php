@@ -6,7 +6,7 @@
  * Time: 上午9:57
  */
 
-namespace App\Models\Factory;
+namespace App\Models\Factory\Api;
 
 use App\Models\Factory\Api\ApiFactory;
 use App\Models\Orm\AccountPayment;

@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'V1','as' => 'api.','prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1', 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
 
     /**
      *   Auth API
@@ -47,9 +47,6 @@ Route::group(['namespace' => 'V1','as' => 'api.','prefix' => 'v1'], function ($r
             $router->get('faceid/front', ['uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);//'middleware' => ['auth', 'valiApi:idcardFront'],
             // 检测和识别中华人民共和国第二代身份证反面
             $router->get('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);//'middleware' => ['auth', 'valiApi:idcardBack'],
-            $router->any('faceid/front', ['uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);
-            // 检测和识别中华人民共和国第二代身份证反面
-            $router->any('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);
             //天创验证身份证合法信息
             $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);
 
@@ -76,16 +73,26 @@ Route::group(['namespace' => 'V1','as' => 'api.','prefix' => 'v1'], function ($r
         //订单
         $router->group(['prefix' => 'order'], function ($router) {
             //订单列表
-            $router->any('list',['uses' => 'OrderController@list']);
+            $router->any('list', ['uses' => 'OrderController@list']);
             //订单详情
-            $router->any('info',['uses' => 'OrderController@info']);
+            $router->any('info', ['uses' => 'OrderController@info']);
             //创建订单
-            $router->get('create',['uses' => 'OrderController@create']);
-            $router->any('create',['uses' => 'OrderController@create']);
+            $router->get('create', ['uses' => 'OrderController@create']);
             //订单状态
-            $router->any('status',['uses' => 'OrderController@status']);
+            $router->any('status', ['uses' => 'OrderController@status']);
         });
 
+        //账户信息
+        $router->group(['prefix' => 'account'], function ($router) {
+            //订单列表
+            $router->any('list', ['uses' => 'AccountController@list']);
+            //订单详情
+            $router->any('info', ['uses' => 'AccountController@info']);
+            //创建订单
+            $router->get('create', ['uses' => 'AccountController@create']);
+            //订单状态
+            $router->any('status', ['uses' => 'AccountController@status']);
+        });
     });
 
     /**

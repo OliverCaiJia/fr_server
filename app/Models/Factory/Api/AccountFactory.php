@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\Factory;
+namespace App\Models\Factory\Api;
 
 use App\Constants\AccountConstant;
 use App\Helpers\Utils;
 use App\Models\Factory\Api\ApiFactory;
 use App\Models\Orm\UserAccount;
 use App\Models\Orm\UserAccountLog;
-use App\Models\Orm\UserAccountType;
 
 class AccountFactory extends ApiFactory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Factory;
+namespace App\Models\Factory\Api;
 
 use App\Models\Factory\Api\ApiFactory;
 use App\Models\Orm\UserBankcard;
