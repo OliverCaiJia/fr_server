@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'V1', 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
 
     /**
      *   Auth API
