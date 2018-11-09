@@ -8,18 +8,18 @@ use App\Models\Orm\Banner;
 /**
  * Class BanksFactory
  * @package App\Models\Factory
- * 获取banner
+ * banner工厂
  */
 class BannerFactory extends ApiFactory
 {
     /**
      * @param $banner_type_id
      * @return array
-     * 根据类型id获取banner
+     * 根据类型id获取banner列表
      */
     public static function getBannerListByTypeId($banner_type_id)
     {
-        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+        $bannerList = Banner::select(['id','banner_name','position','img_address','img_href'])
             ->where(['banner_type_id',$banner_type_id])
             ->get();
 
@@ -34,7 +34,7 @@ class BannerFactory extends ApiFactory
 
     public static function getBannerByTypeId($banner_type_id)
     {
-        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+        $bannerList = Banner::select(['id','banner_name','position','img_address','img_href'])
             ->where(['banner_type_id',$banner_type_id])
             ->first();
 
@@ -44,12 +44,12 @@ class BannerFactory extends ApiFactory
     /**
      * @param $banner_type_nid
      * @return array
-     *根据类型标识获取banner
+     *根据类型标识获取banner列表
      */
 
     public static function getBannerListByTypeNid($banner_type_nid)
     {
-        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+        $bannerList = Banner::select(['id','banner_name','position','img_address','img_href'])
             ->where(['banner_type_nid',$banner_type_nid])
             ->get();
 
@@ -64,7 +64,7 @@ class BannerFactory extends ApiFactory
 
     public static function getBannerByTypeNid($banner_type_nid)
     {
-        $bannerList = Banner::select(['banner_name','position','img_address','img_href'])
+        $bannerList = Banner::select(['id','banner_name','position','img_address','img_href'])
             ->where(['banner_type_nid',$banner_type_nid])
             ->first();
 
