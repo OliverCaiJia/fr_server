@@ -2,9 +2,9 @@
 
 namespace App\Models\Orm;
 
-use App\Models\AbsBaseModel;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserAuth extends AbsBaseModel
+class UserAuth extends Authenticatable
 {
     public $timestamps = false;
     public $incrementing = true;
