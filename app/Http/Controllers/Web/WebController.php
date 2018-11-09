@@ -22,7 +22,7 @@ class WebController extends BaseController
 
     public function getUserId($request)
     {
-        return $request->user()->sd_user_id ?: null;
+        return $request->user()->id ?: null;
     }
 
 }
