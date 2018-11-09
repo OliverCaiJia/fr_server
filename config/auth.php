@@ -72,12 +72,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Orm\UserAuth::class,
         ],
 
         'admin_users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Orm\SaasPerson::class,
+            'model' => App\Models\Orm\AdminPersons::class,
         ],
 
         // 'users' => [

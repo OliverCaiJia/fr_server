@@ -28,14 +28,15 @@ class AuthApiMiddleware
     {
         $token = $request->input('token') ?: $request->header('X-Token');
         if ($token) {
-            $user = UserAuth::where('accessToken', $token)->first();
+            $user = UserAuth::where('access_token', $token)->first();
             if ($user) {
                 Auth::login($user);
             } else {
                 return RestResponseFactory::unauthorized('Unauthorized', 401, 'Unauthorized');
             }
+            return $next($request);
         }
-        return $next($request);
+        return RestResponseFactory::unauthorized('Unauthorized', 401, 'Unauthorized');
     }
 
 }
