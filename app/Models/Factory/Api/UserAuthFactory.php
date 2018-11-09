@@ -4,105 +4,108 @@ namespace App\Models\Factory\Api;
 
 use App\Helpers\Utils;
 use App\Models\Orm\UserAuth;
-use App\Helpers\Generator\TokenGenerator;
 
-
+/**
+ * Class UserAuthFactory
+ * @package App\Models\Factory\Api
+ * 用户
+ */
 class UserAuthFactory extends ApiFactory
 {
     /**
      * 通过用户主键ID获取用户
-     *
      * @param $userId
-     *
      * @return mixed|string
      */
     public static function getUserById($userId)
     {
-        return UserAuth::where('id', '=', $userId)->first();
+        $user = UserAuth::where('id', '=', $userId)->first();
+
+        return $user ? $user->toArray() : [];
     }
 
     /**
      * 通过用户token获取用户
-     *
      * @param $token
-     *
      * @return mixed|string
      */
     public static function getUserByToken($token)
     {
-        return UserAuth::where('access_token', '=', $token)->first();
+        $user = UserAuth::where('access_token', '=', $token)->first();
+
+        return $user ? $user->toArray() : [];
     }
 
     /**
      * 通过用户mobile获取用户
-     *
      * @param $mobile
-     *
      * @return mixed|string
      */
     public static function getUserByMobile($mobile)
     {
-        return UserAuth::where('mobile', '=', $mobile)->first();
+        $user = UserAuth::where('mobile', '=', $mobile)->first();
+
+        return $user ? $user->toArray() : [];
     }
 
     /**
      * 通过用户token获取用户主键Id
-     *
      * @param $token
-     *
      * @return mixed|string
      */
     public static function getUserIdByToken($token)
     {
-        return UserAuth::where('access_token', '=', $token)->value('id');
+        $userId = UserAuth::where('access_token', '=', $token)->value('id');
+
+        return $userId ?? '';
     }
 
     /**
      * 通过用户mobile获取用户主键Id
-     *
      * @param $mobile
-     *
      * @return mixed|string
      */
     public static function getUserIdByMobile($mobile)
     {
-        return UserAuth::where('mobile', '=', $mobile)->value('id');
+        $userId = UserAuth::where('mobile', '=', $mobile)->value('id');
+
+        return $userId ?? '';
     }
 
     /**
      * 通过用户主键userId获取用户mobile
-     *
      * @param $userId
-     *
      * @return mixed|string
      */
     public static function getUserMobileById($userId)
     {
-        return UserAuth::where('id', '=', $userId)->value('mobile');
+        $mobile = UserAuth::where('id', '=', $userId)->value('mobile');
+
+        return $mobile ?? '';
     }
 
     /**
      * 通过用户token获取用户mobile
-     *
      * @param $userId
-     *
      * @return mixed|string
      */
     public static function getUserMobileByToken($userId)
     {
-        return UserAuth::where('id', '=', $userId)->value('mobile');
+        $mobile = UserAuth::where('id', '=', $userId)->value('mobile');
+
+        return $mobile ?? '';
     }
 
     /**
      * 通过用户主键userId获取用户access_token
-     *
      * @param $userId
-     *
      * @return mixed|string
      */
     public static function getUserTokenById($userId)
     {
-        return UserAuth::where('id', '=', $userId)->value('access_token');
+        $token = UserAuth::where('id', '=', $userId)->value('access_token');
+
+        return $token ?? '';
     }
 
     /** 更新用户最后登录时间
@@ -123,8 +126,7 @@ class UserAuthFactory extends ApiFactory
      */
     public static function updateOrcreate($data)
     {
-        $userAuth = UserAuth::updateOrCreate(['mobile' => $data['mobile']], $data);
-        return $userAuth;
+        return UserAuth::updateOrCreate(['mobile' => $data['mobile']], $data);
     }
 
 }

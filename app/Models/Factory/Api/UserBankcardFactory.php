@@ -41,14 +41,13 @@ class UserBankcardFactory extends ApiFactory
      * @return array
      * 银行卡列表
      */
-    public static function userBankList($user_id)
+    public static function getUserBankList($user_id)
     {
         $bankList = UserBankcard::select(['id', 'user_id', 'bank_card_no', 'bank_card_type','is_default','bank_card_mobile'])
             ->where(['user_id' =>$user_id])
-            ->get()
-            ->toArray();
+            ->get();
 
-        return $bankList;
+        return $bankList ? $bankList->toArray() : [];
     }
 
     /**
@@ -56,13 +55,13 @@ class UserBankcardFactory extends ApiFactory
      * @return array
      * 获取指定银行卡
      */
-    public static function userBankFirst($bank_card_no)
+    public static function getUserBankFirst($bank_card_no)
     {
         $bankFirst = Bank::select()
             ->where(['bank_card_no' => $bank_card_no])
             ->first();
 
-        return $bankFirst;
+        return $bankFirst ? $bankFirst->toArray() : [];
     }
 
     /**
