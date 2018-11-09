@@ -25,7 +25,16 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createOrder($data)
     {
-        return UserOrder::updateOrCreate($data);
+
+    }
+
+    /**
+     * @param $data
+     */
+
+    public static function updateOrder($data)
+    {
+
     }
 
     /**

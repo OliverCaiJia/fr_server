@@ -16,7 +16,7 @@ class MessageFactory extends ApiFactory
      * @return bool
      * 添加短信log
      */
-    public static function messageAdd($data)
+    public static function createMessage($data)
     {
         $addMessage = Message::save($data);
 

@@ -125,7 +125,7 @@ class UserAuthFactory extends ApiFactory
      * @param $data
      * @return mixed
      */
-    public static function updateOrcreate($data)
+    public static function updateOrCreate($data)
     {
         return UserAuth::updateOrCreate(['mobile' => $data['mobile']], $data);
     }
