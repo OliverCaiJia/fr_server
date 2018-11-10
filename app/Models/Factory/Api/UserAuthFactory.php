@@ -164,4 +164,13 @@ class UserAuthFactory extends ApiFactory
         return $updateMobile;
     }
 
+    /**
+     * 修改用户主表中的status 为激活状态 1
+     * @param $user_id
+     */
+    public static function setUserStatus($userId)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['status' => 1]);
+    }
+
 }
