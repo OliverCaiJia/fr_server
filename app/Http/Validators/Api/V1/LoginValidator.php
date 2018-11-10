@@ -19,7 +19,7 @@ class LoginValidator extends AbstractValidator
     protected $rules = array(
         'mobile'   => ['required', 'is_not_email', 'is_username','is_phone'],
         'password' => ['required','alpha_num','size:32'],
-	    'version'  => ['required','integer']
+	  //  'version'  => ['required','integer']
     );
 
     /**
@@ -35,8 +35,8 @@ class LoginValidator extends AbstractValidator
         'password.required' => '密码必须输入',
         'password.alpha_num' => '密码格式错误',
         'password.size' => '密码必须是MD5字符串',
-	    'version.required' => '版本必须传值',
-	    'version.integer' => '版本必须是整数',
+	   // 'version.required' => '版本必须传值',
+	  //  'version.integer' => '版本必须是整数',
     );
 
     /**

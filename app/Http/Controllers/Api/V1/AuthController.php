@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 use App\Helpers\RestResponseFactory;
 use App\Models\Chain\Login\DoLoginHandler;
+use App\Helpers\Generator\TokenGenerator;
 use App\Helpers\RestUtils;
+use App\Models\Factory\Api\UserAuthFactory;
 
 
 class AuthController extends ApiController
@@ -57,6 +59,10 @@ class AuthController extends ApiController
      */
     public function logout(Request $request)
     {
+        $userId = $request->user_id;
+        $token = TokenGenerator::generateToken();
+
+        UserAuthFactory::updateUserTokenById($userId, $token);
 
         return RestResponseFactory::ok([], '退出成功');
     }

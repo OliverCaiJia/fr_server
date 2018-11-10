@@ -173,4 +173,11 @@ class UserAuthFactory extends ApiFactory
         return UserAuth::where('id', '=', $userId)->update(['status' => 1]);
     }
 
+    /**
+     * 更新用户的accessToken
+     */
+    public static function updateUserTokenById($userId, $token)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['access_token' => $token]);
+    }
 }

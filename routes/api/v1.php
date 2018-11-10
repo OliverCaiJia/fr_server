@@ -6,7 +6,7 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
      */
     $router->group(['prefix' => 'auth'], function ($router) {
         // 正常登陆
-        $router->any('login', ['uses' => 'AuthController@login']);
+        $router->any('login', ['middleware' => ['valiApi:login'],'uses' => 'AuthController@login']);
         //快捷注册
         $router->any('quicklogin', ['uses' => 'AuthController@quickLogin']);
         // 用户退出
