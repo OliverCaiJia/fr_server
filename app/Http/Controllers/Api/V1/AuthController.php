@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use App\Helpers\RestResponseFactory;
+use App\Models\Chain\Login\DoLoginHandler;
+use App\Helpers\RestUtils;
+
 
 class AuthController extends ApiController
 {
@@ -16,7 +19,25 @@ class AuthController extends ApiController
      */
     public function login(Request $request)
     {
-        return RestResponseFactory::ok();
+        $data = $request->all();
+        #调用普通登录责任链
+        $login = new DoLoginHandler($data);
+        $re = $login->handleRequest();
+        if (isset($re['error']))
+        {
+            if ($re['code'] == 403403) {
+                return RestResponseFactory::forbidden($re['error'], 403, $re['error']);
+            }
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $re['error'], $re['code'], $re['error']);
+        }
+        //用户信息重组
+        $re = [
+            'user_id' => $re['id'],
+            'mobile' => $re['mobile'],
+            'status' => $re['status'],
+            'access_token' => $re['access_token'],
+        ];
+        return RestResponseFactory::ok($re);
     }
 
     /**

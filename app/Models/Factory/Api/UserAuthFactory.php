@@ -116,7 +116,7 @@ class UserAuthFactory extends ApiFactory
     public static function updateLoginTime($userId)
     {
         return UserAuth::where('id', $userId)->update([
-            'last_login_time' => date('Y-m-d H:i:s'),
+            'last_login_at' => date('Y-m-d H:i:s'),
             'last_login_ip' => Utils::ipAddress(),
         ]);
     }
