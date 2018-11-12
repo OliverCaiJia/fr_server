@@ -73,13 +73,13 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         //订单
         $router->group(['prefix' => 'order'], function ($router) {
             //订单列表
-            $router->any('list', ['uses' => 'OrderController@list']);
+            $router->any('list', ['uses' => 'UserOrderController@list']);
             //订单详情
-            $router->any('info', ['uses' => 'OrderController@info']);
+            $router->any('info', ['uses' => 'UserOrderController@info']);
             //创建订单
-            $router->get('create', ['uses' => 'OrderController@create']);
+            $router->get('create', ['uses' => 'UserOrderController@create']);
             //订单状态
-            $router->any('status', ['uses' => 'OrderController@status']);
+            $router->any('status', ['uses' => 'UserOrderController@status']);
         });
 
         //账户信息
