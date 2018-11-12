@@ -77,7 +77,7 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
             //订单详情
             $router->any('info', ['uses' => 'UserOrderController@info']);
             //创建订单
-            $router->get('create', ['uses' => 'UserOrderController@create']);
+            $router->get('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
             //订单状态
             $router->any('status', ['uses' => 'UserOrderController@status']);
         });

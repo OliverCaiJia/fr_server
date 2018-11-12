@@ -17,8 +17,8 @@ class UserOrderController extends ApiController
     public function list(Request $request)//
     {
         $userId = $request->input('user_id');
-        $userOrder = UserOrderFactory::getOrderByUserId($userId)->toArray();
-        $res = null;
+        $userOrder = UserOrderFactory::getOrderByUserId($userId);
+        $res = [];
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
                 "order_no" => $uOrder['order_no'],
@@ -39,8 +39,8 @@ class UserOrderController extends ApiController
     {
         $userId = $request->input('user_id');
         $orderNo = $request->input('order_no');
-        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId)->toArray();
-        $res = null;
+        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
+        $res = [];
         foreach ($userOrder as $uOrder) {
             $res['info'][] = [
                 "amount" => $uOrder->amount,
@@ -50,40 +50,31 @@ class UserOrderController extends ApiController
         return RestResponseFactory::ok($res);
     }
 
+    /**
+     * 创建订单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
-        $res = [
-            "payurl" => "http://www.xxx.com",
-            "fcallbackurl" => "http://uat.api.sudaizhijia.com/v1/users/payment/callback/yibao/syncallbacks?type=user_report"
-        ];
+        $data = $request->all();
+        $userId = $this->getUserId($request);
+        $data['user_id'] = $userId;
+        $res['success'] = UserOrderFactory::createOrder($data);
         return RestResponseFactory::ok($res);
     }
 
-//    /**
-//     * 根据用户id和订单号更新订单状态，返回成功条数
-//     * @param Request $request
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function updateStatus(Request $request)
-//    {
-//        $userId = $request->input('user_id');
-//        $orderNo = $request->input('order_no');
-//        $status = $request->input('status');
-//        $res = UserOrderFactory::updateOrderByUserId($userId, $orderNo, $status);
-//        return RestResponseFactory::ok($res);
-//    }
-
+    /**
+     * 查询订单状态
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function status(Request $request)
     {
-        $userId = $request->input('user_id');
+        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        $userOrder = UserOrderFactory::getOrderStatusByUserIdOrderNo($userId, $orderNo)->toArray();
-        $res = null;
-        foreach ($userOrder as $uOrder) {
-            $res['info'][] = [
-                "status" => $uOrder['status']
-            ];
-        }
+        $userOrder = UserOrderFactory::getOrderStatusByUserIdOrderNo($userId, $orderNo);
+        $res['info']['status'] = $userOrder['status'];
         return RestResponseFactory::ok($res);
     }
 }

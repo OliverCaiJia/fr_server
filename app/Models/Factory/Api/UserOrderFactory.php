@@ -3,6 +3,7 @@
 namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
+use App\Helpers\UserAgent;
 use App\Helpers\Utils;
 use App\Models\Orm\AccountPayment;
 use App\Models\Orm\Platform;
@@ -23,6 +24,7 @@ class UserOrderFactory extends ApiFactory
         $userOrderObj = new UserOrder();
         $userOrderObj->user_id = $params['user_id'];
         $userOrderObj->bank_id = $params['bank_id'];
+        $userOrderObj->platform_nid = $params['platform_nid'];
         $userOrderObj->order_no = $params['order_no'];
         $userOrderObj->payment_order_no = $params['payment_order_no'];//类型+时间+有意义的串
         $userOrderObj->order_expired = $params['order_expired'];
@@ -38,7 +40,7 @@ class UserOrderFactory extends ApiFactory
         $userOrderObj->status = $params['status'];
         $userOrderObj->request_text = $params['request_text'];
         $userOrderObj->response_text = $params['response_text'];
-        $userOrderObj->user_agent = $params['user_agent'];
+        $userOrderObj->user_agent = UserAgent::i()->getUserAgent();
         $userOrderObj->create_ip = Utils::ipAddress();
         $userOrderObj->update_ip = Utils::ipAddress();
         $userOrderObj->create_at = date('Y-m-d H:i:s', time());
@@ -52,9 +54,21 @@ class UserOrderFactory extends ApiFactory
      * @param $status
      * @return mixed
      */
-    public static function updateOrderByUserId($userId, $orderNo, $status)
+    public static function updateOrderStatusByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])->update(['status' => $status]);
+    }
+
+    /**
+     * 根据用户id和订单号更新订单
+     * @param $userId
+     * @param $orderNo
+     * @param array $data
+     * @return mixed
+     */
+    public static function updateOrderByUserIdAndOrderNo($userId, $orderNo, $data = [])
+    {
+        return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])->update($data);
     }
 
     /**
@@ -78,13 +92,13 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderDetailByOrderNoAndUserId($orderNo, $userId)
     {
-        $userOrder = DB::table(UserOrder::TABLE_NAME)
-            ->where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+        $userOrder = UserOrder
+            ::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
             ->where([UserOrder::TABLE_NAME . '.user_id' => $userId])
             ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
             ->get();
 
-        return $userOrder;
+        return $userOrder ? $userOrder->toArray() : [];
     }
 
     /**
@@ -94,7 +108,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderByUserId($userId)
     {
-        return UserOrder::select()->where('user_id', '=', $userId)->get();
+        $userOrder = UserOrder::select()->where('user_id', '=', $userId)->get();
+        return $userOrder ? $userOrder->toArray() : [];
     }
 
     /**
@@ -104,9 +119,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderStatusByUserIdOrderNo($userId, $orderNo)
     {
-        return UserOrder::select()
+        $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->where('order_no', '=', $orderNo)
             ->get();
+        return $userOrder ? $userOrder->toArray() : [];
     }
 }
