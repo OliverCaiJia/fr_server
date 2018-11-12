@@ -74,6 +74,15 @@ class UserAuthFactory extends ApiFactory
     }
 
     /**
+     * 从用户主表中获取用户的手机号和是否设置密码
+     * @param $mobile
+     */
+    public static function getMobileAndIndent($mobile)
+    {
+        return UserAuth::where('mobile', '=', $mobile)->where('status', '=', '1')->first();
+    }
+
+    /**
      * 通过用户主键userId获取用户mobile
      * @param $userId
      * @return mixed|string
