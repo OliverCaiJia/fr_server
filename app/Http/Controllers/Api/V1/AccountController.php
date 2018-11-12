@@ -20,7 +20,9 @@ class AccountController extends ApiController
     {
         $data = $request->all();
         $account = AccountFactory::fetchUserAccount($data['user_id']);
-        return RestResponseFactory::ok($account);
+        $res = [];
+        $res['name'] = $account['name'];
+        return RestResponseFactory::ok($res);
     }
 
     /**

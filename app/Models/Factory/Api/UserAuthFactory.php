@@ -116,7 +116,7 @@ class UserAuthFactory extends ApiFactory
     public static function updateLoginTime($userId)
     {
         return UserAuth::where('id', $userId)->update([
-            'last_login_time' => date('Y-m-d H:i:s'),
+            'last_login_at' => date('Y-m-d H:i:s'),
             'last_login_ip' => Utils::ipAddress(),
         ]);
     }
@@ -164,4 +164,20 @@ class UserAuthFactory extends ApiFactory
         return $updateMobile;
     }
 
+    /**
+     * 修改用户主表中的status 为激活状态 1
+     * @param $user_id
+     */
+    public static function setUserStatus($userId)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['status' => 1]);
+    }
+
+    /**
+     * 更新用户的accessToken
+     */
+    public static function updateUserTokenById($userId, $token)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['access_token' => $token]);
+    }
 }

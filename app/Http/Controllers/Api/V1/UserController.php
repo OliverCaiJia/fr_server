@@ -7,6 +7,7 @@ use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Models\Factory\AccountFactory;
 use App\Models\Factory\AuthFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\CreditFactory;
 use App\Models\Factory\PhoneFactory;
 use App\Models\Factory\UserFactory;
@@ -27,8 +28,31 @@ class UserController extends Controller
      */
     public function updatePwd(Request $request)
     {
-        $data = ['need_relogin' => true];
-        return RestResponseFactory::ok($data);
+        $user_id = $this->getUserId($request);
+        $password = $request->input('password', '');
+        $reset_token = $request->input('reset_token', false);
+
+        //强制转换为bool型
+        $reset_token = is_bool($reset_token) ? $reset_token : (bool)$reset_token;
+
+        if ($password) {
+            if ($reset_token === true) {
+                $re = UserAuthFactory::setUserPasswordAndToken($user_id, $password);
+                $data['need_relogin'] = true;
+                $message = '密码修改成功,请重新登陆。';
+            } else {
+                $re = UserAuthFactory::setUserPassword($user_id, $password);
+                $data['need_relogin'] = false;
+                $message = '设置密码成功。';
+            }
+
+            if ($re) {
+                UserFactory::setUserActivated($user_id);
+
+                return RestResponseFactory::ok($data, $message);
+            }
+        }
+        return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1109), 1109);
     }
 
     /**
