@@ -88,7 +88,6 @@ class UserBasicFactory extends ApiFactory
             $UserData->has_house_fund = $data['has_house_fund'];
             $UserData->has_assurance = $data['has_assurance'];
             $UserData->has_weilidai = $data['has_weilidai'];
-            $UserData->create_at = date('Y-m-d H:i:s');
             $UserData->update_at = date('Y-m-d H:i:s');
             return $UserData->save();
         } else {

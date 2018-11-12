@@ -12,6 +12,7 @@ use App\Models\Factory\CreditFactory;
 use App\Models\Factory\PhoneFactory;
 use App\Models\Factory\UserFactory;
 use App\Models\Factory\UserSignFactory;
+use App\Models\Factory\Api\UserRealnameFactory;
 use App\Models\Orm\UserContacts;
 use App\Strategies\SmsStrategy;
 use App\Strategies\UserStrategy;
@@ -63,6 +64,22 @@ class UserController extends Controller
     public function uploadPhoto(Request $request)
     {
         return RestResponseFactory::ok();
+    }
+
+    /**获取用户身份证信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function serInfo(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $data = UserRealnameFactory::fetchUserRealname($userId);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
+        }
+        return RestResponseFactory::ok($data);
+
+
     }
 
 }

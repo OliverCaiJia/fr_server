@@ -18,6 +18,10 @@ class UserInfoController extends ApiController
         return RestResponseFactory::ok($res);
     }
 
+    /**创建修改个人资料
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateCertifyinfo(Request $request)
     {
         $data = $request->all();
