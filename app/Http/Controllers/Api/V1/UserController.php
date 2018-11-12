@@ -39,7 +39,7 @@ class UserController extends Controller
             if ($reset_token === true) {
                 $re = UserAuthFactory::setUserPasswordAndToken($user_id, $password);
                 $data['need_relogin'] = true;
-                $message = '修改密码成功,请重新登陆。';
+                $message = '密码修改成功,请重新登陆。';
             } else {
                 $re = UserAuthFactory::setUserPassword($user_id, $password);
                 $data['need_relogin'] = false;
