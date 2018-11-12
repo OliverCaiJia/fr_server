@@ -41,7 +41,8 @@ class CheckUserLockAction extends AbstractHandler
      */
     private function checkUserLock($mobile)
     {
-        return UserAuth::select("mobile")->where('mobile', '=', $mobile)->where('status','=',1)->first();
+        $user = UserAuth::select("mobile")->where('mobile', '=', $mobile)->where('status','=',1)->first();
+        return $user ? true : false;
     }
 
 }
