@@ -74,6 +74,15 @@ class UserAuthFactory extends ApiFactory
     }
 
     /**
+     * 从用户主表中获取用户的手机号和是否设置密码
+     * @param $mobile
+     */
+    public static function getMobileAndIndent($mobile)
+    {
+        return UserAuth::where('mobile', '=', $mobile)->where('status', '=', '1')->first();
+    }
+
+    /**
      * 通过用户主键userId获取用户mobile
      * @param $userId
      * @return mixed|string
@@ -137,7 +146,7 @@ class UserAuthFactory extends ApiFactory
      */
     public static function setUserPasswordAndToken($userId, $password)
     {
-        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'accessToken' => TokenGenerator::generateToken()]);
+        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'access_token' => TokenGenerator::generateToken()]);
     }
 
     /**
@@ -179,5 +188,13 @@ class UserAuthFactory extends ApiFactory
     public static function updateUserTokenById($userId, $token)
     {
         return UserAuth::where('id', '=', $userId)->update(['access_token' => $token]);
+    }
+
+    /**
+     * 添加用户
+     */
+    public static function createUser($data)
+    {
+        return UserAuth::insert($data);
     }
 }
