@@ -137,7 +137,7 @@ class UserAuthFactory extends ApiFactory
      */
     public static function setUserPasswordAndToken($userId, $password)
     {
-        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'accessToken' => TokenGenerator::generateToken()]);
+        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'access_token' => TokenGenerator::generateToken()]);
     }
 
     /**
@@ -179,5 +179,13 @@ class UserAuthFactory extends ApiFactory
     public static function updateUserTokenById($userId, $token)
     {
         return UserAuth::where('id', '=', $userId)->update(['access_token' => $token]);
+    }
+
+    /**
+     * 添加用户
+     */
+    public static function createUser($data)
+    {
+        return UserAuth::insert($data);
     }
 }
