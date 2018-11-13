@@ -1,12 +1,12 @@
 <?php
-Route::group(['namespace' => 'V1', 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
 
     /**
      *   Auth API
      */
     $router->group(['prefix' => 'auth'], function ($router) {
         // 正常登陆
-        $router->any('login', ['uses' => 'AuthController@login']);
+        $router->any('login', ['middleware' => ['valiApi:login'],'uses' => 'AuthController@login']);
         //快捷注册
         $router->any('quicklogin', ['uses' => 'AuthController@quickLogin']);
         // 用户退出
@@ -73,13 +73,13 @@ Route::group(['namespace' => 'V1', 'as' => 'api.', 'prefix' => 'v1'], function (
         //订单
         $router->group(['prefix' => 'order'], function ($router) {
             //订单列表
-            $router->any('list', ['uses' => 'OrderController@list']);
+            $router->any('list', ['uses' => 'UserOrderController@list']);
             //订单详情
-            $router->any('info', ['uses' => 'OrderController@info']);
+            $router->any('info', ['uses' => 'UserOrderController@info']);
             //创建订单
-            $router->get('create', ['uses' => 'OrderController@create']);
+            $router->get('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
             //订单状态
-            $router->any('status', ['uses' => 'OrderController@status']);
+            $router->any('status', ['uses' => 'UserOrderController@status']);
         });
 
         //账户信息

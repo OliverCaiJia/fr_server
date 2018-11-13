@@ -39,7 +39,7 @@ class InviteFactory extends ApiFactory
      * 给邀请表中添加数据（废弃|邀请积分在积分表直接记录）
      * @param $uid
      */
-    public static function insertInvite($uid)
+    public static function createInvite($uid)
     {
         $invite = new UserInvite();
         $invite->user_id = $uid;
@@ -54,19 +54,6 @@ class InviteFactory extends ApiFactory
         }
         $invite->invite_num += 1;
         return $invite->save();
-    }
-
-    /**
-     * @param $userId
-     * @return array
-     * 查询userId邀请码
-     */
-    public static function getCodeData($userId)
-    {
-        $inviteCode = UserInviteCode::select(['code', 'expired_at'])
-            ->where(['user_id' => $userId])
-            ->first();
-        return $inviteCode ? $inviteCode->toArray() : [];
     }
 
     /**
@@ -112,26 +99,6 @@ class InviteFactory extends ApiFactory
             ->where('expired_at', '<=', date('Y-m-d H:i:s', time()))
             ->first();
         return $inviteCode ? $inviteCode->code : 0;
-    }
-
-    /**
-     * @param $data
-     * userId用户邀请流水
-     */
-    public static function fetchInviteLogData($data, $userId)
-    {
-        $pageSize = isset($data['pageSize']) ? $data['pageSize'] : 1;
-        $pageNum = isset($data['pageNum']) ? $data['pageNum'] : 3;
-
-        $invoteObj = UserInviteLog::where(['user_id' => $userId])
-            ->select(['mobile', 'status']);
-        $count = $invoteObj->count();
-        //分页
-        $page = PageStrategy::getPage($count, $pageSize, $pageNum);
-        $invoteArr = $invoteObj->limit($page['limit'])->offset($page['offset'])->orderBy('created_at', 'desc')->get();
-        $invoteLists['list'] = $invoteArr ? $invoteArr->toArray() : [];
-        $invoteLists['pageCount'] = $page['pageCount'];
-        return $invoteLists;
     }
 
     /**

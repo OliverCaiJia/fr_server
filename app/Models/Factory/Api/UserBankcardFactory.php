@@ -16,24 +16,11 @@ class UserBankcardFactory extends ApiFactory
      * @return bool
      * 添加银行卡
      */
-    public static function userBankAdd($data)
+    public static function createUserBank($data)
     {
         $addBank = UserBankcard::save($data);
 
         return $addBank;
-    }
-
-    /**
-     * @param $bank_id
-     * @return bool
-     * 删除银行卡
-     */
-    public static function userBankDelete($bank_id)
-    {
-        $deleteBank = UserBankcard::delete()
-            ->where(['id' => $bank_id]);
-
-        return $deleteBank;
     }
 
     /**
@@ -55,7 +42,7 @@ class UserBankcardFactory extends ApiFactory
      * @return array
      * 获取指定银行卡
      */
-    public static function getUserBankFirst($bank_card_no)
+    public static function getUserBank($bank_card_no)
     {
         $bankFirst = Bank::select()
             ->where(['bank_card_no' => $bank_card_no])
@@ -70,7 +57,7 @@ class UserBankcardFactory extends ApiFactory
      * @return int
      * 更改默认值
      */
-    public static function userBankUpdate($id,$is_default)
+    public static function updateUserBank($id,$is_default)
     {
         $bankUpdate = UserBankcard::where(['id' => $id])
             ->update(['is_default' => $is_default]);

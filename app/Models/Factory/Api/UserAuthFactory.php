@@ -74,6 +74,15 @@ class UserAuthFactory extends ApiFactory
     }
 
     /**
+     * 从用户主表中获取用户的手机号和是否设置密码
+     * @param $mobile
+     */
+    public static function getMobileAndIndent($mobile)
+    {
+        return UserAuth::where('mobile', '=', $mobile)->where('status', '=', '1')->first();
+    }
+
+    /**
      * 通过用户主键userId获取用户mobile
      * @param $userId
      * @return mixed|string
@@ -116,7 +125,7 @@ class UserAuthFactory extends ApiFactory
     public static function updateLoginTime($userId)
     {
         return UserAuth::where('id', $userId)->update([
-            'last_login_time' => date('Y-m-d H:i:s'),
+            'last_login_at' => date('Y-m-d H:i:s'),
             'last_login_ip' => Utils::ipAddress(),
         ]);
     }
@@ -125,7 +134,7 @@ class UserAuthFactory extends ApiFactory
      * @param $data
      * @return mixed
      */
-    public static function updateOrcreate($data)
+    public static function updateOrCreate($data)
     {
         return UserAuth::updateOrCreate(['mobile' => $data['mobile']], $data);
     }
@@ -137,7 +146,7 @@ class UserAuthFactory extends ApiFactory
      */
     public static function setUserPasswordAndToken($userId, $password)
     {
-        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'accessToken' => TokenGenerator::generateToken()]);
+        return UserAuth::where('id', '=', $userId)->update(['password' => $password, 'access_token' => TokenGenerator::generateToken()]);
     }
 
     /**
@@ -164,4 +173,28 @@ class UserAuthFactory extends ApiFactory
         return $updateMobile;
     }
 
+    /**
+     * 修改用户主表中的status 为激活状态 1
+     * @param $user_id
+     */
+    public static function setUserStatus($userId)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['status' => 1]);
+    }
+
+    /**
+     * 更新用户的accessToken
+     */
+    public static function updateUserTokenById($userId, $token)
+    {
+        return UserAuth::where('id', '=', $userId)->update(['access_token' => $token]);
+    }
+
+    /**
+     * 添加用户
+     */
+    public static function createUser($data)
+    {
+        return UserAuth::insert($data);
+    }
 }
