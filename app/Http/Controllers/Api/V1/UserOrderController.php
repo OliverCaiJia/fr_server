@@ -43,8 +43,8 @@ class UserOrderController extends ApiController
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['info'][] = [
-                "amount" => $uOrder->amount,
-                "status" => $uOrder->status
+                "amount" => $uOrder['amount'],
+                "status" => $uOrder['status']
             ];
         }
         return RestResponseFactory::ok($res);
