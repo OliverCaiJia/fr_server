@@ -4,6 +4,8 @@ namespace App\Strategies;
 
 use App\Helpers\Utils;
 use App\Models\Chain\Order\DoAssignHandler;
+use App\Models\Factory\Api\UserOrderFactory;
+use Illuminate\Http\Request;
 
 class UserOrderStrategy extends AppStrategy
 {
@@ -14,11 +16,11 @@ class UserOrderStrategy extends AppStrategy
      *
      * @return string
      */
-    public static function createOrderNid($type = 'SGD')
+    public static function createOrderNo($type = 'SGD')
     {
-        $nid = date('Y') . date('m') . date('d') . date('H') . date('i') . date('s') . '-' . Utils::randomNumber();
+        $NO = date('Y') . date('m') . date('d') . date('H') . date('i') . date('s') . '-' . Utils::randomNumber();
 
-        return $type . '-' . $nid;
+        return $type . '-' . $NO;
     }
 
     /**
@@ -74,5 +76,12 @@ class UserOrderStrategy extends AppStrategy
         }
 
         return $status;
+    }
+
+    public static function getUserIdByXToken(Request $request)
+    {
+        $token = $request->input('token') ?: $request->header('X-Token');
+        $userOrder = UserOrderFactory::getUserAuthByAccessToken($token);
+        return $userOrder['id'];
     }
 }
