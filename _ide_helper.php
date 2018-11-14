@@ -16,17 +16,6 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
-     * @method static string version()
-     * @method static string basePath()
-     * @method static string environment()
-     * @method static bool isDownForMaintenance()
-     * @method static void registerConfiguredProviders()
-     * @method static \Illuminate\Support\ServiceProvider register(\Illuminate\Support\ServiceProvider|string $provider, array $options = [], bool $force = false)
-     * @method static void registerDeferredProvider(string $provider, string $service = null)
-     * @method static void boot()
-     * @method static void booting(mixed $callback)
-     * @method static void booted(mixed $callback)
-     * @method static string getCachedServicesPath()
      * @see \Illuminate\Foundation\Application
      */ 
     class App {
@@ -1367,11 +1356,6 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
-     * @method static int handle(\Symfony\Component\Console\Input\InputInterface $input, \Symfony\Component\Console\Output\OutputInterface $output = null)
-     * @method static int call(string $command, array $parameters = [], $outputBuffer = null)
-     * @method static int queue(string $command, array $parameters = [])
-     * @method static array all()
-     * @method static string output()
      * @see \Illuminate\Contracts\Console\Kernel
      */ 
     class Artisan {
@@ -1514,21 +1498,6 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
-     * @method static mixed guard(string|null $name = null)
-     * @method static void shouldUse(string $name);
-     * @method static bool check()
-     * @method static bool guest()
-     * @method static \Illuminate\Contracts\Auth\Authenticatable|null user()
-     * @method static int|null id()
-     * @method static bool validate(array $credentials = [])
-     * @method static void setUser(\Illuminate\Contracts\Auth\Authenticatable $user)
-     * @method static bool attempt(array $credentials = [], bool $remember = false)
-     * @method static bool once(array $credentials = [])
-     * @method static void login(\Illuminate\Contracts\Auth\Authenticatable $user, bool $remember = false)
-     * @method static \Illuminate\Contracts\Auth\Authenticatable loginUsingId(mixed $id, bool $remember = false)
-     * @method static bool onceUsingId(mixed $id)
-     * @method static bool viaRemember()
-     * @method static void logout()
      * @see \Illuminate\Auth\AuthManager
      * @see \Illuminate\Contracts\Auth\Factory
      * @see \Illuminate\Contracts\Auth\Guard
@@ -3976,7 +3945,6 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $table
          * @param string $column
-         * @return \Doctrine\DBAL\Schema\Column 
          * @static 
          */ 
         public static function getDoctrineColumn($table, $column)
@@ -3988,7 +3956,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the Doctrine DBAL schema manager for the connection.
          *
-         * @return \Doctrine\DBAL\Schema\AbstractSchemaManager 
          * @static 
          */ 
         public static function getDoctrineSchemaManager()
@@ -4000,7 +3967,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the Doctrine DBAL database connection instance.
          *
-         * @return \Doctrine\DBAL\Connection 
          * @static 
          */ 
         public static function getDoctrineConnection()
@@ -9522,28 +9488,6 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
-     * @method static \Illuminate\Support\Facades\Route get(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route post(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route put(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route delete(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route patch(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route options(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route any(string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route match(array|string $methods, string $uri, \Closure|array|string|null $action = null)
-     * @method static \Illuminate\Support\Facades\Route prefix(string  $prefix)
-     * @method static \Illuminate\Routing\PendingResourceRegistration resource(string $name, string $controller, array $options = [])
-     * @method static \Illuminate\Routing\PendingResourceRegistration apiResource(string $name, string $controller, array $options = [])
-     * @method static \Illuminate\Support\Facades\Route middleware(array|string|null $middleware)
-     * @method static \Illuminate\Support\Facades\Route substituteBindings(\Illuminate\Support\Facades\Route $route)
-     * @method static void substituteImplicitBindings(\Illuminate\Support\Facades\Route $route)
-     * @method static \Illuminate\Support\Facades\Route as(string $value)
-     * @method static \Illuminate\Support\Facades\Route domain(string $value)
-     * @method static \Illuminate\Support\Facades\Route name(string $value)
-     * @method static \Illuminate\Support\Facades\Route namespace(string $value)
-     * @method static \Illuminate\Support\Facades\Route where(array|string $name, string $expression = null)
-     * @method static \Illuminate\Routing\Router group(\Closure|string|array $value, \Closure|string $routes)
-     * @method static \Illuminate\Support\Facades\Route redirect(string $uri, string $destination, int $status = 301)
-     * @method static \Illuminate\Support\Facades\Route view(string $uri, string $view, array $data = [])
      * @see \Illuminate\Routing\Router
      */ 
     class Route {
@@ -10333,10 +10277,7 @@ namespace Illuminate\Support\Facades {
     /**
      * 
      *
-     * @method static \Illuminate\Database\Schema\Builder create(string $table, \Closure $callback)
-     * @method static \Illuminate\Database\Schema\Builder drop(string $table)
-     * @method static \Illuminate\Database\Schema\Builder dropIfExists(string $table)
-     * @method static \Illuminate\Database\Schema\Builder table(string $table, \Closure $callback)
+
      * @see \Illuminate\Database\Schema\Builder
      */ 
     class Schema {
@@ -11560,7 +11501,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a temporary URL for the file at the given path.
          *
-         * @param \League\Flysystem\AwsS3v3\AwsS3Adapter $adapter
          * @param string $path
          * @param \DateTimeInterface $expiration
          * @param array $options
@@ -11575,7 +11515,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a temporary URL for the file at the given path.
          *
-         * @param \League\Flysystem\Rackspace\RackspaceAdapter $adapter
          * @param string $path
          * @param \DateTimeInterface $expiration
          * @param array $options
