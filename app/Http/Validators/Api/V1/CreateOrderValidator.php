@@ -11,7 +11,10 @@ class CreateOrderValidator extends AbstractValidator
      * @var Array
      */
     protected $rules = array(
-        'bankId' => ['required','integer'],
+        'order_type' => ['required','integer'],
+        'terminal_nid' => ['required','string'],
+        'amount' => ['required','numeric'],
+        'count' => ['required','integer'],
     );
 
     /**
@@ -20,7 +23,10 @@ class CreateOrderValidator extends AbstractValidator
      * @var Array
      */
     protected $messages = array(
-        'bankId.required' => '所选银行必须存在',
+        'order_type.required' => '订单类型必须是整数',
+        'terminal_nid.required' => '终端标识必须存在',
+        'amount.required' => '订单金额必须是数字',
+        'count.required' => '订单数量必须是整数',
     );
 
 }
