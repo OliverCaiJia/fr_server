@@ -28,13 +28,11 @@ class InviteController extends Controller
      */
     public function link(Request $request)
     {
-        $token = $this->getToken($request);
-        //通过token获取uid
-        $userId = UserAuthFactory::getUserByToken($token);
+        $uid = $request->user()->id;
         //用户名
-        $inviteArr['username'] = UserAuthFactory::fetchUserName($userId['id']);
+        $inviteArr['username'] = UserAuthFactory::fetchUserName($uid);
         //分享链接
-        $inviteCode = InviteFactory::fetchInviteCode($userId['id']);
+        $inviteCode = InviteFactory::fetchInviteCode($uid);
         $inviteArr['share_link'] = LinkUtils::shareLanding($inviteCode);
         //短信内容
         $inviteArr['sms_content'] = SmsStrategy::getSmsContent($inviteArr['share_link']);
@@ -47,16 +45,13 @@ class InviteController extends Controller
      */
     public function sqcode(Request $request)
     {
-        $token = $this->getToken($request);
-        //通过token获取uid
-        $userId = UserAuthFactory::getUserByToken($token);
+        $uid = $request->user()->id;
         $sizeArr = $request->all();
         //邀请码
-        $inviteCode = InviteFactory::fetchInviteCode($userId['id']);
+        $inviteCode = InviteFactory::fetchInviteCode($uid);
         //扫码链接
         $landig = LinkUtils::shareLanding($inviteCode);
-        $QrCode = QrCode::size($sizeArr['size'])->generate($landig);
-        print_r($QrCode);die;
+        return QrCode::size($sizeArr['size'])->generate($landig);
     }
 
 }
