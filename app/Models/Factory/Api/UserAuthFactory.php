@@ -207,4 +207,17 @@ class UserAuthFactory extends ApiFactory
     {
         return UserAuth::insert($data);
     }
+
+    /**
+     * 根据token获取用户信息
+     * @param $accessToken
+     * @return array
+     */
+    public static function getUserAuthByAccessToken($accessToken)
+    {
+        $userAuth = UserAuth::select()
+            ->where('access_token', '=', $accessToken)
+            ->first();
+        return $userAuth ? $userAuth->toArray() : [];
+    }
 }
