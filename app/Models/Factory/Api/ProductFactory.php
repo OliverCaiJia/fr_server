@@ -54,4 +54,17 @@ class ProductFactory extends ApiFactory
 
         return $productArr ? $productArr->toArray() : [];
     }
+
+    /**
+     * @param $platform_id
+     * 获取推荐产品列表
+     */
+    public static function getLoadProducts()
+    {
+        $productArr = Product::select('platform_product_name','product_logo','product_introduct','loan_min','loan_max')
+                ->where('online_status', 0)
+                ->get();
+
+        return $productArr ? $productArr->toArray() : [];
+    }
 }

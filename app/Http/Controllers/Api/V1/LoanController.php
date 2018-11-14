@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Models\Factory\Api\ProductFactory;
+use App\Models\Orm\Product;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -12,10 +14,7 @@ class LoanController extends Controller
      */
     public function products()
     {
-        $data = [['product_id' => 1,
-            'platform_product_name' => '速贷之家',
-            'product_log' => 'img_url',
-            'product_introduct' => '产品描述']];
+        $data = ProductFactory::getLoadProducts();
         return RestResponseFactory::ok($data);
     }
 }
