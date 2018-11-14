@@ -29,7 +29,8 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
      */
     $router->group(['prefix' => 'user'], function ($router) {
         // 
-        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
+        $router->any('report', ['uses' => 'UserController@report']);
+//        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
     }); 
 
 });
