@@ -30,6 +30,7 @@ class UserOrderController extends ApiController
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
                 "order_no" => $uOrder['order_no'],
+                "order_type" => $uOrder['order_type'],
                 "create_at" => $uOrder['create_at'],
                 "amount" => $uOrder['amount'],
                 "term" => $uOrder['term'],
