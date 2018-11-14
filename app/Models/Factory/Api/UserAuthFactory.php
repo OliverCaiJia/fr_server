@@ -95,6 +95,16 @@ class UserAuthFactory extends ApiFactory
     }
 
     /**
+     * 返回用户name
+     */
+    public static function fetchUserName($userId)
+    {
+        $userAuth = UserAuth::select(['user_name', 'mobile'])->where(['id' => $userId])->first();
+        return isset($userAuth->user_name) ? trim($userAuth->user_name) : "";
+    }
+
+
+    /**
      * 通过用户token获取用户mobile
      * @param $userId
      * @return mixed|string

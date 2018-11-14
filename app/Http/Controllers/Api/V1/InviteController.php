@@ -1,22 +1,19 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1;
 
-use App\Constants\ConfigConstant;
-use App\Helpers\DateUtils;
 use App\Helpers\LinkUtils;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Controller;
-use App\Models\Factory\ConfigFactory;
-use App\Models\Factory\InviteFactory;
-use App\Models\Factory\UserFactory;
+use App\Models\Factory\Api\InviteFactory;
 use App\Models\Orm\SystemConfig;
 use App\Strategies\InviteStrategy;
 use App\Strategies\SmsStrategy;
 use Illuminate\Http\Request;
+use App\Models\Factory\Api\UserAuthFactory;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Constants\InviteConstant;
 
 /**
  * Class InviteController
@@ -31,9 +28,17 @@ class InviteController extends Controller
      */
     public function link(Request $request)
     {
+        $token = $this->getToken($request);
+        //通过token获取uid
+        $userId = UserAuthFactory::getUserByToken($token);
+        //用户名
+        $inviteArr['username'] = UserAuthFactory::fetchUserName($userId['id']);
         //分享链接
-        $data = ['share_link' => "https://m.sudaizhijia.com/html/mine_aboutour.html?sd_invite_code=1612cMSjoD"];
-        return RestResponseFactory::ok($data);
+        $inviteCode = InviteFactory::fetchInviteCode($userId['id']);
+        $inviteArr['share_link'] = LinkUtils::shareLanding($inviteCode);
+        //短信内容
+        $inviteArr['sms_content'] = SmsStrategy::getSmsContent($inviteArr['share_link']);
+        return RestResponseFactory::ok($inviteArr);
     }
 
     /**
@@ -42,7 +47,16 @@ class InviteController extends Controller
      */
     public function sqcode(Request $request)
     {
-        return RestResponseFactory::ok();
+        $token = $this->getToken($request);
+        //通过token获取uid
+        $userId = UserAuthFactory::getUserByToken($token);
+        $sizeArr = $request->all();
+        //邀请码
+        $inviteCode = InviteFactory::fetchInviteCode($userId['id']);
+        //扫码链接
+        $landig = LinkUtils::shareLanding($inviteCode);
+        $QrCode = QrCode::size($sizeArr['size'])->generate($landig);
+        print_r($QrCode);die;
     }
 
 }
