@@ -6,8 +6,10 @@ use App\Helpers\Http\HttpClient;
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBasicFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Helpers\RestUtils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserInfoController extends ApiController
 {
@@ -24,13 +26,14 @@ class UserInfoController extends ApiController
      */
     public function updateCertifyinfo(Request $request)
     {
+        $token = $this->getToken($request);
+        $uid = UserAuthFactory::getUserByToken($token);
         $data = $request->all();
 //        $data = [
-//            'user_id' => '1',
 //            'profession' => '0',
 //            'company_name' => '智借网络',
-//            'company_location' => '北京',
-//            'company_address' => '苏州街',
+//            'company_location' => '北京市',
+//            'company_address' => '北京市海淀区苏州街',
 //            'work_time' => '1',
 //            'month_salary' => '3',
 //            'zhima_score' => '667',
@@ -44,7 +47,7 @@ class UserInfoController extends ApiController
 //            'create_at' => '2018-11-12 15:41:16',
 //            'update_at' => '2018-11-12 15:41:16',
 //        ];
-        $UserBasic = UserBasicFactory::UserBasic($data);
+        $UserBasic = UserBasicFactory::createOrUpdateUserBasic($data ,$uid);
         if ($UserBasic) {
             return RestResponseFactory::ok($data);
         } else {
@@ -52,10 +55,16 @@ class UserInfoController extends ApiController
         }
     }
 
+    /**个人资料查询
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchCertifyinfo(Request $request)
     {
-        $userId = $request->input('user_id');
-        $data = UserBasicFactory::fetchUserBasic($userId);
+
+        $token = $this->getToken($request);
+         $uid = UserAuthFactory::getUserByToken($token);
+        $data = UserBasicFactory::fetchUserBasic($uid['id']);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
         }

@@ -1,1 +1,45 @@
-web/invite/home
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" href="">
+    <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/invite/invite.css') }}">
+    <title>水果贷-分享</title>
+</head>
+
+<body>
+    <div class="main">
+        <section>
+            <p><i><img src="/img/invite/invite_number_one.png" alt=""></i><span>活动时间：永久有效</span></p>
+            <p><i><img src="/img/invite/invite_number_two.png" alt=""></i><span>活动期间每邀请一位好友成功付费申请，您将获得奖励金36元</span></p>
+            <p><i><img src="/img/invite/invite_number_three.png" alt=""></i><span>举个例子:您每天成功邀请10人,您将获得360元,一个月您将有10800元业余收入</span></p>
+        </section>
+        <section>
+            <p>满100元可随时取现</p>
+            <router-link to=''>立即提现</router-link>
+        </section>
+        <section>
+            <p> <span>当面扫码或<br>分享链接给好友</span> <span>好友成功付费</span> <span>提取奖金</span> </p>
+        </section>
+        <section> <img src="/img/invite/invite_bg4_title.png" alt="">
+            <ul>
+                <li> <span>账号</span> <span>奖项</span> <span>奖金</span> </li>
+                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
+                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
+                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
+                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
+                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
+                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
+                <li> <span>合计</span> <span>--</span> <span>+70</span> </li>
+            </ul>
+        </section>
+        <p class="btn">立即邀请</p>
+    </div>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+</body>
+
+</html>

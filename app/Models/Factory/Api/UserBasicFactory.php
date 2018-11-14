@@ -44,36 +44,14 @@ class UserBasicFactory extends ApiFactory
     /**
      * 创建或更新用户基础信息
      * @param $data
-     * @param $userId
+     * @param array $uid
      * @return bool
      */
-    public static function createOrUpdateUserBasic($userId, $data)
+    public static function createOrUpdateUserBasic($data,$uid = [])
     {
-        $userBasic = UserBasic::where(['user_id' => $userId])->first();
-        if (empty($userBasic)) {
-            $userBasic = new UserBasic();
-            //只创建一次不修改
-            $userBasic->create_at = date('Y-m-d H:i:s', time());
-            $userBasic->create_id = $userId;
-            $userBasic->create_ip = Utils::ipAddress();
-            $userBasic->outApplyNo = $userId . date('Ymd', time()) . time() . rand(1000, 9999);
-        }
-        $userBasic->user_id = $userId;
-        $userBasic->real_name = $data['realName'];
-        $userBasic->identity_card = $data['identityCard'];
-        $userBasic->sex = $data['sex'];
-        $userBasic->age = intval($data['age']);
-        $userBasic->update_at = date('Y-m-d H:i:s', time());
-        $userBasic->update_id = $userId;
-        $userBasic->update_ip = Utils::ipAddress();
-        return $userBasic->save();
-    }
-
-    public static function UserBasic($data)
-    {
-        $UserData = UserBasic::where(['user_id' => $data['user_id']])->first();
+        $UserData = UserBasic::where(['user_id' => $uid['id']])->first();
+        //如果不为空说明表中没有用户的个人信息,创建
         if (!empty($UserData)) {
-            $UserData->user_id = $data['user_id'];
             $UserData->profession = $data['profession'];
             $UserData->company_name = $data['company_name'];
             $UserData->company_location = $data['company_location'];
@@ -91,8 +69,9 @@ class UserBasicFactory extends ApiFactory
             $UserData->update_at = date('Y-m-d H:i:s');
             return $UserData->save();
         } else {
+            //如果为空,修改
             $UserBasic = new UserBasic();
-            $UserBasic->user_id = $data['user_id'];
+            $UserBasic->user_id = $uid['id'];
             $UserBasic->profession = $data['profession'];
             $UserBasic->company_name = $data['company_name'];
             $UserBasic->company_location = $data['company_location'];
