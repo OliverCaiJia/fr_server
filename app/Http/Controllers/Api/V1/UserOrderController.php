@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
+use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 
 class UserOrderController extends ApiController
@@ -16,8 +18,14 @@ class UserOrderController extends ApiController
      */
     public function list(Request $request)//
     {
-        $userId = $request->input('user_id');
+        $userId = UserOrderStrategy::getUserIdByXToken($request);
+        if (empty($userId)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
+        }
         $userOrder = UserOrderFactory::getOrderByUserId($userId);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
+        }
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
@@ -37,9 +45,15 @@ class UserOrderController extends ApiController
      */
     public function info(Request $request)
     {
-        $userId = $request->input('user_id');
+        $userId = UserOrderStrategy::getUserIdByXToken($request);
+        if (empty($userId)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
+        }
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
+        }
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['info'][] = [
@@ -58,8 +72,12 @@ class UserOrderController extends ApiController
     public function create(Request $request)
     {
         $data = $request->all();
-        $userId = $this->getUserId($request);
-        $data['user_id'] = $userId;
+        $data['user_id'] = UserOrderStrategy::getUserIdByXToken($request);
+        if (empty($userId)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
+        }
+        $data['order_no'] = UserOrderStrategy::createOrderNo();
+        //TODO:params
         $res['success'] = UserOrderFactory::createOrder($data);
         return RestResponseFactory::ok($res);
     }
@@ -71,9 +89,15 @@ class UserOrderController extends ApiController
      */
     public function status(Request $request)
     {
-        $userId = $this->getUserId($request);
+        $userId = UserOrderStrategy::getUserIdByXToken($request);
+        if (empty($userId)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
+        }
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getOrderStatusByUserIdOrderNo($userId, $orderNo);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
+        }
         $res['info']['status'] = $userOrder['status'];
         return RestResponseFactory::ok($res);
     }

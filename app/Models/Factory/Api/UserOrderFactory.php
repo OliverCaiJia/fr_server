@@ -3,47 +3,43 @@
 namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
-use App\Helpers\UserAgent;
-use App\Helpers\Utils;
 use App\Models\Orm\AccountPayment;
 use App\Models\Orm\Platform;
+use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderType;
-use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Self_;
 
 class UserOrderFactory extends ApiFactory
 {
-    /**
-     * 创建订单
-     *
-     * @param $data
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public static function createOrder($params)
+
+    public static function createOrder($params, $userId)
     {
         $userOrderObj = new UserOrder();
-        $userOrderObj->user_id = $params['user_id'];
-        $userOrderObj->bank_id = $params['bank_id'];
-        $userOrderObj->platform_nid = $params['platform_nid'];
-        $userOrderObj->order_no = $params['order_no'];
-        $userOrderObj->payment_order_no = $params['payment_order_no'];//类型+时间+有意义的串
-        $userOrderObj->order_expired = $params['order_expired'];
+        $userOrderObj->user_id = $userId;
+        //TODO::
+//        $userOrderObj->bank_id = $params['bank_id'];
+//        $userOrderObj->platform_nid = $params['platform_nid'];
+//        $userOrderObj->order_no = $params['order_no'];
+//        $userOrderObj->payment_order_no = $params['payment_order_no'];//类型+时间+有意义的串
+//        $userOrderObj->order_expired = $params['order_expired'];
         $userOrderObj->order_type = $params['order_type'];
-        $userOrderObj->payment_type = $params['payment_type'];
-        $userOrderObj->pay_type = $params['pay_type'];
-        $userOrderObj->terminaltype = $params['terminaltype'];
+//        $userOrderObj->payment_type = $params['payment_type'];
+//        $userOrderObj->pay_type = $params['pay_type'];
+//        $userOrderObj->terminaltype = $params['terminaltype'];
         $userOrderObj->terminalid = $params['terminalid'];
-        $userOrderObj->card_num = $params['card_num'];
-        $userOrderObj->lastno = $params['lastno'];
-        $userOrderObj->cardtype = $params['cardtype'];
+//        $userOrderObj->card_num = $params['card_num'];
+//        $userOrderObj->lastno = $params['lastno'];
+//        $userOrderObj->cardtype = $params['cardtype'];
         $userOrderObj->amount = $params['amount'];
-        $userOrderObj->status = $params['status'];
-        $userOrderObj->request_text = $params['request_text'];
-        $userOrderObj->response_text = $params['response_text'];
-        $userOrderObj->user_agent = UserAgent::i()->getUserAgent();
-        $userOrderObj->create_ip = Utils::ipAddress();
-        $userOrderObj->update_ip = Utils::ipAddress();
-        $userOrderObj->create_at = date('Y-m-d H:i:s', time());
+        $userOrderObj->count = $params['count'];
+//        $userOrderObj->status = $params['status'];
+//        $userOrderObj->request_text = $params['request_text'];
+//        $userOrderObj->response_text = $params['response_text'];
+//        $userOrderObj->user_agent = UserAgent::i()->getUserAgent();
+//        $userOrderObj->create_ip = Utils::ipAddress();
+//        $userOrderObj->update_ip = Utils::ipAddress();
+//        $userOrderObj->create_at = date('Y-m-d H:i:s', time());
         return $userOrderObj->save();
     }
 
@@ -122,7 +118,16 @@ class UserOrderFactory extends ApiFactory
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->where('order_no', '=', $orderNo)
-            ->get();
+            ->first();
         return $userOrder ? $userOrder->toArray() : [];
+    }
+
+
+    public static function getUserAuthByAccessToken($accessToken)
+    {
+        $userAuth = UserAuth::select()
+            ->where('access_token', '=', $accessToken)
+            ->first();
+        return $userAuth ? $userAuth->toArray() : [];
     }
 }
