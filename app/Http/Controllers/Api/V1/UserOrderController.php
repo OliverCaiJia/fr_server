@@ -32,6 +32,7 @@ class UserOrderController extends ApiController
                 "order_no" => $uOrder['order_no'],
                 "create_at" => $uOrder['create_at'],
                 "amount" => $uOrder['amount'],
+                "term" => $uOrder['term'],
                 "status" => $uOrder['status']
             ];
         }
@@ -73,8 +74,8 @@ class UserOrderController extends ApiController
     {
         $data = $request->all();
         $data['user_id'] = UserOrderStrategy::getUserIdByXToken($request);
-        if (empty($userId)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
+        if (empty($data['user_id'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1199),1199);
         }
         $data['order_no'] = UserOrderStrategy::createOrderNo();
         //TODO:params
