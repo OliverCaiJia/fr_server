@@ -7,9 +7,10 @@ use App\Services\Core\Validator\ValidatorService;
 
 class TestController extends ApiController
 {
-    //创蓝短信测试
-    public function sms(){
+    //易宝支付
+    public function test(){
 
+        echo 'aaa';exit;
     }
 
     //face++

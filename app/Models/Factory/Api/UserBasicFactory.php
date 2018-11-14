@@ -49,7 +49,7 @@ class UserBasicFactory extends ApiFactory
      */
     public static function createOrUpdateUserBasic($data,$uid = [])
     {
-        $UserData = UserBasic::where(['user_id' => $uid['id']])->first();
+        $UserData = UserBasic::where(['user_id' => $uid])->first();
         //如果不为空说明表中没有用户的个人信息,创建
         if (!empty($UserData)) {
             $UserData->profession = $data['profession'];
@@ -71,7 +71,7 @@ class UserBasicFactory extends ApiFactory
         } else {
             //如果为空,修改
             $UserBasic = new UserBasic();
-            $UserBasic->user_id = $uid['id'];
+            $UserBasic->user_id = $uid;
             $UserBasic->profession = $data['profession'];
             $UserBasic->company_name = $data['company_name'];
             $UserBasic->company_location = $data['company_location'];

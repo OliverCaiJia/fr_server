@@ -4,13 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserInviteLog extends AbsBaseModel
+class UserInviteCode extends AbsBaseModel
 {
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'user_invite_log';
+    const TABLE_NAME = 'user_invite_code';
     const PRIMARY_KEY = 'id';
 
     /**

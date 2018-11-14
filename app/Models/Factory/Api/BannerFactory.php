@@ -21,29 +21,38 @@ class BannerFactory extends ApiFactory
         return $typeId ? $typeId->id : '';
     }
 
+    public static function IsBanner($type)
+    {
+        switch ($type) {
+            case 'home':
+                $typeNid = 1;
+                return $data = self::fetchBanners($typeNid);
+                break;
+            case 'invite':
+                $typeNid = 2;
+                return $data = self::fetchBanners($typeNid);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * 获取轮播图信息
      * @param $typeNid
      * @param $status
      * @return array
      */
-    public static function fetchBanners($typeNid, $status)
+    public static function fetchBanners($typeNid)
     {
         //type_id 1 广告，status 1 存在
-        $time = date('Y-m-d H:i:s', time());
-        $bannerList = Banner::where(['status' => $status, 'type_nid' => $typeNid])
+        $bannerList = Banner::where(['status' => 0, 'banner_type_id' => $typeNid])
             ->orderBy('position')
             ->limit(5)
             ->select('banner_name',
-                'banner_type_id',
-                'banner_type_nid',
                 'position',
                 'img_address',
-                'img_href',
-                'create_at',
-                'create_ip',
-                'update_at',
-                'update_ip')
+                'img_href')
             ->get()->toArray();
         return $bannerList ? $bannerList : [];
     }

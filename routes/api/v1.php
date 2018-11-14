@@ -8,7 +8,7 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         // 正常登陆
         $router->any('login', ['middleware' => ['valiApi:login'],'uses' => 'AuthController@login']);
         //快捷注册
-        $router->any('quicklogin', ['uses' => 'AuthController@quickLogin']);
+        $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'],'uses' => 'AuthController@quickLogin']);
         // 用户退出
         $router->any('logout', ['uses' => 'AuthController@logout']);
     });
@@ -18,7 +18,7 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
      */
     $router->group(['prefix' => 'sms'], function ($router) {
         //注册短信验证码
-        $router->any('register', ['uses' => 'SmsController@register']);
+        $router->any('register', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@register']);
         //修改密码短信验证码
         $router->any('password', ['uses' => 'SmsController@password']);
         //忘记密码

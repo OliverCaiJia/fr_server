@@ -26,8 +26,7 @@ class UserInfoController extends ApiController
      */
     public function updateCertifyinfo(Request $request)
     {
-        $token = $this->getToken($request);
-        $uid = UserAuthFactory::getUserByToken($token);
+        $uid = $request->user()->id;
         $data = $request->all();
 //        $data = [
 //            'profession' => '0',
@@ -47,7 +46,7 @@ class UserInfoController extends ApiController
 //            'create_at' => '2018-11-12 15:41:16',
 //            'update_at' => '2018-11-12 15:41:16',
 //        ];
-        $UserBasic = UserBasicFactory::createOrUpdateUserBasic($data ,$uid);
+        $UserBasic = UserBasicFactory::createOrUpdateUserBasic($data, $uid);
         if ($UserBasic) {
             return RestResponseFactory::ok($data);
         } else {
@@ -61,10 +60,8 @@ class UserInfoController extends ApiController
      */
     public function fetchCertifyinfo(Request $request)
     {
-
-        $token = $this->getToken($request);
-         $uid = UserAuthFactory::getUserByToken($token);
-        $data = UserBasicFactory::fetchUserBasic($uid['id']);
+        $uid = $request->user()->id;
+        $data = UserBasicFactory::fetchUserBasic($uid);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
         }

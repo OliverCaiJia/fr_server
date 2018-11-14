@@ -2,11 +2,8 @@
 
 namespace App\Models\Chain\Register;
 
-use App\Models\Factory\AuthFactory;
-use App\Models\Factory\UserFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Chain\AbstractHandler;
-use App\Helpers\Generator\TokenGenerator;
-use App\Models\Chain\Register\FetchUserInfoAction;
 use Cache;
 use Carbon\Carbon;
 
@@ -21,7 +18,8 @@ class RenovateTokenAction extends AbstractHandler
         $this->params = $params;
     }
 
-    /*     * 刷新用户token
+    /*
+     * 刷新用户token
      * @return array
      */
 
@@ -43,10 +41,10 @@ class RenovateTokenAction extends AbstractHandler
      */
     private function renovateToken($params)
     {
-        $user = UserFactory::getUserById($params['sd_user_id']);
+        $user = UserAuthFactory::getUserById($params['id']);
         if ($user)
         {
-            Cache::put('user_token_' . $params['sd_user_id'], $user, Carbon::now()->addDays(7));
+            Cache::put('user_token_' . $params['id'], $user, Carbon::now()->addDays(7));
 	        return true;
         }
         return false;

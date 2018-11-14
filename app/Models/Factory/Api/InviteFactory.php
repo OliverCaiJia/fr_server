@@ -5,6 +5,8 @@ namespace App\Models\Factory\Api;
 use App\Helpers\Utils;
 use App\Models\Orm\UserInvite;
 use App\Models\Orm\UserInviteLog;
+use App\Models\Orm\UserInviteCode;
+use App\Strategies\InviteStrategy;
 
 /**
  * Class InviteFactory
@@ -57,6 +59,26 @@ class InviteFactory extends ApiFactory
     }
 
     /**
+     * @param $data
+     * @return mixed
+     */
+
+    public static function createUserInvite($data){
+        $inviteObj = UserInvite::firstOrCreate(['user_id' => $data['user_id']], [
+            'user_id' => intval($data['id']),
+            'mobile' => $data['mobile'],
+            'channel_nid' => $data['channel_nid'],
+            'code' => $data['sd_invite_code'],
+            'create_at' => date('Y-m-d H:i:s', time()),
+            'create_ip' => Utils::ipAddress(),
+            'update_at' => date('Y-m-d H:i:s', time()),
+            'update_ip' => Utils::ipAddress(),
+        ]);
+        return $inviteObj->save();
+
+    }
+
+    /**
      * @param $userId
      * @return array
      * 验证并生成邀请码
@@ -67,13 +89,13 @@ class InviteFactory extends ApiFactory
             'user_id' => $userId,
             'code' => InviteStrategy::createCode(),
             'status' => 0,
-            'created_user_id' => $userId,
+            'create_id' => $userId,
             'expired_at' => '2116-01-01 00:00:00',
-            'created_at' => date('Y-m-d H:i:s', time()),
-            'created_ip' => Utils::ipAddress(),
-            'updated_at' => date('Y-m-d H:i:s', time()),
-            'updated_user_id' => $userId,
-            'updated_ip' => Utils::ipAddress(),
+            'create_at' => date('Y-m-d H:i:s', time()),
+            'create_ip' => Utils::ipAddress(),
+            'update_at' => date('Y-m-d H:i:s', time()),
+            'update_id' => $userId,
+            'update_ip' => Utils::ipAddress(),
         ]);
         $now = date('Y-m-d H:i:s', time());
         if ($inviteCode->expired_at < $now) {

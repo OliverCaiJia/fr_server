@@ -87,9 +87,8 @@ class UserController extends Controller
      */
     public function serInfo(Request $request)
     {
-        $token = $this->getToken($request);
-        $userId = UserAuthFactory::getUserByToken($token);
-        $data = UserRealnameFactory::fetchUserRealname($userId['id']);
+        $uid = $request->user()->id;
+        $data = UserRealnameFactory::fetchUserRealname($uid);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
         }
