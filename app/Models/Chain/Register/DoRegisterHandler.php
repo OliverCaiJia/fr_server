@@ -23,6 +23,8 @@ class DoRegisterHandler extends AbstractHandler
     /**
      * 第一步:检查验证码和sign是否正确
      * 第二步:用户主表插入数据
+     * 第三步:用戶分享数据插入
+     * 第四步:返回用户信息
      *
      */
 
