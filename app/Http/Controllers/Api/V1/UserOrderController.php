@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
+use App\Helpers\UserAgent;
+use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Strategies\UserOrderStrategy;
@@ -16,7 +18,7 @@ class UserOrderController extends ApiController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function list(Request $request)//
+    public function list(Request $request)
     {
         $userId = UserOrderStrategy::getUserIdByXToken($request);
         if (empty($userId)) {
@@ -78,8 +80,20 @@ class UserOrderController extends ApiController
         if (empty($data['user_id'])) {
             return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1199),1199);
         }
+        $data['order_type'] = $request->input('order_type');
+        $data['terminal_nid'] = $request->input('terminal_nid');
+        $data['platform_nid'] = '';
+        $data['term'] = 0;
+        $data['request_text'] = '';
+        $data['response_text'] = '';
+        $data['amount'] = $request->input('amount');
+        $data['count'] = $request->input('count');
         $data['order_no'] = UserOrderStrategy::createOrderNo();
-        //TODO:params
+        $data['order_expired'] = '2018-8-9';//TODO::
+        $data['user_agent'] = UserAgent::i()->getUserAgent();
+        $data['create_ip'] = Utils::ipAddress();
+        $data['update_ip'] = Utils::ipAddress();
+        $data['create_at'] = date('Y-m-d H:i:s', time());
         $res['success'] = UserOrderFactory::createOrder($data);
         return RestResponseFactory::ok($res);
     }

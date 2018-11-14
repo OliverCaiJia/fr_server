@@ -3,43 +3,42 @@
 namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
-use App\Models\Orm\AccountPayment;
+use App\Helpers\UserAgent;
+use App\Helpers\Utils;
 use App\Models\Orm\Platform;
 use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderType;
-use phpDocumentor\Reflection\Types\Self_;
 
+/**
+ * Class UserOrderFactory
+ * @package App\Models\Factory\Api
+ */
 class UserOrderFactory extends ApiFactory
 {
-
-    public static function createOrder($params, $userId)
+    /**
+     * 创建订单
+     * @param $params
+     * @return bool
+     */
+    public static function createOrder($params)
     {
         $userOrderObj = new UserOrder();
-        $userOrderObj->user_id = $userId;
-        //TODO::
-//        $userOrderObj->bank_id = $params['bank_id'];
-//        $userOrderObj->platform_nid = $params['platform_nid'];
-//        $userOrderObj->order_no = $params['order_no'];
-//        $userOrderObj->payment_order_no = $params['payment_order_no'];//类型+时间+有意义的串
-//        $userOrderObj->order_expired = $params['order_expired'];
+        $userOrderObj->user_id = $params['user_id'];
+        $userOrderObj->order_no = $params['order_no'];
+        $userOrderObj->order_expired = $params['order_expired'];//读配置
         $userOrderObj->order_type = $params['order_type'];
-//        $userOrderObj->payment_type = $params['payment_type'];
-//        $userOrderObj->pay_type = $params['pay_type'];
-//        $userOrderObj->terminaltype = $params['terminaltype'];
-        $userOrderObj->terminalid = $params['terminalid'];
-//        $userOrderObj->card_num = $params['card_num'];
-//        $userOrderObj->lastno = $params['lastno'];
-//        $userOrderObj->cardtype = $params['cardtype'];
+        $userOrderObj->terminal_nid = $params['terminal_nid'];
+        $userOrderObj->platform_nid = $params['platform_nid'];
+        $userOrderObj->term = $params['term'];
+        $userOrderObj->request_text = $params['request_text'];
+        $userOrderObj->response_text = $params['response_text'];
         $userOrderObj->amount = $params['amount'];
         $userOrderObj->count = $params['count'];
-//        $userOrderObj->status = $params['status'];
-//        $userOrderObj->request_text = $params['request_text'];
-//        $userOrderObj->response_text = $params['response_text'];
-//        $userOrderObj->user_agent = UserAgent::i()->getUserAgent();
-//        $userOrderObj->create_ip = Utils::ipAddress();
-//        $userOrderObj->update_ip = Utils::ipAddress();
-//        $userOrderObj->create_at = date('Y-m-d H:i:s', time());
+        $userOrderObj->user_agent = $params['user_agent'];
+        $userOrderObj->create_ip = $params['create_ip'];
+        $userOrderObj->update_ip = $params['update_ip'];
+        $userOrderObj->create_at = $params['create_at'];
         return $userOrderObj->save();
     }
 
@@ -52,7 +51,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function updateOrderStatusByUserIdAndOrderNo($userId, $orderNo, $status)
     {
-        return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])->update(['status' => $status]);
+        return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
+            ->update(['status' => $status]);
     }
 
     /**
@@ -64,7 +64,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function updateOrderByUserIdAndOrderNo($userId, $orderNo, $data = [])
     {
-        return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])->update($data);
+        return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
+            ->update($data);
     }
 
     /**
@@ -75,7 +76,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderType($nid = UserVipConstant::ORDER_TYPE)
     {
-        $id = UserOrderType::where(['type_nid' => $nid])->value('id');
+        $id = UserOrderType::where(['type_nid' => $nid])
+            ->value('id');
 
         return $id ? $id : 1;
     }
@@ -88,8 +90,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderDetailByOrderNoAndUserId($orderNo, $userId)
     {
-        $userOrder = UserOrder
-            ::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
             ->where([UserOrder::TABLE_NAME . '.user_id' => $userId])
             ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
             ->get();
@@ -104,11 +105,14 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderByUserId($userId)
     {
-        $userOrder = UserOrder::select()->where('user_id', '=', $userId)->get();
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->get();
         return $userOrder ? $userOrder->toArray() : [];
     }
 
     /**
+     * 根据用户id和订单号获取订单状态
      * @param $userId
      * @param $orderNo
      * @return mixed
@@ -122,7 +126,11 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
-
+    /**
+     * 根据token获取用户信息
+     * @param $accessToken
+     * @return array
+     */
     public static function getUserAuthByAccessToken($accessToken)
     {
         $userAuth = UserAuth::select()
