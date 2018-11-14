@@ -3,8 +3,6 @@
 namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
-use App\Helpers\UserAgent;
-use App\Helpers\Utils;
 use App\Models\Orm\Platform;
 use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserOrder;
@@ -124,18 +122,5 @@ class UserOrderFactory extends ApiFactory
             ->where('order_no', '=', $orderNo)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
-    }
-
-    /**
-     * 根据token获取用户信息
-     * @param $accessToken
-     * @return array
-     */
-    public static function getUserAuthByAccessToken($accessToken)
-    {
-        $userAuth = UserAuth::select()
-            ->where('access_token', '=', $accessToken)
-            ->first();
-        return $userAuth ? $userAuth->toArray() : [];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Strategies;
 
 use App\Helpers\Utils;
 use App\Models\Chain\Order\DoAssignHandler;
-use App\Models\Factory\Api\UserOrderFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use Illuminate\Http\Request;
 
 class UserOrderStrategy extends AppStrategy
@@ -81,7 +81,7 @@ class UserOrderStrategy extends AppStrategy
     public static function getUserIdByXToken(Request $request)
     {
         $token = $request->input('token') ?: $request->header('X-Token');
-        $userOrder = UserOrderFactory::getUserAuthByAccessToken($token);
+        $userOrder = UserAuthFactory::getUserAuthByAccessToken($token);
         return $userOrder['id'];
     }
 }
