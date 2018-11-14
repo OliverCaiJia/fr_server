@@ -2,7 +2,7 @@
 
 namespace App\Models\Chain\Register;
 
-use App\Models\Factory\AuthFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\UserFactory;
 use App\Models\Chain\AbstractHandler;
 
@@ -18,7 +18,8 @@ class FetchUserInfoAction extends AbstractHandler
         $this->params = $params;
     }
 
-    /*     * 返回个人信息、返回男女、是否显示选择身份页面
+    /*
+     * 返回个人信息
      * @return array
      */
 
@@ -35,15 +36,14 @@ class FetchUserInfoAction extends AbstractHandler
     }
 
     /**
-     * 查数据库返回个人信息以及性别
+     * 查数据库返回个人信息
      * @param $params
      */
     private function getUserInfo($params)
     {
-        $info = AuthFactory::fetchUserInfo($params['sd_user_id']);
+        $info = UserAuthFactory::getUserById($params['id']);
         if ($info)
         {
-	        $info['flag'] = 0;
             $this->data = $info;
             return true;
         }

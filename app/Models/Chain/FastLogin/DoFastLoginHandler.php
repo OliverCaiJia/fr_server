@@ -27,8 +27,7 @@ class DoFastLoginHandler extends AbstractHandler
      * 第三步: 更新用户最后登录时间
      * 第四步: 刷新token
      * 第五步: 检查是否设置密码 随机生成密码
-     * 第六步: 检查是否设置身份 默认工薪族身份
-     * 第七步: 将用户信息返回
+     * 第六步: 将用户信息返回
      *
      */
 

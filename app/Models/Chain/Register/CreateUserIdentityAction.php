@@ -2,10 +2,9 @@
 
 namespace App\Models\Chain\Register;
 
+use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
-use App\Models\Factory\AuthFactory;
-use App\Models\Factory\UserFactory;
-use App\Models\Chain\Register\RenovateTokenAction;
+use App\Models\Factory\Api\InviteFactory;
 
 class CreateUserIdentityAction extends AbstractHandler
 {
@@ -41,8 +40,17 @@ class CreateUserIdentityAction extends AbstractHandler
      */
     public function createUserIdentity($params)
     {
-    	$params['indent'] = $this->params['user']->indent;
-        return AuthFactory::createUserIdentity($params);
+        if (isset($params['sd_invite_code']) && !empty($params['sd_invite_code'])) {
+            //如果邀请码存在并且不为空,则根据邀请码获得邀请人id
+            $user_id = InviteFactory::fetchInviteUserIdByCode($params['sd_invite_code']);
+            if($user_id){
+                $userInvite = InviteFactory::createUserInvite($params);
+                return $userInvite ? true : false;
+            }else{
+                return false;
+            }
+        }
+        return true;
     }
 
 }

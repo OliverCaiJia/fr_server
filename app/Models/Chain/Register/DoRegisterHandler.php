@@ -3,7 +3,6 @@
 namespace App\Models\Chain\Register;
 
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\Register\CheckCodeAction;
 use DB;
 use App\Helpers\Logger\SLogger;
 /**
@@ -35,30 +34,30 @@ class DoRegisterHandler extends AbstractHandler
     {
         $result = ['error' => '出错啦', 'code' => 1000];
 
-//        DB::beginTransaction();
-//        try
-//        {
+        DB::beginTransaction();
+        try
+        {
             $this->setSuccessor(new CheckCodeAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
-//            if (isset($result['error']))
-//            {
-//                DB::rollback();
-//
-//                SLogger::getStream()->error('用户注册, 事务异常-try');
-//                SLogger::getStream()->error($result['error']);
-//            }
-//            else
-//            {
-//                DB::commit();
-//            }
-//        }
-//        catch (\Exception $e)
-//        {
-//	            DB::rollBack();
-//
-//	            SLogger::getStream()->error('用户注册, 事务异常-catch');
-//	            SLogger::getStream()->error($e->getMessage());
-//        }
+            if (isset($result['error']))
+            {
+                DB::rollback();
+
+                SLogger::getStream()->error('用户注册, 事务异常-try');
+                SLogger::getStream()->error($result['error']);
+            }
+            else
+            {
+                DB::commit();
+            }
+        }
+        catch (\Exception $e)
+        {
+	            DB::rollBack();
+
+	            SLogger::getStream()->error('用户注册, 事务异常-catch');
+	            SLogger::getStream()->error($e->getMessage());
+        }
         return $result;
     }
 

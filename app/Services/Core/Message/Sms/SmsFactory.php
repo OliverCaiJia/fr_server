@@ -10,6 +10,7 @@ use App\Services\Core\Sms\SmsService;
 use App\Strategies\SmsStrategy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Factory\Api\CacheFactory;
 
 /**
  * 短信工厂

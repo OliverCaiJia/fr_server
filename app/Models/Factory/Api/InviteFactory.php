@@ -59,6 +59,26 @@ class InviteFactory extends ApiFactory
     }
 
     /**
+     * @param $data
+     * @return mixed
+     */
+
+    public static function createUserInvite($data){
+        $inviteObj = UserInvite::firstOrCreate(['user_id' => $data['user_id']], [
+            'user_id' => intval($data['id']),
+            'mobile' => $data['mobile'],
+            'channel_nid' => $data['channel_nid'],
+            'code' => $data['sd_invite_code'],
+            'create_at' => date('Y-m-d H:i:s', time()),
+            'create_ip' => Utils::ipAddress(),
+            'update_at' => date('Y-m-d H:i:s', time()),
+            'update_ip' => Utils::ipAddress(),
+        ]);
+        return $inviteObj->save();
+
+    }
+
+    /**
      * @param $userId
      * @return array
      * 验证并生成邀请码

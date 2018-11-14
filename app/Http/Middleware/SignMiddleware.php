@@ -46,6 +46,7 @@ class SignMiddleware
             $sha1Text = $startString . $token . $endString . $salt;
 
             $sha1Sign = sha1($sha1Text);
+            //echo $sha1Sign;exit;
             if ($sign !== $sha1Sign) {
                 //$message = '验签未通过,服务器验签:' . $sha1Sign . ';加密原串:' . $sha1Text;
                 $message = '验签未通过';

@@ -22,15 +22,15 @@ class CheckCodeAction extends AbstractHandler
      */
     public function handleRequest()
     {
-//        if ($this->checkCode($this->params['mobile'],$this->params['code'],$this->params['sign']) == true)
-//        {
+        if ($this->checkCode($this->params['mobile'],$this->params['code'],$this->params['sign']) == true)
+        {
 	        $this->setSuccessor(new CreateUserAction($this->params));
             return $this->getSuccessor()->handleRequest();
-//        }
-//        else
-//        {
-//            return $this->error;
-//        }
+        }
+        else
+        {
+            return $this->error;
+        }
     }
 
     /**

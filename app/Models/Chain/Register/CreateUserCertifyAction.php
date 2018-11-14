@@ -2,9 +2,7 @@
 namespace  App\Models\Chain\Register;
 
 use App\Models\Factory\Api\UserAuthFactory;
-use App\Models\Factory\UserFactory;
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\Register\CreateUserIdentityAction;
 
 class CreateUserCertifyAction extends  AbstractHandler
 {
