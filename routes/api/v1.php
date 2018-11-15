@@ -71,7 +71,7 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         });
 
         //订单
-        $router->group(['prefix' => 'order'], function ($router) {
+        $router->group(['prefix' => 'order','middleware' => ['authApi']], function ($router) {
             //订单列表
             $router->any('list', ['uses' => 'UserOrderController@list']);
             //订单详情
@@ -169,5 +169,10 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         $router->any('products', ['uses' => 'LoanController@products']);
     });
 
-
+    /**
+     *  Test API（调试）
+     */
+    $router->group(['prefix' => 'test'], function ($router) {
+        $router->any('yibao', ['uses' => 'TestController@orderPay']);
+    });
 });

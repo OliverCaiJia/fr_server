@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
-use App\Helpers\UserAgent;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Strategies\OrderStrategy;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 
@@ -20,14 +20,8 @@ class UserOrderController extends ApiController
      */
     public function list(Request $request)
     {
-        $userId = UserOrderStrategy::getUserIdByXToken($request);
-        if (empty($userId)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
-        }
+        $userId = $this->getUserId($request);
         $userOrder = UserOrderFactory::getOrderByUserId($userId);
-        if (empty($userOrder)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
-        }
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
@@ -49,15 +43,9 @@ class UserOrderController extends ApiController
      */
     public function info(Request $request)
     {
-        $userId = UserOrderStrategy::getUserIdByXToken($request);
-        if (empty($userId)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
-        }
+        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
-        if (empty($userOrder)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
-        }
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['info'][] = [
@@ -76,25 +64,29 @@ class UserOrderController extends ApiController
     public function create(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = UserOrderStrategy::getUserIdByXToken($request);
-        if (empty($data['user_id'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1199),1199);
-        }
-        $data['order_type'] = $request->input('order_type');
-        $data['terminal_nid'] = $request->input('terminal_nid');
-        $data['platform_nid'] = '';
-        $data['term'] = 0;
-        $data['request_text'] = '';
-        $data['response_text'] = '';
-        $data['amount'] = $request->input('amount');
-        $data['count'] = $request->input('count');
+        $data['user_id'] = $this->getUserId($request);
         $data['order_no'] = UserOrderStrategy::createOrderNo();
-        $data['order_expired'] = '2018-8-9';//TODO::
-        $data['user_agent'] = UserAgent::i()->getUserAgent();
+        //TODO::  A订单类型方法
+        $orderTypeNid = $request->input('order_type_nid');
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
+        $data['order_type'] = $orderType['id'];
+        $data['payment_log_id'] = $request->input('payment_log_id', 0);
+        $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
+        $data['amount'] = $request->input('amount');
+        $data['term'] = $request->input('term', 0);
+        $data['count'] = $request->input('count');
+        $data['status'] = $request->input('status', 0);
         $data['create_ip'] = Utils::ipAddress();
-        $data['update_ip'] = Utils::ipAddress();
         $data['create_at'] = date('Y-m-d H:i:s', time());
-        $res['success'] = UserOrderFactory::createOrder($data);
+        $data['update_ip'] = Utils::ipAddress();
+        $data['update_at'] = date('Y-m-d H:i:s', time());
+        $data['platform_nid'] = $request->input('platform_nid', '');
+
+        $order = OrderStrategy::getDiffOrderTypeChain($data);
+        $res['order_no'] = $order['order_no'];
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1136),1136);
+        }
         return RestResponseFactory::ok($res);
     }
 
@@ -105,15 +97,9 @@ class UserOrderController extends ApiController
      */
     public function status(Request $request)
     {
-        $userId = UserOrderStrategy::getUserIdByXToken($request);
-        if (empty($userId)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1128),1128);
-        }
+        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getOrderStatusByUserIdOrderNo($userId, $orderNo);
-        if (empty($userOrder)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1150),1150);
-        }
         $res['info']['status'] = $userOrder['status'];
         return RestResponseFactory::ok($res);
     }

@@ -7,6 +7,8 @@ use App\Models\AbsBaseModel;
 
 class UserOrder extends AbsBaseModel
 {
+    public $timestamps = false;
+    public $incrementing = true;
     /**
      *
      *  设置表名

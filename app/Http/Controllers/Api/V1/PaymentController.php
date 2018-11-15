@@ -49,13 +49,13 @@ class PaymentController extends Controller
             "card_type_name" => "储蓄卡",
             "card_last_status" => 1
         ],
-        "price" => "19.90",
-        "price_twice" =>"19.9",
-        "business_name" => "速贷之家",
-        "bug_name" => "信用报告",
-        "expired_time" => "永久有效",
-        "wechat" =>0,
-        "alipay" =>0];
+            "price" => "19.90",
+            "price_twice" =>"19.9",
+            "business_name" => "速贷之家",
+            "bug_name" => "信用报告",
+            "expired_time" => "永久有效",
+            "wechat" =>0,
+            "alipay" =>0];
         return RestResponseFactory::ok($data);
     }
 

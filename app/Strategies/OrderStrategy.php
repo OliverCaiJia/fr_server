@@ -1,34 +1,43 @@
 <?php
 namespace App\Strategies;
 
+use App\Helpers\RestUtils;
+use App\Models\Chain\Order\Loan\DoReportOrderLogicHandler;
+use App\Models\Chain\Order\PayOrder\DoPayOrderHandler;
 use Carbon\Carbon;
 use Medz\IdentityCard\China\Identity;
 
 class OrderStrategy extends AppStrategy
 {
-    /**
-     * 
-     *
-     * @param 
-     *
-     * @return string
-     */
-    public static function doOrder($data)
+    public static function getDiffOrderTypeChain($order)
     {
-        $type = $data['type'];
-        switch($type)
-        {
-            case "EXTRA":
-                // new Handler 
-                // doAction
+        switch ($order['order_type_nid']) {
+
+
+            //付费
+            case 'order_report':
+                $chain = new DoPayOrderHandler($order);
+                $result = $chain->handleRequest();
                 break;
-            case "REPORT":
-                // new Handler 
-                // doAction
+            //增值服务订单
+            case 'order_extra_service':
+                $chain = new DoReportOrderLogicHandler($order);
+                $result = $chain->handleRequest();
+                break;
+
+            //申请产品订单
+            case 'order_product':
+                $chain = new DoReportOrderLogicHandler($order);
+                $result = $chain->handleRequest();
+                break;
+            //贷款
+            case 'order_apply':
+                $chain = new DoReportOrderLogicHandler($order);
+                $result = $chain->handleRequest();
                 break;
             default:
-                break;
+                $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
         }
-        return $res;
+        return $result;
     }
 }
