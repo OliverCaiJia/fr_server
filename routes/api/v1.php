@@ -136,9 +136,9 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'groom'], function ($router) {
-        //推荐服务默认配置
-        $router->any('default', ['uses' => 'GroomController@default']);
+    $router->group(['prefix' => 'Cost'], function ($router) {
+        //推荐服务/信用评估默认配置
+        $router->any('costdefault', ['uses' => 'CostController@costDefault']);
     });
 
     /**
