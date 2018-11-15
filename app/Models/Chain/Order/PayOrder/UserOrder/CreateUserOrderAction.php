@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder;
+namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;

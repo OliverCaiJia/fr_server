@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder;
+namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
 use App\Constants\OrderConstant;
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\Order\Loan\Refuse\CreateUserOrderAction;
 use App\Models\Factory\Api\UserOrderFactory;
 
 class CheckOrderExistsAction extends AbstractHandler
@@ -36,7 +35,6 @@ class CheckOrderExistsAction extends AbstractHandler
     {
         $userId = $params['user_id'];
         $orderType = $params['order_type'];
-//        $userOrder = UserOrderFactory::getOrderByUserId($userId);
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 
         if (!empty($userOrder) && $userOrder['status'] != 0) {//处理中

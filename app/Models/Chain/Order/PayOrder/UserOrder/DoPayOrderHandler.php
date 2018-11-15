@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder;
+namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
