@@ -81,6 +81,12 @@ class AuthController extends ApiController
                 }
                 return RestResponseFactory::ok(RestUtils::getStdObj(), $re['error'], $re['code'], $re['error']);
             }
+            $re = [
+                'user_id' => $re['id'],
+                'mobile' => $re['mobile'],
+                'status' => $re['status'],
+                'access_token' => $re['access_token'],
+            ];
             return RestResponseFactory::ok($re);
         }
         else
@@ -93,6 +99,12 @@ class AuthController extends ApiController
                 return RestResponseFactory::ok(RestUtils::getStdObj(), $re['error'], $re['code'], $re['error']);
             }
         }
+        $re = [
+            'user_id' => $re['id'],
+            'mobile' => $re['mobile'],
+            'status' => $re['status'],
+            'access_token' => $re['access_token'],
+        ];
         return RestResponseFactory::ok($re);
     }
 
