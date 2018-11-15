@@ -17,7 +17,7 @@ class QuickloginValidator extends AbstractValidator
      * @var Array
      */
     protected $rules = array(
-        'mobile'   => ['required', 'is_not_email', 'is_username','is_phone'],
+        'mobile'   => ['required','is_phone'],
 	    'sign'     => ['required','alpha_num','size:32']
     );
 
@@ -32,20 +32,6 @@ class QuickloginValidator extends AbstractValidator
 	    'code.required' => '验证码必须传值',
 	    'code.integer' => '验证码必须是整数',
 	    'sign.size' => 'sign必须是32位',
-    );
-
-    /**
-     * Validation codes
-     *
-     * @var Array
-     */
-    public $codes = array(
-        'keywords.required' => '1001',
-        'keywords.is_username' => '1002',
-        'keywords.is_not_email' => '1003',
-        'password.required' => '1004',
-        'password.alpha_num' => '1005',
-        'password.size' => '1006',
     );
 
     /*

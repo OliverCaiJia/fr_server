@@ -55,15 +55,15 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->any('card/add', ['uses' => 'BanksController@add']);
+            $router->any('card/createUserBank', ['middleware' => ['authApi'],'uses' => 'BanksController@createUserBank']);
             //银行卡校验
             $router->any('card/verify', ['uses' => 'BanksController@verify']);
             //银行卡删除
             $router->any('card/delete', ['uses' => 'BanksController@delete']);
             //银行卡列表
-            $router->any('card/list', ['uses' => 'BanksController@list']);
+            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'],'uses' => 'BanksController@fetchUserBanks']);
             //修改默认银行卡
-            $router->any('card/update/default', ['uses' => 'BanksController@updateDefault']);
+            $router->any('card/updateDefault', ['middleware' => ['authApi'],'uses' => 'BanksController@updateDefault']);
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
