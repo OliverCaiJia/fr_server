@@ -6,9 +6,10 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Controller;
 use App\Models\Factory\Api\BankFactory;
-use App\Models\Factory\DeviceFactory;
-use App\Strategies\BanksStrategy;
+use App\Models\Chain\UserBank\Add\DoAddHandler;
+use App\Models\Factory\Api\UserBankcardFactory;
 use Illuminate\Http\Request;
+use App\Models\Chain\UserBank\Defaultcard\DoDefaultcardHandler;
 
 /**
  * 银行卡设置
@@ -20,9 +21,20 @@ class BanksController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * 银行卡添加
      */
-    public function add(Request $request)
+    public function createUserBank(Request $request)
     {
-        return RestResponseFactory::ok();
+        //获取所有数据
+        $data = $request->all();
+        $data['userId'] = $request->user()->id;
+        //银行卡责任链
+        $bankcard = new DoAddHandler($data);
+        $res = $bankcard->handleRequest();
+        //错误提示
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
+        }
+
+        return RestResponseFactory::ok($res);
     }
 
     /**
@@ -49,9 +61,22 @@ class BanksController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * 银行卡列表
      */
-    public function list()
+    public function fetchUserBanks(Request $request)
     {
-        return RestResponseFactory::ok();
+        $userId = $request->user()->id;
+
+        //用户绑定银行卡列表
+        $userbanks['list'] = UserBankcardFactory::getUserBankList($userId);
+
+        //暂无数据
+        $cards = [];
+        if (!empty($userbanks['list'])) {
+            //获取银行信息，用户信息
+            $cards = UserBankcardFactory::fetchUserbanksinfo($userbanks['list']);
+        }
+        $banks['list'] = $cards;
+
+        return RestResponseFactory::ok($banks);
     }
 
     /**
@@ -60,7 +85,18 @@ class BanksController extends Controller
      */
     public function updateDefault(Request $request)
     {
-        return RestResponseFactory::ok();
+        $data['userId'] = $request->user()->id;
+        $data['userbankId'] = $request->input('userbankId');
+
+        //设置默认储蓄卡责任链
+        $card = new DoDefaultcardHandler($data);
+        $res = $card->handleRequest();
+        //错误提示
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
+        }
+
+        return RestResponseFactory::ok(RestUtils::getStdObj());
     }
 
     /**

@@ -23,7 +23,7 @@ class FeeFactory extends ApiFactory
             ->where([['fee_type_id',$fee_type_id],['is_delete',0]])
             ->get();
 
-        return $feeList ? $feeList->toArry() : [];
+        return $feeList ? $feeList->toArray() : [];
     }
 
     /**
@@ -38,7 +38,7 @@ class FeeFactory extends ApiFactory
             ->where([['fee_type_id',$fee_type_id],['is_delete',0]])
             ->first();
 
-        return $feeList ? $feeList->toArry() : [];
+        return $feeList ? $feeList->toArray() : [];
     }
 
     /**
@@ -53,22 +53,20 @@ class FeeFactory extends ApiFactory
             ->where([['fee_type_nid',$fee_type_nid],['is_delete',0]])
             ->get();
 
-        return $feeList ? $feeList->toArry() : [];
+        return $feeList ? $feeList->toArray() : [];
     }
 
     /**
      * @param $fee_type_nid
      * @return array
-     * 根据类型标识获取费用信息
+     * 根据标识获取费用信息
      */
 
-    public static function getFeeByTypeNid($fee_type_nid)
+    public static function getFeeByFeeNid($fee_nid)
     {
-        $feeList = Fee::select(['id','fee_type_nid','seq_no','name','price','old_price'])
-            ->where(['fee_type_nid',$fee_type_nid])
-            ->first();
+        $feeList = Fee::where('fee_nid','=',$fee_nid)->first();
 
-        return $feeList ? $feeList->toArry() : [];
+        return $feeList ? $feeList->toArray() : [];
     }
 
 }

@@ -38,7 +38,7 @@ class SendRegisterSmsAction extends AbstractHandler
     private function sendRegisterSms($params)
     {
         #生成四位数字短信验证码
-        $code = mt_rand(10000, 99999);
+        $code = mt_rand(100000, 999999);
         #组织短信验证码内容
         $data['phone'] = $params['mobile'];
         $data['msg'] = "【水果贷】您的验证码是{$code},请勿将验证码提供给他人，若非本人操作可忽略";
