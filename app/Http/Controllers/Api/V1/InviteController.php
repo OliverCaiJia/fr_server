@@ -6,9 +6,8 @@ use App\Helpers\LinkUtils;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\InviteFactory;
-use App\Models\Orm\SystemConfig;
 use App\Strategies\InviteStrategy;
 use App\Strategies\SmsStrategy;
 use Illuminate\Http\Request;
@@ -20,7 +19,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @package App\Http\Controllers\V1
  * 邀请
  */
-class InviteController extends Controller
+class InviteController extends ApiController
 {
     /**
      * @param Request $request
@@ -28,7 +27,7 @@ class InviteController extends Controller
      */
     public function link(Request $request)
     {
-        $uid = $request->user()->id;
+        $uid = $this->getUserId($request);
         //用户名
         $inviteArr['username'] = UserAuthFactory::fetchUserName($uid);
         //分享链接
@@ -45,7 +44,7 @@ class InviteController extends Controller
      */
     public function sqcode(Request $request)
     {
-        $uid = $request->user()->id;
+        $uid = $this->getUserId($request);
         $sizeArr = $request->all();
         //邀请码
         $inviteCode = InviteFactory::fetchInviteCode($uid);
@@ -53,5 +52,12 @@ class InviteController extends Controller
         $landig = LinkUtils::shareLanding($inviteCode);
         return QrCode::size($sizeArr['size'])->generate($landig);
     }
+
+    /**邀请好友页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+//    public function home(){
+//        return view();
+//    }
 
 }

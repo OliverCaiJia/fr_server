@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Constants\UserConstant;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Models\Factory\Api\UserAuthFactory;
-use App\Models\Factory\CreditFactory;
-use App\Models\Factory\PhoneFactory;
-use App\Models\Factory\UserFactory;
-use App\Models\Factory\UserSignFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
-use App\Models\Orm\UserContacts;
 use App\Strategies\SmsStrategy;
 use App\Strategies\UserStrategy;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Helpers\RestResponseFactory;
 use App\Models\Chain\Register\DoRegisterHandler;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * 用户注册
@@ -87,7 +81,7 @@ class UserController extends Controller
      */
     public function serInfo(Request $request)
     {
-        $uid = $request->user()->id;
+        $uid = $this->getUserId($request);
         $data = UserRealnameFactory::fetchUserRealname($uid);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);

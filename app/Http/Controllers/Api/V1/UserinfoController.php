@@ -26,7 +26,7 @@ class UserInfoController extends ApiController
      */
     public function updateCertifyinfo(Request $request)
     {
-        $uid = $request->user()->id;
+        $uid = $this->getUserId($request);
         $data = $request->all();
 //        $data = [
 //            'profession' => '0',
@@ -60,7 +60,7 @@ class UserInfoController extends ApiController
      */
     public function fetchCertifyinfo(Request $request)
     {
-        $uid = $request->user()->id;
+        $uid = $this->getUserId($request);
         $data = UserBasicFactory::fetchUserBasic($uid);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);

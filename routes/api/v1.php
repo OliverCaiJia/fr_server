@@ -33,11 +33,11 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //创建（忘记/修改）密码
         $router->any('updatepwd', ['uses' => 'UserController@updatePwd']);
         //用户个人信息获取
-        $router->any('info', ['uses' => 'UserController@serInfo']);
+        $router->any('info', ['middleware' => ['authApi'], 'uses' => 'UserController@serInfo']);
         //个人资料查看
-        $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
+        $router->any('info/detail', ['middleware' => ['authApi'], 'uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
-        $router->any('info/create', ['uses' => 'UserinfoController@updateCertifyinfo']);
+        $router->any('info/create', ['middleware' => ['authApi'], 'uses' => 'UserinfoController@updateCertifyinfo']);
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);
 
@@ -86,10 +86,10 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
 
         //账户信息
         $router->group(['prefix' => 'account'], function ($router) {
-            //邀请好友
-            $router->any('invitecount', ['uses' => 'AccountController@inviteAccount']);
+            //邀请好友信息列表
+            $router->any('invitecount', ['middleware' => ['authApi'], 'uses' => 'AccountController@inviteAccount']);
             //账户信息
-            $router->any('info', ['uses' => 'AccountController@info']);
+            $router->any('info', ['middleware' => ['authApi'], 'uses' => 'AccountController@info']);
         });
     });
 

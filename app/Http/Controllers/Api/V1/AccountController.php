@@ -6,6 +6,7 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\AccountFactory;
+use App\Models\Factory\Api\InviteFactory;
 use Illuminate\Http\Request;
 
 
@@ -16,34 +17,19 @@ class AccountController extends ApiController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function info(Request $request)
+    public  function info(Request $request)
     {
-        $data = $request->all();
-        $account = AccountFactory::fetchUserAccount($data['user_id']);
-        $res = [];
-        $res['name'] = $account['name'];
-        return RestResponseFactory::ok($res);
+        $uid = $this->getUserId($request);
+        $account = AccountFactory::fetchUserAccount($uid);
+        return RestResponseFactory::ok($account);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request)
+    public function inviteAccount(Request $request)
     {
-        $params = [];
-        $create = AccountFactory::createAccountLog($params);
-        if (empty($create)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1401), 1401);
-        } else {
-            return RestResponseFactory::ok();
-        }
-//        return RestResponseFactory::ok();
-    }
-
-
-    public function status()
-    {
-        return RestResponseFactory::ok();
+        $uid = $this->getUserId($request);
+        $UserOrder = InviteFactory::fetchUserInvitations($uid);
+        print_r($UserOrder);
+        die;
+        return RestResponseFactory::ok($UserOrder);
     }
 }

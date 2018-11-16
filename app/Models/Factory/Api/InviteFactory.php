@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Models\Orm\UserInvite;
 use App\Models\Orm\UserInviteLog;
 use App\Models\Orm\UserInviteCode;
+use App\Models\Orm\UserOrder;
 use App\Strategies\InviteStrategy;
 
 /**
@@ -16,14 +17,28 @@ use App\Strategies\InviteStrategy;
 class InviteFactory extends ApiFactory
 {
     /**
-     * 获取邀请好友的个数
+     * 获取邀请好友
      * @param $user_id
      * @return int
      */
     public static function fetchUserInvitations($user_id)
     {
-        $invite = UserInvite::select(['invite_num'])->where(['user_id' => $user_id])->first();
-        return $invite ? $invite->invite_num : 0;
+        $invite = UserInvite::select(['user_id','mobile'])->where(['invite_user_id' => $user_id])->get()->toArray();
+        $inviteOrder = self::getInvitedUsersOrderStatus($invite);
+//        foreach ($invite as $key => $val) {
+//            $UserOrederStatus = UserOrder::select(['user_id','status'])->where(['user_id' => $val['user_id'], 'status' => 1])->get()->toArray();
+//            if (!empty($UserOrederStatus)) {
+//                $UserOreder[] = $UserOrederStatus;
+////                if($UserOreder[$key]['status'] == 1){
+////                    $UserOreder[$key]['status'] = "付费";
+////                }
+//                $UserOreder[$key]['mobile'] = $val['mobile'];
+//                $UserOreder[$key]['money'] = "36";
+//            }
+//        }
+//        print_r($UserOreder);
+//        die;
+//        return $invite ? $invite : [];
     }
 
     /**
@@ -31,10 +46,18 @@ class InviteFactory extends ApiFactory
      * @uid  邀请人id
      * @param $uid
      */
-    public static function getInvitedUsers($user_id)
+    public static function getInvitedUsersOrderStatus($invite)
     {
-        $invite = UserInvite::where('user_id', '=', $user_id)->first();
-        return $invite;
+        foreach($invite as $val){
+          $inviteOrder = UserOrder::select(['user_id','status'])->where(['user_id' => $val['user_id'], 'status' => 1])->get()->toArray();
+          print_r($inviteOrder);
+//          if($val['user_id'] == $inviteOrder['user_id']){
+//              echo 1;PHP_EOL;
+//          }
+        }
+        die;
+//        $inviteOrder  =
+        return $inviteOrder;
     }
 
     /**
@@ -63,7 +86,8 @@ class InviteFactory extends ApiFactory
      * @return mixed
      */
 
-    public static function createUserInvite($data){
+    public static function createUserInvite($data)
+    {
         $inviteObj = UserInvite::firstOrCreate(['user_id' => $data['user_id']], [
             'user_id' => intval($data['id']),
             'mobile' => $data['mobile'],
