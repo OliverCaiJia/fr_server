@@ -31,6 +31,19 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'],'as' => 'web.','prefi
         // 
         $router->any('report', ['uses' => 'UserController@report']);
 //        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
-    }); 
+    });
+
+    /**
+     *  Wechat API
+     */
+    $router->group(['prefix' => 'invite'], function ($router) {
+        //生成好有链接
+        $router->any('link', ['middleware' => ['authWeb'], 'uses' => 'InviteController@link']);
+        //生成邀请好友二维码
+        $router->any('sqcode', ['middleware' => ['authWeb'], 'uses' => 'InviteController@sqcode']);
+        //邀请好友页面
+        $router->any('home', ['middleware' => ['authWeb'], 'uses' => 'InviteController@home']);
+
+    });
 
 });
