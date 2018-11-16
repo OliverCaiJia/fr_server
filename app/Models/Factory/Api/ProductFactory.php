@@ -61,7 +61,7 @@ class ProductFactory extends ApiFactory
      */
     public static function getLoadProducts()
     {
-        $productArr = Product::select('platform_product_name','product_logo','product_introduct','loan_min','loan_max')
+        $productArr = Product::select('platform_product_name','product_logo','product_h5_url','product_introduct','loan_min','loan_max')
                 ->where('online_status', 0)
                 ->get();
 
