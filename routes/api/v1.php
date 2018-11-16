@@ -10,7 +10,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //快捷注册
         $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'], 'uses' => 'AuthController@quickLogin']);
         // 用户退出
-        $router->any('logout', ['uses' => 'AuthController@logout']);//添加验证器
+        $router->any('logout', ['middleware' => ['authApi'], 'uses' => 'AuthController@logout']);//添加验证器
     });
 
     /**
@@ -20,7 +20,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //注册短信验证码
         $router->any('register', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@register']);
         //修改密码短信验证码
-        $router->any('password', ['uses' => 'SmsController@password']);//添加验证器
+        $router->any('password', ['middleware' => ['authApi'], 'uses' => 'SmsController@password']);//添加验证器
         //忘记密码
         $router->any('forgetPwd', ['uses' => 'SmsController@forgetPwd']);//添加验证器
     });
@@ -61,9 +61,9 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             //银行卡删除
             $router->any('card/delete', ['uses' => 'BanksController@delete']);//添加验证器
             //银行卡列表
-            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'], 'uses' => 'BanksController@fetchUserBanks']);//添加验证器
+            $router->any('card/fetchUserBanks', ['uses' => 'BanksController@fetchUserBanks']);//添加验证器
             //修改默认银行卡
-            $router->any('card/updateDefault', ['middleware' => ['authApi'], 'uses' => 'BanksController@updateDefault']);//添加验证器
+            $router->any('card/updateDefault', ['uses' => 'BanksController@updateDefault']);//添加验证器
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
@@ -75,7 +75,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         });
 
         //订单
-        $router->group(['prefix' => 'order','middleware' => ['authApi']], function ($router) {
+        $router->group(['prefix' => 'order'], function ($router) {
             //订单列表
             $router->any('list', ['uses' => 'UserOrderController@list']);//添加验证器
             //订单详情
