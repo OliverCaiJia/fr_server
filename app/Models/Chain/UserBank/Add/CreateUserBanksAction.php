@@ -5,6 +5,7 @@ namespace App\Models\Chain\UserBank\Add;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserBankcardFactory;
+use App\Models\Factory\Api\UserRealnameFactory;
 
 /**
  * 添加sd_user_banks用户银行卡信息
@@ -49,7 +50,7 @@ class CreateUserBanksAction extends AbstractHandler
         $data['bank_card_mobile'] = $params['mobile'];
         $data['bank_code'] = $params['bank_code'];
         $data['idcard'] = $params['idcard'];
-        $data['user_id'] = $params['userId'];
+        $data['user_id'] = $params['user_id'];
         $data['bank_card_mobile'] = $params['mobile'];
         $data['verify_time'] = date('Y-m-d H:i:s', time());
         $data['create_at'] = date('Y-m-d H:i:s', time());
@@ -57,9 +58,9 @@ class CreateUserBanksAction extends AbstractHandler
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
 
-        $res = UserBankCardFactory::createUserBank($data);
+        $this->data = $res = UserBankCardFactory::createUserBank($data);
 
-        return $res ? true : false;
+        return $res;
     }
 
 }

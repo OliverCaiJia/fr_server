@@ -6,6 +6,8 @@
  * Date: 16/7/22
  * Time: 15:04
  */
+namespace App\Services\Core\Payment\YiBao;
+
 class YopResponse{
     /**
      * 状态(SUCCESS/FAILURE)

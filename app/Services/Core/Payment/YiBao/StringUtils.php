@@ -6,6 +6,8 @@
  * Date: 17/7/16
  * Time: 20:12
  */
+namespace App\Services\Core\Payment\YiBao;
+
 abstract class StringUtils
 {
 

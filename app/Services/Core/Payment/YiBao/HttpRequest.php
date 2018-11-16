@@ -7,6 +7,7 @@
  * Time: 11:31
  */
 
+namespace App\Services\Core\Payment\YiBao;
 
 abstract class HTTPRequest{
 

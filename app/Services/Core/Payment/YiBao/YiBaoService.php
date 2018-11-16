@@ -1,250 +1,118 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-10-26
- * Time: 上午10:05
- */
+
 namespace App\Services\Core\Payment\YiBao;
+use App\Services\AppService;
 
-use App\Helpers\Http\HttpClient;
-use App\Helpers\Logger\SLogger;
-use App\Models\Factory\PaymentFactory;
-use App\Services\Core\Payment\PaymentService;
-
-class YiBaoService extends PaymentService
+class YiBaoService extends AppService
 {
-    /**
-     * 银行卡信息查询
-     *
-     * $params = [
-     *      'cardno' => '',  卡号
-     * ]
-     * @param array $params 参数数组
-     * @return array|mixed|string
-     */
-    public function bankCardInfo($params = [])
+
+    public static function getString($response)
     {
-        if(!is_array($params))
-        {
-            return '参数必须是数组！';
+
+        $str = "";
+
+        foreach ($response as $key => $value) {
+            $str .= $key . "=" . $value . "&";
         }
-        $url = YiBaoConfig::YIBAO_URL .'/payapi/api/bankcard/check';
-        $data = self::getParams($params);
-        $request = [
-            'form_params' => $data
-        ];
-
-        $response = HttpClient::i()->request('POST', $url, $request);
-        $result = $response->getBody()->getContents();
-        $res = json_decode($result, true);
-
-        //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
-            return [];
-        }
-
-        //对返回结果进行解码
-        $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
-            return [];
-        }
-
-        return $arr;
-
+        $getSign = substr($str, 0, strlen($str) - 1);
+        return $getSign;
     }
 
-    /**
-     * 订单退款接口
-     *
-     * $params = [
-     *      'orderid' =>'', 退款请求号,订单号
-     *      'origyborderid' => '', 易宝流水号
-     *      'amount' => 1,   退款金额
-     *      'currency' => 156,  交易币种
-     *      'cause' => '',  退款说明
-     * ]
-     * @param array $params 参数数组
-     * @return array|mixed|string
-     */
-    public function orderRefund($params = [])
+   public static function getUrl($response, $private_key)
     {
-        if(!is_array($params))
-        {
-            return '参数必须是数组！';
-        }
-        $url = YiBaoConfig::YIBAO_URL .'/merchant/query_server/direct_refund';
-        $data = self::getParams($params);
-
-        $request = [
-            'form_params' => $data
-        ];
-
-        $response = HttpClient::i()->request('POST', $url, $request);
-        $result = $response->getBody()->getContents();
-        $res = json_decode($result, true);
-        //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
-            return [];
-        }
-
-        //对返回结果进行解码
-        $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
-            return [];
-        }
-
-        return $arr;
+        $content = self::getString($response);
+        $sign = self::signRsa($content, $private_key);
+        $url = $content . "&sign=" . $sign;
+        return $url;
     }
 
-    /**
-     * 订单查询接口
-     *
-     * $params = [
-     *      'orderid' => '', 商户订单号
-     * ]
-     * @param array $params 参数数组
-     * @return array|mixed|string
-     */
-    public function orderQuery($params = [])
+   public static function object_array($array)
     {
-        if(!is_array($params))
-        {
-            return '参数必须是数组！';
+        if (is_object($array)) {
+            $array = (array)$array;
         }
-        $url = YiBaoConfig::YIBAO_URL .'/merchant/query_server/pay_single';
-        $data = self::getParams($params);
-        $request = [
-            'query' => $data
-        ];
-
-        $response = HttpClient::i()->request('GET', $url, $request);
-        $result = $response->getBody()->getContents();
-        $res = json_decode($result, true);
-        //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
-            return [];
-        }
-
-        //对返回结果进行解码
-        $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
-            return [];
-        }
-
-        return $arr;
-    }
-
-    /**
-     * 订单支付接口
-     *
-     * @param array $params 参数数组 注意：参数数组中的数据类型
-     * @return array|mixed|string
-     */
-    public function orderPay($params = [])
-    {
-        if(!is_array($params))
-        {
-            return '参数必须是数组！';
-        }
-        $url = YiBaoConfig::YIBAO_URL .'/paymobile/payapi/request';
-        $data = self::getParams($params);
-
-        $request = [
-            'form_params' => $data
-        ];
-
-        $response = HttpClient::i()->request('POST', $url, $request);
-        $result = $response->getBody()->getContents();
-        $res = json_decode($result, true);
-//        SLogger::getStream()->info('orderPay',['message'=>$res,'code'=>1001]);
-        //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
-            return [];
-        }
-
-        $arr = self::undoData($res['data'], $res['encryptkey']);
-//        SLogger::getStream()->info('orderPayUndo',['message'=>$arr,'code'=>1002]);
-        if(!is_array($arr))
-        {
-            return [];
-        }
-
-        return $arr;
-    }
-
-    /**
-     * 解密数据
-     *
-     * @param string $data 接口返回的data数据
-     * @param string $encryptkey 接口返回的encryptkey数据
-     * @return mixed|string
-     */
-    public static function undoData($data ,$encryptkey)
-    {
-        //获取解密的码
-        $AESKey = YiBaoConfig::getYeepayAESKey($encryptkey ,PaymentFactory::getYibaoMerchantPrivateKey(self::$nid));
-
-        $return = YiBaoConfig::AESDecryptData($data, $AESKey);
-        $return = json_decode($return, true);
-
-        if (!array_key_exists('sign', $return))
-        {
-            if (array_key_exists('error_code', $return))
-            {
-                return $return['error_msg']. '-不存在sign-' .$return['error_code'];
-            }
-        } else {
-            if (!YiBaoConfig::RSAVerify($return, $return['sign'], PaymentFactory::getYibaoPublicKey(self::$nid)))
-            {
-                return '请求返回签名验证失败';
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $array[$key] = self::object_array($value);
             }
         }
-        if (array_key_exists('error', $return))
-        {
-            return $return['error'].$return['error_code'];
-        } elseif(array_key_exists('error_msg', $return)) {
-            return $return['error_msg'].$return['error_code'];
-        }
+        return $array;
+    }
 
-        return $return;
+    public static function send($data = []){
+
+        $merchantNo = YiBaoConfig::MERCHANTNO;
+        $parentMerchantNo = YiBaoConfig::PARENTMERCHANTNO;
+        $private_key = YiBaoConfig::PRIVATE_KEY;
+        $yop_public_key = YiBaoConfig::YOP_PUBLIC_KEY;
+        $serverroot = YiBaoConfig::SERVERROOT;
+        $notifyUrl = YiBaoConfig::NOTIFYURL;
+
+        $yp_request = new YopRequest("OPR:$merchantNo", $private_key, $serverroot, $yop_public_key);
+        $yp_request->addParam("parentMerchantNo", $parentMerchantNo);
+        $yp_request->addParam("merchantNo", $merchantNo);
+        $yp_request->addParam("orderId", $data['orderId']); //订单编号
+        $yp_request->addParam("orderAmount", $data['orderAmount']); //订单金额
+        $yp_request->addParam("requestDate", date('Y-m-d H:i:s'));
+        $yp_request->addParam("notifyUrl", 'http://10.151.31.134/demo/yop-ds/callback.php'); //回调地址
+        $yp_request->addParam("goodsParamExt", '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}'); //商品信息{"goodsName":"名称","goodsDesc":"描述"}
+        $yp_request->addParam("paymentParamExt", '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}'); //扩展参数 {"bankCardNo":"银行卡号","idCardNo":"身份证号","cardName":"姓名"}
+        $yp_request->addParam("fundProcessType", 'REAL_TIME'); //资金处理类型
+
+
+        $response = YopClient3::post("/rest/v1.0/std/trade/order", $yp_request);
+
+        if ($response->validSign == 1) {
+            echo "返回结果签名验证成功!\n";
+        }
+        //取得返回结果
+
+        $data = self::object_array($response);
+
+        $token = $data['result']['token'];
+        $cashter = array(
+            "merchantNo" => $merchantNo,
+            "token" => $token,
+            "timestamp" => time(), //时间戳
+            "directPayType" => 'YJZF', //直连参数
+            "cardType" => 'DEBIT', //卡种
+            "userNo" => $data['userNo'], //用户唯一标识（手机号）
+            "userType" => 'PHONE', //用户表示类型(PHONE)
+        );
+
+        $getUrl = self::getUrl($cashter, $private_key);
+        $getUrl = str_replace("&timestamp", "&amp;timestamp", $getUrl);
+        $url = "https://cash.yeepay.com/cashier/std?" . $getUrl;
+
+        return $url;
 
     }
 
-    /**
-     * 获取最终加密参数数组
-     *
-     * @param array $params 参数数组
-     * @return mixed
-     */
-    public static function getParams($params = [])
-    {
-        $account = PaymentFactory::getYibaoMerchantCode(self::$nid);
-        if(!array_key_exists('merchantaccount', $params))
-        {
-            $params['merchantaccount'] = $account;
-        }
-        //生成签名
-        $params['sign'] = YiBaoConfig::RSASign($params ,PaymentFactory::getYibaoMerchantPrivateKey(self::$nid));
-        //生成参数encryptkey
-        $AESKey = YiBaoConfig::generateAESKey();
-        $arr['encryptkey'] = YiBaoConfig::getEncryptkey($AESKey ,PaymentFactory::getYibaoPublicKey(self::$nid));
+    public static function signRsa($source,$private_Key){
+        $private_key = "-----BEGIN RSA PRIVATE KEY-----\n" .
+            wordwrap($private_Key, 64, "\n", true) .
+            "\n-----END RSA PRIVATE KEY-----";
 
-        //生成参数merchantaccount
-        $arr['merchantaccount'] = $account;
+        extension_loaded('openssl') or die('php需要openssl扩展支持');
 
-        //生成参数data
-        $arr['data'] = YiBaoConfig::AESEncryptRequest($AESKey, $params);
 
-        return $arr;
+        /* 提取私钥 */
+        $privateKey = openssl_get_privatekey($private_key);
+
+        ($privateKey) or die('密钥不可用');
+
+        openssl_sign($source, $encode_data, $privateKey, "SHA256");
+
+        openssl_free_key($privateKey);
+
+        $signToBase64 = Base64Url::encode($encode_data);
+
+
+        $signToBase64 .= '$SHA256';
+
+
+        return $signToBase64;
+
     }
-
 
 }

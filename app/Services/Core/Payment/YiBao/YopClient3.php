@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: wilson
  * Date: 16/7/13
  * Time: 16:29
  */
+namespace App\Services\Core\Payment\YiBao;
+use Carbon\Carbon;
 
 class YopClient3
 {
@@ -34,9 +35,9 @@ class YopClient3
 
 
         date_default_timezone_set('PRC');
-        $dataTime = new DateTime();
+        $dataTime = new Carbon();
         //$timestamp=$dataTime->format('c'); // Returns ISO8601 in proper format
-        $timestamp = $dataTime->format(DateTime::ISO8601); // Works the same since const ISO8601 = "Y-m-d\TH:i:sO"
+        $timestamp = $dataTime->format(Carbon::ISO8601); // Works the same since const ISO8601 = "Y-m-d\TH:i:sO"
         //$timestamp = "2016-02-25T08:57:48Z";
         $requestId = YopClient3::uuid();//Returns like ‘1225c695-cfb8-4ebb-aaaa-80da344e8352′
         //$requestId="123456";

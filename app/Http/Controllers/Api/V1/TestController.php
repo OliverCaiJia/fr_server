@@ -4,13 +4,21 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
 use App\Services\Core\Validator\ValidatorService;
+use App\Services\Core\Payment\YiBao\YiBaoService;
 
 class TestController extends ApiController
 {
     //易宝支付
     public function test(){
-
-        echo 'aaa';exit;
+        $data = [
+            'orderId' => 'DS181116_15341265',
+            'orderAmount' => '0.01',
+            'goodsParamExt' => '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}',
+            'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
+            'userNo' => '13520973931',
+        ];
+       $url = YiBaoService::send($data);
+       echo $url;
     }
 
     //face++

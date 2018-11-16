@@ -8,6 +8,7 @@
 
 
 
+namespace App\Services\Core\Payment\YiBao;
 
 abstract class HttpUtils
 {

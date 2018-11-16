@@ -18,9 +18,23 @@ class UserBankcardFactory extends ApiFactory
      */
     public static function createUserBank($data)
     {
-        $addBank = UserBankcard::insert($data);
+        $userBanlk = new UserBankcard();
+        $userBanlk->bank_card_no = $data['bank_card_no'];
+        $userBanlk->bank_card_mobile = $data['bank_card_mobile'];
+        $userBanlk->bank_code = $data['bank_code'];
+        $userBanlk->idcard = $data['idcard'];
+        $userBanlk->user_id = $data['user_id'];
+        $userBanlk->bank_card_mobile = $data['bank_card_mobile'];
+        $userBanlk->verify_time = $data['verify_time'];
+        $userBanlk->create_at = $data['create_at'];
+        $userBanlk->create_ip = $data['create_ip'];
+        $userBanlk->update_at = $data['update_at'];
+        $userBanlk->update_ip = $data['update_ip'];
 
-        return $addBank;
+        if($userBanlk->save()){
+            return $userBanlk->toArray();
+        }
+        return false;
     }
 
     /**
@@ -92,7 +106,7 @@ class UserBankcardFactory extends ApiFactory
     public static function fetchUserBankByAccount($params = [])
     {
         $userbank = UserBankcard::where([
-                'user_id' => $params['userId'],
+                'user_id' => $params['user_id'],
                 'bank_card_no' => $params['bankcard'],
             ])->first();
 

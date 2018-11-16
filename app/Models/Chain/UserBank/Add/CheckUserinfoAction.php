@@ -46,7 +46,7 @@ class CheckUserinfoAction extends AbstractHandler
      */
     private function checkUserinfo($params)
     {
-        $user = UserAuth::select("id")->where('id', '=', $params['userId'])->where('status','=',1)->first();
+        $user = UserAuth::select("id")->where('id', '=', $params['user_id'])->where('status','=',1)->first();
 
         return $user ? true : false;
 

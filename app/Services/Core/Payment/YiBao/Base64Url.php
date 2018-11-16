@@ -12,6 +12,8 @@
 /**
  * Encode and decode data into Base64 Url Safe.
  */
+namespace App\Services\Core\Payment\YiBao;
+
 abstract class Base64Url
 {
     /**

@@ -43,10 +43,11 @@ class CheckTianfourAction extends AbstractHandler
      */
     private function checkTianfour($params)
     {
+        //获取用户信息
         //四要素验证
         $params = [
             'idcard' => $params['idcard'],
-            'name' => $params['name'],
+            'name' => $params['real_name'],
             'bankcard' => $params['bankcard'],
             'mobile' => $params['mobile'],
         ];

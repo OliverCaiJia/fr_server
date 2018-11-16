@@ -28,7 +28,7 @@ class CheckBankCardAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkBankCard($this->params) == true) {
-            $this->setSuccessor(new CheckTianfourAction($this->params));
+            $this->setSuccessor(new CheckRealNameAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
@@ -44,7 +44,7 @@ class CheckBankCardAction extends AbstractHandler
     {
         $bank_res = AlipayBankService::validateBankName($params['bankcard']);
         $support_bank = Bank::select('bank_code')->where('bank_code' ,'=', $bank_res['bank'])->first();
-
+        //信用卡 CC 储蓄卡 DC
         if(!$support_bank || $support_bank['cardType'] == 'CC'){
             return false;
         }

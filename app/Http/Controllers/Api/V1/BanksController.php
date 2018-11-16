@@ -25,15 +25,15 @@ class BanksController extends ApiController
     {
         //获取所有数据
         $data = $request->all();
-        $data['userId'] = $this->getUserId($request);
+        $data['user_id'] = $this->getUserId($request);
         //银行卡责任链
         $bankcard = new DoAddHandler($data);
-        $res = $bankcard->handleRequest();
+        $result = $bankcard->handleRequest();
         //错误提示
         if (isset($res['error'])) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
         }
-
+        $res['id'] = $result['id'];
         return RestResponseFactory::ok($res);
     }
 
