@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'V1','middleware' => ['sign'],'as' => 'web.','prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($router) {
     Route::get('/', function () {
         return view('admin');
     })->name('index');
