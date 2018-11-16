@@ -31,7 +31,7 @@ class BanksController extends ApiController
         $result = $bankcard->handleRequest();
         //错误提示
         if (isset($res['error'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $result['error'], $result['code'], $result['error']);
         }
         $res['id'] = $result['id'];
         return RestResponseFactory::ok($res);
