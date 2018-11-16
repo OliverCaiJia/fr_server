@@ -24,7 +24,8 @@ class SignMiddleware
     {
         //取所有请求参数，按Key正序排序后，按Key+Value方式连接，加放当前请求页面的url，url走sha1加密，如是登录状态，在字符串的第三位加入登录token
         $sign = $request->header('X-Sign');
-        if (!empty($sign) || $this->checkIsSms($request)) {
+        //if (!empty($sign) || $this->checkIsSms($request)) {
+            if (!empty($sign)) {
             //表单数组
             $formArray = $request->all();
             ksort($formArray);
