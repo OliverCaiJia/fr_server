@@ -28,8 +28,6 @@ class AccountController extends ApiController
     {
         $uid = $this->getUserId($request);
         $UserOrder = InviteFactory::fetchUserInvitations($uid);
-        print_r($UserOrder);
-        die;
         return RestResponseFactory::ok($UserOrder);
     }
 }

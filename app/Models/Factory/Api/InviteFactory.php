@@ -24,21 +24,19 @@ class InviteFactory extends ApiFactory
     public static function fetchUserInvitations($user_id)
     {
         $invite = UserInvite::select(['user_id','mobile'])->where(['invite_user_id' => $user_id])->get()->toArray();
-        $inviteOrder = self::getInvitedUsersOrderStatus($invite);
-//        foreach ($invite as $key => $val) {
-//            $UserOrederStatus = UserOrder::select(['user_id','status'])->where(['user_id' => $val['user_id'], 'status' => 1])->get()->toArray();
-//            if (!empty($UserOrederStatus)) {
-//                $UserOreder[] = $UserOrederStatus;
-////                if($UserOreder[$key]['status'] == 1){
-////                    $UserOreder[$key]['status'] = "付费";
-////                }
-//                $UserOreder[$key]['mobile'] = $val['mobile'];
-//                $UserOreder[$key]['money'] = "36";
-//            }
-//        }
-//        print_r($UserOreder);
-//        die;
-//        return $invite ? $invite : [];
+//        $inviteOrder = self::getInvitedUsersOrderStatus($invite);
+        foreach ($invite as $key => $val) {
+            $UserOrederStatus = UserOrder::select(['user_id','status'])->where(['user_id' => $val['user_id'], 'status' => 1])->first();
+            if (!empty($UserOrederStatus)) {
+                if ($UserOrederStatus->status == 1){
+//                    $invites[$key]['user_status'] = $UserOrederStatus->status;
+                    $invites[$key]['status'] = "付费";
+                    $invites[$key]['money'] = "36";
+                    $invites[$key]['mobile'] = $invite[$key]['mobile'];
+                }
+            }
+        }
+        return $invites ? $invites : [];
     }
 
     /**
