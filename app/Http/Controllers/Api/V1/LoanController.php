@@ -2,12 +2,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\ProductFactory;
-use App\Models\Orm\Product;
 use Illuminate\Http\Request;
 
-class LoanController extends Controller
+class LoanController extends ApiController
 {
     /**
      * 基础信息 —— 推荐产品列表

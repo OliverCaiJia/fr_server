@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\RestUtils;
 use App\Strategies\VersionStrategy;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Helpers\RestResponseFactory;
 use App\Models\Factory\VersionFactory;
 
-class VersionController extends Controller
+class VersionController extends ApiController
 {
     /**
      * @param Request $request

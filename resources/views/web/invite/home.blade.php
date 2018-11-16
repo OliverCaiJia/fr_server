@@ -28,13 +28,16 @@
         <section> <img src="/img/invite/invite_bg4_title.png" alt="">
             <ul>
                 <li> <span>账号</span> <span>奖项</span> <span>奖金</span> </li>
-                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
-                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
-                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
-                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
-                <li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>
-                <li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>
-                <li> <span>合计</span> <span>--</span> <span>+70</span> </li>
+                @foreach($data as $item)
+                <li> <span>{{ $item['mobile'] }}</span> <span>付费</span> <span>+36</span> </li>
+                @endforeach
+                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
+                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
+                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
+                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
+                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
+                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
+                <li> <span>合计</span> <span>--</span> <span>+{{ $count }}</span> </li>
             </ul>
         </section>
         <p class="btn">立即邀请</p>

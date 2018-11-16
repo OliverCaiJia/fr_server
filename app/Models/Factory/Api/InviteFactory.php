@@ -40,67 +40,6 @@ class InviteFactory extends ApiFactory
     }
 
     /**
-     * 获取邀请人记录表数据
-     * @uid  邀请人id
-     * @param $uid
-     */
-    public static function getInvitedUsersOrderStatus($invite)
-    {
-        foreach($invite as $val){
-          $inviteOrder = UserOrder::select(['user_id','status'])->where(['user_id' => $val['user_id'], 'status' => 1])->get()->toArray();
-          print_r($inviteOrder);
-//          if($val['user_id'] == $inviteOrder['user_id']){
-//              echo 1;PHP_EOL;
-//          }
-        }
-        die;
-//        $inviteOrder  =
-        return $inviteOrder;
-    }
-
-    /**
-     * 给邀请表中添加数据（废弃|邀请积分在积分表直接记录）
-     * @param $uid
-     */
-    public static function createInvite($uid)
-    {
-        $invite = new UserInvite();
-        $invite->user_id = $uid;
-        if (isset($invite->invite_num) && $invite->invite_num <= 3) {
-            if ($invite->invite_num == 0) {
-                $invite->score += 150;
-            } elseif ($invite->invite_num == 1) {
-                $invite->score += 200;
-            } elseif ($invite->invite_num == 2) {
-                $invite->score += 250;
-            }
-        }
-        $invite->invite_num += 1;
-        return $invite->save();
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-
-    public static function createUserInvite($data)
-    {
-        $inviteObj = UserInvite::firstOrCreate(['user_id' => $data['user_id']], [
-            'user_id' => intval($data['id']),
-            'mobile' => $data['mobile'],
-            'channel_nid' => $data['channel_nid'],
-            'code' => $data['sd_invite_code'],
-            'create_at' => date('Y-m-d H:i:s', time()),
-            'create_ip' => Utils::ipAddress(),
-            'update_at' => date('Y-m-d H:i:s', time()),
-            'update_ip' => Utils::ipAddress(),
-        ]);
-        return $inviteObj->save();
-
-    }
-
-    /**
      * @param $userId
      * @return array
      * 验证并生成邀请码
