@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\BankFactory;
 use App\Models\Chain\UserBank\Add\DoAddHandler;
 use App\Models\Factory\Api\UserBankcardFactory;
@@ -14,7 +14,7 @@ use App\Models\Chain\UserBank\Defaultcard\DoDefaultcardHandler;
 /**
  * 银行卡设置
  */
-class BanksController extends Controller
+class BanksController extends ApiController
 {
     /**
      * @param Request $request
@@ -25,7 +25,7 @@ class BanksController extends Controller
     {
         //获取所有数据
         $data = $request->all();
-        $data['userId'] = $request->user()->id;
+        $data['userId'] = $this->getUserId($request);
         //银行卡责任链
         $bankcard = new DoAddHandler($data);
         $res = $bankcard->handleRequest();
@@ -63,7 +63,7 @@ class BanksController extends Controller
      */
     public function fetchUserBanks(Request $request)
     {
-        $userId = $request->user()->id;
+        $userId = $this->getUserId($request);
 
         //用户绑定银行卡列表
         $userbanks['list'] = UserBankcardFactory::getUserBankList($userId);
@@ -85,7 +85,7 @@ class BanksController extends Controller
      */
     public function updateDefault(Request $request)
     {
-        $data['userId'] = $request->user()->id;
+        $data['userId'] = $this->getUserId($request);
         $data['userbankId'] = $request->input('userbankId');
 
         //设置默认储蓄卡责任链

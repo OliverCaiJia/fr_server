@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\FeeFactory;
 use Illuminate\Http\Request;
 use App\Helpers\RestUtils;
@@ -12,7 +12,7 @@ use App\Helpers\RestUtils;
 /**
  *推荐服务
  */
-class CostController extends Controller
+class CostController extends ApiController
 {
     /**
      *推荐服务默认配置

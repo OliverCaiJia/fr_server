@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Sms\Register\DoSmsRegisterHandler;
 use App\Models\Factory\SmsFactory;
 use Illuminate\Http\Request;
 
-class SmsController extends Controller
+class SmsController extends ApiController
 {
 
     /**

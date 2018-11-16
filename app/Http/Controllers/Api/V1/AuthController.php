@@ -51,7 +51,7 @@ class AuthController extends ApiController
      */
     public function logout(Request $request)
     {
-        $userId = $request->user()->id;
+        $userId = $this->getUserId($request);
         $token = TokenGenerator::generateToken();
 
         UserAuthFactory::updateUserTokenById($userId, $token);
