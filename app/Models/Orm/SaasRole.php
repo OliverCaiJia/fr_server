@@ -31,11 +31,11 @@ class SaasRole extends AbsBaseModel
 
     public function permissions()
     {
-        return $this->belongsToMany(SaasPermission::class, 'saas_permission_role', 'role_id', 'permission_id');
+        return $this->belongsToMany(SaasPermission::class, 'admin_permission_role', 'role_id', 'permission_id');
     }
 
     public function persons()
     {
-        return $this->belongsToMany(SaasPerson::class, 'saas_role_user', 'role_id', 'user_id');
+        return $this->belongsToMany(SaasPerson::class, 'admin_role_user', 'role_id', 'user_id');
     }
 }

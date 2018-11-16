@@ -55,7 +55,7 @@ class AdminPersons extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(AdminRoles::class, 'saas_role_user', 'user_id', 'role_id');
+        return $this->belongsToMany(AdminRoles::class, 'admin_role_user', 'user_id', 'role_id');
     }
 
     // 判断用户是否具有某权限
