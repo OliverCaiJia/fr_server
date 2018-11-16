@@ -2,10 +2,23 @@
 
 namespace App\Models\Orm;
 
-use App\Models\AbsBaseModel;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AdminPersons extends AbsBaseModel
+class AdminPersons extends Authenticatable
 {
+    use Notifiable;
+
+    public $timestamps = false;
+    public $incrementing = true;
+
+    /**
+     * The column name of the "remember me" token.
+     *
+     * @var string
+     */
+    protected $rememberTokenName = '';
+
     /**
      *
      *  设置表名
@@ -25,4 +38,46 @@ class AdminPersons extends AbsBaseModel
     protected $visible = [];
     //加黑名单
     protected $guarded = [];
+    //隐藏字段
+    protected $hidden = ['password'];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'username',
+        'create_id',
+        'saas_auth_id',
+        'position',
+        'department',
+        'mobilephone'
+    ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(AdminRoles::class, 'saas_role_user', 'user_id', 'role_id');
+    }
+
+    // 判断用户是否具有某权限
+    public function hasPermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = AdminPermissions::where('name', $permission)->first();
+            if (!$permission) {
+                return false;
+            }
+        }
+
+        return $this->hasRole($permission->roles);
+    }
+
+    // 判断用户是否具有某个角色
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            return $this->roles->contains('name', $role);
+        }
+
+        return !!$role->intersect($this->roles)->count();
+    }
 }
