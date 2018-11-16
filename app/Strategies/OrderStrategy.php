@@ -3,6 +3,7 @@ namespace App\Strategies;
 
 use App\Helpers\RestUtils;
 use App\Models\Chain\Order\Loan\DoReportOrderLogicHandler;
+use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Order\PayOrder\UserOrder\DoPayOrderHandler;
 
 class OrderStrategy extends AppStrategy
@@ -33,6 +34,11 @@ class OrderStrategy extends AppStrategy
                 $chain = new DoReportOrderLogicHandler($order);
                 $result = $chain->handleRequest();
                 break;
+                //支付成功回调测试
+//            case 'order_report':
+//                $chain = new DoPaidOrderHandler($order);
+//                $result = $chain->handleRequest();
+//                break;
             default:
                 $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
         }

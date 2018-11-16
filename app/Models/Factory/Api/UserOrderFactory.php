@@ -4,7 +4,6 @@ namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
 use App\Models\Orm\Platform;
-use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderType;
 
@@ -131,7 +130,7 @@ class UserOrderFactory extends ApiFactory
      * @param $orderNo
      * @return mixed
      */
-    public static function getOrderStatusByUserIdOrderNo($userId, $orderNo)
+    public static function getOrderByUserIdOrderNo($userId, $orderNo)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
@@ -154,11 +153,30 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
+    /**
+     * @param $userId
+     * @param $orderType
+     * @return array
+     */
     public static function getUserOrderByUserIdAndOrderType($userId, $orderType)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->where('order_type', '=', $orderType)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * @param $userId
+     * @param $orderNo
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndOrderNo($userId, $orderNo)
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->where('order_no', '=', $orderNo)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }

@@ -99,8 +99,39 @@ class UserOrderController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        $userOrder = UserOrderFactory::getOrderStatusByUserIdOrderNo($userId, $orderNo);
+        $userOrder = UserOrderFactory::getOrderByUserIdOrderNo($userId, $orderNo);
         $res['info']['status'] = $userOrder['status'];
         return RestResponseFactory::ok($res);
+    }
+
+
+    public function update(Request $request)
+    {
+        $data = $request->all();
+        $data['user_id'] = $this->getUserId($request);
+        $data['order_no'] = $request->input('order_no');
+        //TODO::  A订单类型方法
+        $orderTypeNid = $request->input('order_type_nid');
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
+        $data['order_type'] = $orderType['id'];
+        $data['payment_log_id'] = $request->input('payment_log_id', 0);
+        $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
+        $data['amount'] = $request->input('amount');
+        $data['term'] = $request->input('term', 0);
+        $data['count'] = $request->input('count');
+        $data['status'] = $request->input('status', 0);
+        $data['create_ip'] = Utils::ipAddress();
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['update_ip'] = Utils::ipAddress();
+        $data['update_at'] = date('Y-m-d H:i:s', time());
+        $data['platform_nid'] = $request->input('platform_nid', '');
+
+        $order = OrderStrategy::getDiffOrderTypeChain($data);
+        dd($order);
+//        $res['order_no'] = $order['order_no'];
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1141),1141);
+        }
+        return RestResponseFactory::ok($order);
     }
 }

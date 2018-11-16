@@ -80,6 +80,8 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
             $router->get('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
             //订单状态
             $router->any('status', ['uses' => 'UserOrderController@status']);
+            //订单状态  测试支付回调使用
+            //$router->any('update', ['uses' => 'UserOrderController@update']);
         });
 
         //账户信息
