@@ -21,7 +21,7 @@ use App\Models\Orm\UserOrderBasicInfo;
 use App\Models\Orm\UserReport;
 use App\Strategies\CertifyTaobaoStrategy;
 use App\Strategies\OrderStrategy;
-use App\Strategies\SaasPersonStrategy;
+use App\Strategies\AdminPersonStrategy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;

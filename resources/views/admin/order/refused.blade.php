@@ -112,7 +112,7 @@
                                 <td>{{\App\Strategies\UserOrderStrategy::getChannelText($item)}}</td>
                                 <td>{{ $item->assigned_at }}</td>
                                 <td>{{\App\Models\Factory\Admin\Order\OrderFactory::getReasonByOrderId($item['saas_order_id'])}}</td>
-                                <th>{{ \App\Strategies\SaasPersonStrategy::getPersonNameById($item->person_id) }}</th>
+                                <th>{{ \App\Strategies\AdminPersonStrategy::getPersonNameById($item->person_id) }}</th>
                                 <th>{{ $item->check_time }}</th>
                                 <td>
                                     <div class="btn-group">

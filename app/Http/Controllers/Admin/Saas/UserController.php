@@ -12,7 +12,7 @@ use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
 use App\Models\Orm\SaasOrderSaas;
 use App\Models\Orm\SaasPerson;
-use App\Strategies\SaasPersonStrategy;
+use App\Strategies\AdminPersonStrategy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -45,7 +45,7 @@ class UserController extends Controller
             ->where('id', '!=', $authUser->id);
 
         if (!$authUser->super_user) {
-            $ids = SaasPersonStrategy::getSubIdsById($authUser->id);
+            $ids = AdminPersonStrategy::getSubIdsById($authUser->id);
             $users = $users->whereIn('id', $ids);
         }
 
