@@ -1,14 +1,14 @@
 <?php
-Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
+Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
 
     /**
      *   Auth API
      */
     $router->group(['prefix' => 'auth'], function ($router) {
         // 正常登陆
-        $router->any('login', ['middleware' => ['valiApi:login'],'uses' => 'AuthController@login']);
+        $router->any('login', ['middleware' => ['valiApi:login'], 'uses' => 'AuthController@login']);
         //快捷注册
-        $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'],'uses' => 'AuthController@quickLogin']);
+        $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'], 'uses' => 'AuthController@quickLogin']);
         // 用户退出
         $router->any('logout', ['uses' => 'AuthController@logout']);
     });
@@ -55,15 +55,15 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->any('card/createUserBank', ['middleware' => ['authApi'],'uses' => 'BanksController@createUserBank']);
+            $router->any('card/createUserBank', ['middleware' => ['authApi'], 'uses' => 'BanksController@createUserBank']);
             //银行卡校验
             $router->any('card/verify', ['uses' => 'BanksController@verify']);
             //银行卡删除
             $router->any('card/delete', ['uses' => 'BanksController@delete']);
             //银行卡列表
-            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'],'uses' => 'BanksController@fetchUserBanks']);
+            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'], 'uses' => 'BanksController@fetchUserBanks']);
             //修改默认银行卡
-            $router->any('card/updateDefault', ['middleware' => ['authApi'],'uses' => 'BanksController@updateDefault']);
+            $router->any('card/updateDefault', ['middleware' => ['authApi'], 'uses' => 'BanksController@updateDefault']);
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
@@ -86,14 +86,10 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
 
         //账户信息
         $router->group(['prefix' => 'account'], function ($router) {
-            //订单列表
-            $router->any('list', ['uses' => 'AccountController@list']);
-            //订单详情
+            //邀请好友
+            $router->any('invitecount', ['uses' => 'AccountController@inviteAccount']);
+            //账户信息
             $router->any('info', ['uses' => 'AccountController@info']);
-            //创建订单
-            $router->get('create', ['uses' => 'AccountController@create']);
-            //订单状态
-            $router->any('status', ['uses' => 'AccountController@status']);
         });
     });
 
@@ -102,11 +98,11 @@ Route::group(['namespace' => 'V1','middleware' => ['sign'], 'as' => 'api.', 'pre
      */
     $router->group(['prefix' => 'invite'], function ($router) {
         //生成好有链接
-        $router->any('link', ['uses' => 'InviteController@link']);
+        $router->any('link', ['middleware' => ['authApi'], 'uses' => 'InviteController@link']);
         //生成邀请好友二维码
-        $router->any('sqcode', ['uses' => 'InviteController@sqcode']);
+        $router->any('sqcode', ['middleware' => ['authApi'], 'uses' => 'InviteController@sqcode']);
         //邀请好友页面
-        $router->any('home', ['uses' => 'InviteController@home']);
+        $router->any('home', ['middleware' => ['authApi'], 'uses' => 'InviteController@home']);
 
     });
 

@@ -21,11 +21,11 @@ class CostController extends Controller
     {
         $fee_nid = $request->fee_nid ? $request->fee_nid : '';
         if(!$fee_nid){
-            return RestResponseFactory::ok(RestUtils::getStdObj(), '参数错误');
+            return RestResponseFactory::ok(RestUtils::getStdObj(), '参数错误',1000);
         }
         $fee_res = FeeFactory::getFeeByFeeNid($fee_nid);
         if(!$fee_res){
-            return RestResponseFactory::ok(RestUtils::getStdObj(), '暂无数据');
+            return RestResponseFactory::ok(RestUtils::getStdObj(), '暂无数据',1005);
         }
         $re['groom'] = [
             [
