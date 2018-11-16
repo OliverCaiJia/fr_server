@@ -12,7 +12,7 @@ class BankFactory extends ApiFactory
      */
     public static function getBankLists()
     {
-        $banks = Bank::select('bank_code','bank_name','bank_logo','single_limit','day_limit')->get();
+        $banks = Bank::select('bank_code','bank_name','bank_logo','bank_color','single_limit','day_limit')->get();
         return $banks ? $banks->toArray() : [];
     }
 
