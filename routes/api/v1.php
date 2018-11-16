@@ -10,7 +10,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //快捷注册
         $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'], 'uses' => 'AuthController@quickLogin']);
         // 用户退出
-        $router->any('logout', ['uses' => 'AuthController@logout']);
+        $router->any('logout', ['uses' => 'AuthController@logout']);//添加验证器
     });
 
     /**
@@ -20,26 +20,26 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //注册短信验证码
         $router->any('register', ['middleware' => ['valiApi:code'], 'uses' => 'SmsController@register']);
         //修改密码短信验证码
-        $router->any('password', ['uses' => 'SmsController@password']);
+        $router->any('password', ['uses' => 'SmsController@password']);//添加验证器
         //忘记密码
-        $router->any('forgetPwd', ['uses' => 'SmsController@forgetPwd']);
+        $router->any('forgetPwd', ['uses' => 'SmsController@forgetPwd']);//添加验证器
     });
 
     /**
      *  Users API
      */
-    $router->group(['prefix' => 'user'], function ($router) {
+    $router->group(['prefix' => 'user','middleware' => ['authApi']], function ($router) {
         //***************** ********************
         //创建（忘记/修改）密码
-        $router->any('updatepwd', ['uses' => 'UserController@updatePwd']);
+        $router->any('updatepwd', ['uses' => 'UserController@updatePwd']);//添加验证器
         //用户个人信息获取
-        $router->any('info', ['middleware' => ['authApi'], 'uses' => 'UserController@serInfo']);
+        $router->any('info', ['uses' => 'UserController@serInfo']);
         //个人资料查看
-        $router->any('info/detail', ['middleware' => ['authApi'], 'uses' => 'UserinfoController@fetchCertifyinfo']);
+        $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
-        $router->any('info/create', ['middleware' => ['authApi'], 'uses' => 'UserinfoController@updateCertifyinfo']);
+        $router->any('info/create', ['uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
-        $router->any('report', ['uses' => 'UserinfoController@report']);
+        $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
 
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
@@ -48,32 +48,36 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             // 检测和识别中华人民共和国第二代身份证反面
             $router->get('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);//'middleware' => ['auth', 'valiApi:idcardBack'],
             //天创验证身份证合法信息
-            $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);
+            $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);//添加验证器
 
         });
 
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->any('card/createUserBank', ['middleware' => ['authApi'], 'uses' => 'BanksController@createUserBank']);
+            $router->any('card/createUserBank', [ 'uses' => 'BanksController@createUserBank']);//添加验证器
             //银行卡校验
-            $router->any('card/verify', ['uses' => 'BanksController@verify']);
+            $router->any('card/verify', ['uses' => 'BanksController@verify']);//添加验证器
             //银行卡删除
-            $router->any('card/delete', ['uses' => 'BanksController@delete']);
+            $router->any('card/delete', ['uses' => 'BanksController@delete']);//添加验证器
             //银行卡列表
-            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'], 'uses' => 'BanksController@fetchUserBanks']);
+            $router->any('card/fetchUserBanks', ['middleware' => ['authApi'], 'uses' => 'BanksController@fetchUserBanks']);//添加验证器
             //修改默认银行卡
-            $router->any('card/updateDefault', ['middleware' => ['authApi'], 'uses' => 'BanksController@updateDefault']);
+            $router->any('card/updateDefault', ['middleware' => ['authApi'], 'uses' => 'BanksController@updateDefault']);//添加验证器
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
             $router->any('bank/support', ['uses' => 'BanksController@support']);
+            //同步回调
+            $router->any('yibao/sync', ['uses' => 'YiBaoController@sync']);//添加验证器
+            //异步回调
+            $router->any('yibao/async', ['uses' => 'YiBaoController@async']);//添加验证器
         });
 
         //订单
         $router->group(['prefix' => 'order','middleware' => ['authApi']], function ($router) {
             //订单列表
-            $router->any('list', ['uses' => 'UserOrderController@list']);
+            $router->any('list', ['uses' => 'UserOrderController@list']);//添加验证器
             //订单详情
             $router->any('info', ['uses' => 'UserOrderController@info']);
             //创建订单
@@ -87,29 +91,29 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //账户信息
         $router->group(['prefix' => 'account'], function ($router) {
             //邀请好友信息列表
-            $router->any('invitecount', ['middleware' => ['authApi'], 'uses' => 'AccountController@inviteAccount']);
+            $router->any('invitecount', [ 'uses' => 'AccountController@inviteAccount']);
             //账户信息
-            $router->any('info', ['middleware' => ['authApi'], 'uses' => 'AccountController@info']);
+            $router->any('info', ['uses' => 'AccountController@info']);
         });
     });
 
     /**
      *  Wechat API
      */
-    $router->group(['prefix' => 'invite'], function ($router) {
+    $router->group(['prefix' => 'invite','middleware' => ['authApi']], function ($router) {
         //生成好有链接
-        $router->any('link', ['middleware' => ['authApi'], 'uses' => 'InviteController@link']);
+        $router->any('link', ['uses' => 'InviteController@link']);
         //生成邀请好友二维码
-        $router->any('sqcode', ['middleware' => ['authApi'], 'uses' => 'InviteController@sqcode']);
+        $router->any('sqcode', ['uses' => 'InviteController@sqcode']);
         //邀请好友页面
-        $router->any('home', ['middleware' => ['authApi'], 'uses' => 'InviteController@home']);
+        $router->any('home', ['uses' => 'InviteController@home']);
 
     });
 
     /**
      *  banner
      */
-    $router->group(['prefix' => 'banner'], function ($router) {
+    $router->group(['prefix' => 'banner'], function ($router) {//添加验证器
         //订单轮播图
         $router->any('oder', ['uses' => 'BannerController@order']);
         //信用报告轮播图
@@ -134,7 +138,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'Cost'], function ($router) {
+    $router->group(['prefix' => 'cost','middleware' => ['authApi']], function ($router) {
         //推荐服务/信用评估默认配置
         $router->any('costdefault', ['uses' => 'CostController@costDefault']);
     });
@@ -156,15 +160,15 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      */
     $router->group(['prefix' => 'version'], function ($router) {
         //注册协议
-        $router->any('upgrade', ['uses' => 'VersionController@upgrade']);
+        $router->any('upgrade', ['uses' => 'VersionController@upgrade']);//添加验证器
     });
 
     /**
      *  贷款推送
      */
-    $router->group(['prefix' => 'loan'], function ($router) {
+    $router->group(['prefix' => 'loan','middleware' => ['authApi']], function ($router) {
         //推荐产品列表
-        $router->any('products', ['uses' => 'LoanController@products']);
+        $router->any('products', ['uses' => 'LoanController@products']);//添加验证器
     });
 
     /**
