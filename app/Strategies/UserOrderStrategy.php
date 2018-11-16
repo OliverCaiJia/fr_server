@@ -16,12 +16,13 @@ class UserOrderStrategy extends AppStrategy
      *
      * @return string
      */
-    public static function createOrderNo($type = 'SGD')
+    public static function createOrderNo($extra = "A", $type = 'SGD')
     {
         $NO = date('Y') . date('m') . date('d') . date('H') . date('i') . date('s') . '-' . Utils::randomNumber();
 
-        return $type . '-' . $NO;
+        return $type . '-' . $extra . '-' . $NO;
     }
+
 
     /**
      * 获取渠道名称展示文案
