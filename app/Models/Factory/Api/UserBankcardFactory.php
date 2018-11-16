@@ -50,6 +50,7 @@ class UserBankcardFactory extends ApiFactory
             $data[$key]['bank_name'] = $bankinfo['bank_name'];
             $data[$key]['bank_short_name'] = $bankinfo['bank_short_name'];
             $data[$key]['banklogo'] = $bankinfo['bank_logo'];
+            $data[$key]['bank_color'] = $bankinfo['bank_color'];
         }
 
         return $data ? $data : [];
