@@ -32,7 +32,7 @@ class IfOrderPaidAction extends AbstractHandler
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
 
         $userOrderTypeNid = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
-        $this->params['order_type_nid'] = $userOrderTypeNid;
+        $this->params['order_type_nid'] = $userOrderTypeNid['type_nid'];
         $this->params['user_id'] = $userOrder['user_id'];
         $this->params['order_no'] = $userOrder['order_no'];
         $this->params['is_sub_order'] = $userOrder['is_sub_order'];
