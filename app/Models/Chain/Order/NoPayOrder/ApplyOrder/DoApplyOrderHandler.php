@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  * Class DoReportOrderLogicHandler
  * @package App\Models\Chain\Order\ReportOrder
  */
-class ApplyOrderHandler extends AbstractHandler
+class DoApplyOrderHandler extends AbstractHandler
 {
     private $params = array();
 

@@ -4,6 +4,9 @@ namespace App\Strategies;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Models\Chain\Order\Loan\DoReportOrderLogicHandler;
+use App\Models\Chain\Order\NoPayOrder\ApplyOrder\ApplyOrderHandler;
+use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
+use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Order\PayOrder\UserOrder\DoPayOrderHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -31,12 +34,12 @@ class OrderStrategy extends AppStrategy
                 break;
             //申请产品订单（一个接口）user_apply_log
             case 'order_product':
-                $chain = new DoReportOrderLogicHandler($order);
+                $chain = new DoApplyOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;
             //贷款(两个接口）user_loan_log
             case 'order_apply':
-                $chain = new DoReportOrderLogicHandler($order);
+                $chain = new DoProductOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;
             default:
