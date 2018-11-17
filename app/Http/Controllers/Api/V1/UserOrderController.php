@@ -45,7 +45,8 @@ class UserOrderController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
+        $info = OrderStrategy::getDiffOrderTypeInfo($request);
+//        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['info'][] = [
@@ -82,11 +83,15 @@ class UserOrderController extends ApiController
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $data['platform_nid'] = $request->input('platform_nid', '');
 
-        $order = OrderStrategy::getDiffOrderTypeChain($data);
-        $res['order_no'] = $order['order_no'];
-        if (isset($res['error'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1136),1136);
+        $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
+        if (isset($result['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(),$result['error'],$result['code'],$result['error']);
         }
+        $res = [];
+        $res['order_no'] = $result['order_no'];
+        $res['status'] = $result['status'];
+        $res['order_type_nid'] = $orderTypeNid;
+        $res['order_expired'] = $result['order_expired'];
         return RestResponseFactory::ok($res);
     }
 
@@ -101,16 +106,24 @@ class UserOrderController extends ApiController
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getOrderByUserIdOrderNo($userId, $orderNo);
         $res['info']['status'] = $userOrder['status'];
+
+        $res['info']['order_no'] = $userOrder['order_no'];
+        $res['info']['status'] = $userOrder['status'];
+//        $res['info']['order_type_nid'] = $orderTypeNid;
+        $res['info']['order_expired'] = $userOrder['order_expired'];
         return RestResponseFactory::ok($res);
     }
 
-
+    /**
+     * 更新订单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
         $data = $request->all();
         $data['user_id'] = $this->getUserId($request);
         $data['order_no'] = $request->input('order_no');
-        //TODO::  A订单类型方法
         $orderTypeNid = $request->input('order_type_nid');
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
@@ -126,12 +139,13 @@ class UserOrderController extends ApiController
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $data['platform_nid'] = $request->input('platform_nid', '');
 
-        $order = OrderStrategy::getDiffOrderTypeChain($data);
-        dd($order);
+        $order = OrderStrategy::getDiffOrderTypeChainForUpdate($data);
 //        $res['order_no'] = $order['order_no'];
         if (isset($res['error'])) {
             return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1141),1141);
         }
         return RestResponseFactory::ok($order);
     }
+
+
 }

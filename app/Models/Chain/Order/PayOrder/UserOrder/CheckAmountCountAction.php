@@ -17,7 +17,7 @@ class CheckAmountCountAction extends AbstractHandler
     }
 
     /**
-     * 第一步:检查是否有未支付订单
+     * 第一步:
      *
      * @return array
      */

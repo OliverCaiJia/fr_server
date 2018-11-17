@@ -3,12 +3,13 @@
 namespace App\Models\Chain\Order\Loan;
 
 use App\Models\Chain\AbstractHandler;
+use App\Models\Chain\Order\PayOrder\UserOrder\CheckAmountCountAction;
 use App\Models\Factory\Api\UserOrderFactory;
 
 class IfHasPaidOrderAction extends AbstractHandler
 {
     private $params = [];
-    protected $error = ['error' => '贷款订单未能通过，分配失败！', 'code' => 8010];
+    protected $error = ['error' => '您好，订单还未付费！', 'code' => 8010];
 
     public function __construct($params)
     {
@@ -19,7 +20,7 @@ class IfHasPaidOrderAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkIfPaid($this->params)) {
-            $this->setSuccessor(new CheckCountAction($this->params));
+            $this->setSuccessor(new CheckAmountCountAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;

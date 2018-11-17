@@ -4,15 +4,13 @@ namespace App\Models\Orm;
 
 use App\Models\AbsBaseModel;
 
-class UserReportLog extends AbsBaseModel
+class UserOrderReport extends AbsBaseModel
 {
-    public $timestamps = false;
-    public $incrementing = true;
     /**
      *
      *  设置表名
      */
-    const TABLE_NAME = 'user_report_log';
+    const TABLE_NAME = 'user_order_report';
     const PRIMARY_KEY = 'id';
 
     /**

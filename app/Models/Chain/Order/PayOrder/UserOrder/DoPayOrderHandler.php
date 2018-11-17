@@ -23,10 +23,12 @@ class DoPayOrderHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 0.检查是否有同类型未支付的订单，
-     * 1.验证金额  >0
-     * 2、验证数量  必须是1
-     * 3、创建订单（有效期1小时，）
+     * 1、先入report_log表
+     * 2、再入order_report 中间表
+     * 3、检查是否有同类型未支付的订单，
+     * 4、验证金额  >0
+     * 5、验证数量  必须是1
+     * 6、创建订单（有效期1小时，）
      */
 
     public function handleRequest()
