@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder\PaidOrder;
+namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
-use App\Strategies\UserOrderStrategy;
 use Illuminate\Support\Facades\DB;
 
-
-class DoPaidOrderHandler extends AbstractHandler
+/**
+ * 会员订单创建责任链
+ */
+class DoExtraOrderHandler extends AbstractHandler
 {
     #外部传参
 
@@ -22,9 +23,12 @@ class DoPaidOrderHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 1.订单编号是否存在
-     * 2、是否处理中
-     * 3、更新订单状态和时间（及其他字段）
+     * 1、先入report_log表
+     * 2、再入order_report 中间表
+     * 3、检查是否有同类型未支付的订单，
+     * 4、验证金额  >0
+     * 5、验证数量  必须是1
+     * 6、创建订单（有效期1小时，）
      */
 
     public function handleRequest()
@@ -34,21 +38,18 @@ class DoPaidOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new CheckOrderNoExistsAction($this->params));
+            $this->setSuccessor(new CheckOrderExistsAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
                 DB::rollback();
 
-                SLogger::getStream()->error('支付回调订单失败, 支付回调订单-try');
+                SLogger::getStream()->error('付费订单失败, 付费订单-try');
                 SLogger::getStream()->error($result['error']);
             }
             else
             {
                 DB::commit();
-
-                //todo::
-
 
             }
         }
@@ -56,7 +57,7 @@ class DoPaidOrderHandler extends AbstractHandler
         {
             DB::rollBack();
 
-            SLogger::getStream()->error('支付回调订单捕获异常, 支付回调订单-catch');
+            SLogger::getStream()->error('付费订单捕获异常, 付费订单-catch');
             SLogger::getStream()->error($e->getMessage());
         }
 
