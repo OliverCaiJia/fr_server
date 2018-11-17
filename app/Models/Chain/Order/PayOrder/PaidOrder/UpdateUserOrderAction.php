@@ -15,6 +15,7 @@ class UpdateUserOrderAction extends AbstractHandler
     public function __construct($params)
     {
         $this->params = $params;
+        $this->data = $params;
     }
 
     public function handleRequest()
@@ -22,12 +23,12 @@ class UpdateUserOrderAction extends AbstractHandler
         $para = $this->params;
         $userId = $para['user_id'];
         $orderNo = $para['order_no'];
-        $data['status'] = $para['status'];
+        $data['status'] = 1; //  支付成功
         $data['update_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $result = UserOrderFactory::updateOrderByUserIdAndOrderNo($userId, $orderNo, $data);
         if ($result) {
-            return true;
+            return $this->data ;
         }
         return $this->error;
     }

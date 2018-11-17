@@ -159,6 +159,20 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 根据订单id获取订单唯一标识
+     * @param $typeId
+     * @return array
+     */
+    public static function getOrderTypeNidByTypeId($typeId)
+    {
+        $userOrder = UserOrderType::select()
+            ->where('id', '=', $typeId)
+            ->where('status', '=', 1)//TODO::CONSTANT
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
      * 通过用户id和订单类型获取用户订单
      * @param $userId
      * @param $orderType
@@ -183,6 +197,19 @@ class UserOrderFactory extends ApiFactory
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
+            ->where('order_no', '=', $orderNo)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 通过订单编号获取用户订单
+     * @param $orderNo
+     * @return array
+     */
+    public static function getUserOrderByOrderNo($orderNo)
+    {
+        $userOrder = UserOrder::select()
             ->where('order_no', '=', $orderNo)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];

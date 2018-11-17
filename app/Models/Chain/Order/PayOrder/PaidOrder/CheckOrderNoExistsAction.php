@@ -35,6 +35,8 @@ class CheckOrderNoExistsAction extends AbstractHandler
     {
         $orderNo = $params['order_no'];
 
+
+
         if (empty($orderNo)) {
             $this->error['error'] = "您好，订单编号不存在！";
             return false;

@@ -28,10 +28,27 @@ class IfOrderPaidAction extends AbstractHandler
 
     private function ifOrderPaid($params)
     {
-        $userId = $params['user_id'];
         $orderNo = $params['order_no'];
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderNo);
-        if (!empty($userOrder) && $userOrder['status'] != 0) {//处理中
+        $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
+
+        $userOrderTypeNid = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $this->params['order_type_nid'] = $userOrderTypeNid;
+        $this->params['user_id'] = $userOrder['user_id'];
+        $this->params['order_no'] = $userOrder['order_no'];
+        $this->params['is_sub_order'] = $userOrder['is_sub_order'];
+        $this->params['order_expired'] = $userOrder['order_expired'];
+        $this->params['amount'] = $userOrder['amount'];
+        $this->params['term'] = $userOrder['term'];
+        $this->params['count'] = $userOrder['count'];
+        $this->params['status'] = $userOrder['status'];
+        $this->params['create_at'] = $userOrder['create_at'];
+
+        if (empty($userOrder)) {//处理中
+            $this->error['error'] = "您好，订单不存在！";
+            return false;
+        }
+
+        if ($userOrder['status'] != 0) {//处理中
             $this->error['error'] = "您好，订单状态必须是支付中！";
             return false;
         }

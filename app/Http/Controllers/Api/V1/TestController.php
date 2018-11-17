@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 
@@ -69,18 +70,13 @@ class TestController extends ApiController
 
     //yop 下单接口
     public function tradeOrder() {
-        $url = 'https://open.yeepay.com/yop-center';
-        $uri = '/rest/v1.0/std/trade/order';
-        $merchantNo="10000466938";
-        $parentMerchantNo="10000466938";
-        $urlRequest = $url . $uri;
-        $orderId = 'merchant12345';
-        $orderAmount = 88.88;
-        $notifyUrl = 'http://payment.merchant.com:8080/uc/payCallback?u8ChannelID=8';
-        $goodsParamExt = '';
-        $ledgerNo = '';
-        $amount = '';
-        $ledgerNo = '';
-        $proportion = '';
+        $order = [];
+        $order['order_no'] = 'SGD-A-20181117213040-256937';
+        $chain = new DoPaidOrderHandler($order);
+        $result = $chain->handleRequest();
+        dd($result);
     }
+
+
+
 }
