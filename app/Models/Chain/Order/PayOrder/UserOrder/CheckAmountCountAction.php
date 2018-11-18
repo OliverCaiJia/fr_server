@@ -24,6 +24,7 @@ class CheckAmountCountAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkAmount($this->params) && $this->checkCount($this->params)) {
+            $this->params['p_order_id'] = 0;
             $this->setSuccessor(new CreateUserOrderAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {

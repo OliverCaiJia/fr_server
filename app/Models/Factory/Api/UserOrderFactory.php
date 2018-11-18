@@ -25,16 +25,37 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createOrder($params)
     {
+//        array:16 [▼
+//  "token" => "IJ46ZuDF11gNfo16E671UeCk7Hoj2Su8"
+//  "order_type_nid" => "order_report"
+//  "amount" => "0.01"
+//  "count" => "1"
+//  "user_id" => 6
+//  "order_no" => "SGD-A-20181118192715-717658"
+//  "order_type" => 3
+//  "payment_log_id" => 0
+//  "order_expired" => "2018-11-18 20:27:15"
+//  "term" => 0
+//  "status" => 0
+//  "create_ip" => "127.0.0.1"
+//  "create_at" => "2018-11-18 19:27:15"
+//  "update_ip" => "127.0.0.1"
+//  "update_at" => "2018-11-18 19:27:15"
+//  "platform_nid" => ""
+//]
+
+
         $userOrderObj = new UserOrder();
         $userOrderObj->user_id = $params['user_id'];
         $userOrderObj->order_no = $params['order_no'];
         $userOrderObj->order_type = $params['order_type'];
+        $userOrderObj->p_order_id = $params['p_order_id'];
         $userOrderObj->payment_log_id = $params['payment_log_id'];
         $userOrderObj->order_expired = $params['order_expired'];//读配置
         $userOrderObj->amount = $params['amount'];
         $userOrderObj->term = $params['term'];
         $userOrderObj->count = $params['count'];
-        $userOrderObj->status = 0;
+        $userOrderObj->status = $params['status'];
         $userOrderObj->create_ip = $params['create_ip'];
         $userOrderObj->create_at = $params['create_at'];
         $userOrderObj->update_ip = $params['update_ip'];
@@ -167,6 +188,21 @@ class UserOrderFactory extends ApiFactory
     {
         $userOrder = UserOrderType::select()
             ->where('id', '=', $typeId)
+            ->where('status', '=', 1)//TODO::CONSTANT
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+
+    /**
+     * 根据订单id获取订单类型
+     * @param $id
+     * @return array
+     */
+    public static function getOrderTypeById($id)
+    {
+        $userOrder = UserOrderType::select()
+            ->where('id', '=', $id)
             ->where('status', '=', 1)//TODO::CONSTANT
             ->first();
         return $userOrder ? $userOrder->toArray() : [];

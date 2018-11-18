@@ -20,6 +20,7 @@ class UserOrderController extends ApiController
      */
     public function list(Request $request)
     {
+        dd(2222);
         $userId = $this->getUserId($request);
         $userOrder = UserOrderFactory::getOrderByUserId($userId);
         $res = [];
@@ -43,18 +44,20 @@ class UserOrderController extends ApiController
      */
     public function info(Request $request)
     {
-        $userId = $this->getUserId($request);
+//        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        $info = OrderStrategy::getDiffOrderTypeInfo($request);
+        $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
+        $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
+        $info = OrderStrategy::getDiffOrderTypeInfo($orderNo, $orderType['type_nid']);
 //        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
-        $res = [];
-        foreach ($userOrder as $uOrder) {
-            $res['info'][] = [
-                "amount" => $uOrder['amount'],
-                "status" => $uOrder['status']
-            ];
-        }
-        return RestResponseFactory::ok($res);
+//        $res = [];
+//        foreach ($userOrder as $uOrder) {
+//            $res['info'][] = [
+//                "amount" => $uOrder['amount'],
+//                "status" => $uOrder['status']
+//            ];
+//        }
+//        return RestResponseFactory::ok($res);
     }
 
     /**

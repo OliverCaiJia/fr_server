@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
@@ -49,6 +50,12 @@ class TestController extends ApiController
                 [
                     'name' => 'api_key',
                     'contents' => $appKey,
+
+
+
+
+
+
                 ],
                 [
                     'name' => 'api_secret',
@@ -68,15 +75,28 @@ class TestController extends ApiController
         return $res;
     }
 
-    //yop 下单接口
+
     public function tradeOrder() {
-        $order = [];
-        $order['order_no'] = 'SGD-A-20181117213040-256937';
-        $chain = new DoPaidOrderHandler($order);
-        $result = $chain->handleRequest();
-        dd($result);
+//        $order = [];
+//        $order['order_no'] = 'SGD-A-20181117213040-256937';
+//        $chain = new DoPaidOrderHandler($order);
+//        $result = $chain->handleRequest();
+//        dd($result);
+
+
     }
 
+    public function product() {
+        //todo::多个赠送服务订单
+        $order = [];
+        $order['order_no'] = 'SGD-A-20181117213040-256937';
+        $order['amount'] = 0;
+        $order['count'] = 1;
+        $chain = new DoProductOrderHandler($order);
+        $result = $chain->handleRequest();
+        dd($result);
 
+
+    }
 
 }

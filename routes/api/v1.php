@@ -149,6 +149,6 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      *  Test API（调试）
      */
     $router->group(['prefix' => 'test'], function ($router) {
-        $router->any('yibao', ['uses' => 'TestController@tradeOrder']);
+        $router->any('product', ['uses' => 'TestController@product']);
     });
 });

@@ -4,6 +4,7 @@ namespace App\Models\Chain\Order\Loan;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
+use App\Models\Chain\Order\NoPayOrder\ApplyOrder\IfHasPaidOrderAction;
 use Illuminate\Support\Facades\DB;
 
 /**

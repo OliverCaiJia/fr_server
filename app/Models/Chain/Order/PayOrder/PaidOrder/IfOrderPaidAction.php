@@ -30,7 +30,14 @@ class IfOrderPaidAction extends AbstractHandler
     {
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
-
+        if (empty($userOrder)) {//处理中
+            $this->error['error'] = "您好，订单不存在！";
+            return false;
+        }
+        if ($userOrder['status'] != 0) {//处理中
+            $this->error['error'] = "您好，订单状态必须是支付中！";
+            return false;
+        }
         $userOrderTypeNid = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
         $this->params['order_type_nid'] = $userOrderTypeNid['type_nid'];
         $this->params['user_id'] = $userOrder['user_id'];
@@ -42,16 +49,6 @@ class IfOrderPaidAction extends AbstractHandler
         $this->params['count'] = $userOrder['count'];
         $this->params['status'] = $userOrder['status'];
         $this->params['create_at'] = $userOrder['create_at'];
-
-        if (empty($userOrder)) {//处理中
-            $this->error['error'] = "您好，订单不存在！";
-            return false;
-        }
-
-        if ($userOrder['status'] != 0) {//处理中
-            $this->error['error'] = "您好，订单状态必须是支付中！";
-            return false;
-        }
         return true;
     }
 }

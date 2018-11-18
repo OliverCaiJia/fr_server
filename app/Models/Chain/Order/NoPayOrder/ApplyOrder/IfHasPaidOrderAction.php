@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\Loan;
+namespace App\Models\Chain\Order\NoPayOrder\ApplyOrder;
 
 use App\Models\Chain\AbstractHandler;
 use App\Models\Chain\Order\PayOrder\UserOrder\CheckAmountCountAction;

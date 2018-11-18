@@ -34,12 +34,12 @@ class OrderStrategy extends AppStrategy
                 break;
             //申请产品订单（一个接口）user_apply_log
             case 'order_product':
-                $chain = new DoApplyOrderHandler($order);
+                $chain = new DoProductOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;
             //贷款(两个接口）user_loan_log
             case 'order_apply':
-                $chain = new DoProductOrderHandler($order);
+                $chain = new DoApplyOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;
             default:
@@ -56,33 +56,26 @@ class OrderStrategy extends AppStrategy
     public static function getDiffOrderTypeChainForUpdate($order)
     {
         switch ($order['order_type_nid']) {
-
-
             //付费
-            case 'order_report11111':
-                $chain = new DoPayOrderHandler($order);
-                $result = $chain->handleRequest();
-                break;
-            //增值服务订单(推荐）
-            case 'order_extra_service':
-                $chain = new DoReportOrderLogicHandler($order);
-                $result = $chain->handleRequest();
-                break;
-
-            //申请产品订单
-            case 'order_product':
-                $chain = new DoReportOrderLogicHandler($order);
-                $result = $chain->handleRequest();
-                break;
-            //贷款
-            case 'order_apply':
-                $chain = new DoReportOrderLogicHandler($order);
-                $result = $chain->handleRequest();
-                break;
-            //支付成功回调测试
             case 'order_report':
                 $chain = new DoPaidOrderHandler($order);
                 $result = $chain->handleRequest();
+                break;
+            //增值服务订单(推荐） //待定
+            case 'order_extra_service':
+//                $chain = new DoReportOrderLogicHandler($order);
+//                $result = $chain->handleRequest();
+                break;
+
+            //申请产品订单 无更新
+            case 'order_product':
+//                $chain = new DoReportOrderLogicHandler($order);
+//                $result = $chain->handleRequest();
+                break;
+            //贷款  //TODO::此更新再确认逻辑
+            case 'order_apply':
+//                $chain = new DoReportOrderLogicHandler($order);
+//                $result = $chain->handleRequest();
                 break;
             default:
                 $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
@@ -91,15 +84,19 @@ class OrderStrategy extends AppStrategy
     }
 
     /**
+     * 根据不同类型查询订单详情
      * @param $order
      * @return array
      */
-    public static function getDiffOrderTypeInfo($order)
+    public static function getDiffOrderTypeInfo($orderNo, $typeNid)
     {
-        switch ($order['order_type_nid']) {
+        switch ($typeNid) {
             //付费报告（一个接口）user_report_log
             case 'order_report':
-                $result = '';
+                dd(333);
+//                $userId = $this->getUserId($order);
+//                $orderNo = $request->input('order_no');
+                $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
                 break;
             //增值服务订单(推荐）（一个接口）user_extra_service_log
             case 'order_extra_service':

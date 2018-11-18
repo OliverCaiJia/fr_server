@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder\UserOrder;
+namespace App\Models\Chain\Order\Report\Moxie;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use Illuminate\Support\Facades\DB;
 
-/**
- * 会员订单创建责任链
- */
-class DoPayOrderHandler extends AbstractHandler
-{
-    #外部传参
 
+class DoReportOrderHandler extends AbstractHandler
+{
     private $params = array();
 
     public function __construct($params)
@@ -23,10 +19,10 @@ class DoPayOrderHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 1、检查是否有同类型未支付的订单，
-     * 2、验证金额  >0
-     * 3、验证数量  必须是1
-     * 4、创建订单（有效期1小时，）
+     * 0.
+     * 1.
+     * 2、
+     * 3、
      */
 
     public function handleRequest()
@@ -36,13 +32,13 @@ class DoPayOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new CheckOrderExistsAction($this->params));
+            $this->setSuccessor(new CheckPorderStatusAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
                 DB::rollback();
 
-                SLogger::getStream()->error('付费订单失败, 付费订单-try');
+                SLogger::getStream()->error('赠送服务订单失败, 报告-try');
                 SLogger::getStream()->error($result['error']);
             }
             else
@@ -55,7 +51,7 @@ class DoPayOrderHandler extends AbstractHandler
         {
             DB::rollBack();
 
-            SLogger::getStream()->error('付费订单捕获异常, 付费订单-catch');
+            SLogger::getStream()->error('赠送服务订单捕获异常, 报告异常-catch');
             SLogger::getStream()->error($e->getMessage());
         }
 

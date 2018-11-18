@@ -23,10 +23,10 @@ class DoProductOrderHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 0.检查是否支付，
-     * 1.验证金额  >0
-     * 2、验证数量  必须是1
-     * 3、创建订单（有效期1小时，）
+     * 0.
+     * 1.
+     * 2、
+     * 3、
      */
 
     public function handleRequest()
@@ -36,13 +36,13 @@ class DoProductOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new IfHasPaidOrderAction($this->params));
+            $this->setSuccessor(new CheckPorderStatusAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
                 DB::rollback();
 
-                SLogger::getStream()->error('贷款订单失败, 报告-try');
+                SLogger::getStream()->error('赠送服务订单失败, 报告-try');
                 SLogger::getStream()->error($result['error']);
             }
             else
@@ -55,7 +55,7 @@ class DoProductOrderHandler extends AbstractHandler
         {
             DB::rollBack();
 
-            SLogger::getStream()->error('贷款订单捕获异常, 报告异常-catch');
+            SLogger::getStream()->error('赠送服务订单捕获异常, 报告异常-catch');
             SLogger::getStream()->error($e->getMessage());
         }
 
