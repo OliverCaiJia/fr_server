@@ -64,6 +64,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             $router->any('card/banks', ['uses' => 'BanksController@fetchUserBanks']);//添加验证器
             //修改默认银行卡
             $router->any('card/default', ['uses' => 'BanksController@updateDefault']);//添加验证器
+            //绑定银行卡获取个人信息
+            $router->any('card/user/info', ['uses' => 'BanksController@userInfo']);//添加验证器
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
