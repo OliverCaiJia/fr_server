@@ -7,6 +7,7 @@ use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Models\Factory\FeeFactory;
 use App\Strategies\OrderStrategy;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
@@ -33,6 +34,42 @@ class UserOrderController extends ApiController
                 "status" => $uOrder['status']
             ];
         }
+        return RestResponseFactory::ok($res);
+    }
+
+    /**
+     * 报告fee
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function report()
+    {
+        $feeNid = 'CREDIT_COST_DEFAULT';
+        $result = FeeFactory::getFeeByFeeNid($feeNid);
+        $res = [];
+        $res['name'] = $result['name'];
+        $res['remark'] = $result['remark'];
+        $res['price'] = $result['price'];
+        $res['old_price'] = $result['old_price'];
+        $res['status'] = $result['status'];
+        return RestResponseFactory::ok($res);
+    }
+
+    /**
+     * 额外fee
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function extra(Request $request)
+    {
+        $feeNid = 'CREDIT_GROOM_DEFAULT';
+        $result = FeeFactory::getFeeByFeeNid($feeNid);
+        $res = [];
+        $res['name'] = $result['name'];
+        $res['remark'] = $result['remark'];
+        $res['price'] = $result['price'];
+        $res['old_price'] = $result['old_price'];
+        $res['status'] = $result['status'];
         return RestResponseFactory::ok($res);
     }
 
@@ -75,8 +112,8 @@ class UserOrderController extends ApiController
         $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
         $data['term'] = $request->input('term', 0);
-        $data['count'] = $request->input('count');
-        $data['status'] = $request->input('status', 0);
+        $data['count'] = 1;
+        $data['status'] = 0;
         $data['create_ip'] = Utils::ipAddress();
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
@@ -100,7 +137,7 @@ class UserOrderController extends ApiController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(Request $request)
+    public function getStatus(Request $request)
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');

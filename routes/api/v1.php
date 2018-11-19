@@ -81,9 +81,14 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             //订单详情
             $router->any('info', ['middleware' => ['valiApi:userOrderInfo'], 'uses' => 'UserOrderController@info']);
             //创建订单
-            $router->get('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
+            $router->any('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
             //订单状态
-            $router->any('status', ['middleware' => ['valiApi:userOrderStatus'], 'uses' => 'UserOrderController@status']);
+            $router->any('status', ['middleware' => ['valiApi:userOrderStatus'], 'uses' => 'UserOrderController@getStatus']);
+
+            $router->get('report', [ 'uses' => 'UserOrderController@report']);
+            //订单状态
+            $router->any('extra', [ 'uses' => 'UserOrderController@extra']);
+
         });
 
         //账户信息
