@@ -25,7 +25,7 @@ class CreateApplyUserOrderAction extends AbstractHandler
         
         $data['user_id'] = $this->params['user_id'];
         $data['order_no'] = UserOrderStrategy::createOrderNo();
-        $data['order_type'] = $this->params[''];
+        $data['order_type'] = $this->params['order_type'];
         $data['p_order_id'] = 0;
         $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));;
         $data['amount'] = 0;
@@ -38,6 +38,7 @@ class CreateApplyUserOrderAction extends AbstractHandler
         $data['update_at'] = date('Y-m-d H:i:s');
         $result = UserOrderFactory::createOrder($data);
 
+        //todo::插入task
         if ($result) {
             return $this->data;
         }

@@ -28,7 +28,8 @@ class CheckCountAction extends AbstractHandler
 
     private function checkCount($params)
     {
-        $count = $params['count'];
+        //todo::入task_loan表
+        $count = 1;
         if ($count != 1) {//处理中
             $this->error['error'] = "您好，订单数量必须是一！";
             return false;

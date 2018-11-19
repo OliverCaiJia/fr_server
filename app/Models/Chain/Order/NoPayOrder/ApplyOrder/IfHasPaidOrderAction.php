@@ -31,9 +31,11 @@ class IfHasPaidOrderAction extends AbstractHandler
     {
         $userId = $params['user_id'];
         $orderTypeNid = $params['order_type_nid'];
+        $pid = $params['pid'];
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
-        $this->params['order_type'] = $orderType;
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
+        $this->params['order_type'] = $orderType['id'];
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderId($userId, $pid);
+
         if (!empty($userOrder) && $userOrder['status'] != 1) {//订单处理完成
             $this->error['error'] = "用户您好，您未能通过报告订单，请先进行支付.";
             return false;
