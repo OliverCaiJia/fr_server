@@ -27,12 +27,13 @@ class YiJianDaiPushService extends AppService
         //获取参数加密字符串
         $bizData = self::getEncodeData($params, $key);
 
-        //获取签名
-        $sign = self::getSignInfo(['channel'=>$channel,'bizData'=>$bizData], $key);
-
         //获取参数
         $form_data['channel_fr'] = $channel;
         $form_data['bizData'] = $bizData;
+
+        //获取签名
+        $sign = self::getSignInfo($form_data, $key);
+
         $form_data['sign'] = $sign;
         $data['form_params'] = $form_data;
 
@@ -57,12 +58,13 @@ class YiJianDaiPushService extends AppService
         //获取参数加密字符串
         $bizData = self::getEncodeData($params, $key);
 
-        //获取签名
-        $sign = self::getSignInfo(['channel'=>$channel,'bizData'=>$bizData], $key);
-
         //获取参数
         $form_data['channel_fr'] = $channel;
         $form_data['bizData'] = $bizData;
+
+        //获取签名
+        $sign = self::getSignInfo($form_data, $key);
+
         $form_data['sign'] = $sign;
         $data['form_params'] = $form_data;
 

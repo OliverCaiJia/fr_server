@@ -3,7 +3,7 @@ namespace App\Http\Validators\Api\V1;
 
 use App\Http\Validators\AbstractValidator;
 
-class UserOrderInfoValidator extends AbstractValidator
+class UserInfoValidator extends AbstractValidator
 {
     /**
      * Validation rules
