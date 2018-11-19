@@ -10,7 +10,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //快捷注册
         $router->any('quicklogin', ['middleware' => ['valiApi:quicklogin'], 'uses' => 'AuthController@quickLogin']);
         // 用户退出
-        $router->any('logout', ['middleware' => ['authApi'], 'uses' => 'AuthController@logout']);//添加验证器
+        $router->any('logout', ['middleware' => ['authApi'], 'uses' => 'AuthController@logout']);
     });
 
     /**
@@ -55,17 +55,15 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->any('card/bank/create', [ 'uses' => 'BanksController@createUserBank']);//添加验证器
-            //银行卡校验
-            $router->any('card/verify', ['uses' => 'BanksController@verify']);//添加验证器
+            $router->any('card/bank/create', ['middleware' => [ 'valiApi:bank'],'uses' => 'BanksController@createUserBank']);
             //银行卡删除
             $router->any('card/delete', ['uses' => 'BanksController@delete']);//添加验证器
             //银行卡列表
-            $router->any('card/banks', ['uses' => 'BanksController@fetchUserBanks']);//添加验证器
+            $router->any('card/banks', ['uses' => 'BanksController@fetchUserBanks']);
             //修改默认银行卡
-            $router->any('card/default', ['uses' => 'BanksController@updateDefault']);//添加验证器
+            $router->any('card/default', ['middleware' => ['valiApi:userbankId'],'uses' => 'BanksController@updateDefault']);
             //绑定银行卡获取个人信息
-            $router->any('card/user/info', ['uses' => 'BanksController@userInfo']);//添加验证器
+            $router->any('card/user/info', ['uses' => 'BanksController@userInfo']);
             //支付确认页面
             $router->any('confirm', ['uses' => 'PaymentController@confirm']);
             //支付支持银行列表
@@ -153,6 +151,16 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     $router->group(['prefix' => 'wechat'], function ($router) {
         //水果贷 分享
         $router->post('', ['uses' => 'WechatController@fetchSignPackage']);
+    });
+
+    /**
+     * 分享链接
+     */
+    $router->group(['prefix' => 'invite'], function ($router) {
+        //用户邀请链接
+        $router->get('link', ['uses' => 'InviteController@link']);
+        //生成验证码
+        $router->get('qrcode', ['uses' => 'InviteController@sqcode']);
     });
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Http\Validators\Api\V1;
 
-use App\Helpers\Utils;
 use App\Http\Validators\AbstractValidator;
 
 /**
