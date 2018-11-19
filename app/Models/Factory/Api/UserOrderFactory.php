@@ -37,7 +37,6 @@ class UserOrderFactory extends ApiFactory
         $userOrderObj->order_no = $params['order_no'];
         $userOrderObj->order_type = $params['order_type'];
         $userOrderObj->p_order_id = $params['p_order_id'];
-        $userOrderObj->payment_log_id = $params['payment_log_id'];
         $userOrderObj->order_expired = $params['order_expired'];//读配置
         $userOrderObj->amount = $params['amount'];
         $userOrderObj->term = $params['term'];

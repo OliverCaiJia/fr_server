@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Chain\Order\Loan;
+namespace App\Models\Chain\Order\NoPayOrder\ApplyOrder;
 
 use App\Models\Chain\AbstractHandler;
+use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
 
 class CheckCountAction extends AbstractHandler
 {
@@ -18,7 +19,7 @@ class CheckCountAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkCount($this->params)) {
-            $this->setSuccessor(new CreateUserOrderrAction($this->params));
+            $this->setSuccessor(new CreateApplyUserOrderAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;

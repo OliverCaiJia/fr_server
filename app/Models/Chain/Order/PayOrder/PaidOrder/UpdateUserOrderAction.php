@@ -28,7 +28,7 @@ class UpdateUserOrderAction extends AbstractHandler
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $result = UserOrderFactory::updateOrderByUserIdAndOrderNo($userId, $orderNo, $data);
         if ($result) {
-            return $this->data ;
+            return $this->data;
         }
         return $this->error;
     }
