@@ -31,12 +31,6 @@
                 @foreach($data as $item)
                 <li> <span>{{ $item['mobile'] }}</span> <span>付费</span> <span>+36</span> </li>
                 @endforeach
-                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
-                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
-                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
-                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
-                {{--<li> <span>189****2778</span> <span>付费</span> <span>+36</span> </li>--}}
-                {{--<li> <span>143****6378</span> <span>付费</span> <span>+38</span> </li>--}}
                 <li> <span>合计</span> <span>--</span> <span>+{{ $count }}</span> </li>
             </ul>
         </section>
