@@ -154,6 +154,16 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     });
 
     /**
+     * 分享链接
+     */
+    $router->group(['prefix' => 'invite'], function ($router) {
+        //用户邀请链接
+        $router->get('link', ['uses' => 'InviteController@link']);
+        //生成验证码
+        $router->get('qrcode', ['uses' => 'InviteController@sqcode']);
+    });
+
+    /**
      *  Test API（调试）
      */
     $router->group(['prefix' => 'test'], function ($router) {
