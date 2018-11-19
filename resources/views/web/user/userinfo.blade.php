@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('js/larea/LArea.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user/userinfo.css') }}">
-    <title>水果贷-信用报告</title>
+    <title>水果贷-个人资料</title>
 </head>
 
 <body>
@@ -135,32 +135,32 @@
     <script src="{{ asset('js/larea/LArea.js') }}"></script>
     <script>
         var userinfoController = {
-            init: function() {
+            init: function () {
                 this.areaSelect('#address');
                 this.areaSelect('#company-address');
                 this.selectChange();
                 this.radioView();
-            },
-            /*地址选择*/
-            areaSelect: function(dom) {
+            }
+            , /*地址选择*/
+            areaSelect: function (dom) {
                 var _this = this;
                 var area1 = new LArea();
                 area1.init({
-                    'trigger': dom,
-                    'keys': {
-                        id: 'id',
-                        name: 'name'
-                    },
-                    'type': 1,
-                    'data': LAreaData
+                    'trigger': dom
+                    , 'keys': {
+                        id: 'id'
+                        , name: 'name'
+                    }
+                    , 'type': 1
+                    , 'data': LAreaData
                 });
                 area1.value = [1, 13, 3];
-                $(dom).focus(function() {
+                $(dom).focus(function () {
                     document.activeElement.blur();
                 });
-            },
-            selectChange: function() {
-                $('select').on('change', function() {
+            }
+            , selectChange: function () {
+                $('select').on('change', function () {
                     var text = $(this).find("option:selected").text();
                     var val = $(this).find("option:selected").val();
                     $(this).prev('i').text(text).addClass('selectColor');
@@ -168,21 +168,21 @@
                     console.log(text)
                     if (text == '上班族' || text == '公务员') {
                         $('.showData1').show();
-                    } else if (text == '企业主') {
+                    }
+                    else if (text == '企业主') {
                         $('.showData3').show();
                     }
                 })
-            },
-            radioView: function() {
-                $('.radio-box').on('click', 'span', function() {
+            }
+            , radioView: function () {
+                $('.radio-box').on('click', 'span', function () {
                     $(this).addClass('active').siblings('span').removeClass('active');
                 })
             }
         }
-        $(function() {
+        $(function () {
             userinfoController.init();
         })
-
     </script>
 </body>
 
