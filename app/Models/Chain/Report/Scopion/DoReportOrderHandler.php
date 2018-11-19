@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\Report\Moxie;
+namespace App\Models\Chain\Report\Scopion;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
