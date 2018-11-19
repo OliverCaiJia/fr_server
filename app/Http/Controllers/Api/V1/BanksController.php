@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\BankFactory;
 use App\Models\Chain\UserBank\Add\DoAddHandler;
 use App\Models\Factory\Api\UserBankcardFactory;
+use App\Models\Factory\Api\UserRealnameFactory;
 use Illuminate\Http\Request;
 use App\Models\Chain\UserBank\Defaultcard\DoDefaultcardHandler;
 
@@ -121,5 +122,21 @@ class BanksController extends ApiController
         return RestResponseFactory::ok($data);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 绑定银行卡获取个人信息
+     */
+    public function userInfo(Request $request){
+        $user_id = $this->getUserId($request);
+        $userInfo = UserRealnameFactory::fetchUserRealname($user_id);
+        if(empty($userInfo)){
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
+        }
+        $userInfo = [
+            'real_name' => $userInfo['real_name'],
+            'id_card_no' => $userInfo['id_card_no'],
+        ];
+        return RestResponseFactory::ok($userInfo);
+    }
 
 }
