@@ -43,11 +43,11 @@ class UserOrderController extends ApiController
      */
     public function info(Request $request)
     {
-//        $userId = $this->getUserId($request);
+        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
-        $info = OrderStrategy::getDiffOrderTypeInfo($orderNo, $orderType['type_nid']);
+        $info = OrderStrategy::getDiffOrderTypeInfo($userId, $orderNo, $orderType['type_nid']);
 //        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
         $res = [];
         foreach ($info as $uOrder) {

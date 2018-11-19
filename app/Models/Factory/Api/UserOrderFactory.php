@@ -375,7 +375,7 @@ class UserOrderFactory extends ApiFactory
     {
         $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
             ->where([UserOrder::TABLE_NAME . '.user_id' => $userId])
-            ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
+//            ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
             ->get();
 
         return $userOrder ? $userOrder->toArray() : [];

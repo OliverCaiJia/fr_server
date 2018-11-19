@@ -11,8 +11,8 @@ class UserOrderStatusValidator extends AbstractValidator
      * @var Array
      */
     protected $rules = array(
-        'page_index' => ['required','integer'],
-        'page_size' => ['required','integer'],
+//        'page_index' => ['required','integer'],
+//        'page_size' => ['required','integer'],
         'order_no' => ['required','string'],
     );
 
@@ -22,10 +22,10 @@ class UserOrderStatusValidator extends AbstractValidator
      * @var Array
      */
     protected $messages = array(
-        'page_index.required' => '',
-        'page_index.integer' => '',
-        'page_size.required' => '',
-        'page_size.integer' => '',
+//        'page_index.required' => '',
+//        'page_index.integer' => '',
+//        'page_size.required' => '',
+//        'page_size.integer' => '',
         'order_no.required' => '订单必须存在',
         'order_no.string' => '',
     );

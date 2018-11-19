@@ -88,14 +88,14 @@ class OrderStrategy extends AppStrategy
      * @param $order
      * @return array
      */
-    public static function getDiffOrderTypeInfo($orderNo, $typeNid)
+    public static function getDiffOrderTypeInfo($userId, $orderNo, $typeNid)
     {
         switch ($typeNid) {
             //付费报告（一个接口）user_report_log
             case 'order_report':
 //                $userId = $this->getUserId($order);
 //                $orderNo = $request->input('order_no');
-                $result = UserOrderFactory::getOrderDetailByOrderNo($orderNo);
+                $result = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
                 break;
             //增值服务订单(推荐）（一个接口）user_extra_service_log
             case 'order_extra_service':
