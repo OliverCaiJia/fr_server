@@ -17,7 +17,7 @@ class YiJianDaiPushService extends AppService
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function sendPush($params = [])
+    public function sendPush($params = [])
     {
         //获取config
         $url = YiJianDaiPushConfig::YIJIANDAI_PUSH_URL;
@@ -25,14 +25,14 @@ class YiJianDaiPushService extends AppService
         $channel = YiJianDaiPushConfig::YIJIANDAI_CHANNEL;
 
         //获取参数加密字符串
-        $bizData = self::getEncodeData($params, $key);
+        $bizData = $this->getEncodeData($params, $key);
 
         //获取参数
         $form_data['channel_fr'] = $channel;
         $form_data['bizData'] = $bizData;
 
         //获取签名
-        $sign = self::getSignInfo($form_data, $key);
+        $sign = $this->getSignInfo($form_data, $key);
 
         $form_data['sign'] = $sign;
         $data['form_params'] = $form_data;
@@ -48,7 +48,7 @@ class YiJianDaiPushService extends AppService
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function getPull($params = [])
+    public function getPull($params = [])
     {
         //获取config
         $url = YiJianDaiPushConfig::YIJIANDAI_PULL_URL;
@@ -56,14 +56,14 @@ class YiJianDaiPushService extends AppService
         $channel = YiJianDaiPushConfig::YIJIANDAI_CHANNEL;
 
         //获取参数加密字符串
-        $bizData = self::getEncodeData($params, $key);
+        $bizData = $this->getEncodeData($params, $key);
 
         //获取参数
         $form_data['channel_fr'] = $channel;
         $form_data['bizData'] = $bizData;
 
         //获取签名
-        $sign = self::getSignInfo($form_data, $key);
+        $sign = $this->getSignInfo($form_data, $key);
 
         $form_data['sign'] = $sign;
         $data['form_params'] = $form_data;
@@ -79,7 +79,7 @@ class YiJianDaiPushService extends AppService
      * @param $key
      * @return string
      */
-    public static function getSignInfo($params = [],$key) {
+    public function getSignInfo($params = [],$key) {
         $srcStr = "";
         $names = array();
         foreach($params as $name => $value) {
@@ -101,7 +101,7 @@ class YiJianDaiPushService extends AppService
      * @param $key
      * @return string
      */
-    public static function getEncodeData($params = [] , $key)
+    public function getEncodeData($params = [] , $key)
     {
         //验证数组
         $string = json_encode($params);
