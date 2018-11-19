@@ -28,8 +28,13 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
      *   User API
      */
     $router->group(['prefix' => 'user'], function ($router) {
-        // 
+        //获取信用报告
+        $router->any('create/report',['uses' => 'UserController@createReport']);
+        // 个人信用报告
         $router->any('report', ['uses' => 'UserController@report']);
+
+        //个人资料提交/创建
+        $router->any('info/create', ['uses' => 'UserController@userinfo']);
 //        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
     });
 

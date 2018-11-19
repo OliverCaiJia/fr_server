@@ -7,7 +7,7 @@ use App\Strategies\VersionStrategy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
 use App\Helpers\RestResponseFactory;
-use App\Models\Factory\VersionFactory;
+use App\Models\Factory\Api\VersionFactory;
 
 class VersionController extends ApiController
 {
