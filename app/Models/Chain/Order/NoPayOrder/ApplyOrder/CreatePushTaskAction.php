@@ -5,7 +5,7 @@ namespace App\Models\Chain\Order\NoPayOrder\ApplyOrder;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
 
-class CheckCountAction extends AbstractHandler
+class CreatePushTaskAction extends AbstractHandler
 {
     private $params = [];
     protected $error = ['error' => '订单数量必须是1！', 'code' => 8210];

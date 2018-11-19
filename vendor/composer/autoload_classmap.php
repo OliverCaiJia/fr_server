@@ -151,7 +151,7 @@ return array(
     'App\\Models\\Chain\\Login\\UpdateLoginTimeAction' => $baseDir . '/app/Models/Chain/Login/UpdateLoginTimeAction.php',
     'App\\Models\\Chain\\Login\\UpdateUserAction' => $baseDir . '/app/Models/Chain/Login/UpdateUserAction.php',
     'App\\Models\\Chain\\Order\\Loan\\CreateApplyUserOrderAction' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ApplyOrder/CreateApplyUserOrderAction.php',
-    'App\\Models\\Chain\\Order\\NoPayOrder\\ApplyOrder\\CheckCountAction' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ApplyOrder/CheckCountAction.php',
+    'App\\Models\\Chain\\Order\\NoPayOrder\\ApplyOrder\\CheckCountAction' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ApplyOrder/CreatePushTaskAction.php',
     'App\\Models\\Chain\\Order\\NoPayOrder\\ApplyOrder\\DoApplyOrderHandler' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ApplyOrder/DoApplyOrderHandler.php',
     'App\\Models\\Chain\\Order\\NoPayOrder\\ApplyOrder\\IfHasPaidOrderAction' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ApplyOrder/IfHasPaidOrderAction.php',
     'App\\Models\\Chain\\Order\\NoPayOrder\\ProductOrder\\CheckPorderStatusAction' => $baseDir . '/app/Models/Chain/Order/NoPayOrder/ProductOrder/CheckPorderStatusAction.php',

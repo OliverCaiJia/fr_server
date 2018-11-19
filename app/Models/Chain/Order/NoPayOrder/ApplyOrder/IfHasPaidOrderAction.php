@@ -20,7 +20,7 @@ class IfHasPaidOrderAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkIfPaid($this->params)) {
-            $this->setSuccessor(new CheckCountAction($this->params));
+            $this->setSuccessor(new CreatePushTaskAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
