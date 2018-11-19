@@ -20,7 +20,6 @@ class UserOrderController extends ApiController
      */
     public function list(Request $request)
     {
-        dd(2222);
         $userId = $this->getUserId($request);
         $userOrder = UserOrderFactory::getOrderByUserId($userId);
         $res = [];
@@ -44,20 +43,20 @@ class UserOrderController extends ApiController
      */
     public function info(Request $request)
     {
-//        $userId = $this->getUserId($request);
+        $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
-        $info = OrderStrategy::getDiffOrderTypeInfo($orderNo, $orderType['type_nid']);
+        $info = OrderStrategy::getDiffOrderTypeInfo($userId, $orderNo, $orderType['type_nid']);
 //        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
-//        $res = [];
-//        foreach ($userOrder as $uOrder) {
-//            $res['info'][] = [
-//                "amount" => $uOrder['amount'],
-//                "status" => $uOrder['status']
-//            ];
-//        }
-//        return RestResponseFactory::ok($res);
+        $res = [];
+        foreach ($info as $uOrder) {
+            $res['info'][] = [
+                "amount" => $uOrder['amount'],
+                "status" => $uOrder['status']
+            ];
+        }
+        return RestResponseFactory::ok($res);
     }
 
     /**
@@ -74,7 +73,6 @@ class UserOrderController extends ApiController
         $orderTypeNid = $request->input('order_type_nid');
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
-        $data['payment_log_id'] = $request->input('payment_log_id', 0);
         $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
         $data['term'] = $request->input('term', 0);

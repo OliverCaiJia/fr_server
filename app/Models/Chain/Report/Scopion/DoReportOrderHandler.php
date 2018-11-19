@@ -4,6 +4,7 @@ namespace App\Models\Chain\Order\Report\Moxie;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
+use App\Models\Chain\Report\Scopion\CreateAntifraudAction;
 use Illuminate\Support\Facades\DB;
 
 
@@ -32,7 +33,7 @@ class DoReportOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new CheckPorderStatusAction($this->params));
+            $this->setSuccessor(new CreateAntifraudAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {

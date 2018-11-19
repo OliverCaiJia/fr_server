@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\PayOrder\UserOrder;
+namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
 use App\Models\Chain\AbstractHandler;

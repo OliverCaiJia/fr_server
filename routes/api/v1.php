@@ -28,7 +28,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  Users API
      */
-    $router->group(['prefix' => 'user','middleware' => ['authApi']], function ($router) {
+    $router->group(['prefix' => 'user', 'middleware' => ['authApi']], function ($router) {
         //***************** ********************
         //创建（忘记/修改）密码
         $router->any('updatepwd', ['uses' => 'UserController@updatePwd']);//添加验证器
@@ -37,7 +37,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //个人资料查看
         $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
-        $router->any('info/create', ['uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
+        $router->any('info/create', ['middleware' => ['valiApi:UserInfo'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
 
@@ -55,13 +55,13 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //银行卡
         $router->group(['prefix' => 'payment'], function ($router) {
             //添加银行卡
-            $router->any('card/bank/create', ['middleware' => [ 'valiApi:bank'],'uses' => 'BanksController@createUserBank']);
+            $router->any('card/bank/create', ['middleware' => ['valiApi:bank'], 'uses' => 'BanksController@createUserBank']);
             //银行卡删除
             $router->any('card/delete', ['uses' => 'BanksController@delete']);//添加验证器
             //银行卡列表
             $router->any('card/banks', ['uses' => 'BanksController@fetchUserBanks']);
             //修改默认银行卡
-            $router->any('card/default', ['middleware' => ['valiApi:userbankId'],'uses' => 'BanksController@updateDefault']);
+            $router->any('card/default', ['middleware' => ['valiApi:userbankId'], 'uses' => 'BanksController@updateDefault']);
             //绑定银行卡获取个人信息
             $router->any('card/user/info', ['uses' => 'BanksController@userInfo']);
             //支付确认页面
@@ -89,7 +89,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //账户信息
         $router->group(['prefix' => 'account'], function ($router) {
             //邀请好友信息列表
-            $router->any('invitecount', [ 'uses' => 'AccountController@inviteAccount']);
+//            $router->any('invitecount', ['uses' => 'AccountController@inviteAccount']);
             //账户信息
             $router->any('info', ['uses' => 'AccountController@info']);
         });
@@ -124,7 +124,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'cost','middleware' => ['authApi']], function ($router) {
+    $router->group(['prefix' => 'cost', 'middleware' => ['authApi']], function ($router) {
         //推荐服务/信用评估默认配置
         $router->any('costdefault', ['uses' => 'CostController@costDefault']);
     });
@@ -140,7 +140,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  贷款推送
      */
-    $router->group(['prefix' => 'loan','middleware' => ['authApi']], function ($router) {
+    $router->group(['prefix' => 'loan', 'middleware' => ['authApi']], function ($router) {
         //推荐产品列表
         $router->any('products', ['uses' => 'LoanController@products']);//添加验证器
     });
@@ -148,9 +148,19 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      * 微信 sdk
      */
-    $router->group(['prefix' => 'wechat'], function ($router) {
+    $router->group(['prefix' => 'wechat', 'middleware' => ['authApi']], function ($router) {
         //水果贷 分享
         $router->post('', ['uses' => 'WechatController@fetchSignPackage']);
+    });
+
+    /**
+     * 分享链接
+     */
+    $router->group(['prefix' => 'invite', 'middleware' => ['authApi']], function ($router) {
+        //用户邀请链接
+        $router->get('link', ['uses' => 'InviteController@link']);
+        //生成验证码
+        $router->get('qrcode', ['uses' => 'InviteController@sqcode']);
     });
 
     /**
