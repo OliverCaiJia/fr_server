@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Core\Wechat;
 
-use App\Models\Factory\CacheFactory;
+use App\Models\Factory\Api\CacheFactory;
 
 class JssdkService {
   private $appId;
