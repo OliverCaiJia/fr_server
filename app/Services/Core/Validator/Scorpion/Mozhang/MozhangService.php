@@ -7,7 +7,7 @@ use App\Helpers\Http\HttpClient;
 class MozhangService extends AppService
 {
 
-    public static function getMoZhangContent( $name ,$idcard , $mobile, $num ,$qq_number=null)
+    public function getMoZhangContent( $name ,$idcard , $mobile, $num ,$qq_number=null)
     {
         //获取配置信息
         $app_id = MozhangConfig::getScorpioAppId();
@@ -15,7 +15,7 @@ class MozhangService extends AppService
         $format = MozhangConfig::getScorpioFormat();
         $sign_type = MozhangConfig::getScorpioSignType();
         $version = MozhangConfig::getScorpioVersion();
-        $timestamp = self::getMillionSeconds();
+        $timestamp = $this->getMillionSeconds();
 
         //content
         $biz_content = '{"name":"'.$name.'","idcard":"'.$idcard.'","mobile":"'.$mobile.'"}';
@@ -28,7 +28,7 @@ class MozhangService extends AppService
         $secret = MozhangConfig::getScorpioSecret();
 
         //获取签名
-        $sign = self::getSign($paramsStr,$secret);
+        $sign = $this->getSign($paramsStr,$secret);
 
         //请求url
         $url = MozhangConfig::SCORPIO_URL.'/risk-gateway/api/gateway?'.$paramsStr."&sign=".$sign;
@@ -42,7 +42,7 @@ class MozhangService extends AppService
     /**
      * 获取SHA1签名
      */
-    public static function getSign($paramsStr,$secret)
+    public function getSign($paramsStr,$secret)
     {
         $signature = "";
         $str = chunk_split( $secret, 64, "\n" );
@@ -56,7 +56,7 @@ class MozhangService extends AppService
      * 获取毫秒级时间戳
      * @return number
      */
-    protected static function getMillionSeconds()
+    protected function getMillionSeconds()
     {
         list($msec, $sec) = explode(' ', microtime());
         $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);

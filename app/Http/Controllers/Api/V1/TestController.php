@@ -1,17 +1,20 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
+use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 
 class TestController extends ApiController
 {
     //易宝支付
-    public function test(){
+    public function test()
+    {
         $data = [
             'orderId' => 'DS181116_15341265',
             'orderAmount' => '0.01',
@@ -19,12 +22,13 @@ class TestController extends ApiController
             'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
             'userNo' => '13520973931',
         ];
-       $url = YiBaoService::send($data);
-       echo $url;
+        $url = YiBaoService::send($data);
+        echo $url;
     }
 
     //face++
-    public function getFace() {//$image
+    public function getFace()
+    {//$image
         $appKey = 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
 //        $appKey = ValidatorService::o()->getFaceidAppKey();
         $appSecret = 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
@@ -35,7 +39,6 @@ class TestController extends ApiController
 //        $url = ValidatorService::FACEID_API_URL . '/faceid/v3/ocridcard';
 //        $apiKey = ValidatorService::getFaceidAppKey();
 //        $apiSecret = ValidatorService::getFaceidAppSecret();
-//
 
         $image = '/home/zhijie/下载/600921248.jpg';
 //        $image = file_get_contents($imgUrl);
@@ -50,12 +53,6 @@ class TestController extends ApiController
                 [
                     'name' => 'api_key',
                     'contents' => $appKey,
-
-
-
-
-
-
                 ],
                 [
                     'name' => 'api_secret',
@@ -76,7 +73,8 @@ class TestController extends ApiController
     }
 
 
-    public function tradeOrder() {
+    public function tradeOrder()
+    {
 //        $order = [];
 //        $order['order_no'] = 'SGD-A-20181117213040-256937';
 //        $chain = new DoPaidOrderHandler($order);
@@ -86,7 +84,8 @@ class TestController extends ApiController
 
     }
 
-    public function product() {
+    public function product()
+    {
         //todo::多个赠送服务订单
         $order = [];
         $order['order_no'] = 'SGD-A-20181117213040-256937';
@@ -97,6 +96,19 @@ class TestController extends ApiController
         dd($result);
 
 
+    }
+
+    public function doReport()
+    {
+        $par = [];
+        $par['name'] = '蔡嘉';
+        $par['idcard'] = '130702198111071511';
+        $par['mobile'] = '18510536684';
+        $par['num'] = 0;
+
+        $chain = new DoReportOrderHandler($par);
+        $result = $chain->handleRequest();
+        dd($result);
     }
 
 }

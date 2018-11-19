@@ -5,6 +5,7 @@ namespace App\Models\Chain\Report\Scopion;
 use App\Constants\OrderConstant;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
 
 class CreateAntifraudAction extends AbstractHandler
 {
@@ -18,7 +19,7 @@ class CreateAntifraudAction extends AbstractHandler
 
     /**
      *
-     *
+     *s
      * @return array
      */
     public function handleRequest()
@@ -37,8 +38,14 @@ class CreateAntifraudAction extends AbstractHandler
 //        return $this->error;
     }
 
+
+
     private function createAntifraud($params)
     {
+//        dd($params);
+//        $moZhang = new MozhangService();
+        $pullResult = MozhangService::o()->getMoZhangContent($params['name'], $params['idCard'], $params['mobile'], $params['num']);
+        dd($pullResult);
 
 //        `id` int(11) NOT NULL COMMENT 'id',
 //  `user_id` int(11) NOT NULL COMMENT '用户id',
