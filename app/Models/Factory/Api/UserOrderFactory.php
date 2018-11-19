@@ -4,11 +4,18 @@ namespace App\Models\Factory\Api;
 
 use App\Constants\UserVipConstant;
 use App\Models\Orm\Platform;
+use App\Models\Orm\UserAmountEst;
+use App\Models\Orm\UserAntifraud;
+use App\Models\Orm\UserApply;
 use App\Models\Orm\UserApplyLog;
+use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserLoanLog;
+use App\Models\Orm\UserMultiinfo;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderReport;
 use App\Models\Orm\UserOrderType;
+use App\Models\Orm\UserPersonal;
+use App\Models\Orm\UserPostloan;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
 
@@ -25,26 +32,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createOrder($params)
     {
-//        array:16 [▼
-//  "token" => "IJ46ZuDF11gNfo16E671UeCk7Hoj2Su8"
-//  "order_type_nid" => "order_report"
-//  "amount" => "0.01"
-//  "count" => "1"
-//  "user_id" => 6
-//  "order_no" => "SGD-A-20181118192715-717658"
-//  "order_type" => 3
-//  "payment_log_id" => 0
-//  "order_expired" => "2018-11-18 20:27:15"
-//  "term" => 0
-//  "status" => 0
-//  "create_ip" => "127.0.0.1"
-//  "create_at" => "2018-11-18 19:27:15"
-//  "update_ip" => "127.0.0.1"
-//  "update_at" => "2018-11-18 19:27:15"
-//  "platform_nid" => ""
-//]
-
-
         $userOrderObj = new UserOrder();
         $userOrderObj->user_id = $params['user_id'];
         $userOrderObj->order_no = $params['order_no'];
@@ -65,6 +52,263 @@ class UserOrderFactory extends ApiFactory
             return $userOrderObj->toArray();
         }
 
+        return false;
+    }
+
+    /**
+     * 创建反欺诈
+     * @param $params
+     * @return array|bool
+     */
+    public static function createAntifraud($params)
+    {
+        $userAntifraud = new UserAntifraud();
+        $userAntifraud->user_id = $params['user_id'];
+        $userAntifraud->user_report_id = $params['user_report_id'];
+        $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
+        $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
+        $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
+        $userAntifraud->untrusted_info = $params['untrusted_info'];//读配置
+        $userAntifraud->suspicious_idcard = $params['suspicious_idcard'];
+        $userAntifraud->suspicious_mobile = $params['suspicious_mobile'];
+        $userAntifraud->data = $params['data'];
+        $userAntifraud->fee = $params['fee'];
+        $userAntifraud->create_at = $params['create_at'];
+        $userAntifraud->update_at = $params['update_at'];
+
+        if ($userAntifraud->save()) {
+            return $userAntifraud->toArray();
+        }
+
+        return false;
+    }
+
+    /**
+     * 创建申请
+     * @param $params
+     * @return array|bool
+     */
+    public static function createApply($params)
+    {
+        $userApply = new UserApply();
+        $userApply->user_id = $params['user_id'];
+        $userApply->user_report_id = $params['user_report_id'];
+        $userApply->transid = $params['transid'];
+        $userApply->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
+        $userApply->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
+        $userApply->loan_behavior_analysis = $params['loan_behavior_analysis'];//读配置
+        $userApply->data = $params['data'];
+        $userApply->fee = $params['fee'];
+        $userApply->create_at = $params['create_at'];
+        $userApply->update_at = $params['update_at'];
+
+        if ($userApply->save()) {
+            return $userApply->toArray();
+        }
+
+        return false;
+    }
+
+    /**
+     * 创建用户电商额度数据
+     * @param $params
+     * @return array|bool
+     */
+    public static function createAmountEst($params)
+    {
+
+//        CREATE TABLE `sgd_user_amount_est` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
+//  `zm_score` int(8) NOT NULL DEFAULT '0' COMMENT '芝麻分',
+//  `huabai_limit` int(8) NOT NULL DEFAULT '0' COMMENT '花呗额度',
+//  `credit_amt` int(8) NOT NULL DEFAULT '0' COMMENT '借呗额度',
+//  `data` json NOT NULL COMMENT '返回数据',
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
+//  CONSTRAINT `sgd_user_amount_est_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
+        $userAmountEst = new UserAmountEst();
+        $userAmountEst->user_id = $params['user_id'];
+        $userAmountEst->user_report_id = $params['user_report_id'];
+        $userAmountEst->zm_score = $params['zm_score'];
+        $userAmountEst->huabai_limit = $params['huabai_limit'];
+        $userAmountEst->credit_amt = $params['credit_amt'];
+        $userAmountEst->data = $params['data'];
+        $userAmountEst->fee = $params['fee'];
+        $userAmountEst->create_at = $params['create_at'];
+        $userAmountEst->update_at = $params['update_at'];
+
+        if ($userAmountEst->save()) {
+            return $userAmountEst->toArray();
+        }
+
+        return false;
+    }
+
+    public static function createPostloan($params)
+    {
+//        CREATE TABLE `sgd_user_postloan` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的jt_user_reports表的id',
+//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
+//  `due_days_non_cdq_12_mon` int(8) NOT NULL COMMENT '近12个月最近一次非超短期现金贷逾期距今天数(',
+//  `pay_cnt_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月累计还款笔数',
+//  `data` json NOT NULL COMMENT '贷后行为',
+//  `fee` varchar(255) NOT NULL DEFAULT '',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  KEY `FK_USER_POSTLOAN_USER_ID` (`user_id`),
+//  CONSTRAINT `FK_USER_POSTLOAN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户贷后数据表'
+        $userPostloan = new UserPostloan();
+        $userPostloan->user_id = $params['user_id'];
+        $userPostloan->user_report_id = $params['user_report_id'];
+        $userPostloan->transid = $params['transid'];
+        $userPostloan->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
+        $userPostloan->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
+        $userPostloan->data = $params['data'];
+        $userPostloan->fee = $params['fee'];
+        $userPostloan->create_at = $params['create_at'];
+        $userPostloan->update_at = $params['update_at'];
+
+        if ($userPostloan->save()) {
+            return $userPostloan->toArray();
+        }
+
+        return false;
+    }
+
+    /**
+     * 创建黑名单
+     * @param $params
+     * @return array|bool
+     */
+    public static function createBlackList($params)
+    {
+//        CREATE TABLE `sgd_user_blacklist` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
+//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
+//  `mobile_name_in_blacklist` tinyint(1) NOT NULL DEFAULT '0' COMMENT '姓名手机是否在黑名单',
+//  `idcard_name_in_blacklist` tinyint(1) NOT NULL DEFAULT '0' COMMENT '身份证和姓名是否在黑名单',
+//  `black_info_detail` json NOT NULL COMMENT '黑名单信息',
+//  `gray_info_detail` json NOT NULL COMMENT '灰名单信息',
+//  `data` json NOT NULL COMMENT '数据',
+//  `fee` varchar(32) NOT NULL DEFAULT '' COMMENT '是否收费',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  KEY `FK_USER_BLACKLIST_USER_ID` (`user_id`),
+//  CONSTRAINT `FK_USER_BLACKLIST_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        $userBlacklist = new UserBlacklist();
+        $userBlacklist->user_id = $params['user_id'];
+        $userBlacklist->user_report_id = $params['user_report_id'];
+        $userBlacklist->transid = $params['transid'];
+        $userBlacklist->mobile_name_in_blacklist = $params['mobile_name_in_blacklist'];
+        $userBlacklist->idcard_name_in_blacklist = $params['idcard_name_in_blacklist'];
+        $userBlacklist->black_info_detail = $params['black_info_detail'];
+        $userBlacklist->gray_info_detail = $params['gray_info_detail'];
+        $userBlacklist->data = $params['data'];
+        $userBlacklist->fee = $params['fee'];
+        $userBlacklist->create_at = $params['create_at'];
+        $userBlacklist->update_at = $params['update_at'];
+        if ($userBlacklist->save()) {
+            return $userBlacklist->toArray();
+        }
+        return false;
+    }
+
+    /**
+     * 创建多头
+     * @param $params
+     * @return array|bool
+     */
+    public static function createMultiinfo($params)
+    {
+//        CREATE TABLE `sgd_user_multiinfo` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
+//  `register_org_count` int(8) NOT NULL DEFAULT '0' COMMENT '注册机构数量',
+//  `loan_cnt` int(8) NOT NULL DEFAULT '0' COMMENT '借贷次数',
+//  `loan_org_cnt` int(8) NOT NULL DEFAULT '0' COMMENT '借贷机构数',
+//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
+//  `data` json NOT NULL,
+//  `fee` varchar(255) NOT NULL DEFAULT '',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
+//  CONSTRAINT `FK_USER_MULTIINFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户多头数据表'
+        $userMultiinfo = new UserMultiinfo();
+        $userMultiinfo->user_id = $params['user_id'];
+        $userMultiinfo->user_report_id = $params['user_report_id'];
+        $userMultiinfo->register_org_count = $params['register_org_count'];
+        $userMultiinfo->loan_cnt = $params['loan_cnt'];
+        $userMultiinfo->loan_org_cnt = $params['loan_org_cnt'];
+        $userMultiinfo->transid = $params['transid'];
+        $userMultiinfo->data = $params['data'];
+        $userMultiinfo->fee = $params['fee'];
+        $userMultiinfo->create_at = $params['create_at'];
+        $userMultiinfo->update_at = $params['update_at'];
+        if ($userMultiinfo->save()) {
+            return $userMultiinfo->toArray();
+        }
+        return false;
+    }
+
+    public static function createPersonal($params)
+    {
+//        CREATE TABLE `sgd_user_personal` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `idcard` varchar(18) NOT NULL DEFAULT '' COMMENT '身份证号',
+//  `idcard_location` varchar(128) NOT NULL DEFAULT '' COMMENT '身份证归属地',
+//  `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+//  `carrier` varchar(64) NOT NULL DEFAULT '' COMMENT '手机运营商',
+//  `mobile_location` varchar(64) NOT NULL DEFAULT '' COMMENT '手机号归属地',
+//  `name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
+//  `age` int(4) NOT NULL COMMENT '年龄',
+//  `gender` tinyint(1) NOT NULL COMMENT '性别',
+//  `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
+//  `education` tinyint(4) NOT NULL COMMENT '学历',
+//  `is_graduation` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否毕业',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `create_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '创建IP',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '更新IP',
+//  PRIMARY KEY (`id`),
+//  KEY `FK_USER_PERSONAL_INFO_USER_ID` (`user_id`),
+//  CONSTRAINT `FK_USER_PERSONAL_INFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='信息查询返回个人信息数据'
+        $userPersonal = new UserPersonal();
+        $userPersonal->user_id = $params['user_id'];
+        $userPersonal->idcard = $params['idcard'];
+        $userPersonal->idcard_location = $params['idcard_location'];
+        $userPersonal->mobile = $params['mobile'];
+        $userPersonal->name = $params['name'];
+        $userPersonal->age = $params['age'];
+        $userPersonal->gender = $params['gender'];
+        $userPersonal->email = $params['email'];
+        $userPersonal->education = $params['education'];
+        $userPersonal->is_graduation = $params['is_graduation'];
+        $userPersonal->create_at = $params['create_at'];
+        $userPersonal->create_ip = $params['create_ip'];
+        $userPersonal->update_at = $params['update_at'];
+        $userPersonal->update_ip = $params['update_ip'];
+        if ($userPersonal->save()) {
+            return $userPersonal->toArray();
+        }
         return false;
     }
 
@@ -134,6 +378,13 @@ class UserOrderFactory extends ApiFactory
             ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
             ->get();
 
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    public static function getOrderDetailByOrderNo($orderNo)
+    {
+        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+            ->get();
         return $userOrder ? $userOrder->toArray() : [];
     }
 

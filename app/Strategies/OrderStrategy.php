@@ -93,10 +93,9 @@ class OrderStrategy extends AppStrategy
         switch ($typeNid) {
             //付费报告（一个接口）user_report_log
             case 'order_report':
-                dd(333);
 //                $userId = $this->getUserId($order);
 //                $orderNo = $request->input('order_no');
-                $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
+                $result = UserOrderFactory::getOrderDetailByOrderNo($orderNo);
                 break;
             //增值服务订单(推荐）（一个接口）user_extra_service_log
             case 'order_extra_service':

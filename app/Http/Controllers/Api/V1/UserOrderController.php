@@ -49,14 +49,14 @@ class UserOrderController extends ApiController
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
         $info = OrderStrategy::getDiffOrderTypeInfo($orderNo, $orderType['type_nid']);
 //        $userOrder = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
-//        $res = [];
-//        foreach ($userOrder as $uOrder) {
-//            $res['info'][] = [
-//                "amount" => $uOrder['amount'],
-//                "status" => $uOrder['status']
-//            ];
-//        }
-//        return RestResponseFactory::ok($res);
+        $res = [];
+        foreach ($info as $uOrder) {
+            $res['info'][] = [
+                "amount" => $uOrder['amount'],
+                "status" => $uOrder['status']
+            ];
+        }
+        return RestResponseFactory::ok($res);
     }
 
     /**
