@@ -51,7 +51,6 @@ class UserOrderController extends ApiController
         $res['remark'] = $result['remark'];
         $res['price'] = $result['price'];
         $res['old_price'] = $result['old_price'];
-        $res['status'] = $result['status'];
         return RestResponseFactory::ok($res);
     }
 
@@ -69,7 +68,6 @@ class UserOrderController extends ApiController
         $res['remark'] = $result['remark'];
         $res['price'] = $result['price'];
         $res['old_price'] = $result['old_price'];
-        $res['status'] = $result['status'];
         return RestResponseFactory::ok($res);
     }
 
