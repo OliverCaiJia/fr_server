@@ -41,13 +41,13 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
     /**
      *  Wechat API
      */
-    $router->group(['prefix' => 'invite'], function ($router) {
+    $router->group(['prefix' => 'invite'], function ($router) {//'middleware' => ['authWeb'],
         //生成好有链接
-        $router->any('link', ['middleware' => ['authWeb'], 'uses' => 'InviteController@link']);
+        $router->any('link', ['uses' => 'InviteController@link']);
         //生成邀请好友二维码
-        $router->any('sqcode', ['middleware' => ['authWeb'], 'uses' => 'InviteController@sqcode']);
+        $router->any('sqcode', ['uses' => 'InviteController@sqcode']);
         //邀请好友页面
-        $router->any('home', ['middleware' => ['authWeb'], 'uses' => 'InviteController@home']);
+        $router->any('home', ['uses' => 'InviteController@home']);
 
     });
 

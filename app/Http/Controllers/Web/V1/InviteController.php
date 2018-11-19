@@ -17,8 +17,8 @@ class InviteController extends WebController
      */
     public function home(Request $request)
     {
-        $userId = $this->getUserId($request);
-
+//        $userId = $this->getUserId($request);
+        $userId = 1;
         $data = InviteStrategy::getInvitedUsers($userId);
         $count = (count($data)*36) ?? 0;
 
