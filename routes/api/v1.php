@@ -132,9 +132,11 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'cost', 'middleware' => ['authApi']], function ($router) {
-        //推荐服务/信用评估默认配置
-        $router->any('costdefault', ['uses' => 'CostController@costDefault']);
+    $router->group(['prefix' => 'version'], function ($router) {
+        //android 版本升级
+        $router->get('android', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeAndroid']);
+        //ios 版本升级
+        $router->get('ios', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeIos']);
     });
 
     /**
