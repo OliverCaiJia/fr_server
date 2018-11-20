@@ -11,7 +11,7 @@ class MozhangService extends AppService
     {
         //获取配置信息
         $app_id = MozhangConfig::getScorpioAppId();
-        $method = MozhangConfig::SCORPIO_METHOD["'".$key."'"];
+        $method = MozhangConfig::SCORPIO_METHOD[$key];
         $format = MozhangConfig::getScorpioFormat();
         $sign_type = MozhangConfig::getScorpioSignType();
         $version = MozhangConfig::getScorpioVersion();
