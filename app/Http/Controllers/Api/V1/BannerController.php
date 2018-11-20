@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Helpers\RestResponseFactory;
+use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Services\Core\Validator\ValidatorService;
 use App\Models\Factory\Api\BannerFactory;
@@ -34,10 +35,17 @@ class BannerController extends ApiController
         return RestResponseFactory::ok();
     }
 
+    /**查询banner图
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function home(Request $request)
     {
         $type = $request->input('type');
         $data = BannerFactory::IsBanner($type);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
+        }
         return RestResponseFactory::ok($data);
     }
 
