@@ -36,13 +36,13 @@
     <script>
         function withdrawView() {
             try {
-                window.sd.sdClose();
+                window.sd.withdraw();
                 return;
             } catch (e) {
                 console.log("Android-立即提现方法失败");
             }
             try {
-                window.webkit.messageHandlers.sdClose.postMessage({});
+                window.webkit.messageHandlers.withdraw.postMessage({});
                 return;
             } catch (e) {
                 console.log("ios-立即提现方法失败");
@@ -59,20 +59,20 @@
 
         function inviteView() {
             try {
-                window.sd.sdClose();
+                window.sd.inviteFriend();
                 return;
             } catch (e) {
                 console.log("Android-立即邀请方法失败");
             }
             try {
-                window.webkit.messageHandlers.sdClose.postMessage({});
+                window.webkit.messageHandlers.inviteFriend.postMessage({});
                 return;
             } catch (e) {
                 console.log("ios-立即邀请方法失败");
             }
             try {
                 window.parent.postMessage({
-                    'type': 'invite'
+                    'type': 'inviteFriend'
                 }, '*');
                 return;
             } catch (e) {

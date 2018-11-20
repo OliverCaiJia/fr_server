@@ -55,12 +55,62 @@
 
 <body>
     <div class="container">
-        <p class="agreement">申请即同意<span>《信用评估服务协议》</span></p>
+        <p class="agreement">申请即同意<span onclick="createreportController.creditEvaluateServicePolicy()">《信用评估服务协议》</span></p>
         <div class="service"> <img src="/img/user/kefu_icon.png" alt="">
-            <p>在线客服</p>
+            <p onclick="createreportController.creditServiceOnlineCustomer()">在线客服</p>
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script>
+        var createreportController = {
+            //点击协议交互
+            creditEvaluateServicePolicy: function() {
+                try {
+                    window.sd.creditEvaluateServicePolicy();
+                    return;
+                } catch (e) {
+                    console.log("Android-点击协议方法失败");
+                }
+                try {
+                    window.webkit.messageHandlers.creditEvaluateServicePolicy.postMessage({});
+                    return;
+                } catch (e) {
+                    console.log("ios-点击协议方法失败");
+                }
+                try {
+                    window.parent.postMessage({
+                        'type': 'personInfo'
+                    }, '*');
+                    return;
+                } catch (e) {
+                    console.log("h5-点击协议方法返失败");
+                }
+            }, //点击客服交互
+            creditServiceOnlineCustomer: function() {
+                try {
+                    window.sd.creditEvaluateServicePolicy();
+                    return;
+                } catch (e) {
+                    console.log("Android-点击客服方法失败");
+                }
+                try {
+                    window.webkit.messageHandlers.creditEvaluateServicePolicy.postMessage({});
+                    return;
+                } catch (e) {
+                    console.log("ios-点击客服方法失败");
+                }
+                try {
+                    window.parent.postMessage({
+                        'type': 'personInfo'
+                    }, '*');
+                    return;
+                } catch (e) {
+                    console.log("h5-点击客服方法返失败");
+                }
+            }
+        }
+
+    </script>
 </body>
 
 </html>
