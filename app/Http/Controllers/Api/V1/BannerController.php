@@ -35,6 +35,10 @@ class BannerController extends ApiController
         return RestResponseFactory::ok();
     }
 
+    /**查询banner图
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function home(Request $request)
     {
         $type = $request->input('type');
