@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Helpers\Http\HttpClient;
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
-use App\Services\Core\Validator\ValidatorService;
-use function Couchbase\defaultDecoder;
+use App\Models\Factory\Api\SysConfigFactory;
 
 class BorrowController extends ApiController
 {
@@ -30,8 +28,42 @@ class BorrowController extends ApiController
         return RestResponseFactory::ok($res);
     }
 
+    /**
+     * 获取首页默认配置
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function default()
     {
-        return RestResponseFactory::ok();
+        $home_default_keys = [
+            'home_default_loan_amount',
+            'home_min_loan_amount',
+            'home_max_loan_amount',
+            'home_default_loan_period',
+            'home_min_loan_period',
+            'home_max_loan_period'
+        ];
+        $homeDefault = SysConfigFactory::getSysByKey($home_default_keys);
+
+        $res = [];
+        if($homeDefault)
+           //数据整理
+            foreach ($homeDefault as $home_key => $home_val){
+                foreach ($home_default_keys as $default_key => $default_val){
+                    if($home_val['key'] == $default_val){
+                        $res[$default_val] = $home_val['value'];
+                    }
+                }
+            }
+        $data = [
+            'moeny_min' => $res['home_min_loan_amount'],
+            'moeny_max' => $res['home_max_loan_amount'],
+            'moeny_default' => $res['home_default_loan_amount'],
+            'term_min' => $res['home_min_loan_period'],
+            'term_max' => $res['home_max_loan_period'],
+            'term_default' => $res['home_default_loan_period'],
+        ];
+        return RestResponseFactory::ok($data);
     }
 }
