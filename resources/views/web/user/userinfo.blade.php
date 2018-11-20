@@ -193,7 +193,7 @@
                 }
                 try {
                     window.parent.postMessage({
-                        'type': 'personInfo'
+                        'type': 'personInfoBind'
                     }, '*');
                     return;
                 } catch (e) {
