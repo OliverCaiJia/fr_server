@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Validators\V1;
+namespace App\Http\Validators\Api\V1;
 
 use App\Http\Validators\AbstractValidator;
 
