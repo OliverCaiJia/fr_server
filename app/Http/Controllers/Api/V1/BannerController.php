@@ -38,6 +38,9 @@ class BannerController extends ApiController
     {
         $type = $request->input('type');
         $data = BannerFactory::IsBanner($type);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
+        }
         return RestResponseFactory::ok($data);
     }
 

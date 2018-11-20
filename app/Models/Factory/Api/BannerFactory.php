@@ -23,26 +23,9 @@ class BannerFactory extends ApiFactory
 
     public static function IsBanner($type)
     {
-        switch ($type) {
-            case 'home':
-                $typeNid = 1;
-                return $data = self::fetchBanners($typeNid);
-                break;
-            case 'invite':
-                $typeNid = 2;
-                return $data = self::fetchBanners($typeNid);
-                break;
-            case 'order':
-                $typeNid = 3;
-                return $data = self::fetchBanners($typeNid);
-                break;
-            case 'personal':
-                $typeNid = 4;
-                return $data = self::fetchBanners($typeNid);
-                break;
-            default:
-                break;
-        }
+        $typeNid = self::fetchTypeId($type);
+        $data = self::fetchBanners($typeNid);
+        return $data;
     }
 
     /**
