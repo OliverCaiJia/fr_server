@@ -8,7 +8,7 @@ use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
-use App\Strategies\UserAuthenticationStatusStrategy;
+use App\Strategies\UserStatusStrategy;
 use App\Helpers\RestResponseFactory;
 use App\Models\Chain\Register\DoRegisterHandler;
 
@@ -24,8 +24,7 @@ class UserController extends ApiController
         #如果用户未激活调用注册责任链
         $register = new DoRegisterHandler($data);
         $re = $register->handleRequest();
-        if (isset($re['error']))
-        {
+        if (isset($re['error'])) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), $re['error'], $re['code'], $re['error']);
         }
         return RestResponseFactory::ok($re);
@@ -92,9 +91,10 @@ class UserController extends ApiController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userAuthenticationStatus(Request $request){
-        $uid= $this->getUserId($request);
-        $data = UserAuthenticationStatusStrategy::assemble($uid);
+    public function userAuthenticationStatus(Request $request)
+    {
+        $uid = $this->getUserId($request);
+        $data = UserStatusStrategy::assemble($uid);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
         }
