@@ -32,7 +32,7 @@ class UserAuthenticationStatusStrategy extends AppStrategy
      */
     public static function isUserAuthentication($uid)
     {
-        $userStatus = UserRealname::where(['user_id' => $uid])->get()->toArray();
+        $userStatus = UserRealname::where(['user_id' => $uid])->first();
         if (empty($userStatus)) {
             $status = '未完成';
         } else {
@@ -47,7 +47,7 @@ class UserAuthenticationStatusStrategy extends AppStrategy
      */
     public static function isUserBasic($uid)
     {
-        $userStatus = UserBasic::where(['user_id' => $uid])->get()->toArray();
+        $userStatus = UserBasic::where(['user_id' => $uid])->first();
         if (empty($userStatus)) {
             $status = '未完成';
         } else {
@@ -62,7 +62,7 @@ class UserAuthenticationStatusStrategy extends AppStrategy
      */
     public static function isUserBankCrad($uid)
     {
-        $userStatus = UserBankcard::where(['user_id' => $uid])->get()->toArray();
+        $userStatus = UserBankcard::where(['user_id' => $uid])->first();
         if (empty($userStatus)) {
             $status = '未完成';
         } else {
@@ -73,7 +73,7 @@ class UserAuthenticationStatusStrategy extends AppStrategy
 
     public static function isUserReport($uid)
     {
-        $userStatus = UserReport::where(['user_id' => $uid])->get()->toArray();
+        $userStatus = UserReport::where(['user_id' => $uid])->first();
         if (empty($userStatus)) {
             $status = '未完成';
         } else {
