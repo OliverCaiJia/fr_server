@@ -79,7 +79,7 @@
                 }
                 try {
                     window.parent.postMessage({
-                        'type': 'personInfo'
+                        'type': 'creditEvaluateServicePolicy'
                     }, '*');
                     return;
                 } catch (e) {
@@ -88,20 +88,20 @@
             }, //点击客服交互
             creditServiceOnlineCustomer: function() {
                 try {
-                    window.sd.creditEvaluateServicePolicy();
+                    window.sd.creditServiceOnlineCustomer();
                     return;
                 } catch (e) {
                     console.log("Android-点击客服方法失败");
                 }
                 try {
-                    window.webkit.messageHandlers.creditEvaluateServicePolicy.postMessage({});
+                    window.webkit.messageHandlers.creditServiceOnlineCustomer.postMessage({});
                     return;
                 } catch (e) {
                     console.log("ios-点击客服方法失败");
                 }
                 try {
                     window.parent.postMessage({
-                        'type': 'personInfo'
+                        'type': 'creditServiceOnlineCustomer'
                     }, '*');
                     return;
                 } catch (e) {
