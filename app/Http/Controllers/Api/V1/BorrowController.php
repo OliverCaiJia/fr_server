@@ -53,24 +53,26 @@ class BorrowController extends ApiController
         ];
         $homeDefault = SysConfigFactory::getSysByKey($home_default_keys);
 
-        $res = [];
-        if($homeDefault)
-           //数据整理
-            foreach ($homeDefault as $home_key => $home_val){
-                foreach ($home_default_keys as $default_key => $default_val){
-                    if($home_val['key'] == $default_val){
+        $data = [];
+        if(!empty($homeDefault)) {
+            //数据整理
+            foreach ($homeDefault as $home_key => $home_val) {
+                foreach ($home_default_keys as $default_key => $default_val) {
+                    if ($home_val['key'] == $default_val) {
                         $res[$default_val] = $home_val['value'];
                     }
                 }
             }
-        $data = [
-            'moeny_min' => $res[$moeny_min],
-            'moeny_max' => $res[$moeny_max],
-            'moeny_default' => $res[$moeny_default],
-            'term_min' => $res[$term_min],
-            'term_max' => $res[$term_max],
-            'term_default' => $res[$term_default],
-        ];
+            $data = [
+                'moeny_min' => $res[$moeny_min],
+                'moeny_max' => $res[$moeny_max],
+                'moeny_default' => $res[$moeny_default],
+                'term_min' => $res[$term_min],
+                'term_max' => $res[$term_max],
+                'term_default' => $res[$term_default],
+            ];
+        }
+
         return RestResponseFactory::ok($data);
     }
 }

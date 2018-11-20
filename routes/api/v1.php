@@ -147,7 +147,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      */
     $router->group(['prefix' => 'loan', 'middleware' => ['authApi']], function ($router) {
         //推荐产品列表
-        $router->any('products', ['uses' => 'LoanController@products']);//添加验证器
+        $router->any('products', ['middleware' => ['valiApi:loan'],'uses' => 'LoanController@products']);//添加验证器
     });
 
     /**
