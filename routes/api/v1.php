@@ -34,12 +34,15 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         $router->any('updatepwd', ['uses' => 'UserController@updatePwd']);//添加验证器
         //用户个人信息获取
         $router->any('info', ['uses' => 'UserController@serInfo']);
+        //用户认证状态
+        $router->any('status', ['uses' => 'UserController@userAuthenticationStatus']);//添加验证器
         //个人资料查看
         $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
         $router->any('info/create', ['middleware' => ['valiApi:UserInfo'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
+
 
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
@@ -129,9 +132,11 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'cost', 'middleware' => ['authApi']], function ($router) {
-        //推荐服务/信用评估默认配置
-        $router->any('costdefault', ['uses' => 'CostController@costDefault']);
+    $router->group(['prefix' => 'version'], function ($router) {
+        //android 版本升级
+        $router->get('android', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeAndroid']);
+        //ios 版本升级
+        $router->get('ios', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeIos']);
     });
 
     /**

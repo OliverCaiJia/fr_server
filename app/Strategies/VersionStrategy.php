@@ -29,6 +29,7 @@ class VersionStrategy extends AppStrategy
         $version['is_upload'] = $is_upload;
         $version['version_code'] = $versionData['version_code'];
         $version['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $version['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
         $version['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $version;
@@ -45,6 +46,7 @@ class VersionStrategy extends AppStrategy
         $data = [];
         $data['type'] = empty($versionData['type']) ? 0 : $versionData['type'];
         $data['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $data['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
         $data['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $data;
