@@ -80,17 +80,17 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //订单
         $router->group(['prefix' => 'order'], function ($router) {
             //订单列表
-            $router->any('list', ['middleware' => ['valiApi:userOrderList'], 'uses' => 'UserOrderController@list']);//添加验证器
+            $router->post('list', ['middleware' => ['valiApi:userOrderList'], 'uses' => 'UserOrderController@list']);//添加验证器
             //订单详情
-            $router->any('info', ['middleware' => ['valiApi:userOrderInfo'], 'uses' => 'UserOrderController@info']);
+            $router->post('info', ['middleware' => ['valiApi:userOrderInfo'], 'uses' => 'UserOrderController@info']);
             //创建订单
-            $router->any('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
+            $router->post('create', ['middleware' => ['valiApi:createOrder'], 'uses' => 'UserOrderController@create']);
             //订单状态
-            $router->any('status', ['middleware' => ['valiApi:userOrderStatus'], 'uses' => 'UserOrderController@getStatus']);
+            $router->post('status', ['middleware' => ['valiApi:userOrderStatus'], 'uses' => 'UserOrderController@getStatus']);
 
-            $router->get('report', [ 'uses' => 'UserOrderController@report']);
+            $router->post('report', [ 'uses' => 'UserOrderController@report']);
             //订单状态
-            $router->any('extra', [ 'uses' => 'UserOrderController@extra']);
+            $router->post('extra', [ 'uses' => 'UserOrderController@extra']);
 
         });
 
