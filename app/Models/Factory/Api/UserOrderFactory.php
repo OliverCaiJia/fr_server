@@ -16,6 +16,7 @@ use App\Models\Orm\UserOrderReport;
 use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserPersonal;
 use App\Models\Orm\UserPostloan;
+use App\Models\Orm\UserReport;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
 
@@ -61,24 +62,160 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAntifraud($params)
     {
+//        dd($params);
+//        array:12 [▼
+//  "user_id" => 6
+//  "user_report_id" => 17
+//  "courtcase_cnt" => 0
+//  "dishonest_cnt" => 0
+//  "fraudulence_is_hit" => false
+//  "untrusted_info" => "{"courtcase_cnt":0,"dishonest_cnt":0,"dishonest_detail_info":[]}"
+//  "suspicious_idcard" => "{"other_names_cnt":0,"other_mobiles_cnt":0,"other_mobiles_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_mobiles":[],"information_sources":[]}"
+//  "suspicious_mobile" => "{"other_names_cnt":0,"other_idcards_cnt":0,"other_idcards_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_idcards":[],"information_sources":[]}"
+//  "data" => "{"trans_id":"dcc509e0-ecb0-11e8-9c98-00163e0ed28c","person_info":{"idcard":"61030319791111****","idcard_location":"\u9655\u897f\u7701\/\u5b9d\u9e21\u5e02\/\u91d ▶"
+//  "fee" => "Y"
+//  "create_at" => "2018-11-20 18:41:40"
+//  "update_at" => "2018-11-20 18:41:40"
+//]
+
+
+//
+//
+//        array:12 [▼
+//  "user_id" => 6
+//  "user_report_id" => 25
+//  "courtcase_cnt" => 0
+//  "dishonest_cnt" => 0
+//  "fraudulence_is_hit" => 0
+//  "untrusted_info" => "{"courtcase_cnt":0,"dishonest_cnt":0,"dishonest_detail_info":[]}"
+//  "suspicious_idcard" => "{"other_names_cnt":0,"other_mobiles_cnt":0,"other_mobiles_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_mobiles":[],"information_sources":[]}"
+//  "suspicious_mobile" => "{"other_names_cnt":0,"other_idcards_cnt":0,"other_idcards_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_idcards":[],"information_sources":[]}"
+//  "data" => "{"trans_id":"99bd3d50-ecb2-11e8-9c98-00163e0ed28c","person_info":{"idcard":"61030319791111****","idcard_location":"\u9655\u897f\u7701\/\u5b9d\u9e21\u5e02\/\u91d ▶"
+//  "fee" => "Y"
+//  "create_at" => "2018-11-20 18:54:07"
+//  "update_at" => "2018-11-20 18:54:07"
+//]
+//
+//
+
+
+
+//        CREATE TABLE `sgd_user_antifraud` (
+//    `id` int(11) NOT NULL COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
+//  `courtcase_cnt` int(11) NOT NULL COMMENT '法院执行次数',
+//  `dishonest_cnt` int(11) NOT NULL COMMENT '失信未执行次数',
+//  `fraudulence_is_hit` tinyint(1) NOT NULL DEFAULT '0' COMMENT '欺诈名单是否命中',
+//  `untrusted_info` json NOT NULL COMMENT '失信信息',
+//  `suspicious_idcard` json NOT NULL COMMENT '身份存疑',
+//  `suspicious_mobile` json NOT NULL COMMENT '手机存疑',
+//  `data` json NOT NULL COMMENT '设备存疑',
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '费用',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  UNIQUE KEY `FK_USER_ANTIFRAUD_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `FK_USER_ANTIFRAUD_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户反欺诈信息表'
         $userAntifraud = new UserAntifraud();
         $userAntifraud->user_id = $params['user_id'];
         $userAntifraud->user_report_id = $params['user_report_id'];
         $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
         $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
         $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
-        $userAntifraud->untrusted_info = $params['untrusted_info'];//读配置
-        $userAntifraud->suspicious_idcard = $params['suspicious_idcard'];
-        $userAntifraud->suspicious_mobile = $params['suspicious_mobile'];
-        $userAntifraud->data = $params['data'];
+        $userAntifraud->untrusted_info = '';//读配置
+        $userAntifraud->suspicious_idcard = '';
+        $userAntifraud->suspicious_mobile = '';
+        $userAntifraud->data = '';
         $userAntifraud->fee = $params['fee'];
         $userAntifraud->create_at = $params['create_at'];
         $userAntifraud->update_at = $params['update_at'];
 
         if ($userAntifraud->save()) {
+            dd($userAntifraud);
             return $userAntifraud->toArray();
         }
 
+        return false;
+    }
+
+    /**
+     * 创建报告日志
+     * @param $params
+     * @return array|bool
+     */
+    public static function createReportLog($params)
+    {
+//        CREATE TABLE `sgd_user_report_log` (
+//    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_report_type_id` int(11) unsigned NOT NULL COMMENT '报告类型id',
+//  `user_id` int(11) NOT NULL COMMENT '用户id',
+//  `order_id` int(11) NOT NULL COMMENT '订单id',
+//  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '报告状态 0待支付 1支付完成 2报告完成',
+//  `data` json NOT NULL COMMENT '报告返回数据',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `create_ip` varchar(16) NOT NULL DEFAULT '' COMMENT '创建IP',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  `update_ip` varchar(16) NOT NULL DEFAULT '' COMMENT '更新IP',
+//  PRIMARY KEY (`id`)
+//) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='用户报告日志表（单次请求）'
+        $userReportLog = new UserReportLog();
+        $userReportLog->user_id = $params['user_id'];
+        $userReportLog->user_report_type_id = $params['user_report_type_id'];
+        $userReportLog->order_id = $params['order_id'];
+
+
+        $userReportLog->status = $params['status'];
+        $userReportLog->data = $params['data'];
+        $userReportLog->create_at = $params['create_at'];
+        $userReportLog->create_ip = $params['create_ip'];
+        $userReportLog->update_at = $params['update_at'];
+        $userReportLog->update_ip = $params['update_ip'];
+
+        if ($userReportLog->save()) {
+            return $userReportLog->toArray();
+        }
+
+        return false;
+    }
+
+    /**
+     * 创建报告
+     * @param $params
+     * @return array|bool
+     */
+    public static function createReport($params)
+    {
+//        CREATE TABLE `sgd_user_report` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `report_code` varchar(128) NOT NULL DEFAULT '' COMMENT '报告编号',
+//  `report_data` json NOT NULL COMMENT '报告数据',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  UNIQUE KEY `FK_USER_REPORT_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `FK_USER_REPORT_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户报告信息表'
+
+//        array:5 [▼
+//  "user_id" => 6
+//  "report_code" => "RSGD-A-20181120182442-512691"
+//  "report_data" => array:6 [▶]
+//  "create_at" => "2018-11-20 18:24:42"
+//  "update_at" => "2018-11-20 18:24:42"
+//]
+        $userReport = new UserReport();
+        $userReport->user_id = $params['user_id'];
+        $userReport->report_code = $params['report_code'];
+        $userReport->report_data = $params['report_data'];
+        $userReport->create_at = $params['create_at'];
+        $userReport->update_at = $params['update_at'];
+
+        if ($userReport->save()) {
+            return $userReport->toArray();
+        }
         return false;
     }
 

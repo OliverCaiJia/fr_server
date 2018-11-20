@@ -19,7 +19,7 @@ class CreateAntifraudAction extends AbstractHandler
 
     /**
      *
-     *s
+     *
      * @return array
      */
     public function handleRequest()
@@ -39,14 +39,8 @@ class CreateAntifraudAction extends AbstractHandler
     }
 
 
-
     private function createAntifraud($params)
     {
-//        dd($params);
-//        $moZhang = new MozhangService();
-        $pullResult = MozhangService::o()->getMoZhangContent($params['name'], $params['idCard'], $params['mobile'], $params['num']);
-        dd($pullResult);
-
 //        `id` int(11) NOT NULL COMMENT 'id',
 //  `user_id` int(11) NOT NULL COMMENT '用户id',
 //  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
@@ -60,26 +54,29 @@ class CreateAntifraudAction extends AbstractHandler
 //  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '费用',
 //  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 //  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-        $data['user_id'] = $params['user_id'];
-        $data['user_report_id'] = $params['user_report_id'];
-        $data['courtcase_cnt'] = $params['courtcase_cnt'];
-        $data['dishonest_cnt'] = $params['dishonest_cnt'];
-        $data['fraudulence_is_hit'] = $params['fraudulence_is_hit'];
-        $data['untrusted_info'] = $params['untrusted_info'];
-        $data['suspicious_idcard'] = $params['suspicious_idcard'];
-        $data['suspicious_mobile'] = $params['suspicious_mobile'];
-        $data['data'] = $params['data'];
-        $data['fee'] = $params['fee'];
-        $data['create_at'] = $params['create_at'];
-        $data['update_at'] = $params['update_at'];
 
-        $userReportLog = UserOrderFactory::createAntifraud($data);
+        $antifraud['user_id'] = $params['user_id'];
+        $antifraud['user_report_id'] = $params['user_report_id'];
+        $antifraud['courtcase_cnt'] = $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'];
+        $antifraud['dishonest_cnt'] = $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'];
+        $antifraud['fraudulence_is_hit'] = (int)($params['anti_fraud']['data']['fraudulence_info']['is_hit']);
+        $antifraud['untrusted_info'] = json_encode($params['anti_fraud']['data']['untrusted_info']);
+        $antifraud['suspicious_idcard'] = json_encode($params['anti_fraud']['data']['suspicious_idcard']);
+        $antifraud['suspicious_mobile'] = json_encode($params['anti_fraud']['data']['suspicious_mobile']);
+        $antifraud['data'] = json_encode($params['anti_fraud']['data']);
+        $antifraud['fee'] = $params['anti_fraud']['fee'];
+        $antifraud['create_at'] = date('Y-m-d H:i:s', time());
+        $antifraud['update_at'] = date('Y-m-d H:i:s', time());
+
+        $antifraud = UserOrderFactory::createAntifraud($antifraud);
+        dd($antifraud);
+
 
 //        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 //
-        if (!$userReportLog) {
+        if (!$antifraud) {
             $this->error['error'] = "您好，报告记录关系异常！";
             return false;
         }

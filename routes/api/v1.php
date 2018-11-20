@@ -85,7 +85,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             //订单状态
             $router->post('status', ['middleware' => ['valiApi:userOrderStatus'], 'uses' => 'UserOrderController@getStatus']);
 
-            $router->post('report', [ 'uses' => 'UserOrderController@report']);
+            $router->get('report', [ 'uses' => 'UserOrderController@report']);
             //订单状态
             $router->post('extra', [ 'uses' => 'UserOrderController@extra']);
 
@@ -181,6 +181,6 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      * 报告回调
      */
     $router->group(['prefix' => 'report'], function ($router) {
-        $router->any('report', ['uses' => 'ReportCallbackController@create']);
+        $router->any('create', ['uses' => 'ReportCallbackController@create']);
     });
 });

@@ -9,6 +9,7 @@ use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Order\PayOrder\UserOrder\DoPayOrderHandler;
+use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use Illuminate\Http\Request;
 
@@ -147,4 +148,10 @@ class OrderStrategy extends AppStrategy
 //        }
 //        return $result;
 //    }
+
+    public static function reportBak($res)
+    {
+        $chain = new DoReportOrderHandler($res);
+        $result = $chain->handleRequest();
+    }
 }

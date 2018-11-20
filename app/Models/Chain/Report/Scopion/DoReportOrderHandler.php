@@ -33,13 +33,13 @@ class DoReportOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new CreateAntifraudAction($this->params));
+            $this->setSuccessor(new CreateReportLogAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
                 DB::rollback();
 
-                SLogger::getStream()->error('赠送服务订单失败, 报告-try');
+                SLogger::getStream()->error('报告订单失败, 报告-try');
                 SLogger::getStream()->error($result['error']);
             }
             else
@@ -52,7 +52,7 @@ class DoReportOrderHandler extends AbstractHandler
         {
             DB::rollBack();
 
-            SLogger::getStream()->error('赠送服务订单捕获异常, 报告异常-catch');
+            SLogger::getStream()->error('报告订单捕获异常, 报告异常-catch');
             SLogger::getStream()->error($e->getMessage());
         }
 
