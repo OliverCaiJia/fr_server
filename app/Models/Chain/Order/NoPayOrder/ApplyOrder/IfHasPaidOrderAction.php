@@ -3,8 +3,8 @@
 namespace App\Models\Chain\Order\NoPayOrder\ApplyOrder;
 
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\Order\PayOrder\UserOrder\CheckAmountCountAction;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Models\Orm\UserOrderType;
 
 class IfHasPaidOrderAction extends AbstractHandler
 {
@@ -20,7 +20,7 @@ class IfHasPaidOrderAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkIfPaid($this->params)) {
-            $this->setSuccessor(new CheckAmountCountAction($this->params));
+            $this->setSuccessor(new CreatePushTaskAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
@@ -30,8 +30,12 @@ class IfHasPaidOrderAction extends AbstractHandler
     private function checkIfPaid($params)
     {
         $userId = $params['user_id'];
-        $orderType = $params['order_type'];
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
+        $orderTypeNid = $params['order_type_nid'];
+        $pid = $params['pid'];
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
+        $this->params['order_type'] = $orderType['id'];
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderId($userId, $pid);
+
         if (!empty($userOrder) && $userOrder['status'] != 1) {//订单处理完成
             $this->error['error'] = "用户您好，您未能通过报告订单，请先进行支付.";
             return false;

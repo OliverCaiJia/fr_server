@@ -29,7 +29,7 @@ class OrderStrategy extends AppStrategy
                 break;
             //增值服务订单(推荐）（一个接口）user_extra_service_log
             case 'order_extra_service':
-                $chain = new DoReportOrderLogicHandler($order);
+                $chain = new DoPayOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;
             //申请产品订单（一个接口）user_apply_log

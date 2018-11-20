@@ -37,7 +37,6 @@ class UserOrderFactory extends ApiFactory
         $userOrderObj->order_no = $params['order_no'];
         $userOrderObj->order_type = $params['order_type'];
         $userOrderObj->p_order_id = $params['p_order_id'];
-        $userOrderObj->payment_log_id = $params['payment_log_id'];
         $userOrderObj->order_expired = $params['order_expired'];//读配置
         $userOrderObj->amount = $params['amount'];
         $userOrderObj->term = $params['term'];
@@ -470,6 +469,21 @@ class UserOrderFactory extends ApiFactory
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->where('order_type', '=', $orderType)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 根据用户id和订单id检查订单是否支付
+     * @param $userId
+     * @param $orderId
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndOrderId($userId, $orderId)
+    {
+        $userOrder = UserOrder::select()
+            ->where('id', '=', $orderId)
+            ->where('user_id', '=', $userId)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }

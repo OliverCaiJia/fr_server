@@ -7,11 +7,11 @@ use App\Helpers\Http\HttpClient;
 class MozhangService extends AppService
 {
 
-    public function getMoZhangContent( $name ,$idcard , $mobile, $num ,$qq_number=null)
+    public function getMoZhangContent( $name ,$idcard , $mobile, $key ,$qq_number=null)
     {
         //获取配置信息
         $app_id = MozhangConfig::getScorpioAppId();
-        $method = MozhangConfig::SCORPIO_METHOD[$num];
+        $method = MozhangConfig::SCORPIO_METHOD[$key];
         $format = MozhangConfig::getScorpioFormat();
         $sign_type = MozhangConfig::getScorpioSignType();
         $version = MozhangConfig::getScorpioVersion();

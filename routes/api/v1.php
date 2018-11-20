@@ -174,5 +174,6 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     $router->group(['prefix' => 'test'], function ($router) {
 //        $router->any('product', ['uses' => 'TestController@product']);
         $router->any('doReport', ['uses' => 'TestController@doReport']);
+        $router->any('doApply', ['uses' => 'TestController@doApply']);
     });
 });

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
+use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 
@@ -102,13 +104,28 @@ class TestController extends ApiController
     {
         $par = [];
         $par['name'] = '蔡嘉';
-        $par['idcard'] = '130702198111071511';
+        $par['idCard'] = '130702198111071511';
         $par['mobile'] = '18510536684';
         $par['num'] = 0;
+
+        $pullResult = MozhangService::o()->getMoZhangContent($par['name'], $par['idCard'], $par['mobile'], $par['num']);
+        dd($pullResult);
 
         $chain = new DoReportOrderHandler($par);
         $result = $chain->handleRequest();
         dd($result);
+    }
+
+    public function doApply()
+    {
+        $par = [];
+        $par['pid'] = 1;
+        $par['user_id'] = 6;
+        $par['order_type_nid'] = 'order_apply';
+
+        $chain = new DoApplyOrderHandler($par);
+        $result = $chain->handleRequest();
+//        dd($result);
     }
 
 }

@@ -32,6 +32,14 @@ class BannerFactory extends ApiFactory
                 $typeNid = 2;
                 return $data = self::fetchBanners($typeNid);
                 break;
+            case 'order':
+                $typeNid = 3;
+                return $data = self::fetchBanners($typeNid);
+                break;
+            case 'personal':
+                $typeNid = 4;
+                return $data = self::fetchBanners($typeNid);
+                break;
             default:
                 break;
         }
@@ -46,7 +54,7 @@ class BannerFactory extends ApiFactory
     public static function fetchBanners($typeNid)
     {
         //type_id 1 广告，status 1 存在
-        $bannerList = Banner::where(['status' => 0, 'banner_type_id' => $typeNid])
+        $bannerList = Banner::where(['status' => 1, 'banner_type_id' => $typeNid])
             ->orderBy('position')
             ->limit(5)
             ->select('banner_name',
