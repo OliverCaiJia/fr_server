@@ -21,10 +21,10 @@ class UserOrderListValidator extends AbstractValidator
      * @var Array
      */
     protected $messages = array(
-        'page_index.required' => '',
-        'page_index.integer' => '',
-        'page_size.required' => '',
-        'page_size.integer' => '',
+        'page_index.required' => '请输入起始页',
+        'page_index.integer' => '起始页应为整数',
+        'page_size.required' => '请输入每页数',
+        'page_size.integer' => '每页数应为整数',
     );
 
 

@@ -36,13 +36,20 @@ class BorrowController extends ApiController
 
     public function default()
     {
+        $moeny_min = 'home_min_loan_amount'; //金额最小值
+        $moeny_max = 'home_max_loan_amount'; //金额最大值
+        $moeny_default = 'home_default_loan_amount'; //金额默认值
+        $term_min = 'home_min_loan_period'; //期限最小值
+        $term_max = 'home_max_loan_period'; //期限最大值
+        $term_default = 'home_default_loan_period'; //期限默认值
+
         $home_default_keys = [
-            'home_default_loan_amount',
-            'home_min_loan_amount',
-            'home_max_loan_amount',
-            'home_default_loan_period',
-            'home_min_loan_period',
-            'home_max_loan_period'
+            $moeny_min,
+            $moeny_max,
+            $moeny_default,
+            $term_min,
+            $term_max,
+            $term_default
         ];
         $homeDefault = SysConfigFactory::getSysByKey($home_default_keys);
 
@@ -57,12 +64,12 @@ class BorrowController extends ApiController
                 }
             }
         $data = [
-            'moeny_min' => $res['home_min_loan_amount'],
-            'moeny_max' => $res['home_max_loan_amount'],
-            'moeny_default' => $res['home_default_loan_amount'],
-            'term_min' => $res['home_min_loan_period'],
-            'term_max' => $res['home_max_loan_period'],
-            'term_default' => $res['home_default_loan_period'],
+            'moeny_min' => $res[$moeny_min],
+            'moeny_max' => $res[$moeny_max],
+            'moeny_default' => $res[$moeny_default],
+            'term_min' => $res[$term_min],
+            'term_max' => $res[$term_max],
+            'term_default' => $res[$term_default],
         ];
         return RestResponseFactory::ok($data);
     }
