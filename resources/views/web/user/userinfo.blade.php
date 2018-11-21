@@ -17,21 +17,21 @@
         <div class="main">
             <p class="tips">请填写真实有效信息,这将影响您的审核结果!</p>
             <div class="data-list">
-                <div>
+                <div  class='showData1'>
                     <div>
                         <label for="">居住所在地区：</label>
                         <input type="text" id="address" class="address" readonly placeholder="请选择">
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div>
+                <div  class='showData1'>
                     <div>
                         <label for="">居住详细地址：</label>
                         <input type="text" placeholder="街道、楼牌号"> </div>
                 </div>
                 <div>
                     <div>
-                        <label for="">职业：</label> <i class="select-i">请选择</i>
+                        <label for="">职业：</label> <i class="select-i">{{isset($data['profession']) ? $data['profession'] : '请选择'}}</i>
                         <select name="" id="">
                             <option value="1">上班族</option>
                             <option value="2">公务员</option>
@@ -41,26 +41,26 @@
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div class='showData1'>
+                <div>
                     <div>
                         <label for="">公司名称：</label>
-                        <input type="text" placeholder="请填写"> </div>
+                        <input type="text" placeholder="请填写" value="{{isset($data['company_name']) ? $data['company_name'] : ''}}"> </div>
                 </div>
-                <div class='showData1'>
+                <div >
                     <div>
                         <label for="">公司所在地区：</label>
-                        <input type="text" id="company-address" readonly placeholder="请选择" class="address">
+                        <input type="text" id="company-address" readonly placeholder="请选择" class="address" value="{{isset($data['company_location']) ? $data['company_location'] : ''}}">
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div class='showData1'>
+                <div>
                     <div>
                         <label for="">公司详细地址：</label>
-                        <input type="text" placeholder="请填写"> </div>
+                        <input type="text" placeholder="请填写" value="{{isset($data['company_address']) ? $data['company_address'] : ''}}"> </div>
                 </div>
-                <div class='showData1'>
+                <div>
                     <div>
-                        <label for="">月收入：</label> <i class="select-i">请选择</i>
+                        <label for="">月收入：</label> <i class="select-i">{{isset($data['month_salary']) ? $data['month_salary'] : '请选择'}}</i>
                         <select name="" id="">
                             <option value="1">2千以下</option>
                             <option value="2">2千-5千</option>
@@ -83,11 +83,11 @@
                 <div>
                     <div>
                         <label for="">芝麻分：</label>
-                        <input type="text" placeholder="请填写"> </div>
+                        <input type="text" placeholder="请填写" value="{{isset($data['zhima_score']) ? $data['zhima_score'] : ''}}"> </div>
                 </div>
                 <div>
                     <div>
-                        <label for="">公积金：</label> <i class="select-i">请选择</i>
+                        <label for="">公积金：</label> <i class="select-i">{{isset($data['house_fund_time']) ? $data['house_fund_time'] : '请选择'}}</i>
                         <select name="" id="">
                             <option value="1">无公积金</option>
                             <option value="2">一年以下</option>
@@ -99,31 +99,46 @@
                 <div>
                     <div>
                         <label for="">社保：</label>
-                        <p class="radio-box"><span>有</span><span>无</span></p>
+                        <p class="radio-box">
+                            <span @if(isset($data['has_social_security']) && $data['has_social_security'] == 1) class="active" @endif>有</span>
+                            <span @if(isset($data['has_social_security']) && $data['has_social_security'] == 0) class="active" @endif>无</span>
+                        </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">名下房产：</label>
-                        <p class="radio-box"><span>有</span><span>无</span></p>
+                        <p class="radio-box">
+                            <span @if(isset($data['has_house']) && $data['has_house'] == 1) class="active" @endif>有</span>
+                            <span @if(isset($data['has_house']) && $data['has_house'] == 0) class="active" @endif>无</span>
+                        </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">名下汽车：</label>
-                        <p class="radio-box"><span>有</span><span>无</span></p>
+                        <p class="radio-box">
+                            <span @if(isset($data['has_auto']) && $data['has_auto'] == 1) class="active" @endif>有</span>
+                            <span @if(isset($data['has_auto']) && $data['has_auto'] == 0) class="active" @endif>无</span>
+                        </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">寿险保单：</label>
-                        <p class="radio-box"><span>有</span><span>无</span></p>
+                        <p class="radio-box">
+                            <span @if(isset($data['has_assurance']) && $data['has_assurance'] == 1) class="active" @endif>有</span>
+                            <span @if(isset($data['has_assurance']) && $data['has_assurance'] == 0) class="active" @endif>无</span>
+                        </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">微粒贷：</label>
-                        <p class="radio-box"><span>有</span><span>无</span></p>
+                        <p class="radio-box">
+                            <span @if(isset($data['has_weilidai']) && $data['has_weilidai'] == 1) class="active" @endif>有</span>
+                            <span @if(isset($data['has_weilidai']) && $data['has_weilidai'] == 0) class="active" @endif>无</span>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -33,9 +33,14 @@ class InviteController extends ApiController
         //分享链接
         $inviteCode = InviteFactory::fetchInviteCode($uid);
         $inviteArr['share_link'] = LinkUtils::shareLanding($inviteCode);
-        print_r($inviteArr['share_link']);die;
         //短信内容
         $inviteArr['sms_content'] = SmsStrategy::getSmsContent($inviteArr['share_link']);
+        //logo
+        $inviteArr['logo'] = LinkUtils::getLogo();
+        //分享标题
+        $inviteArr['share'] = "立即注册,与我分享奖励";
+        //分享内容
+        $inviteArr['content'] = "得积分兑红包,快;快来注册吧";
         return RestResponseFactory::ok($inviteArr);
     }
 

@@ -32,7 +32,7 @@ class AppService
     // H5域名
     const M_URL = PRODUCTION_ENV ? 'http://m.sudaizhijia.com' : 'https://uat.m.sudaizhijia.com';
     // 活动域名
-    const EVENT_URL = PRODUCTION_ENV ? 'http://fruit.witlending.com' : 'http://uat.fruit.witlending.com';
+    const EVENT_URL = PRODUCTION_ENV ? 'http://h5.fruit.witlending.com' : 'http://uat.h5.fruit.witlending.com';
     // Web网站
     const WEB_URL = PRODUCTION_ENV ? 'http://www.sudaizhijia.com' : 'http://test.www.sudaizhijia.com';
     // 旧版接口
@@ -57,4 +57,7 @@ class AppService
 
     // 芝麻API
     const ZHIMA_API_URL = 'https://zmopenapi.zmxy.com.cn/openapi.do';
+
+    //Logo
+    const App_Logo = "http://image.sudaizhijia.com/test/20181121/other/20181121161312-289.jpg";
 }
