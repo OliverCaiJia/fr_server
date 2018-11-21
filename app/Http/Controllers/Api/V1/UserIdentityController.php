@@ -17,7 +17,7 @@ class UserIdentityController extends ApiController
      * 调取face++获取身份证正面信息
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fetchFaceidToCardfrontInfo($data)
+    public function fetchFaceidToCardfrontInfo(Request $request)
     {
         $res = [
             'name' => '张三',
@@ -33,7 +33,7 @@ class UserIdentityController extends ApiController
      * 调取face++获取身份证正面信息
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fetchFaceidToCardbackInfo($data)
+    public function fetchFaceidToCardbackInfo(Request $request)
     {
         $res = [
             'valid_date' => '2005.10.08-2025.10.08',
