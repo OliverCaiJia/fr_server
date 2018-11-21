@@ -57,17 +57,17 @@ class CreateBlackListAction extends AbstractHandler
 //  CONSTRAINT `FK_USER_BLACKLIST_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
-        $data['user_id'] = $params['user_id'];
-        $data['user_report_id'] = $params['user_report_id'];
-        $data['transid'] = $params['transid'];
-        $data['mobile_name_in_blacklist'] = $params['mobile_name_in_blacklist'];
-        $data['idcard_name_in_blacklist'] = $params['idcard_name_in_blacklist'];
-        $data['black_info_detail'] = $params['black_info_detail'];
-        $data['gray_info_detail'] = $params['gray_info_detail'];
-        $data['data'] = $params['data'];
-        $data['fee'] = $params['fee'];
-        $data['create_at'] = $params['create_at'];
-        $data['update_at'] = $params['update_at'];
+        $data['user_id'] = $params['user_id'];//
+        $data['user_report_id'] = $params['user_report_id'];//
+        $data['transid'] = 1;//$params['transid']
+        $data['mobile_name_in_blacklist'] = $params['mobile_name_in_blacklist'];//
+        $data['idcard_name_in_blacklist'] = $params['idcard_name_in_blacklist'];//
+        $data['black_info_detail'] = $params['black_info_detail'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['gray_info_detail'] = $params['gray_info_detail'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['fee'] = $params['fee'];//
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['update_at'] = date('Y-m-d H:i:s', time());
 
         $userReportLog = UserOrderFactory::createBlackList($data);
 

@@ -33,10 +33,10 @@ class ReportCallbackController extends ApiController
         $res['order_id'] = $userOrder['id'];
 
         //反欺诈
-        $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
-        $res['anti_fraud'] = $antiFraud;
+//        $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
+//        $res['anti_fraud'] = $antiFraud;
 //        dd($antiFraud);
-        $res['report_data']['anti_fraud'] = $antiFraud['data'];
+//        $res['report_data']['anti_fraud'] = $antiFraud['data'];
 
 
 
@@ -759,7 +759,6 @@ class ReportCallbackController extends ApiController
 //  "fee" => "Y"
 //]
 //
-
 
 
 

@@ -55,16 +55,16 @@ class CreateMultiinfoAction extends AbstractHandler
 //  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
 //  CONSTRAINT `FK_USER_MULTIINFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户多头数据表'
-        $data['user_id'] = $params['user_id'];
-        $data['user_report_id'] = $params['user_report_id'];
-        $data['register_org_count'] = $params['register_org_count'];
-        $data['loan_cnt'] = $params['loan_cnt'];
-        $data['loan_org_cnt'] = $params['loan_org_cnt'];
-        $data['transid'] = $params['transid'];
-        $data['data'] = $params['data'];
-        $data['fee'] = $params['fee'];
-        $data['create_at'] = $params['create_at'];
-        $data['update_at'] = $params['update_at'];
+        $data['user_id'] = $params['user_id'];//
+        $data['user_report_id'] = $params['user_report_id'];//
+        $data['register_org_count'] = $params['register_org_count'];//
+        $data['loan_cnt'] = $params['loan_cnt'];//
+        $data['loan_org_cnt'] = $params['loan_org_cnt'];//
+        $data['transid'] = $params['transid'];//
+        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['fee'] = $params['fee'];//'Y'
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['update_at'] = date('Y-m-d H:i:s', time());
 
         $userReportLog = UserOrderFactory::createMultiinfo($data);
 
