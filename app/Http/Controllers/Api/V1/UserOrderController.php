@@ -21,10 +21,8 @@ class UserOrderController extends ApiController
      */
     public function list(Request $request)
     {
-//        $typeNid = $request->input('type_nid');
-//        $orderType = UserOrderFactory::getOrderTypeByTypeNid($typeNid);
         $userId = $this->getUserId($request);
-        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);//, $orderType['id']
+        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
