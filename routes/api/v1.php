@@ -137,9 +137,11 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      *  版本检查
      */
-    $router->group(['prefix' => 'version'], function ($router) {
-        //注册协议
-        $router->any('upgrade', ['uses' => 'VersionController@upgrade']);//添加验证器
+    $router->group(['prefix' => 'version', 'middleware' => ['authApi']], function ($router) {
+        //android 版本升级
+        $router->get('android', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeAndroid']);
+        //ios 版本升级
+        $router->get('ios', ['middleware' => ['valiApi:upgrade'], 'uses' => 'VersionController@upgradeIos']);
     });
 
     /**
