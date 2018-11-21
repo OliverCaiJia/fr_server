@@ -23,6 +23,8 @@ class YiBaoConfig
 
     //服务器回调地址
     const NOTIFYURL = 'http://10.151.31.134/demo/yop-ds/callback.php';
+
+    //易宝url
     const SERVERROOT = "https://open.yeepay.com/yop-center";
 
 }
