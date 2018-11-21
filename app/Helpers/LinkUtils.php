@@ -18,6 +18,11 @@ class LinkUtils
     {
         return AppService::EVENT_URL . '/web/v1/invite/home?sd_invite_code=' . $invite_code;
     }
+    //AppLogo
+    public static function getLogo()
+    {
+        return AppService::App_Logo;
+    }
 
 
 }

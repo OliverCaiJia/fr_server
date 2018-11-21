@@ -35,6 +35,8 @@ class InviteController extends ApiController
         $inviteArr['share_link'] = LinkUtils::shareLanding($inviteCode);
         //短信内容
         $inviteArr['sms_content'] = SmsStrategy::getSmsContent($inviteArr['share_link']);
+        //logo
+        $inviteArr['logo'] = LinkUtils::getLogo();
         return RestResponseFactory::ok($inviteArr);
     }
 
