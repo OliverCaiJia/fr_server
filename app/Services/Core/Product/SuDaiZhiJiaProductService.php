@@ -35,7 +35,7 @@ class SuDaiZhiJiaProductService extends AppService
     public static function cooperateApplication($data = [])
     {
         //获取config
-        $url = SuDaiZhiJiaProductConfig::SUDAIZHIJIA_APPLY_URL."?productId={$data['productId']}&typeId={$data['typeId']}";
+        $url = SuDaiZhiJiaProductConfig::SUDAIZHIJIA_APPLY_URL."?productId={$data['productId']}";
         $response = HttpClient::i()->request('GET', $url);
         $result = $response->getBody()->getContents();
         return $result;

@@ -22,7 +22,7 @@ class UserOrderController extends ApiController
     public function list(Request $request)
     {
         $userId = $this->getUserId($request);
-        $userOrder = UserOrderFactory::getOrderByUserId($userId);
+        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
         $res = [];
         foreach ($userOrder as $uOrder) {
             $res['list'][] = [
@@ -31,6 +31,7 @@ class UserOrderController extends ApiController
                 "create_at" => $uOrder['create_at'],
                 "amount" => $uOrder['amount'],
                 "term" => $uOrder['term'],
+                "logo_url" => $uOrder['logo_url'],
                 "status" => $uOrder['status']
             ];
         }

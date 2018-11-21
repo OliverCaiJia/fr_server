@@ -57,4 +57,7 @@ class AppService
 
     // 芝麻API
     const ZHIMA_API_URL = 'https://zmopenapi.zmxy.com.cn/openapi.do';
+
+    //Logo
+    const App_Logo = "http://image.sudaizhijia.com/test/20181121/other/20181121161312-289.jpg";
 }

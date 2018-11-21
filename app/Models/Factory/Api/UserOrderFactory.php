@@ -133,7 +133,6 @@ class UserOrderFactory extends ApiFactory
         $userAntifraud->update_at = $params['update_at'];
 
         if ($userAntifraud->save()) {
-            dd($userAntifraud);
             return $userAntifraud->toArray();
         }
 
@@ -172,7 +171,17 @@ class UserOrderFactory extends ApiFactory
         $userReportLog->create_ip = $params['create_ip'];
         $userReportLog->update_at = $params['update_at'];
         $userReportLog->update_ip = $params['update_ip'];
-
+//        array:9 [▼
+//  "user_report_type_id" => 1
+//  "user_id" => 6
+//  "order_id" => 91
+//  "status" => 1
+//  "data" => ""
+//  "create_at" => "2018-11-21 10:27:59"
+//  "create_ip" => "127.0.0.1"
+//  "update_at" => "2018-11-21 10:27:59"
+//  "update_ip" => "127.0.0.1"
+//]
         if ($userReportLog->save()) {
             return $userReportLog->toArray();
         }
@@ -214,6 +223,7 @@ class UserOrderFactory extends ApiFactory
         $userReport->update_at = $params['update_at'];
 
         if ($userReport->save()) {
+            dd($userReport);
             return $userReport->toArray();
         }
         return false;
@@ -533,6 +543,19 @@ class UserOrderFactory extends ApiFactory
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
+            ->get();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 根据用户id获取订单列表(包含logo）
+     * @param $userId
+     * @return array
+     */
+    public static function getOrderAndTypeLogoByUserId($userId)
+    {
+        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.user_id' => $userId])
+            ->leftJoin(UserOrderType::TABLE_NAME, UserOrder::TABLE_NAME . '.order_type', '=', UserOrderType::TABLE_NAME . '.id')
             ->get();
         return $userOrder ? $userOrder->toArray() : [];
     }
