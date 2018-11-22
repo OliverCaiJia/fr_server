@@ -27,7 +27,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
     /**
      *   User API
      */
-    $router->group(['prefix' => 'user'], function ($router) {
+    $router->group(['prefix' => 'user','middleware' => ['authWeb']], function ($router) {
         //获取信用报告
         $router->any('create/report',['uses' => 'UserController@createReport']);
         // 个人信用报告
