@@ -20,7 +20,8 @@ class UserIdentityController extends ApiController
      */
     public function fetchFaceidToCardfrontInfo(Request $request)
     {
-        $data['card_front'] = $request->file('cardFront');
+        $data = $request->file('cardFront');
+        $data['card_front'] = $data->getClientOriginalName();
         //责任链
         $realname = new CreateIdcardFrontAction($data);
         $res = $realname->handleRequest();
