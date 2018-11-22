@@ -6,8 +6,10 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Factory\Api\PlatformFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
+use App\Models\Orm\Platform;
 use App\Strategies\OrderStrategy;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
@@ -85,14 +87,39 @@ class UserOrderController extends ApiController
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
-        $info = OrderStrategy::getDiffOrderTypeInfo($userId, $orderNo, $orderType['type_nid']);
+        $userOrderPlatfrom = UserOrderFactory::getOrderPlatformByUserIdAndOrderNo($userId, $orderNo);
         $res = [];
-        foreach ($info as $uOrder) {
-            $res['info'][] = [
-                "amount" => $uOrder['amount'],
-                "status" => $uOrder['status']
+        $res["order_type_nid"] = $orderType['type_nid'];
+        $res["extra_status"] = 1;
+        foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
+            $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
+
+            $res["amount"] = $platformValue['amount'];
+            $res["status"] = $platformValue['status'];
+            $res["stop_time"] = $platformValue['update_at'];// 入中间表的时间
+            $res["borrow"][] = [
+                'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
+                'logo' => isset($platform['logo']) ? $platform['logo'] : '',
+                'url' => isset($platform['url']) ? $platform['url'] : ''
             ];
         }
+        $res["confirm"] = [
+            [
+                'time' => date('Y-m-d H:i:s'),
+                'remark' => '提交申请',
+                'extra_status' => 0
+            ],
+            [
+                'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
+                'remark' => '风控审核中',
+                'status' => 1
+            ],
+            [
+                'time' => date('Y-m-d H:i:s', strtotime("+2 hour")),
+                'remark' => '一家或多家同时放款',
+                'status' => 0
+            ]
+        ];
         return RestResponseFactory::ok($res);
     }
 

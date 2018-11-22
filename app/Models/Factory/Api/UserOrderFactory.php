@@ -12,6 +12,7 @@ use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserLoanLog;
 use App\Models\Orm\UserMultiinfo;
 use App\Models\Orm\UserOrder;
+use App\Models\Orm\UserOrderPlatform;
 use App\Models\Orm\UserOrderReport;
 use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserPersonal;
@@ -586,6 +587,27 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
+    /**
+     * 根据订单编号和用户id获取订单详情
+     * @param $orderNo
+     * @param $userId
+     * @return array
+     */
+    public static function getOrderDetailWithPlatformByOrderNoAndUserId($orderNo, $userId)
+    {
+        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+            ->where([UserOrder::TABLE_NAME . '.user_id' => $userId])
+            ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
+            ->get();
+
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 根据订单编号获取订单详情
+     * @param $orderNo
+     * @return array
+     */
     public static function getOrderDetailByOrderNo($orderNo)
     {
         $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
@@ -620,7 +642,7 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
-     * 根据用户id和订单号获取订单状态
+     * 根据用户id和订单号获取订单
      * @param $userId
      * @param $orderNo
      * @return mixed
@@ -631,6 +653,21 @@ class UserOrderFactory extends ApiFactory
             ->where('user_id', '=', $userId)
             ->where('order_no', '=', $orderNo)
             ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 根据用户id和订单号获取订单详情（含平台信息）
+     * @param $userId
+     * @param $orderNo
+     * @return array
+     */
+    public static function getOrderPlatformByUserIdAndOrderNo($userId, $orderNo)
+    {
+        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.user_id' => $userId])
+            ->where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+            ->leftJoin(UserOrderPlatform::TABLE_NAME, UserOrder::TABLE_NAME . '.id', '=', UserOrderPlatform::TABLE_NAME . '.order_id')
+            ->get();
         return $userOrder ? $userOrder->toArray() : [];
     }
 
