@@ -11,21 +11,89 @@ class BorrowController extends ApiController
     public function home()
     {
         $res = [
-            "id" => 1760,
-            "user_id" => 1288,
-            "platform_product_id" => 286,
-            "platform_id" => 126,
-            "is_urge" => 0,
-            "is_comment" => 0,
-            "created_at" => "2018-01-13申请",
-            "created_time" => "2018/01/13",
-            "platform_product_name" => "未跑批夸两句",
-            "product_logo" => "http://image.sudaizhijia.com/test/20171225/platform/20171225133701-785.jpg",
-            "loan_money" => "5万-1500万元",
-            "period_time" => "24-60月",
-            "service_mobile" => ""
+            [
+                'mobile' => '135****3965',
+                'money' => 3000,
+                'time' => 4
+            ],
+            [
+                'mobile' => '137****5462',
+                'money' => 3500,
+                'time' => 5
+            ],
+            [
+                'mobile' => '138****9257',
+                'money' => 4000,
+                'time' => 8
+            ],
+            [
+                'mobile' => '135****3762',
+                'money' => 5000,
+                'time' => 6
+            ],
+            [
+                'mobile' => '187****3937',
+                'money' => 3100,
+                'time' => 2
+            ],
+            [
+                'mobile' => '138****5428',
+                'money' => 6000,
+                'time' => 10
+            ],
+            [
+                'mobile' => '131****8512',
+                'money' => 5000,
+                'time' => 8
+            ],
+            [
+                'mobile' => '131****3488',
+                'money' => 3000,
+                'time' => 4
+            ],
+            [
+                'mobile' => '152****5675',
+                'money' => 5000,
+                'time' => 10
+            ],
+            [
+                'mobile' => '156****1814',
+                'money' => 5000,
+                'time' => 3
+            ],
+            [
+                'mobile' => '155****5564',
+                'money' => 300,
+                'time' => 4
+            ],
+            [
+                'mobile' => '155****1547',
+                'money' => 6000,
+                'time' => 5
+            ],
+            [
+                'mobile' => '185****3932',
+                'money' => 5600,
+                'time' => 15
+            ],
+            [
+                'mobile' => '185****4725',
+                'money' => 6000,
+                'time' => 2
+            ],
+            [
+                'mobile' => '152****5647',
+                'money' =>4800,
+                'time' => 9
+            ]
         ];
-        return RestResponseFactory::ok($res);
+        //随机选择出10个
+        $temp=array_rand($res,10);
+        //重组数组
+        foreach($temp as $val){
+            $data_last[]=$res[$val];
+        }
+        return RestResponseFactory::ok($data_last);
     }
 
     /**
