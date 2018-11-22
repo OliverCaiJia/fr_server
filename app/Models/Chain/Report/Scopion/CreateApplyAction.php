@@ -86,6 +86,20 @@ class CreateApplyAction extends AbstractHandler
 //  "multi_info" => array:5 [▶]
 //  "user_report_id" => 94
 //]
+//        dd($params);
+//        array:11 [▼
+//  "user_report_type_id" => 1
+//  "user_id" => 6
+//  "order_id" => 91
+//  "anti_fraud" => array:5 [▶]
+//  "report_data" => array:6 [▶]
+//  "application" => array:5 [▶]
+//  "credit_qualification" => array:5 [▶]
+//  "post_load" => array:5 [▶]
+//  "black_gray" => array:5 [▶]
+//  "multi_info" => array:5 [▶]
+//  "user_report_id" => 140
+//]
 
         //        dd($apply);
 //        array:5 [▼
@@ -294,9 +308,17 @@ class CreateApplyAction extends AbstractHandler
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());
 
-
+//        dd($data);
+//        array:7 [▼
+//  "user_id" => 6
+//  "user_report_id" => 137
+//  "transid" => "e2481f00-ee28-11e8-9d68-00163e0d2aee"
+//  "data" => "{"trans_id":"e2481f00-ee28-11e8-9d68-00163e0d2aee","person_info":{"idcard":"21092219891006****","idcard_location":"\u8fbd\u5b81\u7701\/\u961c\u65b0\u5e02\/\u5f7 ▶"
+//  "fee" => "Y"
+//  "create_at" => "2018-11-22 15:33:22"
+//  "update_at" => "2018-11-22 15:33:22"
+//]
         $userApply = UserOrderFactory::createApply($data);
-
 
 //        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
