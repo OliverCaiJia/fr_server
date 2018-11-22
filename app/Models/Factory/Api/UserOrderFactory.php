@@ -63,81 +63,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAntifraud($params)
     {
-//        dd($params);
-//        array:12 [▼
-//  "user_id" => 6
-//  "user_report_id" => 17
-//  "courtcase_cnt" => 0
-//  "dishonest_cnt" => 0
-//  "fraudulence_is_hit" => false
-//  "untrusted_info" => "{"courtcase_cnt":0,"dishonest_cnt":0,"dishonest_detail_info":[]}"
-//  "suspicious_idcard" => "{"other_names_cnt":0,"other_mobiles_cnt":0,"other_mobiles_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_mobiles":[],"information_sources":[]}"
-//  "suspicious_mobile" => "{"other_names_cnt":0,"other_idcards_cnt":0,"other_idcards_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_idcards":[],"information_sources":[]}"
-//  "data" => "{"trans_id":"dcc509e0-ecb0-11e8-9c98-00163e0ed28c","person_info":{"idcard":"61030319791111****","idcard_location":"\u9655\u897f\u7701\/\u5b9d\u9e21\u5e02\/\u91d ▶"
-//  "fee" => "Y"
-//  "create_at" => "2018-11-20 18:41:40"
-//  "update_at" => "2018-11-20 18:41:40"
-//]
-
-
-//
-//
-//        array:12 [▼
-//  "user_id" => 6
-//  "user_report_id" => 25
-//  "courtcase_cnt" => 0
-//  "dishonest_cnt" => 0
-//  "fraudulence_is_hit" => 0
-//  "untrusted_info" => "{"courtcase_cnt":0,"dishonest_cnt":0,"dishonest_detail_info":[]}"
-//  "suspicious_idcard" => "{"other_names_cnt":0,"other_mobiles_cnt":0,"other_mobiles_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_mobiles":[],"information_sources":[]}"
-//  "suspicious_mobile" => "{"other_names_cnt":0,"other_idcards_cnt":0,"other_idcards_black_cnt":0,"information_sources_cnt":0,"other_names":[],"other_idcards":[],"information_sources":[]}"
-//  "data" => "{"trans_id":"99bd3d50-ecb2-11e8-9c98-00163e0ed28c","person_info":{"idcard":"61030319791111****","idcard_location":"\u9655\u897f\u7701\/\u5b9d\u9e21\u5e02\/\u91d ▶"
-//  "fee" => "Y"
-//  "create_at" => "2018-11-20 18:54:07"
-//  "update_at" => "2018-11-20 18:54:07"
-//]
-//
-//
-
-
-
-//        CREATE TABLE `sgd_user_antifraud` (
-//    `id` int(11) NOT NULL COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
-//  `courtcase_cnt` int(11) NOT NULL COMMENT '法院执行次数',
-//  `dishonest_cnt` int(11) NOT NULL COMMENT '失信未执行次数',
-//  `fraudulence_is_hit` tinyint(1) NOT NULL DEFAULT '0' COMMENT '欺诈名单是否命中',
-//  `untrusted_info` json NOT NULL COMMENT '失信信息',
-//  `suspicious_idcard` json NOT NULL COMMENT '身份存疑',
-//  `suspicious_mobile` json NOT NULL COMMENT '手机存疑',
-//  `data` json NOT NULL COMMENT '设备存疑',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '费用',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_ANTIFRAUD_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `FK_USER_ANTIFRAUD_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户反欺诈信息表'
-
-//        CREATE TABLE `sgd_user_antifraud` (
-//    `id` int(11) NOT NULL COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
-//  `courtcase_cnt` int(11) NOT NULL COMMENT '法院执行次数',
-//  `dishonest_cnt` int(11) NOT NULL COMMENT '失信未执行次数',
-//  `fraudulence_is_hit` tinyint(1) NOT NULL DEFAULT '0' COMMENT '欺诈名单是否命中',
-//  `untrusted_info` json NOT NULL COMMENT '失信信息',
-//  `suspicious_idcard` json NOT NULL COMMENT '身份存疑',
-//  `suspicious_mobile` json NOT NULL COMMENT '手机存疑',
-//  `data` json NOT NULL COMMENT '设备存疑',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '费用',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_ANTIFRAUD_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `FK_USER_ANTIFRAUD_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户反欺诈信息表'
         $userAntifraud = new UserAntifraud();
         $userAntifraud->user_id = $params['user_id'];
         $userAntifraud->user_report_id = $params['user_report_id'];
@@ -151,22 +76,6 @@ class UserOrderFactory extends ApiFactory
         $userAntifraud->fee = $params['fee'];
         $userAntifraud->create_at = $params['create_at'];
         $userAntifraud->update_at = $params['update_at'];
-//dd($params);
-//        array:12 [▼
-//  "user_id" => 6
-//  "user_report_id" => 1
-//  "courtcase_cnt" =>
-//  "dishonest_cnt" => 0
-//  "fraudulence_is_hit" => 0
-//  "untrusted_info" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
-//  "suspicious_idcard" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
-//  "suspicious_mobile" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
-//  "data" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
-//  "fee" => "Y"
-//  "create_at" => "2018-11-21 13:28:26"
-//  "update_at" => "2018-11-21 13:28:26"
-//]
-
 
         if ($userAntifraud->save()) {
             return $userAntifraud->toArray();
@@ -182,19 +91,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createReportLog($params)
     {
-//        CREATE TABLE `sgd_user_report_log` (
-//    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_report_type_id` int(11) unsigned NOT NULL COMMENT '报告类型id',
-//  `user_id` int(11) NOT NULL COMMENT '用户id',
-//  `order_id` int(11) NOT NULL COMMENT '订单id',
-//  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '报告状态 0待支付 1支付完成 2报告完成',
-//  `data` json NOT NULL COMMENT '报告返回数据',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `create_ip` varchar(16) NOT NULL DEFAULT '' COMMENT '创建IP',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  `update_ip` varchar(16) NOT NULL DEFAULT '' COMMENT '更新IP',
-//  PRIMARY KEY (`id`)
-//) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='用户报告日志表（单次请求）'
         $userReportLog = new UserReportLog();
         $userReportLog->user_id = $params['user_id'];
         $userReportLog->user_report_type_id = $params['user_report_type_id'];
@@ -207,17 +103,7 @@ class UserOrderFactory extends ApiFactory
         $userReportLog->create_ip = $params['create_ip'];
         $userReportLog->update_at = $params['update_at'];
         $userReportLog->update_ip = $params['update_ip'];
-//        array:9 [▼
-//  "user_report_type_id" => 1
-//  "user_id" => 6
-//  "order_id" => 91
-//  "status" => 1
-//  "data" => ""
-//  "create_at" => "2018-11-21 10:27:59"
-//  "create_ip" => "127.0.0.1"
-//  "update_at" => "2018-11-21 10:27:59"
-//  "update_ip" => "127.0.0.1"
-//]
+
         if ($userReportLog->save()) {
             return $userReportLog->toArray();
         }
@@ -232,25 +118,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createReport($params)
     {
-//        CREATE TABLE `sgd_user_report` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `report_code` varchar(128) NOT NULL DEFAULT '' COMMENT '报告编号',
-//  `report_data` json NOT NULL COMMENT '报告数据',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_REPORT_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `FK_USER_REPORT_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户报告信息表'
-
-//        array:5 [▼
-//  "user_id" => 6
-//  "report_code" => "RSGD-A-20181120182442-512691"
-//  "report_data" => array:6 [▶]
-//  "create_at" => "2018-11-20 18:24:42"
-//  "update_at" => "2018-11-20 18:24:42"
-//]
         $userReport = new UserReport();
         $userReport->user_id = $params['user_id'];
         $userReport->report_code = $params['report_code'];
@@ -271,35 +138,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
-//        CREATE TABLE `sgd_user_apply` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的jt_user_reports表的id',
-//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
-//  `data` json NOT NULL,
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_APPLYIN_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `FK_USER_APPLYIN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='用户注入信息表'
-//        array:7 [▼
-//  "user_id" => 6
-//  "user_report_id" => 137
-//  "transid" => "e2481f00-ee28-11e8-9d68-00163e0d2aee"
-//  "data" => "{"trans_id":"e2481f00-ee28-11e8-9d68-00163e0d2aee","person_info":{"idcard":"21092219891006****","idcard_location":"\u8fbd\u5b81\u7701\/\u961c\u65b0\u5e02\/\u5f7 ▶"
-//  "fee" => "Y"
-//  "create_at" => "2018-11-22 15:33:22"
-//  "update_at" => "2018-11-22 15:33:22"
-//]
         $userApply = new UserApply();
         $userApply->user_id = $params['user_id'];
         $userApply->user_report_id = $params['user_report_id'];
         $userApply->transid = $params['transid'];
-//        $userApply->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
-//        $userApply->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
-//        $userApply->loan_behavior_analysis = $params['loan_behavior_analysis'];//读配置
         $userApply->data = $params['data'];
         $userApply->fee = $params['fee'];
         $userApply->create_at = $params['create_at'];
@@ -319,22 +161,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAmountEst($params)
     {
-
-//        CREATE TABLE `sgd_user_amount_est` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
-//  `zm_score` int(8) NOT NULL DEFAULT '0' COMMENT '芝麻分',
-//  `huabai_limit` int(8) NOT NULL DEFAULT '0' COMMENT '花呗额度',
-//  `credit_amt` int(8) NOT NULL DEFAULT '0' COMMENT '借呗额度',
-//  `data` json NOT NULL COMMENT '返回数据',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
-//  CONSTRAINT `sgd_user_amount_est_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
         $userAmountEst = new UserAmountEst();
         $userAmountEst->user_id = $params['user_id'];
         $userAmountEst->user_report_id = $params['user_report_id'];
@@ -353,23 +179,13 @@ class UserOrderFactory extends ApiFactory
         return false;
     }
 
+    /**
+     * 创建贷后行为
+     * @param $params
+     * @return array|bool
+     */
     public static function createPostloan($params)
     {
-//        CREATE TABLE `sgd_user_postloan` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的jt_user_reports表的id',
-//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
-//  `due_days_non_cdq_12_mon` int(8) NOT NULL COMMENT '近12个月最近一次非超短期现金贷逾期距今天数(',
-//  `pay_cnt_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月累计还款笔数',
-//  `data` json NOT NULL COMMENT '贷后行为',
-//  `fee` varchar(255) NOT NULL DEFAULT '',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  KEY `FK_USER_POSTLOAN_USER_ID` (`user_id`),
-//  CONSTRAINT `FK_USER_POSTLOAN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户贷后数据表'
         $userPostloan = new UserPostloan();
         $userPostloan->user_id = $params['user_id'];
         $userPostloan->user_report_id = $params['user_report_id'];
@@ -395,23 +211,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createBlackList($params)
     {
-//        CREATE TABLE `sgd_user_blacklist` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
-//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
-//  `mobile_name_in_blacklist` tinyint(1) NOT NULL DEFAULT '0' COMMENT '姓名手机是否在黑名单',
-//  `idcard_name_in_blacklist` tinyint(1) NOT NULL DEFAULT '0' COMMENT '身份证和姓名是否在黑名单',
-//  `black_info_detail` json NOT NULL COMMENT '黑名单信息',
-//  `gray_info_detail` json NOT NULL COMMENT '灰名单信息',
-//  `data` json NOT NULL COMMENT '数据',
-//  `fee` varchar(32) NOT NULL DEFAULT '' COMMENT '是否收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  KEY `FK_USER_BLACKLIST_USER_ID` (`user_id`),
-//  CONSTRAINT `FK_USER_BLACKLIST_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         $userBlacklist = new UserBlacklist();
         $userBlacklist->user_id = $params['user_id'];
         $userBlacklist->user_report_id = $params['user_report_id'];
@@ -437,22 +236,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createMultiinfo($params)
     {
-//        CREATE TABLE `sgd_user_multiinfo` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
-//  `register_org_count` int(8) NOT NULL DEFAULT '0' COMMENT '注册机构数量',
-//  `loan_cnt` int(8) NOT NULL DEFAULT '0' COMMENT '借贷次数',
-//  `loan_org_cnt` int(8) NOT NULL DEFAULT '0' COMMENT '借贷机构数',
-//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
-//  `data` json NOT NULL,
-//  `fee` varchar(255) NOT NULL DEFAULT '',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
-//  CONSTRAINT `FK_USER_MULTIINFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户多头数据表'
         $userMultiinfo = new UserMultiinfo();
         $userMultiinfo->user_id = $params['user_id'];
         $userMultiinfo->user_report_id = $params['user_report_id'];
@@ -470,30 +253,13 @@ class UserOrderFactory extends ApiFactory
         return false;
     }
 
+    /**
+     * 创建个人信息
+     * @param $params
+     * @return array|bool
+     */
     public static function createPersonal($params)
     {
-//        CREATE TABLE `sgd_user_personal` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `idcard` varchar(18) NOT NULL DEFAULT '' COMMENT '身份证号',
-//  `idcard_location` varchar(128) NOT NULL DEFAULT '' COMMENT '身份证归属地',
-//  `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
-//  `carrier` varchar(64) NOT NULL DEFAULT '' COMMENT '手机运营商',
-//  `mobile_location` varchar(64) NOT NULL DEFAULT '' COMMENT '手机号归属地',
-//  `name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
-//  `age` int(4) NOT NULL COMMENT '年龄',
-//  `gender` tinyint(1) NOT NULL COMMENT '性别',
-//  `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
-//  `education` tinyint(4) NOT NULL COMMENT '学历',
-//  `is_graduation` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否毕业',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `create_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '创建IP',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '更新IP',
-//  PRIMARY KEY (`id`),
-//  KEY `FK_USER_PERSONAL_INFO_USER_ID` (`user_id`),
-//  CONSTRAINT `FK_USER_PERSONAL_INFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='信息查询返回个人信息数据'
         $userPersonal = new UserPersonal();
         $userPersonal->user_id = $params['user_id'];
         $userPersonal->idcard = $params['idcard'];
