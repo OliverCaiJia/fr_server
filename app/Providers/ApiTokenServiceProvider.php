@@ -21,7 +21,9 @@ class ApiTokenServiceProvider extends ServiceProvider
         if ($token)
         {
             $user = UserAuth::where('access_token', $token)->first();
-            Auth::login($user);
+            if($user){
+                 Auth::login($user);
+            }          
         }
     }
 
