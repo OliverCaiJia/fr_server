@@ -26,7 +26,7 @@ class UserOrderController extends ApiController
         $res = [];
         foreach ($userOrder as $uOrder) {
             if ($uOrder['status'] != 3 || $uOrder['status'] != 4) {
-                $res['list'][] = [
+                $res[] = [
                     "order_no" => $uOrder['order_no'],
                     "order_type" => $uOrder['order_type'],
                     "create_at" => $uOrder['create_at'],
