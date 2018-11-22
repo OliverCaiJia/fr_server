@@ -54,23 +54,160 @@ class CreatePostLoanAction extends AbstractHandler
 //  KEY `FK_USER_POSTLOAN_USER_ID` (`user_id`),
 //  CONSTRAINT `FK_USER_POSTLOAN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户贷后数据表'
+
+        //        array:5 [▼
+//  "success" => true
+//  "code" => "0000"
+//  "msg" => "操作成功"
+//  "data" => array:3 [▼
+//    "trans_id" => "d129ed00-ecbd-11e8-bea7-00163e0d2aee"
+//    "person_info" => array:10 [▼
+//      "idcard" => "13070219811107****"
+//      "idcard_location" => "河北省/张家口市/桥东区"
+//      "mobile" => "1381056****"
+//      "carrier" => "中国移动"
+//      "mobile_location" => "北京/北京"
+//      "name" => "蔡*"
+//      "age" => 37
+//      "gender" => "男"
+//      "email" => ""
+//      "education_info" => array:2 [▼
+//        "level" => 0
+//        "is_graduation" => false
+//      ]
+//    ]
+//    "loan_behavior_analysis" => array:7 [▼
+//      "defaultday_from_first_to_end" => ""
+//      "feature_7d" => array:12 [▼
+//        "jiedai4_sum_fail_cnt_d7" => ""
+//        "jiedai_avg_defaultdays_d7" => ""
+//        "jiedai4_count_fill_d3_cnt_d7" => ""
+//        "jiedai_max_defaultdays_d7" => ""
+//        "dd_jiedai_sum_fill_d5_cnt_d7" => ""
+//        "dd_jiedai_count_fail_mamberadd_d7" => ""
+//        "dd_jiedai_avg_fail_days1_d7" => ""
+//        "jiedai_min_defaultdays_d7" => ""
+//        "last_to_end_sure_due_all_pro_all_time_d7" => ""
+//        "max_sure_due_days_non_cdq_all_time_d7" => ""
+//        "sum_sure_due_days_all_pro_all_time_d7" => ""
+//        "last_to_end_sure_due_non_cdq_all_time_d7" => ""
+//      ]
+//      "feature_15d" => array:13 [▼
+//        "jiedai_avg_defaultdays_d15" => ""
+//        "jiedai_min_defaultdays_d15" => ""
+//        "jiedai4_sum_fail_cnt_d15" => ""
+//        "dd_jiedai_avg_fail_days1_d15" => ""
+//        "jiedai4_count_fill_d3_cnt_d15" => ""
+//        "jiedai4_count_fill_d5_cnt_d15" => ""
+//        "dd_jiedai_count_fail_mamberadd_d15" => ""
+//        "jiedai_sum_fail_amt_d15" => ""
+//        "dd_jiedai_max_fail_days1_d15" => ""
+//        "sum_sure_due_days_all_pro_all_time_d15" => ""
+//        "last_to_end_sure_due_all_pro_all_time_d15" => ""
+//        "max_sure_due_days_non_cdq_all_time_d15" => ""
+//        "last_to_end_sure_due_non_cdq_all_time_d15" => ""
+//      ]
+//      "feature_30d" => array:16 [▼
+//        "jiedai_avg_defaultdays_m1" => ""
+//        "dd_jiedai_max_fail_days1_m1" => ""
+//        "jiedai4_sum_fail_cnt1" => ""
+//        "dd_jiedai_max_fail_days_m1" => ""
+//        "dd_jiedai_count_fail_mamberadd_m1" => ""
+//        "jiedai4_count_fill_d3_cnt_m1" => ""
+//        "dd_jiedai_min_fail_days1_m1" => ""
+//        "jiedai_sum_fail_amt1" => ""
+//        "cdq_dd_jiedai_max_fail_days1_m1" => ""
+//        "jiedai4_count_fill_d5_cnt_m1" => ""
+//        "jiedai4_avg_succ_amt1" => ""
+//        "sum_sure_due_days_non_cdq_all_time_m1" => ""
+//        "sum_sure_due_days_all_pro_all_time_m1" => ""
+//        "avg_sure_due_days_non_cdq_all_time_m1" => ""
+//        "pct_pay_amt_cdq_pro_all_time_m1" => ""
+//        "max_pay_amt_all_pro_all_time_m1" => ""
+//      ]
+//      "feature_90d" => array:16 [▼
+//        "jiedai_avg_defaultdays_m3" => ""
+//        "dd_jiedai_max_fail_days1_m3" => ""
+//        "dd_jiedai_avg_fail_days_m3" => ""
+//        "dd_jiedai_count_fail_mamberadd_m3" => ""
+//        "jiedai4_count_fill_d3_cnt_m3" => ""
+//        "jiedai4_count_fill_d5_cnt_m3" => ""
+//        "cdq_dd_jiedai_avg_fail_days1_m3" => ""
+//        "jiedai4_avg_succ_amt3" => ""
+//        "jiedai_sum_fail_amt3" => ""
+//        "dd_jiedai_min_fail_days1_m3" => ""
+//        "sum_sure_due_days_all_pro_all_time_m3" => ""
+//        "sum_sure_due_days_non_cdq_all_time_m3" => ""
+//        "avg_sure_due_days_all_pro_all_time_m3" => ""
+//        "max_due_cnt_non_cdq_all_time_m3" => ""
+//        "avg_sure_due_days_non_cdq_all_time_m3" => ""
+//        "pct_pay_amt_cdq_pro_all_time_m3" => ""
+//      ]
+//      "feature_180d" => array:14 [▼
+//        "jiedai_avg_defaultdays_m6" => ""
+//        "dd_jiedai_avg_fail_days1_m6" => ""
+//        "dd_jiedai_avg_fail_days_m6" => ""
+//        "dd_jiedai_count_fail_mamberadd_m6" => ""
+//        "jiedai4_count_fill_d3_cnt_m6" => ""
+//        "cdq_dd_jiedai_avg_fail_days1_m6" => ""
+//        "cdq_dd_jiedai_max_fail_days1_m6" => ""
+//        "jiedai4_avg_succ_amt6" => ""
+//        "jiedai4_count_fill_d5_cnt_m6" => ""
+//        "sum_sure_due_days_non_cdq_all_time_m6" => ""
+//        "max_sure_due_days_all_pro_all_time_m6" => ""
+//        "avg_sure_due_days_all_pro_all_time_m6" => ""
+//        "avg_sure_due_days_non_cdq_all_time_m6" => ""
+//        "pct_pay_amt_cdq_pro_all_time_m6" => ""
+//      ]
+//      "feature_360d" => array:9 [▼
+//        "dd_jiedai_max_fail_days_m12" => ""
+//        "dd_jiedai_sum_fill_d5_cnt_m12" => ""
+//        "last_to_end_sure_due_all_pro_all_time_m12" => ""
+//        "sum_sure_due_days_non_cdq_all_time_m12" => ""
+//        "last_to_end_sure_due_non_cdq_all_time_m12" => ""
+//        "max_due_cnt_all_pro_all_time_m12" => ""
+//        "max_due_cnt_non_cdq_all_time_m12" => ""
+//        "max_pay_amt_all_pro_all_time_m12" => ""
+//        "sum_pay_cnt_all_pro_all_time_m12" => ""
+//      ]
+//    ]
+//  ]
+//  "fee" => "N"
+//]
+
+
         $data['user_id'] = $params['user_id'];//6
         $data['user_report_id'] = $params['user_report_id'];//1
-        $data['transid'] = $params['transid'];//1
-        $data['due_days_non_cdq_12_mon'] = $params['due_days_non_cdq_12_mon'];//1
-        $data['pay_cnt_12_mon'] = $params['pay_cnt_12_mon'];//1
-        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
-        $data['fee'] = $params['fee'];//'Y'
+        $data['transid'] = $params['post_load']['data']['trans_id'];//1
+        $data['due_days_non_cdq_12_mon'] = $params['post_load']['data']['loan_behavior_analysis']['feature_360d']['last_to_end_sure_due_non_cdq_all_time_m12'];//
+        $data['pay_cnt_12_mon'] = $params['post_load']['data']['loan_behavior_analysis']['feature_360d']['sum_pay_cnt_all_pro_all_time_m12'];//1
+        $data['data'] = json_encode($params['post_load']['data']);//
+        $data['fee'] = $params['post_load']['fee'];//'Y'
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());
 
-        $userReportLog = UserOrderFactory::createPostloan($data);
+//        dd($data);
+//        array:9 [▼
+//  "user_id" => 6
+//  "user_report_id" => 111
+//  "transid" => "dbc514d0-ee0a-11e8-a3bc-00163e0ed28c"
+//  "due_days_non_cdq_12_mon" => ""
+//  "pay_cnt_12_mon" => ""
+//  "data" => "{"trans_id":"dbc514d0-ee0a-11e8-a3bc-00163e0ed28c","person_info":{"idcard":"61030319791111****","idcard_location":"\u9655\u897f\u7701\/\u5b9d\u9e21\u5e02\/\u91d ▶"
+//  "fee" => "N"
+//  "create_at" => "2018-11-22 14:33:33"
+//  "update_at" => "2018-11-22 14:33:33"
+//]
+
+
+
+        $userPostLoan = UserOrderFactory::createPostloan($data);
 
 //        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 //
-        if (!$userReportLog) {
+        if (!$userPostLoan) {
             $this->error['error'] = "您好，报告记录关系异常！";
             return false;
         }
