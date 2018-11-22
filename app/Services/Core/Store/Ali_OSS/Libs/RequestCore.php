@@ -2,9 +2,9 @@
 namespace App\Helpers\AliOSS\Libs;
 
 use \Exception;
-use App\Services\Core\Store\AliOSS\Libs\ResponseCore as ResponseCore;
-use App\Services\Core\Store\AliOSS\Libs\Libs\RequestCore_Exception;
-use App\Services\Core\Store\AliOSS\Libs\OSS_Exception;
+use App\Services\Core\Store\Ali_OSS\Libs\ResponseCore as ResponseCore;
+use App\Services\Core\Store\Ali_OSS\Libs\Libs\RequestCore_Exception;
+use App\Services\Core\Store\Ali_OSS\Libs\OSS_Exception;
 /**
  * Handles all HTTP requests using cURL and manages the responses.
  *

@@ -13,6 +13,5 @@ final class Config
     const OSS_ACCESS_ID = 'LTAIsYqdB9L4l85J';
     const OSS_ACCESS_KEY = 'y6tkU59sczghd9N8Qh4OaAD79HmYD7';
     const OSS_ENDPOINT = 'oss-cn-zhangjiakou.aliyuncs.com';
-//    const OSS_ENDPOINT = 'oss-cn-shenzhen.aliyuncs.com';
     const OSS_TEST_BUCKET = 'fruitloan';
 }

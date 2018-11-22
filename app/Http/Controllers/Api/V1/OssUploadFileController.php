@@ -24,7 +24,7 @@ class OssUploadFileController extends ApiController
 //        $download_file = Utils::createObjectName() . "download.jpg";
         //todo::
         if (is_null($ossClient)) exit(666);
-
+echo $object;exit;
 //*******************************简单使用***************************************************************
 
 // 先把本地的example.jpg上传到指定$bucket, 命名为$object
@@ -42,6 +42,6 @@ class OssUploadFileController extends ApiController
         Common::println("rtmp url: \n" . $signedUrl);
 
 //最后删除上传的$object
-        $ossClient->deleteObject($bucketName, $object);
+       // $ossClient->deleteObject($bucketName, $object);
     }
 }
