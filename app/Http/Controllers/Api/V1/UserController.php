@@ -94,9 +94,11 @@ class UserController extends ApiController
     public function userAuthenticationStatus(Request $request)
     {
         $uid = $this->getUserId($request);
-        $data = UserStatusStrategy::assemble($uid);
+        $data = UserStatusStrategy::getUserInfo($uid);
         if (empty($data)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1500), 1500);
+            $data['service_status'] = 0;
+            $data['has_userinfo'] = 0;
+            return RestResponseFactory::ok($data);
         }
         return RestResponseFactory::ok($data);
     }

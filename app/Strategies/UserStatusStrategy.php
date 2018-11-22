@@ -12,14 +12,6 @@ use App\Models\Orm\UserInfo;
 
 class UserStatusStrategy extends AppStrategy
 {
-
-    public static function assemble($uid)
-    {
-        $data = [];
-        $data['userInfo'] = self::getUserInfo($uid);
-        return $data ? $data : [];
-    }
-
     /**判断用户认证状态
      * @param $uid
      * @return array
