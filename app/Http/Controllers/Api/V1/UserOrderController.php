@@ -25,15 +25,17 @@ class UserOrderController extends ApiController
         $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
         $res = [];
         foreach ($userOrder as $uOrder) {
-            $res['list'][] = [
-                "order_no" => $uOrder['order_no'],
-                "order_type" => $uOrder['order_type'],
-                "create_at" => $uOrder['create_at'],
-                "amount" => $uOrder['amount'],
-                "term" => $uOrder['term'],
-                "logo_url" => $uOrder['logo_url'],
-                "status" => $uOrder['status']
-            ];
+            if ($uOrder['status'] != 3 || $uOrder['status'] != 4) {
+                $res['list'][] = [
+                    "order_no" => $uOrder['order_no'],
+                    "order_type" => $uOrder['order_type'],
+                    "create_at" => $uOrder['create_at'],
+                    "amount" => $uOrder['amount'],
+                    "term" => $uOrder['term'],
+                    "logo_url" => $uOrder['logo_url'],
+                    "status" => $uOrder['status']
+                ];
+            }
         }
         return RestResponseFactory::ok($res);
     }
@@ -108,7 +110,7 @@ class UserOrderController extends ApiController
         $orderTypeNid = $request->input('order_type_nid');
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
-        $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
+        $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
         $data['term'] = $request->input('term', 0);
         $data['count'] = 1;
@@ -121,7 +123,7 @@ class UserOrderController extends ApiController
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),$result['error'],$result['code'],$result['error']);
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $result['error'], $result['code'], $result['error']);
         }
         $res = [];
         $res['order_no'] = $result['order_no'];
@@ -164,7 +166,7 @@ class UserOrderController extends ApiController
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
         $data['payment_log_id'] = $request->input('payment_log_id', 0);
-        $data['order_expired'] = date('Y-m-d H:i:s',strtotime('+1 hour'));
+        $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
         $data['term'] = $request->input('term', 0);
         $data['count'] = $request->input('count');
@@ -178,7 +180,7 @@ class UserOrderController extends ApiController
         $order = OrderStrategy::getDiffOrderTypeChainForUpdate($data);
 //        $res['order_no'] = $order['order_no'];
         if (isset($res['error'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(),RestUtils::getErrorMessage(1141),1141);
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
         return RestResponseFactory::ok($order);
     }
