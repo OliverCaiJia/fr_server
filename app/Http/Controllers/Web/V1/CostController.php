@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Web\V1;
 
 use Illuminate\Http\Request;
-use App\Strategies\InviteStrategy;
 use App\Http\Controllers\Web\WebController;
-use App\Models\Factory\Web\UserInviteFactory;
+use App\Helpers\RestResponseFactory;
+use App\Models\Factory\FeeFactory;
 
 
 class CostController extends WebController
@@ -17,6 +17,38 @@ class CostController extends WebController
      */
     public function costDefault(Request $request)
     {
-        return view('web.cost.costdefault');
+        $fee_res = FeeFactory::getFeeByFeeNid('CREDIT_COST_DEFAULT');
+
+        $data['groom'] = [
+            'seq_no' => $fee_res['seq_no'],
+            'name' => $fee_res['name'],
+            'remark' => $fee_res['remark'],
+            'price' => $fee_res['price'],
+            'old_price' => $fee_res['old_price'],
+        ];
+        $data['time_limit'] = [
+            [
+                'seq_no' => 1,
+                'name' => '借款  1000元/七天',
+                'remark' => '放款快,周期长,利率低',
+                'price' => 0,
+                'old_price' => 88,
+            ],
+            [
+                'seq_no' => 2,
+                'name' => '借款  500元/七天',
+                'remark' => '放款快,周期长,利率低',
+                'price' => 0,
+                'old_price' => 50,
+            ],
+            [
+                'seq_no' => 3,
+                'name' => '借款  1000元/14天',
+                'remark' => '放款快,周期长,利率低',
+                'price' => 0,
+                'old_price' => 148,
+            ],
+        ];
+        return view('web.cost.costdefault', compact('data'));
     }
 }
