@@ -144,6 +144,7 @@
                 </div>
             </div>
             <div class="button">立即绑定</div>
+            <div class="token" style="display: none">{{ $token }}</div>
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>

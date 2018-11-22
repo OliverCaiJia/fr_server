@@ -27,8 +27,10 @@ class UserController extends WebController
     {
         $user_id = $this->getUserId($request);
         $data = UserBasicFactory::fetchUserBasic($user_id);
+        $token = $this->getToken($request);
+
         if(empty($data)){
-            return view('web.user.userinfo', compact('data'));
+            return view('web.user.userinfo', compact('data','token'));
         }
         switch ($data['profession']){
             case 0:
@@ -78,6 +80,6 @@ class UserController extends WebController
                 $data['house_fund_time'] = '一年以上';
                 break;
         }
-        return view('web.user.userinfo', compact('data'));
+        return view('web.user.userinfo', compact('data','token'));
     }
 }
