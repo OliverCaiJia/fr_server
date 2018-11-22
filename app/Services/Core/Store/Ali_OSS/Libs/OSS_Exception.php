@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Core\Store\AliOSS\Libs;
+namespace App\Services\Core\Store\Ali_OSS\Libs;
 use \Exception;
 
 /* 

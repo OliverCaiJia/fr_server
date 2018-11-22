@@ -3,14 +3,14 @@
  * OSS(Open Storage Services) PHP SDK v1.1.6
  */
 
-namespace App\Services\Core\Store\AliOSS\Libs;
+namespace App\Services\Core\Store\Ali_OSS\Libs;
 
 use \Exception;
-use  App\Services\Core\Store\AliOSS\Libs\RequestCore;
-use  App\Services\Core\Store\AliOSS\Libs\ResponseCore;
-use  App\Services\Core\Store\AliOSS\Libs\RequestCore_Exception;
-use  App\Services\Core\Store\AliOSS\Libs\MimeTypes;
-use  App\Services\Core\Store\AliOSS\Libs\OSS_Exception;
+use  App\Services\Core\Store\Ali_OSS\Libs\RequestCore;
+use  App\Services\Core\Store\Ali_OSS\Libs\ResponseCore;
+use  App\Services\Core\Store\Ali_OSS\Libs\RequestCore_Exception;
+use  App\Services\Core\Store\Ali_OSS\Libs\MimeTypes;
+use  App\Services\Core\Store\Ali_OSS\Libs\OSS_Exception;
 
 
 //设置默认时区

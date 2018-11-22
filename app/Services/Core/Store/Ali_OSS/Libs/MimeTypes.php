@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Core\Store\AliOSS;
+namespace App\Services\Core\Store\Ali_OSS;
 /**
  * 获得文件的mime type类型
  * @author xiaobing.meng

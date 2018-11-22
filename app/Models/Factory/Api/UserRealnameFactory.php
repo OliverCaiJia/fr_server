@@ -19,7 +19,7 @@ class UserRealnameFactory extends ApiFactory
      */
     public static function fetchUserRealname($userId)
     {
-        $userRealname = UserRealname::select(['real_name', 'id_card_type', 'id_card_no', 'id_card_front_img', 'id_card_back_img',
+        $userRealname = UserRealname::select(['real_name', 'gender', 'id_card_type', 'id_card_no', 'id_card_front_img', 'id_card_back_img',
             'issued_by', 'valid_start_date', 'valid_end_date'])
             ->where(['user_id' => $userId])
             ->first();

@@ -2,9 +2,9 @@
 namespace App\Helpers\AliOSS\Libs;
 
 use \Exception;
-use App\Services\Core\Store\AliOSS\Libs\RequestCore as RequestCore;
-use App\Services\Core\Store\AliOSS\Libs\RequestCore_Exception;
-use App\Services\Core\Store\AliOSS\Libs\OSS_Exception;
+use App\Services\Core\Store\Ali_OSS\Libs\RequestCore as RequestCore;
+use App\Services\Core\Store\Ali_OSS\Libs\RequestCore_Exception;
+use App\Services\Core\Store\Ali_OSS\Libs\OSS_Exception;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
