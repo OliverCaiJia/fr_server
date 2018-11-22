@@ -42,7 +42,7 @@ class TestController extends ApiController
 //        $data = YiJianDaiPushService::o()->getPull($data);
 //        print_r($data);die;
         $data = [
-            'orderId' => 'DS181122_17224974',
+            'orderId' => 'DS181122_17243527',
             'orderAmount' => '0.01',
             'goodsParamExt' => '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}',
             'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
