@@ -1,6 +1,6 @@
 <?php
 Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
-    
+    $router->any('test','TestController@test');
     /**
      *   Auth API
      */

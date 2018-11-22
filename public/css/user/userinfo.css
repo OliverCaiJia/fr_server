@@ -45,7 +45,7 @@
   float: left;
 }
 .data-list > div > div input,
-.data-list > div > div .select-i {
+.data-list > div > div .select {
   display: block;
   float: right;
   width: 4.8rem;
@@ -57,23 +57,18 @@
   color: #333;
 }
 .data-list > div > div input::-webkit-input-placeholder,
-.data-list > div > div .select-i::-webkit-input-placeholder {
+.data-list > div > div .select::-webkit-input-placeholder {
   color: #999;
 }
 .data-list > div > div select {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.data-list > div > div .select-i {
   color: #999;
   font-size: .24rem;
 }
-.data-list > div > div .select-i.selectColor {
+.data-list > div > div select.selectColor {
   color: #333;
+}
+.data-list > div > div .select-i {
+  display: none;
 }
 .data-list > div > div p {
   width: 4rem;
