@@ -19,13 +19,17 @@ class YiBaoController extends ApiController
      */
     public  function sync(Request $request)
     {
-        $uid = $this->getUserId($request);
-        $account = AccountFactory::fetchUserAccount($uid);
-        return RestResponseFactory::ok($account);
+        $params = $request->input();
+        file_put_contents('1.txt',$params);die;
+//        $uid = $this->getUserId($request);
+//        $account = AccountFactory::fetchUserAccount($uid);
+//        return RestResponseFactory::ok($account);
     }
 
     public function async(Request $request)
     {
+        $params = $request->input();
+        file_put_contents('2.txt',$params);die;
         $uid = $this->getUserId($request);
         $UserOrder = InviteFactory::fetchUserInvitations($uid);
         return RestResponseFactory::ok($UserOrder);
