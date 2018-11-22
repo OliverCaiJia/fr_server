@@ -97,8 +97,8 @@ class UserController extends ApiController
         $uid = $this->getUserId($request);
         $data = UserStatusStrategy::getUserInfo($uid);
         if (empty($data)) {
-            $data['service_status'] = 0;
-            $data['has_userinfo'] = 0;
+            $data['service_status'] = '0';
+            $data['has_userinfo'] = '0';
             $data['url'] = AppService::WEB_URL.'web/v1/user/info/create';
             return RestResponseFactory::ok($data);
         }
