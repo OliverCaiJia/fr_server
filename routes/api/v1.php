@@ -40,6 +40,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         $router->any('info/create', ['middleware' => ['valiApi:UserInfo'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
+        //用户状态
+        $router->any('status', ['uses' => 'UserController@userAuthenticationStatus']);
 
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
