@@ -62,9 +62,10 @@ class CreateReportAction extends AbstractHandler
         $report['update_at'] = date('Y-m-d H:i:s');
         $userReport = UserOrderFactory::createReport($report);
         $this->params['user_report_id'] = $userReport['id'];
-//        $this->params['user_report_id'] = 1;
 
-        $userId = $params['user_id'];
+
+
+//        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 //

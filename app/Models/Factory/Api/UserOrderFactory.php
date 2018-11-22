@@ -275,9 +275,6 @@ class UserOrderFactory extends ApiFactory
 //  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户id',
 //  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的jt_user_reports表的id',
 //  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
-//  `due_days_non_cdq_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月最近一次非超短期现金贷逾期距今天数(',
-//  `pay_cnt_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月累计还款笔数',
-//  `loan_behavior_analysis` json NOT NULL COMMENT '贷后行为',
 //  `data` json NOT NULL,
 //  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '收费',
 //  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -285,14 +282,14 @@ class UserOrderFactory extends ApiFactory
 //  PRIMARY KEY (`id`),
 //  UNIQUE KEY `FK_USER_APPLYIN_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `FK_USER_APPLYIN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户注入信息表'
+//) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='用户注入信息表'
         $userApply = new UserApply();
         $userApply->user_id = $params['user_id'];
         $userApply->user_report_id = $params['user_report_id'];
         $userApply->transid = $params['transid'];
-        $userApply->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
-        $userApply->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
-        $userApply->loan_behavior_analysis = $params['loan_behavior_analysis'];//读配置
+//        $userApply->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
+//        $userApply->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
+//        $userApply->loan_behavior_analysis = $params['loan_behavior_analysis'];//读配置
         $userApply->data = $params['data'];
         $userApply->fee = $params['fee'];
         $userApply->create_at = $params['create_at'];
