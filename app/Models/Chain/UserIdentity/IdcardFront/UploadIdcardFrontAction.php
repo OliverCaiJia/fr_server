@@ -45,25 +45,26 @@ class UploadIdcardFrontAction extends AbstractHandler
     {
         $imageFile = $params['card_file'];
         $bucketName = Common::getBucketName();
-        $object = Utils::createObjectName() . "idcard.jpg";
+        $object = Utils::createObjectName() . "idcard_front.jpg";
         $ossClient = Common::getOssClient();
         if (is_null($ossClient)){
             return false;
         }
 
         // 先把本地的example.jpg上传到指定$bucket, 命名为$object
-        $ossClient->uploadFile($bucketName, $object, $imageFile);
+        $ossClient->uploadFile($bucketName, 'idcard_front/'.$object, $imageFile);
 
         //生成一个带签名的可用于浏览器直接打开的url, URL的有效期是3600秒
         $timeout = 3600;
         $options = array(
             OssClient::OSS_PROCESS => "image/resize,m_lfit,h_100,w_100",
         );
-        $signedUrl = $ossClient->signUrl($bucketName, $object, $timeout, "GET", $options);
+        $signedUrl = $ossClient->signUrl($bucketName, 'idcard_front/'.$object, $timeout, "GET", $options);
         if(!$signedUrl){
             return false;
         }
-        $this->params['signedUrl'] = $signedUrl;
+        $parse_url = $parts = parse_url($signedUrl);
+        $this->params['signedUrl'] =  $parse_url['scheme'] . '://' .$parse_url['host'] . $parse_url['path'];
         return true;
     }
 

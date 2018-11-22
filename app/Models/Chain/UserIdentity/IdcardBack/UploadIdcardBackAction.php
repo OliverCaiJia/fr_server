@@ -2,15 +2,15 @@
 
 namespace App\Models\Chain\UserIdentity\IdcardBack;
 
-use App\Constants\UserConstant;
 use App\Models\Chain\AbstractHandler;
-use App\Services\Core\Store\Qiniu\Qiniu\QiniuUpload;
-use App\Models\Chain\UserIdentity\IdcardBack\FetchFaceidToCardbackInfoAction;
+use OSS\Common;
+use OSS\OssClient;
+use App\Helpers\Utils;
 
 /**
  * Class SendImageToQiniuAction
  * @package App\Models\Chain\UserIdentity\IdcardFront
- * 1.获取app端传的图片，并上传至七牛
+ * 1.获取app端传的图片，并上到AliOSS
  */
 class UploadIdcardBackAction extends AbstractHandler
 {
@@ -24,7 +24,7 @@ class UploadIdcardBackAction extends AbstractHandler
 
     /**
      * @return array
-     * 1.获取app端传的图片，并上传至七牛
+     * 1.获取app端传的图片，并上到AliOSS
      */
     public function handleRequest()
     {
@@ -39,23 +39,32 @@ class UploadIdcardBackAction extends AbstractHandler
     /**
      * @param $params
      * @return bool
-     * 获取app端传的图片，并上传至七牛,上传身份证正面照
+     * 获取app端传的图片，并上到AliOSS,上传身份证正面照
      */
     private function uploadIdcardBack($params =[])
     {
-        // 目标文件夹
-        $data['prefix'] = UserConstant::USER_ID_CARD_PREFIX;
-        // 身份证正面文件名
-        $data['filename'] = 'sd_idcard_back_' . date('YmdHis') . '-' . $params['userId'];
-        // 文件名称
-        $data['file'] = $params['card_back'];
-        $filename_path = QiniuUpload::customUploadFile($data);
-        $this->params['card_back'] = $filename_path;
-        //上传七牛失败
-        if (!$filename_path) {
+        $imageFile = $params['card_file'];
+        $bucketName = Common::getBucketName();
+        $object = Utils::createObjectName() . "idcard_back.jpg";
+        $ossClient = Common::getOssClient();
+        if (is_null($ossClient)){
             return false;
         }
 
+        // 先把本地的example.jpg上传到指定$bucket, 命名为$object
+        $ossClient->uploadFile($bucketName, 'idcard_back/'.$object, $imageFile);
+
+        //生成一个带签名的可用于浏览器直接打开的url, URL的有效期是3600秒
+        $timeout = 3600;
+        $options = array(
+            OssClient::OSS_PROCESS => "image/resize,m_lfit,h_100,w_100",
+        );
+        $signedUrl = $ossClient->signUrl($bucketName, 'idcard_back/'.$object, $timeout, "GET", $options);
+        if(!$signedUrl){
+            return false;
+        }
+        $parse_url = $parts = parse_url($signedUrl);
+        $this->params['signedUrl'] =  $parse_url['scheme'] . '://' .$parse_url['host'] . $parse_url['path'];
         return true;
     }
 

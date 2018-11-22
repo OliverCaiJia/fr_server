@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Api\ApiController;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
+use App\Models\Chain\UserIdentity\IdcardBack\DoIdcardBackHandler;
 use App\Models\Chain\UserIdentity\IdcardFront\CreateIdcardFrontAction;
+use App\Models\Chain\UserIdentity\IdcardFront\DoIdcardFrontHandler;
 use Illuminate\Http\Request;
 
 /**
@@ -20,10 +22,9 @@ class UserIdentityController extends ApiController
      */
     public function fetchFaceidToCardfrontInfo(Request $request)
     {
-        $data = $request->file('cardFront');
-        $data['card_front'] = $data->getClientOriginalName();
+        $data['card_front'] = $request->file('cardFront');
         //责任链
-        $realname = new CreateIdcardFrontAction($data);
+        $realname = new DoIdcardFrontHandler($data);
         $res = $realname->handleRequest();
 
         if (isset($res['error'])) {
@@ -34,15 +35,19 @@ class UserIdentityController extends ApiController
     }
 
     /**
-     * 调取face++获取身份证正面信息
+     * 调取face++获取身份证反面信息
      * @return \Illuminate\Http\JsonResponse
      */
     public function fetchFaceidToCardbackInfo(Request $request)
     {
-        $res = [
-            'valid_date' => '2005.10.08-2025.10.08',
-            'result' => '1002'
-        ];
+        $data['card_back'] = $request->file('cardBack');
+        //责任链
+        $tianCheck = new DoIdcardBackHandler($data);
+        $res = $tianCheck->handleRequest();
+
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
+        }
         return RestResponseFactory::ok($res);
     }
 

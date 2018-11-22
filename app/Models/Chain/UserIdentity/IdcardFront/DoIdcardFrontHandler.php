@@ -5,7 +5,6 @@ namespace App\Models\Chain\UserIdentity\IdcardFront;
 use App\Models\Chain\AbstractHandler;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Logger\SLogger;
-use App\Models\Chain\UserIdentity\IdcardFront\UploadIdcardFrontAction;
 
 /**
  *  调取face++获取身份证正面信息
@@ -38,7 +37,7 @@ class DoIdcardFrontHandler extends AbstractHandler
 	    DB::beginTransaction();
 	    try
 	    {
-		    $this->setSuccessor(new CreateIdcardFrontAction($this->params));
+		    $this->setSuccessor(new CreateIdCardFrontAction($this->params));
 		    $result = $this->getSuccessor()->handleRequest();
 		    if (isset($result['error'])) {
 			    DB::rollback();

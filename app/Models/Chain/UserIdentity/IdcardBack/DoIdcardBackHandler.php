@@ -3,7 +3,7 @@
 namespace App\Models\Chain\UserIdentity\IdcardBack;
 
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\UserIdentity\IdcardBack\UploadIdcardBackAction;
+use App\Models\Chain\UserIdentity\IdcardBack\CreateIdCardBackAction;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Logger\SLogger;
 
@@ -24,11 +24,8 @@ class DoIdcardBackHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 1.获取app端传的图片，并上传至七牛
-     * 2.调用face++获取身份证反面信息
-     * 3.记实名认证流水
-     * 4.修改实名认证表
-     *
+     * 1.获取app端传的图片，并上传文件
+     * 2.调用face++获取身份证正面信息
      */
 
     /**
@@ -41,7 +38,7 @@ class DoIdcardBackHandler extends AbstractHandler
 	    DB::beginTransaction();
 	    try
 	    {
-		    $this->setSuccessor(new UploadIdcardBackAction($this->params));
+		    $this->setSuccessor(new CreateIdCardBackAction($this->params));
 		    $result = $this->getSuccessor()->handleRequest();
 		    if (isset($result['error'])) {
 			    DB::rollback();
