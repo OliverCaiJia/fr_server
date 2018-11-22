@@ -21,6 +21,18 @@ class PlatformFactory extends ApiFactory
      */
     public static function getPlatformByNid($platform_nid)
     {
-        return Platform::select()->where('platform_nid', '=', $platform_nid)->get();
+        $platform =  Platform::select()->where('platform_nid', '=', $platform_nid)->get();
+        return $platform ? $platform->toArray() : [];
+    }
+
+    /**
+     * 根据平台id获取平台信息
+     * @param $id
+     * @return mixed
+     */
+    public static function getPlatformById($id)
+    {
+        $platform = Platform::select()->where('id', '=', $id)->first();
+        return $platform ? $platform->toArray() : [];
     }
 }

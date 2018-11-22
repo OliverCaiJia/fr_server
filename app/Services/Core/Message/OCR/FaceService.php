@@ -2,37 +2,43 @@
 
 namespace App\Services\Core\Message\OCR;
 
-use App\Http\Controllers\Api\V1\UserIdentityController;
+use App\Helpers\Http\HttpClient;
 use App\Services\AppService;
 
-/**
- * facd++·şÎñ
- * Class FaceService
- * @package App\Services\Core\Message\OCR
- */
+
 class FaceService extends AppService
 {
-    /**
-     * »ñÈ¡Éí·İÖ¤±³ÃæĞÅÏ¢
-     * @param $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function fetchBack($data)
+    public function fetchBackOrFront($data)
     {
-        $useridentity = new UserIdentityController();
-        $res = $useridentity->fetchFaceidToCardbackInfo($data);
-        return $res;
-    }
-
-    /**
-     * »ñÈ¡Éí·İÖ¤ÕıÃæĞÅÏ¢
-     * @param $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function fetchFront($data)
-    {
-        $useridentity = new UserIdentityController();
-        $res = $useridentity->fetchFaceidToCardfrontInfo($data);
+        $appKey = 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
+        $appSecret = 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
+        $url = 'https://api.megvii.com/faceid/v3/ocridcard';
+        $image = $data['imgUrl'];
+        $request = [
+            'multipart' => [
+                [
+                    'name' => 'image',
+                    'contents' => fopen($image, 'r'),
+                ],
+                [
+                    'name' => 'api_key',
+                    'contents' => $appKey,
+                ],
+                [
+                    'name' => 'api_secret',
+                    'contents' => $appSecret,
+                ],
+                // æ˜¯å¦è¿”å›èº«ä»½è¯ç…§ç‰‡åˆæ³•æ€§æ£€æŸ¥ç»“æœ â€œ1â€ï¼šè¿”å›ï¼› â€œ0â€ï¼šä¸è¿”å›ã€‚
+                [
+                    'name' => 'legality',
+                    'contents' => 1,
+                ],
+            ],
+        ];
+        //è¯·æ±‚face++
+        $response = HttpClient::i()->request('POST', $url, $request);
+        $result = $response->getBody()->getContents();
+        $res = json_decode($result, true);
         return $res;
     }
 }

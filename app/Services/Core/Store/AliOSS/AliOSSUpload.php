@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Core\Store\AliOSS;
+namespace App\Services\Core\Store\Ali_OSS;
 
 use App\Services\AppService;
 
