@@ -18,9 +18,9 @@ class UserStatusStrategy extends AppStrategy
      */
     public static function getUserInfo($uid)
     {
-        $userStatus = UserInfo::select(['service_status', 'has_userinfo'])->where(['user_id' => $uid])->get()->toArray();
+        $userStatus = UserInfo::select(['service_status', 'has_userinfo'])->where(['user_id' => $uid])->first();
 
-        return $userStatus ? $userStatus : [];
+        return $userStatus ? $userStatus->toArray() : [];
     }
 
 }
