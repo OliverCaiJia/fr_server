@@ -273,6 +273,13 @@ class Utils
         return str_pad(mt_rand(0, 999999), $num, "0", STR_PAD_BOTH);
     }
 
+    public static function createObjectName($extra = "A", $type = 'IMAGE')
+    {
+        $NO = date('Y') . date('m') . date('d') . date('H') . date('i') . date('s') . '-' . Utils::randomNumber();
+
+        return $type . '-' . $extra . '-' . $NO;
+    }
+
     /**
      * 生成表格自增ID
      * @param $data

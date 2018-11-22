@@ -34,7 +34,7 @@ class AppService
     // 活动域名
     const EVENT_URL = PRODUCTION_ENV ? 'http://h5.fruit.witlending.com' : 'http://uat.h5.fruit.witlending.com';
     // Web网站
-    const WEB_URL = PRODUCTION_ENV ? 'http://www.sudaizhijia.com' : 'http://test.www.sudaizhijia.com';
+    const WEB_URL = PRODUCTION_ENV ? 'http://fruit.witlending.com' : 'http://uat.fruit.witlending.com';
     // 旧版接口
     const MAPI_URL = PRODUCTION_ENV ? 'http://mapi.sudaizhijia.com' : 'http://test.mapi.sudaizhijia.com';
 

@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -16,25 +17,13 @@ class CreatePersonalAction extends AbstractHandler
         $this->params = $params;
     }
 
-    /**
-     *
-     *
-     * @return array
-     */
     public function handleRequest()
     {
-//        if ($this->createReportLog($this->params)) {
-//            $this->setSuccessor(new CreatePersonalAction($this->params));
-//            return $this->getSuccessor()->handleRequest();
-//        } else {
-//            return $this->error;
-//        }
-
-        $result = UserOrderFactory::createOrderReport($this->params);
+        $result = $this->createPersonal($this->params);
         if ($result) {
-            return true;
+            return $result;
         }
-        return $this->error;
+        return false;
     }
 
     private function createPersonal($params)
@@ -61,22 +50,22 @@ class CreatePersonalAction extends AbstractHandler
 //  KEY `FK_USER_PERSONAL_INFO_USER_ID` (`user_id`),
 //  CONSTRAINT `FK_USER_PERSONAL_INFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='信息查询返回个人信息数据'
-        $data['user_id'] = $params['user_id'];
-        $data['idcard'] = $params['idcard'];
-        $data['idcard_location'] = $params['idcard_location'];
-        $data['mobile'] = $params['mobile'];
-        $data['carrier'] = $params['carrier'];
-        $data['mobile_location'] = $params['mobile_location'];
-        $data['name'] = $params['name'];
-        $data['age'] = $params['age'];
-        $data['gender'] = $params['gender'];
-        $data['email'] = $params['email'];
-        $data['education'] = $params['education'];
-        $data['is_graduation'] = $params['is_graduation'];
-        $data['create_at'] = $params['create_at'];
-        $data['create_ip'] = $params['create_ip'];
-        $data['update_at'] = $params['update_at'];
-        $data['update_ip'] = $params['update_ip'];
+        $data['user_id'] = $params['user_id'];//
+        $data['idcard'] = '1111';//$params['idcard']
+        $data['idcard_location'] = '111';//$params['idcard_location']
+        $data['mobile'] = '111';//$params['mobile']
+        $data['carrier'] = '111';//$params['carrier']
+        $data['mobile_location'] = '111';//$params['mobile_location']
+        $data['name'] = 'aaa';//$params['name']
+        $data['age'] = 11;//$params['age']
+        $data['gender'] = 1;//$params['gender']
+        $data['email'] = '1@qq.com';//$params['email']
+        $data['education'] = 1;//$params['education']
+        $data['is_graduation'] = 1;//$params['is_graduation']
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['create_ip'] = Utils::ipAddress();
+        $data['update_at'] = date('Y-m-d H:i:s', time());
+        $data['update_ip'] = Utils::ipAddress();
 
         $userReportLog = UserOrderFactory::createPersonal($data);
 
@@ -88,6 +77,6 @@ class CreatePersonalAction extends AbstractHandler
             $this->error['error'] = "您好，报告记录关系异常！";
             return false;
         }
-        return true;
+        return $userReportLog;
     }
 }

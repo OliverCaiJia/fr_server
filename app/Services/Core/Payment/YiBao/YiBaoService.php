@@ -54,22 +54,25 @@ class YiBaoService extends AppService
         $yp_request->addParam("orderId", $data['orderId']); //订单编号
         $yp_request->addParam("orderAmount", $data['orderAmount']); //订单金额
         $yp_request->addParam("requestDate", date('Y-m-d H:i:s'));
-        $yp_request->addParam("notifyUrl", 'http://10.151.31.134/demo/yop-ds/callback.php'); //回调地址
-        $yp_request->addParam("goodsParamExt", '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}'); //商品信息{"goodsName":"名称","goodsDesc":"描述"}
-        $yp_request->addParam("paymentParamExt", '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}'); //扩展参数 {"bankCardNo":"银行卡号","idCardNo":"身份证号","cardName":"姓名"}
+        $yp_request->addParam("notifyUrl", $notifyUrl); //回调地址
+        $yp_request->addParam("goodsParamExt", $data['goodsParamExt']); //商品信息{"goodsName":"名称","goodsDesc":"描述"}
+        $yp_request->addParam("paymentParamExt", $data['paymentParamExt']); //扩展参数 {"bankCardNo":"银行卡号","idCardNo":"身份证号","cardName":"姓名"}
         $yp_request->addParam("fundProcessType", 'REAL_TIME'); //资金处理类型
-
 
         $response = YopClient3::post("/rest/v1.0/std/trade/order", $yp_request);
 
-        if ($response->validSign == 1) {
-            echo "返回结果签名验证成功!\n";
+        //结果验证
+        if ($response->validSign != 1) {
+            return json_encode(['msg' => '签名有误', 'code' => '99001007', 'data' => []],JSON_UNESCAPED_UNICODE);
         }
+        if($response->result['code'] != 'OPR00000'){
+            return json_encode(['msg' => $response->result['message'], 'code' => $response->result['code'], 'data' => []],JSON_UNESCAPED_UNICODE);
+        }
+
         //取得返回结果
+        $resData = self::object_array($response);
+        $token = $resData['result']['token'];
 
-        $data = self::object_array($response);
-
-        $token = $data['result']['token'];
         $cashter = array(
             "merchantNo" => $merchantNo,
             "token" => $token,
@@ -84,7 +87,7 @@ class YiBaoService extends AppService
         $getUrl = str_replace("&timestamp", "&amp;timestamp", $getUrl);
         $url = "https://cash.yeepay.com/cashier/std?" . $getUrl;
 
-        return $url;
+        return json_encode(['msg' => $response->result['message'], 'code' => 200, 'data' => ['url'=>$url]],JSON_UNESCAPED_UNICODE);
 
     }
 

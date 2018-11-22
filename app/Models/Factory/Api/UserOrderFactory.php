@@ -118,19 +118,54 @@ class UserOrderFactory extends ApiFactory
 //  UNIQUE KEY `FK_USER_ANTIFRAUD_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `FK_USER_ANTIFRAUD_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户反欺诈信息表'
+
+//        CREATE TABLE `sgd_user_antifraud` (
+//    `id` int(11) NOT NULL COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
+//  `courtcase_cnt` int(11) NOT NULL COMMENT '法院执行次数',
+//  `dishonest_cnt` int(11) NOT NULL COMMENT '失信未执行次数',
+//  `fraudulence_is_hit` tinyint(1) NOT NULL DEFAULT '0' COMMENT '欺诈名单是否命中',
+//  `untrusted_info` json NOT NULL COMMENT '失信信息',
+//  `suspicious_idcard` json NOT NULL COMMENT '身份存疑',
+//  `suspicious_mobile` json NOT NULL COMMENT '手机存疑',
+//  `data` json NOT NULL COMMENT '设备存疑',
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '费用',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  UNIQUE KEY `FK_USER_ANTIFRAUD_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `FK_USER_ANTIFRAUD_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户反欺诈信息表'
         $userAntifraud = new UserAntifraud();
         $userAntifraud->user_id = $params['user_id'];
         $userAntifraud->user_report_id = $params['user_report_id'];
         $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
         $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
         $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
-        $userAntifraud->untrusted_info = '';//读配置
-        $userAntifraud->suspicious_idcard = '';
-        $userAntifraud->suspicious_mobile = '';
-        $userAntifraud->data = '';
+        $userAntifraud->untrusted_info = $params['untrusted_info'];
+        $userAntifraud->suspicious_idcard = $params['suspicious_idcard'];
+        $userAntifraud->suspicious_mobile = $params['suspicious_mobile'];
+        $userAntifraud->data = $params['data'];
         $userAntifraud->fee = $params['fee'];
         $userAntifraud->create_at = $params['create_at'];
         $userAntifraud->update_at = $params['update_at'];
+//dd($params);
+//        array:12 [▼
+//  "user_id" => 6
+//  "user_report_id" => 1
+//  "courtcase_cnt" =>
+//  "dishonest_cnt" => 0
+//  "fraudulence_is_hit" => 0
+//  "untrusted_info" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
+//  "suspicious_idcard" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
+//  "suspicious_mobile" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
+//  "data" => "{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastNa ▶"
+//  "fee" => "Y"
+//  "create_at" => "2018-11-21 13:28:26"
+//  "update_at" => "2018-11-21 13:28:26"
+//]
+
 
         if ($userAntifraud->save()) {
             return $userAntifraud->toArray();
@@ -223,7 +258,6 @@ class UserOrderFactory extends ApiFactory
         $userReport->update_at = $params['update_at'];
 
         if ($userReport->save()) {
-            dd($userReport);
             return $userReport->toArray();
         }
         return false;
@@ -236,6 +270,22 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
+//        CREATE TABLE `sgd_user_apply` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的jt_user_reports表的id',
+//  `transid` varchar(128) NOT NULL DEFAULT '' COMMENT '传输id',
+//  `due_days_non_cdq_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月最近一次非超短期现金贷逾期距今天数(',
+//  `pay_cnt_12_mon` int(8) NOT NULL DEFAULT '0' COMMENT '近12个月累计还款笔数',
+//  `loan_behavior_analysis` json NOT NULL COMMENT '贷后行为',
+//  `data` json NOT NULL,
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '收费',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  UNIQUE KEY `FK_USER_APPLYIN_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `FK_USER_APPLYIN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户注入信息表'
         $userApply = new UserApply();
         $userApply->user_id = $params['user_id'];
         $userApply->user_report_id = $params['user_report_id'];
@@ -442,6 +492,8 @@ class UserOrderFactory extends ApiFactory
         $userPersonal->idcard = $params['idcard'];
         $userPersonal->idcard_location = $params['idcard_location'];
         $userPersonal->mobile = $params['mobile'];
+        $userPersonal->carrier = $params['carrier'];
+        $userPersonal->mobile_location = $params['mobile_location'];
         $userPersonal->name = $params['name'];
         $userPersonal->age = $params['age'];
         $userPersonal->gender = $params['gender'];
@@ -452,6 +504,7 @@ class UserOrderFactory extends ApiFactory
         $userPersonal->create_ip = $params['create_ip'];
         $userPersonal->update_at = $params['update_at'];
         $userPersonal->update_ip = $params['update_ip'];
+
         if ($userPersonal->save()) {
             return $userPersonal->toArray();
         }

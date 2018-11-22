@@ -54,15 +54,15 @@ class CreateAmountEstAction extends AbstractHandler
 //  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
 //  CONSTRAINT `sgd_user_amount_est_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
-        $data['user_id'] = $params['user_id'];
-        $data['user_report_id'] = $params['user_report_id'];
-        $data['zm_score'] = $params['zm_score'];
-        $data['huabai_limit'] = $params['huabai_limit'];
-        $data['credit_amt'] = $params['credit_amt'];
-        $data['data'] = $params['data'];
-        $data['fee'] = $params['fee'];
-        $data['create_at'] = $params['create_at'];
-        $data['update_at'] = $params['update_at'];
+        $data['user_id'] = $params['user_id'];//6
+        $data['user_report_id'] = $params['user_report_id'];//1
+        $data['zm_score'] = $params['zm_score'];//1
+        $data['huabai_limit'] = $params['huabai_limit'];//1
+        $data['credit_amt'] = $params['credit_amt'];//1
+        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['fee'] = $params['fee'];//'Y'
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['update_at'] = date('Y-m-d H:i:s', time());
 
         $userReportLog = UserOrderFactory::createAmountEst($data);
 

@@ -17,7 +17,6 @@ class CreateReportAction extends AbstractHandler
     public function __construct($params)
     {
         $this->params = $params;
-        $this->data = $params;
     }
 
     /**
@@ -55,16 +54,17 @@ class CreateReportAction extends AbstractHandler
 //  UNIQUE KEY `FK_USER_REPORT_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `FK_USER_REPORT_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户报告信息表'
-        $report['user_id'] = $params['user_id'];
+        $report['user_id'] = $params['user_id'];//6
         //todo::
         $report['report_code'] = 'R' . UserOrderStrategy::createOrderNo();
-        $report['report_data'] = json_encode($params['report_data']);
+        $report['report_data'] = '{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}';//json_encode($params['report_data'])
         $report['create_at'] = date('Y-m-d H:i:s');
         $report['update_at'] = date('Y-m-d H:i:s');
         $userReport = UserOrderFactory::createReport($report);
         $this->params['user_report_id'] = $userReport['id'];
+//        $this->params['user_report_id'] = 1;
 
-//        $userId = $params['user_id'];
+        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 //

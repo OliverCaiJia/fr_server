@@ -11,7 +11,7 @@ class CreatePostLoanAction extends AbstractHandler
     private $params = [];
     protected $error = ['error' => '订单状态不合法，审核（拒绝）失败！', 'code' => 8210];
 
-    public function __construct($params)
+    public function     __construct($params)
     {
         $this->params = $params;
     }
@@ -54,15 +54,15 @@ class CreatePostLoanAction extends AbstractHandler
 //  KEY `FK_USER_POSTLOAN_USER_ID` (`user_id`),
 //  CONSTRAINT `FK_USER_POSTLOAN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户贷后数据表'
-        $data['user_id'] = $params['user_id'];
-        $data['user_report_id'] = $params['user_report_id'];
-        $data['transid'] = $params['transid'];
-        $data['due_days_non_cdq_12_mon'] = $params['due_days_non_cdq_12_mon'];
-        $data['pay_cnt_12_mon'] = $params['pay_cnt_12_mon'];
-        $data['data'] = $params['data'];
-        $data['fee'] = $params['fee'];
-        $data['create_at'] = $params['create_at'];
-        $data['update_at'] = $params['update_at'];
+        $data['user_id'] = $params['user_id'];//6
+        $data['user_report_id'] = $params['user_report_id'];//1
+        $data['transid'] = $params['transid'];//1
+        $data['due_days_non_cdq_12_mon'] = $params['due_days_non_cdq_12_mon'];//1
+        $data['pay_cnt_12_mon'] = $params['pay_cnt_12_mon'];//1
+        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['fee'] = $params['fee'];//'Y'
+        $data['create_at'] = date('Y-m-d H:i:s', time());
+        $data['update_at'] = date('Y-m-d H:i:s', time());
 
         $userReportLog = UserOrderFactory::createPostloan($data);
 

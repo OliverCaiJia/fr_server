@@ -55,21 +55,20 @@ class CreateAntifraudAction extends AbstractHandler
 //  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 //  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
 
-        $antifraud['user_id'] = $params['user_id'];
-        $antifraud['user_report_id'] = $params['user_report_id'];
-        $antifraud['courtcase_cnt'] = $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'];
-        $antifraud['dishonest_cnt'] = $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'];
-        $antifraud['fraudulence_is_hit'] = (int)($params['anti_fraud']['data']['fraudulence_info']['is_hit']);
-        $antifraud['untrusted_info'] = json_encode($params['anti_fraud']['data']['untrusted_info']);
-        $antifraud['suspicious_idcard'] = json_encode($params['anti_fraud']['data']['suspicious_idcard']);
-        $antifraud['suspicious_mobile'] = json_encode($params['anti_fraud']['data']['suspicious_mobile']);
-        $antifraud['data'] = json_encode($params['anti_fraud']['data']);
-        $antifraud['fee'] = $params['anti_fraud']['fee'];
+        $antifraud['user_id'] = $params['user_id'];//6
+        $antifraud['user_report_id'] = $params['user_report_id'];//1
+        $antifraud['courtcase_cnt'] = $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'];//0
+        $antifraud['dishonest_cnt'] = $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'];//0
+        $antifraud['fraudulence_is_hit'] = (int)($params['anti_fraud']['data']['fraudulence_info']['is_hit']);//0
+        $antifraud['untrusted_info'] = json_encode($params['anti_fraud']['data']['untrusted_info']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $antifraud['suspicious_idcard'] = json_encode($params['anti_fraud']['data']['suspicious_idcard']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $antifraud['suspicious_mobile'] = json_encode($params['anti_fraud']['data']['suspicious_mobile']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $antifraud['data'] = json_encode($params['anti_fraud']['data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $antifraud['fee'] = $params['anti_fraud']['fee'];//'Y'
         $antifraud['create_at'] = date('Y-m-d H:i:s', time());
         $antifraud['update_at'] = date('Y-m-d H:i:s', time());
 
         $antifraud = UserOrderFactory::createAntifraud($antifraud);
-        dd($antifraud);
 
 
 //        $userId = $params['user_id'];

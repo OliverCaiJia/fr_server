@@ -43,6 +43,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Medz\\IdentityCard\\China\\' => array($vendorDir . '/medz/id-card-of-china/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),

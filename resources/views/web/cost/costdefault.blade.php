@@ -20,35 +20,29 @@
                 <div class="service-list">
                     <dl> <dt><img src="" alt=""></dt>
                         <dd>
-                            <h4>借款20000元/3个月</h4>
-                            <p>放款快,周期长,利率低
-                                <br><span>￥<i>128</i></span>￥188</p>
+                            <h4>{{ $data['groom']['name'] }}</h4>
+                            <p>{{ $data['groom']['remark'] }}
+                                <br><span>￥<i>{{ $data['groom']['price'] }}</i></span>￥{{ $data['groom']['old_price'] }}</p>
                         </dd> <span></span> </dl>
                 </div>
             </div>
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3>
-                <div class="service-list">
-                    <dl> <dt><img src="" alt=""></dt>
-                        <dd>
-                            <h4>借款20000元/3个月</h4>
-                            <p>放款快,周期长,利率低
-                                <br><span>￥<i>128</i></span>￥188</p>
-                        </dd> <span class='selectIcon'></span> </dl>
-                </div>
-                <div class="service-list">
-                    <dl> <dt><img src="" alt=""></dt>
-                        <dd>
-                            <h4>借款20000元/3个月</h4>
-                            <p>放款快,周期长,利率低
-                                <br><span>￥<i>128</i></span>￥188</p>
-                        </dd> <span class='selectIcon'></span> </dl>
-                </div>
+                @foreach( $data['time_limit'] as $item)
+                    <div class="service-list">
+                        <dl> <dt><img src="" alt=""></dt>
+                            <dd>
+                                <h4>{{ $item['name'] }}</h4>
+                                <p>{{ $item['remark'] }}
+                                    <br><span>￥<i>{{ $item['price'] }}</i></span>￥{{ $item['old_price'] }}</p>
+                            </dd> <span class='selectIcon'></span> </dl>
+                    </div>
+                @endforeach
             </div>
         </div>
         <footer>
             <div class="left">
-                <h3>总计：<span>￥<i>188</i></span></h3>
+                <h3>总计：<span>￥<i>{{ $data['groom']['price'] }}</i></span></h3>
                 <p>原价:￥378</p>
             </div>
             <div class="right"> 付款 </div>
