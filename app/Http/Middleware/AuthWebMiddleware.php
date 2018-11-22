@@ -32,7 +32,7 @@ class AuthWebMiddleware
             if (isset($user)) {
                 Auth::login($user);
             } else {
-                return RestResponseFactory::unauthorized('Unauthorized', 401, 'Unauthorized');
+                return redirect('/web/401');
             }
             return $next($request);
         }
