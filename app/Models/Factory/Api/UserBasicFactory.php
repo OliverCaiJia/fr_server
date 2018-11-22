@@ -25,6 +25,7 @@ class UserBasicFactory extends ApiFactory
             'company_name',
             'company_location',
             'company_address',
+            'company_license_time',
             'work_time',
             'month_salary',
             'zhima_score',
@@ -58,6 +59,7 @@ class UserBasicFactory extends ApiFactory
             $UserData->company_name = $data['company_name'];
             $UserData->company_location = $data['company_location'];
             $UserData->company_address = $data['company_address'];
+            $UserData->company_license_time = $data['company_license_time'];
             $UserData->work_time = $data['work_time'];
             $UserData->month_salary = $data['month_salary'];
             $UserData->zhima_score = $data['zhima_score'];
@@ -80,6 +82,7 @@ class UserBasicFactory extends ApiFactory
             $UserBasic->company_name = $data['company_name'];
             $UserBasic->company_location = $data['company_location'];
             $UserBasic->company_address = $data['company_address'];
+            $UserData->company_license_time = $data['company_license_time'];
             $UserBasic->work_time = $data['work_time'];
             $UserBasic->month_salary = $data['month_salary'];
             $UserBasic->zhima_score = $data['zhima_score'];
