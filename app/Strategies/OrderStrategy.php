@@ -89,33 +89,42 @@ class OrderStrategy extends AppStrategy
      * @param $order
      * @return array
      */
-    public static function getDiffOrderTypeInfo($userId, $orderNo, $typeNid)
-    {
-        switch ($typeNid) {
-            //付费报告（一个接口）user_report_log
-            case 'order_report':
-//                $userId = $this->getUserId($order);
-//                $orderNo = $request->input('order_no');
-                $result = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
-                break;
-            //增值服务订单(推荐）（一个接口）user_extra_service_log
-            case 'order_extra_service':
-
-                break;
-
-            //申请产品订单（一个接口）user_apply_log
-            case 'order_product':
-
-                break;
-            //贷款(两个接口）user_loan_log
-            case 'order_apply':
-
-                break;
-            default:
-                $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
-        }
-        return $result;
-    }
+//    public static function getDiffOrderTypeInfo($userId, $orderNo, $typeNid)
+//    {
+//        switch ($typeNid) {
+//            //付费报告（一个接口）user_report_log
+//            case 'order_report':
+////                $userId = $this->getUserId($order);
+////                $orderNo = $request->input('order_no');
+//                $result = UserOrderFactory::getOrderDetailByOrderNoAndUserId($orderNo, $userId);
+//                break;
+//            //增值服务订单(推荐）（一个接口）user_extra_service_log
+//            case 'order_extra_service':
+//
+//                break;
+//
+//            //申请产品订单（一个接口）user_apply_log
+//            case 'order_product':
+//
+//                break;
+//            //贷款(两个接口）user_loan_log
+//            case 'order_apply':
+//                $result = UserOrderFactory::getOrderDetailWithPlatformByOrderNoAndUserId($orderNo, $userId);
+//                dd($result);
+////                $res = [];
+////                foreach ($result as $uOrder) {
+////                    $res[] = [
+////                        "platform_name" => $uOrder['amount'],
+////                        "amount" => $uOrder['amount'],
+////                        "status" => $uOrder['status']
+////                    ];
+////                }
+//                break;
+//            default:
+//                $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
+//        }
+//        return $result;
+//    }
 
 
 
