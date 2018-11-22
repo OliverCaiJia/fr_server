@@ -56,7 +56,7 @@ class YiBaoService extends AppService
         $yp_request->addParam("orderAmount", $data['orderAmount']); //订单金额
         $yp_request->addParam("requestDate", date('Y-m-d H:i:s'));
         $yp_request->addParam("notifyUrl", $notifyUrl); //异步回调地址
-//        $yp_request->addParam("redirectUrl", $redirectUrl); //页面回调地址
+        $yp_request->addParam("redirectUrl", $redirectUrl); //页面回调地址
         $yp_request->addParam("goodsParamExt", $data['goodsParamExt']); //商品信息{"goodsName":"名称","goodsDesc":"描述"}
         $yp_request->addParam("paymentParamExt", $data['paymentParamExt']); //扩展参数 {"bankCardNo":"银行卡号","idCardNo":"身份证号","cardName":"姓名"}
         $yp_request->addParam("fundProcessType", 'REAL_TIME'); //资金处理类型
