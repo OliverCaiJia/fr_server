@@ -29,10 +29,10 @@ class AuthWebMiddleware
         $token = $request->input('token') ?: $request->header('X-Token');
         if ($token) {
             $user = UserAuth::where('access_token', $token)->first();
-            if ($user) {
+            if (isset($user)) {
                 Auth::login($user);
             } else {
-                return RestResponseFactory::unauthorized('Unauthorized', 401, 'Unauthorized');
+                return redirect('/web/401');
             }
             return $next($request);
         }
