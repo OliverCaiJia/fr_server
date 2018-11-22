@@ -283,6 +283,15 @@ class UserOrderFactory extends ApiFactory
 //  UNIQUE KEY `FK_USER_APPLYIN_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `FK_USER_APPLYIN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='用户注入信息表'
+//        array:7 [▼
+//  "user_id" => 6
+//  "user_report_id" => 137
+//  "transid" => "e2481f00-ee28-11e8-9d68-00163e0d2aee"
+//  "data" => "{"trans_id":"e2481f00-ee28-11e8-9d68-00163e0d2aee","person_info":{"idcard":"21092219891006****","idcard_location":"\u8fbd\u5b81\u7701\/\u961c\u65b0\u5e02\/\u5f7 ▶"
+//  "fee" => "Y"
+//  "create_at" => "2018-11-22 15:33:22"
+//  "update_at" => "2018-11-22 15:33:22"
+//]
         $userApply = new UserApply();
         $userApply->user_id = $params['user_id'];
         $userApply->user_report_id = $params['user_report_id'];
