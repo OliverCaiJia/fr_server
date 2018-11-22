@@ -1,6 +1,10 @@
 <?php
 Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'prefix' => 'v1'], function ($router) {
     $router->any('test','TestController@test');
+    //同步回调
+    $router->any('yibao/sync', ['uses' => 'YiBaoController@sync']);//添加验证器
+    //异步回调
+    $router->any('yibao/async', ['uses' => 'YiBaoController@async']);//添加验证器
     /**
      *   Auth API
      */

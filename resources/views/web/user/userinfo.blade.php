@@ -17,14 +17,14 @@
         <div class="main">
             <p class="tips">请填写真实有效信息,这将影响您的审核结果!</p>
             <div class="data-list">
-                <div class='showData1'>
+                <div>
                     <div>
                         <label for="">居住所在地区：</label>
                         <input type="text" id="address" class="address" readonly placeholder="请选择" value="{{isset($data['user_location']) ? $data['user_location'] : ''}}">
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div class='showData1'>
+                <div>
                     <div>
                         <label for="">居住详细地址：</label>
                         <input type="text" placeholder="街道、楼牌号" value="{{isset($data['user_address']) ? $data['user_address'] : ''}}" id='user_address'> </div>
@@ -42,24 +42,24 @@
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div>
+                <div class='showData4'>
                     <div>
                         <label for="">公司名称：</label>
                         <input type="text" placeholder="请填写" value="{{isset($data['company_name']) ? $data['company_name'] : ''}}" id='company_name'> </div>
                 </div>
-                <div>
+                <div class='showData4'>
                     <div>
                         <label for="">公司所在地区：</label>
                         <input type="text" id="company-address" readonly placeholder="请选择" class="address" value="{{isset($data['company_location']) ? $data['company_location'] : ''}}" id='company_location'>
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div>
+                <div class='showData4'>
                     <div>
                         <label for="">公司详细地址：</label>
                         <input type="text" placeholder="请填写" value="{{isset($data['company_address']) ? $data['company_address'] : ''}}" id='company_address'> </div>
                 </div>
-                <div>
+                <div class='showData1'>
                     <div>
                         <label for="">工作时间：</label> <i class="select-i">{{isset($data['work_time']) ? $data['work_time'] : '请选择'}}</i>
                         <select name="" id="work_time">
@@ -71,7 +71,7 @@
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
-                <div>
+                <div class='showData1'>
                     <div>
                         <label for="">月收入：</label> <i class="select-i">{{isset($data['month_salary']) ? $data['month_salary'] : '请选择'}}</i>
                         <select name="" id="month_salary">
@@ -144,9 +144,11 @@
                 </div>
             </div>
             <div class="button">立即绑定</div>
+            <div class="token" style="display: none">{{ $token }}</div>
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/sha1.min.js') }}"></script>
     <script src="{{ asset('js/larea/LAreaData1.js') }}"></script>
     <script src="{{ asset('js/larea/LArea.js') }}"></script>
     <script src="{{ asset('js/api.js') }}"></script>
@@ -157,6 +159,7 @@
                 this.areaSelect('#company-address');
                 this.selectChange();
                 this.radioView();
+                this.submitView();
             },
             /*地址选择*/
             areaSelect: function(dom) {
@@ -177,17 +180,22 @@
                 });
             },
             selectChange: function() {
-                $('select').on('change', function() {
-                    //                    var text = $(this).find("option:selected").text();
+                var text = $('#profession').find("option:selected").val();
+                showData(text);
+                $('#profession').on('change', function() {
+                    var text = $(this).find("option:selected").text();
                     $(this).addClass('selectColor');
-                    $('.showData1,.showData3').hide();
-                    console.log(text)
-                    if (text == '上班族' || text == '公务员') {
-                        $('.showData1').show();
-                    } else if (text == '企业主') {
-                        $('.showData3').show();
-                    }
+                    $('.showData1,.showData3,.showData4').hide();
+                    showData(text);
                 })
+
+                function showData(text) {
+                    if (text == '上班族' || text == '公务员') {
+                        $('.showData1,.showData4').show();
+                    } else if (text == '企业主') {
+                        $('.showData3,.showData4').show();
+                    }
+                }
             }, //单选点击
             radioView: function() {
                 $('.radio-box').on('click', 'span', function() {
