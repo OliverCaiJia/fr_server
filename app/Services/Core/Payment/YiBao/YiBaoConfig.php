@@ -23,11 +23,10 @@ class YiBaoConfig
 
     //服务器服务器回调地址
 //    const NOTIFYURL = 'http://uat.fruit.witlending.com/api/v1/callback/yibao/async';
-    const NOTIFYURL = 'http://data.witlending.com/callback/yibao/async';
+    const NOTIFYURL = 'https://data.witlending.com/admin/marketing/channelAdmin/test';
 
     //服务器页面回调地址
-//    const REDIRECTURL = 'http://uat.fruit.witlending.com/api/v1/callback/yibao/sync';
-    const REDIRECTURL = 'http://data.witlending.com/callback/yibao/sync';
+    const REDIRECTURL = 'http://uat.fruit.witlending.com/api/v1/callback/yibao/sync';
 
     //易宝url
     const SERVERROOT = "https://open.yeepay.com/yop-center";
