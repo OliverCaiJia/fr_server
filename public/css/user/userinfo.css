@@ -12,7 +12,8 @@
   color: #FD3443;
 }
 .data-list .showData1,
-.data-list .showData3 {
+.data-list .showData3,
+.data-list .showData4 {
   display: none;
 }
 .data-list > div {
@@ -45,7 +46,7 @@
   float: left;
 }
 .data-list > div > div input,
-.data-list > div > div .select {
+.data-list > div > div select {
   display: block;
   float: right;
   width: 4.8rem;
@@ -57,10 +58,11 @@
   color: #333;
 }
 .data-list > div > div input::-webkit-input-placeholder,
-.data-list > div > div .select::-webkit-input-placeholder {
+.data-list > div > div select::-webkit-input-placeholder {
   color: #999;
 }
 .data-list > div > div select {
+  direction: rtl;
   color: #999;
   font-size: .24rem;
 }
