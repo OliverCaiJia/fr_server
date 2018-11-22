@@ -55,24 +55,76 @@ class CreateMultiinfoAction extends AbstractHandler
 //  KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`),
 //  CONSTRAINT `FK_USER_MULTIINFO_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户多头数据表'
+
+        //        dd($multiinfo);
+//        array:5 [▼
+//  "success" => true
+//  "code" => "0000"
+//  "msg" => "操作成功"
+//  "data" => array:3 [▼
+//    "trans_id" => "871f0aa0-ecbe-11e8-bea7-00163e0d2aee"
+//    "person_info" => array:10 [▼
+//      "idcard" => "13070219811107****"
+//      "idcard_location" => "河北省/张家口市/桥东区"
+//      "mobile" => "1381056****"
+//      "carrier" => "中国移动"
+//      "mobile_location" => "北京/北京"
+//      "name" => "蔡*"
+//      "age" => 37
+//      "gender" => "男"
+//      "email" => ""
+//      "education_info" => array:2 [▼
+//        "level" => 0
+//        "is_graduation" => false
+//      ]
+//    ]
+//    "auth_queried_detail" => array:6 [▼
+//      "register_info" => array:3 [▼
+//        "other_count" => 0
+//        "org_count" => 0
+//        "org_types" => []
+//      ]
+//      "queried_detail_org_count" => 0
+//      "queried_analyze" => []
+//      "queried_infos" => []
+//      "loan_org_cnt_all" => 0
+//      "loan_info" => array:10 [▼
+//        "loan_org_cnt" => 0
+//        "loan_cnt" => 0
+//        "loan_org_cnt_15d" => 0
+//        "loan_org_cnt_30d" => 0
+//        "loan_org_cnt_90d" => 0
+//        "loan_org_cnt_180d" => 0
+//        "loan_cnt_15d" => 0
+//        "loan_cnt_30d" => 0
+//        "loan_cnt_90d" => 0
+//        "loan_cnt_180d" => 0
+//      ]
+//    ]
+//  ]
+//  "fee" => "Y"
+//]
+//
+
         $data['user_id'] = $params['user_id'];//
         $data['user_report_id'] = $params['user_report_id'];//
-        $data['register_org_count'] = $params['register_org_count'];//
-        $data['loan_cnt'] = $params['loan_cnt'];//
-        $data['loan_org_cnt'] = $params['loan_org_cnt'];//
-        $data['transid'] = $params['transid'];//
-        $data['data'] = $params['data'];//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
-        $data['fee'] = $params['fee'];//'Y'
+        $data['register_org_count'] = $params['multi_info']['data']['auth_queried_detail']['register_info']['org_count'];//
+
+        $data['loan_cnt'] = $params['multi_info']['data']['auth_queried_detail']['loan_info']['loan_cnt'];//
+        $data['loan_org_cnt'] = $params['multi_info']['data']['auth_queried_detail']['loan_info']['loan_org_cnt'];//
+        $data['transid'] = $params['multi_info']['data']['trans_id'];//
+        $data['data'] = json_encode($params['multi_info']['data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+        $data['fee'] = $params['multi_info']['fee'];//'Y'
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());
 
-        $userReportLog = UserOrderFactory::createMultiinfo($data);
+        $userMultiinfo = UserOrderFactory::createMultiinfo($data);
 
 //        $userId = $params['user_id'];
 //        $orderType = $params['order_type'];
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 //
-        if (!$userReportLog) {
+        if (!$userMultiinfo) {
             $this->error['error'] = "您好，报告记录关系异常！";
             return false;
         }

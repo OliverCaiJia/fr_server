@@ -69,6 +69,7 @@ class CreateAntifraudAction extends AbstractHandler
         $antifraud['update_at'] = date('Y-m-d H:i:s', time());
 
         $antifraud = UserOrderFactory::createAntifraud($antifraud);
+//        $this->params['user_report_id'] = $params['user_report_id'];
 
 
 //        $userId = $params['user_id'];
