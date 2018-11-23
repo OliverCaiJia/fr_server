@@ -3,11 +3,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
+use Illuminate\Http\Request;
 
 class TestController extends ApiController
 {
@@ -111,8 +113,6 @@ class TestController extends ApiController
 //        $chain = new DoPaidOrderHandler($order);
 //        $result = $chain->handleRequest();
 //        dd($result);
-
-
     }
 
     public function product() {
@@ -128,4 +128,15 @@ class TestController extends ApiController
 
     }
 
+    public function doApply(Request $request) {
+        $order = [];
+        $order['user_id'] = $this->getUserId($request);
+        $order['order_type_nid'] = $request->input('order_type_nid');
+        $order['pid'] = $request->input('pid');
+        $chain = new DoApplyOrderHandler($order);
+        $result = $chain->handleRequest();
+        dd($result);
+
+
+    }
 }

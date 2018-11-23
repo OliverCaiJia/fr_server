@@ -18,7 +18,7 @@ class UserAuthFactory extends ApiFactory
      * @param $userId
      * @return mixed|string
      */
-    public static function getUserById($userId)
+        public static function getUserById($userId)
     {
         $user = UserAuth::where('id', '=', $userId)->first();
 

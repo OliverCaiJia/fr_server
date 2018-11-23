@@ -24,9 +24,9 @@ class DoApplyOrderHandler extends AbstractHandler
     /**
      * 思路：
      * 0.检查是否支付，
-     * 1.验证金额  >0
-     * 2、验证数量  必须是1
-     * 3、创建订单（有效期1小时，）
+     * 1.
+     * 2、
+     * 3、
      */
 
     public function handleRequest()
