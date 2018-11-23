@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models\Chain\UserBank\Add;
+namespace App\Models\Chain\UserIdentity\CreateIdCard;
 
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
-use App\Models\Factory\Api\UserBankcardFactory;
+use App\Models\Factory\Api\UserRealnameFactory;
 
 /**
- * 添加sd_user_banks用户银行卡信息
+ * 添加sd_user_rename用户身份证信息
  * Class SendImageToQiniuAction
  * @package App\Models\Chain\UserIdentity\IdcardFront
  *
  */
-class CreateUserBanksAction extends AbstractHandler
+class CreateUserIdCardAction extends AbstractHandler
 {
     private $params = array();
     protected $data = array();
-    protected $error = array('error' => '用户银行卡添加有误！', 'code' => 10007);
+    protected $error = array('error' => '用户身份证添加有误！', 'code' => 10007);
 
     public function __construct($params)
     {
@@ -24,7 +24,7 @@ class CreateUserBanksAction extends AbstractHandler
     }
 
     /**
-     * 添加sd_user_banks用户银行卡信息
+     * 添加sd_user_rename用户身份证信息
      * @return array|bool
      *
      */
@@ -38,26 +38,29 @@ class CreateUserBanksAction extends AbstractHandler
     }
 
     /**
-     * 添加sd_user_banks用户银行卡信息
+     * 添加sd_user_rename用户身份证信息
      * @param $params
      * @return bool
      *
      */
     private function updateUserBanks($params)
     {
-        $data['bank_card_no'] = $params['bankcard'];
-        $data['bank_card_mobile'] = $params['mobile'];
-        $data['bank_code'] = $params['bank_code'];
-        $data['idcard'] = $params['idcard'];
         $data['user_id'] = $params['user_id'];
-        $data['bank_card_mobile'] = $params['mobile'];
-        $data['verify_time'] = date('Y-m-d H:i:s', time());
+        $data['real_name'] = $params['real_name'];
+        $data['gender'] = $params['gender'];
+        $data['id_card_type'] = 0;
+        $data['id_card_no'] = $params['id_card_no'];
+        $data['id_card_front_img'] = $params['id_card_front_img'];
+        $data['id_card_back_img'] = $params['id_card_back_img'];
+        $data['issued_by'] = $params['issued_by'];
+        $data['valid_start_date'] = $params['valid_start_date'];
+        $data['valid_end_date'] = $params['valid_end_date'];
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['create_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
 
-        $this->data = $res = UserBankCardFactory::createUserBank($data);
+        $this->data = $res = UserRealnameFactory::createUserCard($data);
 
         return $res;
     }

@@ -29,7 +29,7 @@ class CreateUserAction extends AbstractHandler
         if ($this->createUser($this->params) == true)
         {
             $this->params['id'] = UserAuthFactory::getUserIdByMobile($this->params['mobile']);
-            $this->setSuccessor(new CreateUserIdentityAction($this->params));
+            $this->setSuccessor(new  CreateUserInfoAction($this->params));
             return $this->getSuccessor()->handleRequest();
         }
         else

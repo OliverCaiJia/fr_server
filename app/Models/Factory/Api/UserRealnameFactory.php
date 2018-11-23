@@ -54,4 +54,32 @@ class UserRealnameFactory extends ApiFactory
         $userRealname->update_ip = Utils::ipAddress();
         return $userRealname->save();
     }
+
+    /**
+     * @return bool
+     *添加身份证
+     */
+    public static function createUserCard($data)
+    {
+        $userRealname = new UserRealname();
+        $userRealname->user_id = $data['user_id'];
+        $userRealname->real_name = $data['real_name'];
+        $userRealname->gender = $data['gender'];
+        $userRealname->id_card_type = $data['id_card_type'];
+        $userRealname->id_card_no = $data['id_card_no'];
+        $userRealname->id_card_front_img = $data['id_card_front_img'];
+        $userRealname->id_card_back_img = $data['id_card_back_img'];
+        $userRealname->issued_by = $data['issued_by'];
+        $userRealname->valid_start_date = $data['valid_start_date'];
+        $userRealname->valid_end_date = $data['valid_end_date'];
+        $userRealname->create_at = $data['create_at'];
+        $userRealname->create_ip = $data['create_ip'];
+        $userRealname->update_at = $data['update_at'];
+        $userRealname->update_ip = $data['update_ip'];
+
+        if($userRealname->save()){
+            return $userRealname->toArray();
+        }
+        return false;
+    }
 }

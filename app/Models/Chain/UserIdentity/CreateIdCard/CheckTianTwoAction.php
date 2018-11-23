@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\UserBank\Add;
+namespace App\Models\Chain\UserIdentity\CreateIdCard;
 
 use App\Models\Chain\AbstractHandler;
 use App\Services\Core\Validator\TianChuang\TianChuangService;
@@ -8,9 +8,9 @@ use App\Services\Core\Validator\TianChuang\TianChuangService;
 /**
  * Class CheckUserinfoAction
  * @package App\Models\Chain\Payment\Bankcard
- * 天创四要素验证
+ * 天创二要素验证
  */
-class CheckTianfourAction extends AbstractHandler
+class CheckTianTwoAction extends AbstractHandler
 {
     private $params = array();
     protected $error = array('error' => '认证信息不匹配！', 'code' => 10005);
@@ -22,12 +22,12 @@ class CheckTianfourAction extends AbstractHandler
 
 
     /**
-     * 天创四要素验证
+     * 天创二要素验证
      * @return array|bool
      */
     public function handleRequest()
     {
-        if ($this->checkTianfour($this->params) == true) {
+        if ($this->checkTiantwo($this->params) == true) {
             $this->setSuccessor(new UpdateUserInfoAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
@@ -37,20 +37,19 @@ class CheckTianfourAction extends AbstractHandler
 
 
     /**
-     * 天创四要素验证
+     * 天创二要素验证
      * @param $params
      * @return bool
      */
-    private function checkTianfour($params)
+    private function checkTiantwo($params)
     {
-        //四要素验证
+        //二要素验证
         $params = [
-            'idcard' => $params['idcard'],
+            'idcard' => $params['id_card_no'],
             'name' => $params['real_name'],
-            'bankcard' => $params['bankcard'],
-            'mobile' => $params['mobile'],
         ];
-        $ret = json_decode(TianChuangService::authFourthElements($params),true);
+
+        $ret = json_decode(TianChuangService::authPersonalIdCard($params),true);
         //status Int 接口返回码,0-成功
         if ($ret['status'] != 0) {
             return false;

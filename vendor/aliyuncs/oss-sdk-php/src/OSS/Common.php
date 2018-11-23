@@ -71,7 +71,7 @@ class Common
             printf($e->getMessage() . "\n");
             return;
         }
-        print(__FUNCTION__ . ": OK" . "\n");
+       return true;
     }
 
     public static function println($message)
