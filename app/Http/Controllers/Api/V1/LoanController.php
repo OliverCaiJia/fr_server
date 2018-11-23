@@ -34,6 +34,7 @@ class LoanController extends ApiController
                 $res[$data_key]['platform_product_name'] = $data_val['platform_product_name'];
                 $res[$data_key]['product_introduct'] = $data_val['product_introduct'];
                 $res[$data_key]['total_today_count'] = $data_val['total_today_count'];
+                $res[$data_key]['quota'] = $data_val['quota'];
                 $res[$data_key]['url'] = isset($data_url_res['data']['product_h5_url']) ? $data_url_res['data']['product_h5_url'] : '';
             }
         }
