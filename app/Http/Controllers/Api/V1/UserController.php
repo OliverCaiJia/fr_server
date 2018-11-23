@@ -100,9 +100,11 @@ class UserController extends ApiController
             $data['service_status'] = "0";
             $data['has_userinfo'] = "0";
             $data['url'] = AppService::WEB_URL.'/web/v1/user/info/create';
+            $data['credit_report'] = AppService::WEB_URL.'/web/v1/user/report';
             return RestResponseFactory::ok($data);
         }
         $data['url'] = AppService::WEB_URL.'/web/v1/user/info/create';
+        $data['credit_report'] = AppService::WEB_URL.'/web/v1/user/report';
         return RestResponseFactory::ok($data);
     }
 
