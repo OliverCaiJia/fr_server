@@ -57,11 +57,11 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
             // 检测和识别中华人民共和国第二代身份证正面
-            $router->post('faceid/front', ['uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);//'middleware' => ['auth', 'valiApi:idcardFront'],
+            $router->post('faceid/front', ['middleware' => ['valiApi:idcardFront'],'uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);
             // 检测和识别中华人民共和国第二代身份证反面
-            $router->post('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);//'middleware' => ['auth', 'valiApi:idcardBack'],
+            $router->post('faceid/back', ['middleware' => ['valiApi:idcardBack'],'uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);
             //身份信息提交
-            $router->post('idcard/create', ['uses' => 'UserIdentityController@createFaceidToCardInfo']);
+            $router->post('idcard/create', ['middleware' => ['valiApi:idcardCreate'],'uses' => 'UserIdentityController@createFaceidToCardInfo']);
             //天创验证身份证合法信息
             $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);//添加验证器
 

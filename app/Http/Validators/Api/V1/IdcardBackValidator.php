@@ -6,10 +6,10 @@ use App\Http\Validators\AbstractValidator;
 
 /*
  *
- * 身份证正面信息
+ * 身份证反面信息
  */
 
-class IdcardFrontValidator extends AbstractValidator
+class IdcardBackValidator extends AbstractValidator
 {
 
     /**
@@ -19,7 +19,7 @@ class IdcardFrontValidator extends AbstractValidator
      * 服务器限制2048Kb为2M，因此限制2000Kb可以提前进行提示
      */
     protected $rules = array(
-        'cardFront' => ['required', 'image', 'max:2000'],
+        'cardBack' => ['required', 'image', 'max:2000'],
     );
 
     /**
@@ -28,9 +28,8 @@ class IdcardFrontValidator extends AbstractValidator
      * @var Array
      */
     protected $messages = array(
-        'cardFront.required' => '请上传正面身份证照片',
-        'cardFront.max' => '图片最大不能超过2M',
-
+        'cardBack.required' => '请上传正面身份证照片',
+        'cardBack.max' => '图片最大不能超过2M',
     );
 
 }
