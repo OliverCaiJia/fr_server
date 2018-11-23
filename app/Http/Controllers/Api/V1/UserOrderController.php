@@ -28,9 +28,10 @@ class UserOrderController extends ApiController
         $res = [];
         foreach ($userOrder as $uOrder) {
             if ($uOrder['status'] != 3 || $uOrder['status'] != 4) {
+                $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
                 $res[] = [
                     "order_no" => $uOrder['order_no'],
-                    "order_type" => $uOrder['order_type'],
+                    "order_type_nid" => $orderType['type_nid'],
                     "create_at" => $uOrder['create_at'],
                     "amount" => $uOrder['amount'],
                     "term" => $uOrder['term'],
