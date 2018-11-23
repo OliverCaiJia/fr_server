@@ -28,7 +28,7 @@ class CheckTianfourAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkTianfour($this->params) == true) {
-            $this->setSuccessor(new CreateUserBanksAction($this->params));
+            $this->setSuccessor(new UpdateUserInfoAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
@@ -43,7 +43,6 @@ class CheckTianfourAction extends AbstractHandler
      */
     private function checkTianfour($params)
     {
-        //获取用户信息
         //四要素验证
         $params = [
             'idcard' => $params['idcard'],
@@ -51,7 +50,6 @@ class CheckTianfourAction extends AbstractHandler
             'bankcard' => $params['bankcard'],
             'mobile' => $params['mobile'],
         ];
-
         $ret = json_decode(TianChuangService::authFourthElements($params),true);
         //status Int 接口返回码,0-成功
         if ($ret['status'] != 0) {

@@ -5,7 +5,6 @@ namespace App\Models\Chain\UserBank\Add;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserBankcardFactory;
-use App\Models\Factory\Api\UserRealnameFactory;
 
 /**
  * 添加sd_user_banks用户银行卡信息

@@ -32,23 +32,23 @@ class CheckUserBankAction extends AbstractHandler
             $this->setSuccessor(new CheckBankCardAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
-return $this->error;
-}
-}
-
-
-/**
- * 验证银行卡是否存在
- * @param $params
- * @return bool
- */
-private function checkUserBank($params)
-{
-    $userbank = UserBankcardFactory::fetchUserBankByAccount($params);
-        //存在已添加过的银行卡
-        if ($userbank) {
-            return false;
+            return $this->error;
         }
-        return true;
     }
-}
+
+
+    /**
+     * 验证银行卡是否存在
+     * @param $params
+     * @return bool
+     */
+    private function checkUserBank($params)
+    {
+        $userbank = UserBankcardFactory::fetchUserBankByAccount($params);
+            //存在已添加过的银行卡
+            if ($userbank) {
+                return false;
+            }
+            return true;
+        }
+    }

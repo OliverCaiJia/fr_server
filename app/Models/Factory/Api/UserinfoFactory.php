@@ -12,6 +12,17 @@ use App\Models\Orm\UserInfo;
  */
 class UserinfoFactory extends AbsModelFactory
 {
+
+    /**
+     * 获取用户信息
+     * @param $user_id
+     * @return array
+     */
+    public static function getUserInfoByUserId($user_id){
+        $user_res = UserInfo::where('user_id','=',$user_id)->first();
+        return $user_res ? $user_res->toArray() : [];
+    }
+
     /**
      * 添加用户user_info
      */
