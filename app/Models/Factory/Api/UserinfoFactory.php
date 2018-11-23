@@ -19,4 +19,13 @@ class UserinfoFactory extends AbsModelFactory
     {
         return UserInfo::insert($data);
     }
+
+    /**
+     * @param $user_id
+     * @return mixed
+     * 修改用户状态
+     */
+    public static function UpdateUserInfoStatus($user_id,$data){
+        return UserInfo::where('user_id','=',$user_id)->update($data);
+    }
 }

@@ -52,7 +52,7 @@ class UserIdentityController extends ApiController
     }
 
     /**
-     * 添加用户信息
+     * 添加身份证信息
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

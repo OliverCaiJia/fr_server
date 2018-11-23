@@ -28,7 +28,7 @@ class CheckTianTwoAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkTiantwo($this->params) == true) {
-            $this->setSuccessor(new CreateUserIdCardAction($this->params));
+            $this->setSuccessor(new UpdateUserInfoAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
