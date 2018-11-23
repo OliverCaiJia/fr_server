@@ -19,7 +19,7 @@ class YiBaoController extends ApiController
      */
     public  function sync(Request $request)
     {
-        $params = $request->get();
+        $params = $request->input();
         file_put_contents('1.txt',$params);
     }
 

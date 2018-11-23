@@ -42,11 +42,12 @@ class TestController extends ApiController
 //        $data = YiJianDaiPushService::o()->getPull($data);
 //        print_r($data);die;
         $data = [
-            'orderId' => 'DS181123_01013461',
+            'orderId' => 'DS181123_13584126',
             'orderAmount' => '0.01',
             'goodsParamExt' => '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}',
-            'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
-            'userNo' => '13520973931',
+//            'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
+            'paymentParamExt' => '{"bankCardNo":"6216910108587723","idCardNo":"142201199606297437","cardName":"陈龙"}',
+            'userNo' => '15210029967',
         ];
         $url = YiBaoService::send($data);
         echo $url;
