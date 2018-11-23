@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Api\ApiController;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
+use App\Models\Chain\UserIdentity\CreateIdCard\DoAddIdCard;
 use App\Models\Chain\UserIdentity\IdcardBack\DoIdcardBackHandler;
-use App\Models\Chain\UserIdentity\IdcardFront\CreateIdcardFrontAction;
 use App\Models\Chain\UserIdentity\IdcardFront\DoIdcardFrontHandler;
 use Illuminate\Http\Request;
 
@@ -48,6 +48,28 @@ class UserIdentityController extends ApiController
         if (isset($res['error'])) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
         }
+        return RestResponseFactory::ok($res);
+    }
+
+    /**
+     * 添加用户信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function createFaceidToCardInfo(Request $request){
+        $data = $request->all();
+        $data['user_id'] = $this->getUserId($request);
+        //责任链
+        $tianCheck = new DoAddIdCard($data);
+        $res = $tianCheck->handleRequest();
+
+        if (isset($res['error'])) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), $res['error'], $res['code'], $res['error']);
+        }
+        $res = [
+            'id' => $res['id']
+        ];
         return RestResponseFactory::ok($res);
     }
 

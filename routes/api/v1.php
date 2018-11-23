@@ -60,6 +60,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
             $router->post('faceid/front', ['uses' => 'UserIdentityController@fetchFaceidToCardfrontInfo']);//'middleware' => ['auth', 'valiApi:idcardFront'],
             // 检测和识别中华人民共和国第二代身份证反面
             $router->post('faceid/back', ['uses' => 'UserIdentityController@fetchFaceidToCardbackInfo']);//'middleware' => ['auth', 'valiApi:idcardBack'],
+            //身份信息提交
+            $router->post('idcard/create', ['uses' => 'UserIdentityController@createFaceidToCardInfo']);
             //天创验证身份证合法信息
             $router->any('tcredit', ['uses' => 'UserIdentityController@checkIdcardFromTianchuang']);//添加验证器
 
