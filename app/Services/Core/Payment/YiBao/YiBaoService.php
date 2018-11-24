@@ -86,7 +86,6 @@ class YiBaoService extends AppService
         );
 
         $getUrl = self::getUrl($cashter, $private_key);
-        $getUrl = str_replace("&timestamp", "&amp;timestamp", $getUrl);
         $url = "https://cash.yeepay.com/cashier/std?" . $getUrl;
 
         return json_encode(['msg' => $response->result['message'], 'code' => 200, 'data' => ['url'=>$url]],JSON_UNESCAPED_UNICODE);

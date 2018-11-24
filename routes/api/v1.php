@@ -201,6 +201,13 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         $router->any('create', ['uses' => 'ReportCallbackController@create']);
     });
 
+    /**
+     * 报告支付
+     */
+    $router->group(['prefix' => 'reportPay'], function ($router) {
+        $router->any('payment', ['uses' => 'ReportPayController@doReportPay']);
+    });
+
     $router->group(['prefix' => 'upload'], function ($router) {
         $router->post('ocr', ['uses' => 'OssUploadFileController@uploadImage']);
     });

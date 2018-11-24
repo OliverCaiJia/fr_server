@@ -160,4 +160,18 @@ class UserBankcardFactory extends ApiFactory
         ])
             ->update(['is_default' => 1]);
     }
+
+    /**
+     * 根据银行卡号和用户id获取银行卡信息
+     * @param $bankCardNo
+     * @param $userId
+     * @return array
+     */
+    public static function getUserBankCardByCardNoAndUserId($bankCardNo, $userId)
+    {
+        $userBankCard = UserBankcard::select()
+            ->where(['bank_card_no' => $bankCardNo, 'user_id' => $userId, 'status' => 1])
+            ->first();
+        return $userBankCard ? $userBankCard->toArray() : [];
+    }
 }
