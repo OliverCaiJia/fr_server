@@ -89,40 +89,68 @@ class UserOrderController extends ApiController
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
+
         $userOrderPlatfrom = UserOrderFactory::getOrderPlatformByUserIdAndOrderNo($userId, $orderNo);
 
         $res = [];
         $res["order_type_nid"] = $orderType['type_nid'];
-        $res["extra_status"] = 1;
-        foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
-            $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
 
-            $res["amount"] = $platformValue['amount'];
-            $res["status"] = $platformValue['status'];
-            $res["stop_time"] = $platformValue['update_at'];// 入中间表的时间
-            $res["borrow"][] = [
-                'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
-                'logo' => isset($platform['logo']) ? $platform['logo'] : '',
-                'url' => isset($platform['url']) ? $platform['url'] : ''
-            ];
+        //增值服务订单
+        $res["extra"] = [];
+        //报告类型订单
+        $res["report"] = [];
+        //贷款类型订单
+        $res["loan"] = [];
+        switch ($orderType['type_nid']) {
+            case 'order_extra_service' :
+//                $res["extra"]["extra_status"] = 1;
+                foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
+                    $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
+                    $res["extra"][$platformKey]["amount"] = $platformValue['amount'];
+                    $res["extra"][$platformKey]["status"] = $platformValue['status'];
+                    $res["extra"][$platformKey]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
+                    $res["extra"][$platformKey]["borrow"][] = [
+                        'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
+                        'logo' => isset($platform['logo']) ? $platform['logo'] : '',
+                        'url' => isset($platform['url']) ? $platform['url'] : ''
+                    ];
+                }
+                $res["extra"]["confirm"] = [
+                    [
+                        'time' => date('Y-m-d H:i:s'),
+                        'remark' => '提交申请',
+                        'extra_status' => 0
+                    ],
+                    [
+                        'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
+                        'remark' => '风控审核中',
+                        'status' => 1
+                    ],
+                    [
+                        'time' => date('Y-m-d H:i:s', strtotime("+2 hour")),
+                        'remark' => '一家或多家同时放款',
+                        'status' => 0
+                    ]
+                ];
+                break;
+            case 'order_report' :
+                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $res["report"]["amount"] = $userOrder['amount'];
+                $res["report"]["order_no"] = $userOrder['order_no'];
+                $res["report"]["status"] = $userOrder['status'];
+                $res["report"]["create_at"] = $userOrder['create_at'];
+                //todo::
+                $res["report"]["url"] = '';
+                break;
+            case 'order_apply':
+                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $res["loan"]["amount"] = $userOrder['amount'];
+                $res["loan"]["order_no"] = $userOrder['order_no'];
+                $res["loan"]["status"] = $userOrder['status'];
+                $res["loan"]["create_at"] = $userOrder['create_at'];
+                $res["loan"]["push_status"] = $userOrder[''];
+                break;
         }
-        $res["confirm"] = [
-            [
-                'time' => date('Y-m-d H:i:s'),
-                'remark' => '提交申请',
-                'extra_status' => 0
-            ],
-            [
-                'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
-                'remark' => '风控审核中',
-                'status' => 1
-            ],
-            [
-                'time' => date('Y-m-d H:i:s', strtotime("+2 hour")),
-                'remark' => '一家或多家同时放款',
-                'status' => 0
-            ]
-        ];
         return RestResponseFactory::ok($res);
     }
 
