@@ -29,6 +29,8 @@ class SmsController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1201), 1201);
         }
 
+        //获取类型标识
+        $data['message_type_nid'] = config('sms.register');
         //短信注册链
         $smsRegister = new DoSmsRegisterHandler($data);
         $re = $smsRegister->handleRequest();
