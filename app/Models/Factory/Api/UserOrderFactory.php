@@ -10,6 +10,7 @@ use App\Models\Orm\UserApply;
 use App\Models\Orm\UserApplyLog;
 use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserLoanLog;
+use App\Models\Orm\UserLoanTask;
 use App\Models\Orm\UserMultiinfo;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderPlatform;
@@ -679,5 +680,20 @@ class UserOrderFactory extends ApiFactory
     public static function getOrderStatusByOrderno($order_no)
     {
         return UserOrder::where(['order_no' => $order_no])->value('status');
+    }
+
+    /**
+     * 依据用户id和推送产品标识符获取订单推送状态
+     * @param $userId
+     * @param $spreadNid
+     * @return array
+     */
+    public static function getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid)
+    {
+        $userLoanTask = UserLoanTask::select()
+            ->where('user_id', '=', $userId)
+            ->where('spread_nid', '=', $spreadNid)
+            ->first();
+        return $userLoanTask ? $userLoanTask->toArray() : [];
     }
 }

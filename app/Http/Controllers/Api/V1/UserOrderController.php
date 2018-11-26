@@ -143,12 +143,14 @@ class UserOrderController extends ApiController
                 $res["report"]["url"] = '';
                 break;
             case 'order_apply':
+                $spreadNid = 'oneLoan';
                 $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
                 $res["loan"]["create_at"] = $userOrder['create_at'];
-                $res["loan"]["push_status"] = $userOrder[''];
+                $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
+                $res["loan"]["push_status"] = $loanTask['status'];
                 break;
         }
         return RestResponseFactory::ok($res);
