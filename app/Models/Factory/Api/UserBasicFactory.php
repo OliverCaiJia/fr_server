@@ -54,6 +54,7 @@ class UserBasicFactory extends ApiFactory
     public static function createOrUpdateUserBasic($data,$uid = [])
     {
         $UserData = UserBasic::where(['user_id' => $uid])->first();
+        dd($UserData);
         //如果不为空说明表中没有用户的个人信息,创建
         if (!empty($UserData)) {
             $UserData->user_location = $data['user_location'];
@@ -62,7 +63,7 @@ class UserBasicFactory extends ApiFactory
             $UserData->company_name = $data['company_name'];
             $UserData->company_location = $data['company_location'] ?? '';
             $UserData->company_address = $data['company_address'];
-            $UserData->company_license_time = $data['company_license_time'];
+            $UserData->company_license_time = $data['company_license_time'] ?? 0;
             $UserData->work_time = $data['work_time'];
             $UserData->month_salary = $data['month_salary'];
             $UserData->zhima_score = $data['zhima_score'];
@@ -86,7 +87,7 @@ class UserBasicFactory extends ApiFactory
             $UserBasic->company_name = $data['company_name'];
             $UserBasic->company_location = $data['company_location'] ?? '';
             $UserBasic->company_address = $data['company_address'];
-            $UserBasic->company_license_time = $data['company_license_time'];
+            $UserBasic->company_license_time = $data['company_license_time'] ?? 0;
             $UserBasic->work_time = $data['work_time'];
             $UserBasic->month_salary = $data['month_salary'];
             $UserBasic->zhima_score = $data['zhima_score'];

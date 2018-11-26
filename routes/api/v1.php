@@ -48,7 +48,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //个人资料查看
         $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
-        $router->any('info/create', ['middleware' => ['valiApi:UserInfo'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
+        $router->any('info/create', ['middleware' => ['valiApi:userBasic'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
 
@@ -188,8 +188,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      */
     $router->group(['prefix' => 'test'], function ($router) {
 //        $router->any('product', ['uses' => 'TestController@product']);
-        $router->any('doReport', ['uses' => 'TestController@doReport']);
-        $router->any('doApply', ['uses' => 'TestController@doApply']);
+        $router->post('doReport', ['uses' => 'TestController@doReport']);
+        $router->post('doApply', ['uses' => 'TestController@doApply']);
     });
 
     /**
@@ -203,7 +203,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      * 报告支付
      */
     $router->group(['prefix' => 'reportPay'], function ($router) {
-        $router->any('payment', ['uses' => 'ReportPayController@doReportPay']);
+        $router->post('payment', ['uses' => 'ReportPayController@doReportPay']);
     });
 
     $router->group(['prefix' => 'upload'], function ($router) {

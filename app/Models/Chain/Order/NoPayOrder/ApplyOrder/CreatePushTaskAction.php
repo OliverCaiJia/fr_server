@@ -7,6 +7,7 @@ use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserBasicFactory;
 use App\Models\Factory\Api\UserCertifyFactory;
+use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use App\Models\Orm\UserCertify;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
@@ -54,7 +55,7 @@ class CreatePushTaskAction extends AbstractHandler
             'name' => $userRealName['real_name'],
             'certificate_no' => $userRealName['id_card_no'],
             'sex' => $userRealName['gender'],
-            'birthday' => $userCertify['birthday'],
+            'birthday' => date('Ymd', strtotime($userCertify['birthday'])),
             'has_insurance' => $userBasic['has_assurance'],
             'house_info' => '00' . $userBasic['has_house'],
             'car_info' => '00' . $userBasic['has_auto'],
@@ -67,33 +68,17 @@ class CreatePushTaskAction extends AbstractHandler
             'has_creditcard' => $userBasic['has_creditcard'],
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
-            'city' => $userBasic['city']
+            'city' => $userBasic['city'],
+            'money' => $params['money'],
         );
 
-        $key = '7BFCF5C921231SDZ';//密钥
-        $channel = 'oneloan_165';//渠道名
-        $iv = $password = substr(md5($key), 0, 16);//AES算法的密码password和初始变量iv
-
-        $yiJianDai = YiJianDaiPushService::o()->sendPush($data);
-
-        dd($yiJianDai);
-
-        //加密
-        $string = json_encode($data);
-        $encrypted = openssl_encrypt($string, 'AES-128-CBC', $password, 1, $iv);
-        $en_result = base64_encode($encrypted); //bizData 密文数据
-//        echo "加密：";
-//        var_dump($en_result);
-        //签名
-        $post = array('channel'=>$channel,'bizData'=>$en_result);
-        $sign = self::getSignInfo($post,$key);
-//        var_dump($sign);
-
+//        $yiJianDai = YiJianDaiPushService::o()->sendPush($data);
 
 
         //todo::入task_loan表
-        $count = 1;
-        if ($count != 1) {//处理中
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($params['user_id'], $params['order_type']);
+//        $count = 1;
+        if (empty($userOrder)) {//处理中
             $this->error['error'] = "您好，订单数量必须是一！";
             return false;
         }

@@ -87,7 +87,7 @@
                 <div class='showData3'>
                     <div>
                         <label for="">营业执照：</label> <i class="select-i">请选择</i>
-                        <select name="" id="">
+                        <select name="" id="company_license_time">
                             <option value="" disabled>请选择</option>
                             <option value="0">一年以内</option>
                             <option value="1">一年以上</option>
@@ -214,9 +214,11 @@
                     var profession = $('#profession').find("option:selected").val() || '',
                         work_time = $('#work_time').find("option:selected").val() || '',
                         month_salary = $('#month_salary').find("option:selected").val() || '',
-                        house_fund_time = $('#house_fund_time').find("option:selected").val() || '';
+                        house_fund_time = $('#house_fund_time').find("option:selected").val() || '',
+                        company_license_time = $('#company_license_time').find("option:selected").val() || '';
                     $.ajax({
-                        url: api_fruitloan_host + '/v1/user/info/create',
+                      //  url: api_fruitloan_host + '/v1/user/info/create',
+                        url: 'http://dev.data.fruitloan_server.com/api/v1/user/info/create',
                         type: 'POST',
                         data: {
                             user_location: $('#address').val(),
@@ -229,13 +231,14 @@
                             month_salary: month_salary,
                             zhima_score: $('#zhima_score').val(),
                             house_fund_time: house_fund_time,
-                            has_social_security: $('#has_social_security').find('.active').data('val') || '',
-                            has_house: $('#has_house').find('.active').data('val') || '',
-                            has_auto: $('#has_auto').find('.active').data('val') || '',
-                            has_house_fund: $('#has_house_fund').find('.active').data('val') || '',
-                            has_assurance: $('#has_assurance').find('.active').data('val') || '',
-                            has_creditcard: $('#has_creditcard').find('.active').data('val') || '',
-                            has_weilidai: $('#has_weilidai').find('.active').data('val') || ''
+                            company_license_time: company_license_time,
+                            has_social_security: $('#has_social_security').find('.active').data('val') || 0,
+                            has_house: $('#has_house').find('.active').data('val') || 0,
+                            has_auto: $('#has_auto').find('.active').data('val') || 0,
+                            has_house_fund: $('#has_house_fund').find('.active').data('val') || 0,
+                            has_assurance: $('#has_assurance').find('.active').data('val') || 0,
+                            has_creditcard: $('#has_creditcard').find('.active').data('val') || 0,
+                            has_weilidai: $('#has_weilidai').find('.active').data('val') || 0
                         },
                         success: function(json) {
                             _self.personInfoBind(json)

@@ -14,8 +14,7 @@ use App\Services\Core\Message\OCR\FaceService;
 class FetchFaceidToCardfrontInfoAction extends AbstractHandler
 {
     private $params = array();
-    protected $data = array();
-    protected $error = array('error' => '验证失败，请使用身份证照片！', 'code' => 10003);
+    protected $error = array('error' => '验证失败，请重新验证！', 'code' => 10003);
 
     public function __construct($params)
     {
@@ -29,7 +28,8 @@ class FetchFaceidToCardfrontInfoAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->fetchFaceidToCardfrontInfo($this->params) == true) {
-            return $this->data;
+            $this->setSuccessor(new CreateIdCardUserOcrAction($this->params));
+            return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
         }
@@ -47,20 +47,22 @@ class FetchFaceidToCardfrontInfoAction extends AbstractHandler
         ];
         $face_res = FaceService::o()->fetchBackOrFront($data_img);
         unlink($params['card_file']);
-        if($face_res['result'] != '1002'){
+        if(isset($face_res['ERROR'])){
             return false;
         }
-        //数据整理
-        $res = [
-            'name' => $face_res['name']['result'],
-            'gender' => $face_res['gender']['result'],
-            'address' => $face_res['address']['result'],
-            'idcard_number' => $face_res['idcard_number']['result'],
-            'nationality' => $face_res['nationality']['result'],
-            'idcard_url' => $params['signedUrl']
-        ];
-        $this->data = $res;
-        return $res;
+        $this->params['request_id'] = $face_res['request_id'];
+        $this->params['side'] = $face_res['side'];
+        $this->params['completeness'] = $face_res['completeness'];
+        $this->params['card_rect'] = json_encode($face_res['card_rect']);
+        $this->params['legality'] = json_encode($face_res['legality']);
+        $this->params['error'] = isset($face_res['ERROR']) ? $face_res['ERROR'] : '';
+        $this->params['name'] = $face_res['name']['result'];
+        $this->params['gender'] = $face_res['gender']['result'];
+        $this->params['address'] = $face_res['address']['result'];
+        $this->params['idcard_number'] = $face_res['idcard_number']['result'];
+        $this->params['nationality'] = $face_res['nationality']['result'];
+
+        return true;
     }
 
 }

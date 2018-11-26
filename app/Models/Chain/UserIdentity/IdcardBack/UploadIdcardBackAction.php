@@ -3,6 +3,7 @@
 namespace App\Models\Chain\UserIdentity\IdcardBack;
 
 use App\Models\Chain\AbstractHandler;
+use App\Models\Factory\Api\UserAuthFactory;
 use OSS\Common;
 use OSS\OssClient;
 use App\Helpers\Utils;
@@ -43,9 +44,11 @@ class UploadIdcardBackAction extends AbstractHandler
      */
     private function uploadIdcardBack($params =[])
     {
+        $user_info = UserAuthFactory::getUserById($params['user_id']);
+        $mobile = isset($user_info['mobile']) ? $user_info['mobile'] : '';
         $imageFile = $params['card_file'];
         $bucketName = Common::getBucketName();
-        $object = Utils::createObjectName() . "idcard_back.jpg";
+        $object = Utils::createObjectName('BACK','IDCARD') . "-{$mobile}-{$params['user_id']}.jpg";;
         $ossClient = Common::getOssClient();
         if (is_null($ossClient)){
             return false;

@@ -5,15 +5,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Chain\Order\PayOrder\UserOrder\DoPayOrderHandler;
-use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserBankcardFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
-use App\Models\Factory\Api\UserReportFactory;
 use App\Services\Core\Payment\YiBao\YiBaoService;
-use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
-use App\Strategies\OrderStrategy;
 use Illuminate\Http\Request;
 
 class ReportPayController extends ApiController
@@ -62,7 +57,6 @@ class ReportPayController extends ApiController
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
-//        dd($data);
         $res = YiBaoService::send($data);
         return $res;
     }
