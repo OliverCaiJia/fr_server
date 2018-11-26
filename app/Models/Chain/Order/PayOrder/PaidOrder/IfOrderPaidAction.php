@@ -42,7 +42,7 @@ class IfOrderPaidAction extends AbstractHandler
         $this->params['order_type_nid'] = $userOrderTypeNid['type_nid'];
         $this->params['user_id'] = $userOrder['user_id'];
         $this->params['order_no'] = $userOrder['order_no'];
-        $this->params['is_sub_order'] = $userOrder['is_sub_order'];
+        $this->params['p_order_id'] = $userOrder['p_order_id'];
         $this->params['order_expired'] = $userOrder['order_expired'];
         $this->params['amount'] = $userOrder['amount'];
         $this->params['term'] = $userOrder['term'];
