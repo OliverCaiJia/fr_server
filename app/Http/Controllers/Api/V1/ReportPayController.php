@@ -27,10 +27,11 @@ class ReportPayController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderId = $request->input('order_id');
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderId($userId, $orderId);
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
+
         $orderAmount = isset($userOrder['amount']) ? $userOrder['amount'] : 0;
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
@@ -39,6 +40,7 @@ class ReportPayController extends ApiController
         $goodsArr['goodsName'] = $orderType['name'];
         $goodsArr['remark'] = $orderType['remark'];
         $goodsParamExt = json_encode($goodsArr);
+
 
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
         if (empty($userRealName)) {
@@ -60,6 +62,7 @@ class ReportPayController extends ApiController
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
+//        dd($data);
         $res = YiBaoService::send($data);
         return $res;
     }
