@@ -138,6 +138,12 @@
                 </div>
                 <div>
                     <div>
+                        <label for="">信用卡：</label>
+                        <p class="radio-box" id='has_creditcard'> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                    </div>
+                </div>
+                <div>
+                    <div>
                         <label for="">微粒贷：</label>
                         <p class="radio-box" id='has_weilidai'> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==0 ) class="active" @endif data-val='1'>无</span> </p>
                     </div>
@@ -180,7 +186,7 @@
                 });
             },
             selectChange: function() {
-                var text = $('#profession').find("option:selected").val();
+                var text = $('#profession').find("option:selected").text();
                 showData(text);
                 $('#profession').on('change', function() {
                     var text = $(this).find("option:selected").text();
@@ -213,7 +219,7 @@
                         url: api_fruitloan_host + '/v1/user/info/create',
                         type: 'POST',
                         data: {
-                            user_location: $('#user_location').val(),
+                            user_location: $('#address').val(),
                             user_address: $('#user_address').val(),
                             profession: profession,
                             company_name: $('#company_name').val(),
@@ -228,6 +234,7 @@
                             has_auto: $('#has_auto').find('.active').data('val') || '',
                             has_house_fund: $('#has_house_fund').find('.active').data('val') || '',
                             has_assurance: $('#has_assurance').find('.active').data('val') || '',
+                            has_creditcard: $('#has_creditcard').find('.active').data('val') || '',
                             has_weilidai: $('#has_weilidai').find('.active').data('val') || ''
                         },
                         success: function(json) {
