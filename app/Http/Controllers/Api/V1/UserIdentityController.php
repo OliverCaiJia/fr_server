@@ -42,6 +42,7 @@ class UserIdentityController extends ApiController
     public function fetchFaceidToCardbackInfo(Request $request)
     {
         $data['card_back'] = $request->file('cardBack');
+        $data['user_id'] = $this->getUserId($request);
         //责任链
         $tianCheck = new DoIdcardBackHandler($data);
         $res = $tianCheck->handleRequest();
