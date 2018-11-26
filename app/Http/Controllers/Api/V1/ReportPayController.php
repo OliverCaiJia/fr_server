@@ -18,7 +18,11 @@ use Illuminate\Http\Request;
 
 class ReportPayController extends ApiController
 {
-
+    /**
+     * 调用易宝支付返回支付页面
+     * @param Request $request
+     * @return false|\Illuminate\Http\JsonResponse|string
+     */
     public function doReportPay(Request $request)
     {
         $userId = $this->getUserId($request);
