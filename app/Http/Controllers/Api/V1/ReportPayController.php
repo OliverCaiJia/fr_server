@@ -57,7 +57,7 @@ class ReportPayController extends ApiController
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
-        $res = YiBaoService::send($data);
+        $res['url'] = YiBaoService::send($data);
         return RestResponseFactory::ok($res);
     }
 }
