@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
@@ -24,22 +25,21 @@ class UserOrderController extends ApiController
     public function list(Request $request)
     {
         $userId = $this->getUserId($request);
-        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
+//        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
+
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, UserOrderConstant::ORDER_SUCCESS_STATUS);
         $res = [];
         foreach ($userOrder as $uOrder) {
-//            if ($uOrder['status'] != 3 || $uOrder['status'] != 4) {
-            if ($uOrder['status'] != 0) {
-                $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
-                $res[] = [
-                    "order_no" => $uOrder['order_no'],
-                    "order_type_nid" => $orderType['type_nid'],
-                    "create_at" => $uOrder['create_at'],
-                    "amount" => $uOrder['amount'],
-                    "term" => $uOrder['term'],
-                    "logo_url" => $uOrder['logo_url'],
-                    "status" => $uOrder['status']
-                ];
-            }
+            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
+            $res[] = [
+                "order_no" => $uOrder['order_no'],
+                "order_type_nid" => $orderType['type_nid'],
+                "create_at" => $uOrder['create_at'],
+                "amount" => $uOrder['amount'],
+                "term" => $uOrder['term'],
+                "logo_url" => $orderType['logo_url'],
+                "status" => $uOrder['status']
+            ];
         }
         return RestResponseFactory::ok($res);
     }
@@ -90,6 +90,7 @@ class UserOrderController extends ApiController
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
         $userOrderPlatfrom = UserOrderFactory::getOrderPlatformByUserIdAndOrderNo($userId, $orderNo);
+
         $res = [];
         $res["order_type_nid"] = $orderType['type_nid'];
         $res["extra_status"] = 1;

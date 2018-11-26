@@ -496,6 +496,21 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 通过用户id和状态获取用户订单
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatus($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->whereIn('status', $status)
+            ->get();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
      * 根据用户id和订单id检查订单是否支付
      * @param $userId
      * @param $orderId
