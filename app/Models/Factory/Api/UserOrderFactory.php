@@ -656,4 +656,13 @@ class UserOrderFactory extends ApiFactory
         return UserReportLog::where(['id' => $params['user_report_log_id']])
             ->update(['order_id' => $params['user_order_id']]);
     }
+
+    /**
+     * 依据订单号获取订单状态
+     * @param $order_no
+     */
+    public static function getOrderStatusByOrderno($order_no)
+    {
+        return UserOrder::where(['order_no' => $order_no])->value('status');
+    }
 }
