@@ -9,6 +9,7 @@ use App\Models\Factory\Api\UserBasicFactory;
 use App\Models\Factory\Api\UserCertifyFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use App\Models\Orm\UserCertify;
+use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
 
 class CreatePushTaskAction extends AbstractHandler
 {
@@ -39,7 +40,6 @@ class CreatePushTaskAction extends AbstractHandler
 
         $userBasic = UserBasicFactory::fetchUserBasic($params['user_id']);
 
-        dd($userBasic);
         $userAuth = UserAuthFactory::getUserById($params['user_id']);
         $userRealName = UserRealnameFactory::fetchUserRealname($params['user_id']);
         $userCertify = UserCertifyFactory::fetchUserCertify($params['user_id']);
@@ -67,12 +67,16 @@ class CreatePushTaskAction extends AbstractHandler
             'has_creditcard' => $userBasic['has_creditcard'],
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
-            'city' => $userBasic['user_location']
+            'city' => $userBasic['city']
         );
 
         $key = '7BFCF5C921231SDZ';//密钥
         $channel = 'oneloan_165';//渠道名
         $iv = $password = substr(md5($key), 0, 16);//AES算法的密码password和初始变量iv
+
+        $yiJianDai = YiJianDaiPushService::o()->sendPush($data);
+
+        dd($yiJianDai);
 
         //加密
         $string = json_encode($data);

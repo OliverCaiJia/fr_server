@@ -209,4 +209,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     $router->group(['prefix' => 'upload'], function ($router) {
         $router->post('ocr', ['uses' => 'OssUploadFileController@uploadImage']);
     });
+
+    $router->group(['prefix' => 'reportPay'], function ($router) {
+        $router->any('payment', ['uses' => 'ReportPayController@doReportPay']);
+    });
 });
