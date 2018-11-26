@@ -21,7 +21,7 @@ class CreateIdCardFrontAction extends AbstractHandler
 
     /**
      * @return array
-     * 写入图片流
+     * 图片存储
      */
     public function handleRequest()
     {
