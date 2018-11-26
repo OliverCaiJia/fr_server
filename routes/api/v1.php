@@ -48,7 +48,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //个人资料查看
         $router->any('info/detail', ['uses' => 'UserinfoController@fetchCertifyinfo']);
         //个人资料提交/创建
-        $router->any('info/create', ['middleware' => ['valiApi:UserInfo'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
+        $router->any('info/create', ['middleware' => ['valiApi:userBasic'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
         $router->any('report', ['uses' => 'UserinfoController@report']);//添加验证器
 
