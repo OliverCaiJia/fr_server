@@ -43,14 +43,13 @@ class TestController extends ApiController
 //        ];
 //        $data = YiJianDaiPushService::o()->getPull($data);
 //        print_r($data);die;
-        $data = [
-            'orderId' => 'DS181126_11511192',
-            'orderAmount' => '0.01',
-            'goodsParamExt' => '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}',
-//            'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
-            'paymentParamExt' => '{"bankCardNo":"6216910108587723","idCardNo":"142201199606297437","cardName":"陈龙"}',
-            'userNo' => '15210029967',
-        ];
+
+
+            $data['goodsParamExt'] = '{"goodsName":"商品称","goodsDesc":"商品述"}';
+           $data['orderAmount'] = 1;
+           $data['orderId'] = 'SGD-A-20181119220807-170';
+           $data['paymentParamExt'] = '{"bankCardNo":"6212260200036506778","idCardNo":"130702198111071511","cardName":"蔡嘉"}';
+           $data['userNo'] = '18510536684';
         $url = YiBaoService::send($data);
         echo $url;
     }

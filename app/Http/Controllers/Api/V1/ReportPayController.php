@@ -27,7 +27,7 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
 
-        $orderAmount = isset($userOrder['amount']) ? $userOrder['amount'] : 0;
+        $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
 
