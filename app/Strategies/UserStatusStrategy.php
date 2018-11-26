@@ -26,7 +26,7 @@ class UserStatusStrategy extends AppStrategy
 
     public static function getOrder($uid)
     {
-        $data = UserOrder::where(['user_id' => $uid])->first();
+        $data = UserOrder::where(['user_id' => $uid, 'order_type' => 2])->first();
 
         return $data ? 1 : 0;
     }

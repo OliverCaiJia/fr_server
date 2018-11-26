@@ -188,8 +188,8 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      */
     $router->group(['prefix' => 'test'], function ($router) {
 //        $router->any('product', ['uses' => 'TestController@product']);
-        $router->any('doReport', ['uses' => 'TestController@doReport']);
-        $router->any('doApply', ['uses' => 'TestController@doApply']);
+        $router->post('doReport', ['uses' => 'TestController@doReport']);
+        $router->post('doApply', ['uses' => 'TestController@doApply']);
     });
 
     /**
@@ -203,7 +203,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      * 报告支付
      */
     $router->group(['prefix' => 'reportPay'], function ($router) {
-        $router->any('payment', ['uses' => 'ReportPayController@doReportPay']);
+        $router->post('payment', ['uses' => 'ReportPayController@doReportPay']);
     });
 
     $router->group(['prefix' => 'upload'], function ($router) {
