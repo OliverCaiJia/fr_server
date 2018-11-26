@@ -85,6 +85,7 @@ class UserController extends ApiController
         $userStatus = UserStatusStrategy::getUserInfo($uid);
         $data['service_status'] = $userStatus['service_status'] ?? '0';
         $data['has_userinfo'] = $userStatus['has_userinfo'] ?? '0';
+        $data['order_status'] = UserStatusStrategy::getOrder($uid);
         $data['url'] = AppService::WEB_URL . '/web/v1/user/info/create';
         $data['credit_report'] = AppService::WEB_URL . '/web/v1/user/report';
         if (empty($data)) {
