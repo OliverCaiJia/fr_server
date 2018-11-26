@@ -134,6 +134,7 @@ class TestController extends ApiController
         $order['user_id'] = $this->getUserId($request);
         $order['order_type_nid'] = $request->input('order_type_nid');
         $order['pid'] = $request->input('pid');
+        $order['money'] = $request->input('money');
         $chain = new DoApplyOrderHandler($order);
         $result = $chain->handleRequest();
         dd($result);
