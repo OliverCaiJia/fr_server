@@ -2,14 +2,9 @@
 
 namespace App\Models\Chain\UserIdentity\IdcardBack;
 
-use App\Constants\UserIdentityConstant;
-use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Services\Core\Message\OCR\FaceService;
-use App\Services\Core\Store\Qiniu\QiniuService;
-use App\Services\Core\Validator\FaceId\FaceIdService;
-use App\Models\Chain\UserIdentity\IdcardBack\CreateUserRealnamLogAction;
-use App\Strategies\UserIdentityStrategy;
+
 
 /**
  * Class SendImageToQiniuAction
@@ -34,7 +29,8 @@ class FetchFaceidToCardbackInfoAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->fetchFaceidToCardBackInfo($this->params) == true) {
-            return $this->data;
+            $this->setSuccessor(new CreateIdCardUserOcrAction($this->params));
+            return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
         }
@@ -52,22 +48,21 @@ class FetchFaceidToCardbackInfoAction extends AbstractHandler
         ];
         $face_res = FaceService::o()->fetchBackOrFront($data_img);
         unlink($params['card_file']);
-        if($face_res['result'] != '1002'){
+        if(isset($face_res['ERROR'])){
             return false;
         }
-        $date = date('Ymd');
-        if($date > $face_res['valid_date_end']['result']){
-            return false;
-        }
-        //数据整理
-        $res = [
-            'valid_date_start' => $face_res['valid_date_start']['result'], //申请日期
-            'issued_by' => $face_res['issued_by']['result'], //签发地
-            'valid_date_end' => $face_res['valid_date_end']['result'], //失效日期
-            'idcard_url' => $params['signedUrl']
-        ];
-        $this->data = $res;
-        return $res;
+        $this->params['request_id'] = $face_res['request_id'];
+        $this->params['side'] = $face_res['side'];
+        $this->params['completeness'] = $face_res['completeness'];
+        $this->params['card_rect'] = json_encode($face_res['card_rect']);
+        $this->params['legality'] = json_encode($face_res['legality']);
+        $this->params['error'] = isset($face_res['ERROR']) ? $face_res['ERROR'] : '';
+        $this->params['valid_date_start'] =$face_res['valid_date_start']['result'];
+        $this->params['issued_by'] = $face_res['issued_by']['result'];
+        $this->params['valid_date_end'] = $face_res['valid_date_end']['result'];
+
+
+        return true;
     }
 
 }
