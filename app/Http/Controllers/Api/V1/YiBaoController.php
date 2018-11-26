@@ -19,16 +19,16 @@ class YiBaoController extends ApiController
      */
     public  function sync(Request $request)
     {
-        $params = $request->input();
+        $params = $request->input('orderId');
         file_put_contents('1.txt',$params);
     }
 
     public function async(Request $request)
     {
-        $params = $request->all();
-        $public_key = YiBaoConfig::YOP_PUBLIC_KEY;
-        $private_key = YiBaoConfig::PRIVATE_KEY;
-        $data = YopSignUtils::decrypt($params,$public_key,$private_key);
-        file_put_contents('2.txt', $data);
+        $params = $request->input('response');
+//        $public_key = YiBaoConfig::YOP_PUBLIC_KEY;
+//        $private_key = YiBaoConfig::PRIVATE_KEY;
+//        $data = YopSignUtils::decrypt($params,$public_key,$private_key);
+        file_put_contents('2.txt', $params);
     }
 }
