@@ -217,8 +217,7 @@
                         house_fund_time = $('#house_fund_time').find("option:selected").val() || '',
                         company_license_time = $('#company_license_time').find("option:selected").val() || '';
                     $.ajax({
-                      //  url: api_fruitloan_host + '/v1/user/info/create',
-                        url: 'http://dev.data.fruitloan_server.com/api/v1/user/info/create',
+                        url: api_fruitloan_host + '/v1/user/info/create',
                         type: 'POST',
                         data: {
                             user_location: $('#address').val(),
