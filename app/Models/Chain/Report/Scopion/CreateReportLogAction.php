@@ -75,6 +75,5 @@ class CreateReportLogAction extends AbstractHandler
             return false;
         }
         return true;
-
     }
 }
