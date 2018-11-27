@@ -20,7 +20,6 @@ class DoReportOrderHandler extends AbstractHandler
 
     /**
      * 思路：
-     * 0.
      * 1.
      * 2、
      * 3、
@@ -33,7 +32,7 @@ class DoReportOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new CreateReportLogAction($this->params));
+            $this->setSuccessor(new GetLogParamAction($this->params));
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
