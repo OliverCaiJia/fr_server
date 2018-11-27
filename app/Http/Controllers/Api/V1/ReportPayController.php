@@ -58,7 +58,7 @@ class ReportPayController extends ApiController
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
-        SLogger::getStream()->error(json_decode($data));
+        SLogger::getStream()->error(json_encode($data));
         $res = [];
         $result = YiBaoService::send($data);
 
