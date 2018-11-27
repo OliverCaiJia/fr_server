@@ -15,7 +15,7 @@ class FreeOrderFactory extends ApiFactory
 {
     public static function Order($uid, $amount, $term)
     {
-        $orderStatus = UserOrder::where(['user_id' => $uid])->whereIn('status',array(0,1))->get()->toArray();
+        $orderStatus = UserOrder::where(['user_id' => $uid])->whereIn('status', array(0, 1))->first();
         if (empty($orderStatus)) {
             $userOrder = new UserOrder();
             $userOrder->user_id = $uid;
@@ -31,9 +31,12 @@ class FreeOrderFactory extends ApiFactory
             $userOrder->create_at = date('Y-m-d H:i:s', time());
             $userOrder->update_ip = Utils::ipAddress();
             $userOrder->update_at = date('Y-m-d H:i:s', time());
-            return $userOrder->save();
+            $data = $userOrder->save();
+            if($data == 1){
+                return $data = [];
+            }
         } else {
-            return $orderStatus ? $orderStatus : [];
+            return $orderStatus ? $orderStatus->toArray() : [];
         }
     }
 
