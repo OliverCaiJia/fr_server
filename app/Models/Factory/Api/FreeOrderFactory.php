@@ -31,8 +31,7 @@ class FreeOrderFactory extends ApiFactory
             $userOrder->create_at = date('Y-m-d H:i:s', time());
             $userOrder->update_ip = Utils::ipAddress();
             $userOrder->update_at = date('Y-m-d H:i:s', time());
-            $data = $userOrder->save();
-            return $data ? [] : [];
+            return $userOrder->save();
         } else {
             return $orderStatus ? $orderStatus : [];
         }
