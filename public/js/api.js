@@ -64,5 +64,9 @@ $.ajaxSetup({
         xhr.setRequestHeader("X-Sign", $sha1Sign);
         xhr.setRequestHeader("X-Token", $token);
     },
-    error: function (jqXHR, textStatus, errorMsg) {}
+    error: function (jqXHR, textStatus, errorMsg) {
+        base.popupCover({
+            content: '服务器繁忙，请稍后重试！'
+        })
+    }
 });
