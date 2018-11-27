@@ -22,74 +22,34 @@
                         <dd>
                             <h4>{{ $data['groom']['name'] }}</h4>
                             <p>{{ $data['groom']['remark'] }}
-                                <br><span>￥<i>{{ $data['groom']['price'] }}</i></span>￥{{ $data['groom']['old_price'] }}</p>
+                                <br><span>￥<i>{{ $data['groom']['price'] }}</i></span><del>￥{{ $data['groom']['old_price'] }}</del></p>
                         </dd> <span></span> </dl>
                 </div>
             </div>
             <div class="give-list">
-                <h3 class="title">您买我就送：</h3>
-                @foreach( $data['time_limit'] as $item)
-                    <div class="service-list">
-                        <dl> <dt><img src="" alt=""></dt>
-                            <dd>
-                                <h4>{{ $item['name'] }}</h4>
-                                <p>{{ $item['remark'] }}
-                                    <br><span>￥<i>{{ $item['price'] }}</i></span>￥{{ $item['old_price'] }}</p>
-                            </dd> <span class='selectIcon'></span> </dl>
-                    </div>
-                @endforeach
-            </div>
+                <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
+                <div class="service-list">
+                    <dl> <dt><img src="" alt=""></dt>
+                        <dd>
+                            <h4>{{ $item['name'] }}</h4>
+                            <p>{{ $item['remark'] }}
+                                <br><span>￥<i>{{ $item['price'] }}</i></span><del>￥{{ $item['old_price'] }}</del></p>
+                        </dd> <span class='selectIcon'></span> </dl>
+                </div> @endforeach </div>
         </div>
         <footer>
             <div class="left">
                 <h3>总计：<span>￥<i>{{ $data['groom']['price'] }}</i></span></h3>
-                <p>原价:￥378</p>
+                <p><del>原价:￥378</del></p>
             </div>
             <div class="right"> 付款 </div>
         </footer>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-    <script>
-        var costdefatltController = {
-            init: function() {
-                this.selectView()
-            }, //选择赠送协议
-            selectView: function() {
-                var _self = this;
-                $('.service-list').on('click', function() {
-                    $(this).siblings('div').find('.selectIcon').hide();
-                    $(this).find('.selectIcon').show();
-                    _self.recommendService();
-                })
-            }, //选择赠送协议交互
-            recommendService: function() {
-                try {
-                    window.sd.recommendService();
-                    return;
-                } catch (e) {
-                    console.log("Android-选择赠送协议方法失败");
-                }
-                try {
-                    window.webkit.messageHandlers.recommendService.postMessage({});
-                    return;
-                } catch (e) {
-                    console.log("ios-选择赠送协议方法失败");
-                }
-                try {
-                    window.parent.postMessage({
-                        'type': 'recommendService'
-                    }, '*');
-                    return;
-                } catch (e) {
-                    console.log("h5-选择赠送协议方法返失败");
-                }
-            }
-        }
-        $(function() {
-            costdefatltController.init();
-        })
-
-    </script>
+    <script src="{{ asset('js/base.js') }}"></script>
+    <script src="{{ asset('js/sha1.min.js') }}"></script>
+    <script src="{{ asset('js/api.js') }}"></script>
+    <script src="{{ asset('js/cost/costdefault.js') }}"></script>
 </body>
 
 </html>
