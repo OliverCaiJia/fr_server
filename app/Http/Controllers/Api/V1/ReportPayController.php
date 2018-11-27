@@ -33,7 +33,7 @@ class ReportPayController extends ApiController
 
         $goodsArr = [];
         $goodsArr['goodsName'] = $orderType['name'];
-        $goodsArr['remark'] = $orderType['remark'];
+        $goodsArr['goodsDesc'] = $orderType['remark'];
         $goodsParamExt = json_encode($goodsArr);
 
 
