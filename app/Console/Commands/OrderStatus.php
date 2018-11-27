@@ -41,12 +41,12 @@ class OrderStatus extends Command
     /**
      * Execute the console command.
      * @return mixed
-     * 订单状态修改 未处理订单 免费订单30天过期，非免费订单7天过期
+     * 订单状态修改 未处理订单 免费订单30天过期，付费订单7天过期
      */
     public function handle()
     {
         $pay_order = config("order.pay_order"); //付费订单
-        $free_order = config("order.free_order"); //付费订单
+        $free_order = config("order.free_order"); //免费订单
         $orderTypeList = UserOrder::join('user_order_type','user_order.order_type','=','user_order_type.id')
             ->select('user_order.status','user_order.create_at','user_order_type.type_nid','user_order.user_id','user_order.order_no')
             ->where('user_order.status','=',0)
