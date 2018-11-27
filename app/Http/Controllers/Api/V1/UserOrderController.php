@@ -165,9 +165,9 @@ class UserOrderController extends ApiController
     {
         $data = $request->all();
         $data['user_id'] = $this->getUserId($request);
-        $data['order_no'] = UserOrderStrategy::createOrderNo();
-        //TODO::  A订单类型方法
         $orderTypeNid = $request->input('order_type_nid');
+        $extra = UserOrderStrategy::getExtra($orderTypeNid);
+        $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
         $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));

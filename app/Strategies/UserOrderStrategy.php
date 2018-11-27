@@ -23,6 +23,17 @@ class UserOrderStrategy extends AppStrategy
         return $type . '-' . $extra . '-' . $NO;
     }
 
+    /**
+     * 根据订单类型唯一标识获取标识简称
+     * @param $orderTypeNid
+     * @return string
+     */
+    public static function getExtra($orderTypeNid)
+    {
+        $nidArr = explode('_', $orderTypeNid);
+        $extra = strtoupper($nidArr[1][0]);
+        return $extra;
+    }
 
     /**
      * 获取渠道名称展示文案

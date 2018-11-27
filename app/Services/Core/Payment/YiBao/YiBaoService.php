@@ -65,10 +65,10 @@ class YiBaoService extends AppService
 
         //结果验证
         if ($response->validSign != 1) {
-            return json_encode(['msg' => '签名有误', 'code' => '99001007', 'data' => []],JSON_UNESCAPED_UNICODE);
+            return ['msg' => '签名有误', 'code' => '99001007', 'data' => []];
         }
         if($response->result['code'] != 'OPR00000'){
-            return json_encode(['msg' => $response->result['message'], 'code' => $response->result['code'], 'data' => []],JSON_UNESCAPED_UNICODE);
+            return ['msg' => $response->result['message'], 'code' => $response->result['code'], 'data' => []];
         }
 
         //取得返回结果
@@ -87,9 +87,9 @@ class YiBaoService extends AppService
 
         $getUrl = self::getUrl($cashter, $private_key);
         $getUrl = str_replace("&timestamp", "&amp;timestamp", $getUrl);
-        $url = "https://cash.yeepay.com/cashier/std?" . $getUrl;
+        $res['url'] = "https://cash.yeepay.com/cashier/std?" . $getUrl;
 
-        return $url;
+        return ['msg' => 'ok', 'code' => 200, 'data' => $res];
 
     }
 
