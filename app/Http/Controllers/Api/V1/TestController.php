@@ -22,6 +22,41 @@ class TestController extends ApiController
             'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
             'userNo' => '15210029967',
         ];
+//        $data = MozhangService::o()->getMoZhangContent('陈龙','142201199606297437','15210029967','application');
+//        dd($data);die;
+//        $data = [
+//            'mobile' => '15210029967',
+//            'name' => '陈龙',
+//            'certificate_no' => '142201197007047437',
+//            'sex' => '1',
+//            'birthday' => '19950405',
+//            'has_insurance' => '1',
+//            'house_info' => '001',
+//            'car_info' => '001',
+//            'occupation' => '001',
+//            'salary_extend' => '001',
+//            'salary' => '105',
+//            'accumulation_fund' => '001',
+//            'work_hours' => '001',
+//            'business_licence' => '001',
+//            'has_creditcard' => '1',
+//            'social_security' => '1',
+//            'is_micro' => '1',
+//            'city' => '北京市',
+//            'money' => '100000',
+//        ];
+//        $data = [
+//            'mobile' => '15210029967'
+//        ];
+//        $data = YiJianDaiPushService::o()->getPull($data);
+//        print_r($data);die;
+
+
+            $data['goodsParamExt'] = '{"goodsName":"商品称","goodsDesc":"商品述"}';
+           $data['orderAmount'] = 1;
+           $data['orderId'] = 'SGD-A-20181119220807-170';
+           $data['paymentParamExt'] = '{"bankCardNo":"6212260200036506778","idCardNo":"130702198111071511","cardName":"蔡嘉"}';
+           $data['userNo'] = '18510536684';
         $url = YiBaoService::send($data);
         echo $url;
     }

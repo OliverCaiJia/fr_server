@@ -4,6 +4,7 @@ namespace App\Models\Factory\Api;
 
 use App\Helpers\Utils;
 use App\Models\Orm\UserBasic;
+use App\Models\Orm\UserInfo;
 
 /**
  * 用户基础信息工厂类
@@ -51,11 +52,10 @@ class UserBasicFactory extends ApiFactory
      * @param array $uid
      * @return bool
      */
-    public static function createOrUpdateUserBasic($data,$uid = [])
+    public static function createOrUpdateUserBasic($data, $uid = [])
     {
         $UserData = UserBasic::where(['user_id' => $uid])->first();
-        dd($UserData);
-        //如果不为空说明表中没有用户的个人信息,创建
+        //如果不为空说明表中有用户的个人信息,修改
         if (!empty($UserData)) {
             $UserData->user_location = $data['user_location'];
             $UserData->user_address = $data['user_address'];
@@ -78,7 +78,7 @@ class UserBasicFactory extends ApiFactory
             $UserData->update_at = date('Y-m-d H:i:s');
             return $UserData->save();
         } else {
-            //如果为空,修改
+            //如果为空,创建
             $UserBasic = new UserBasic();
             $UserBasic->user_id = $uid;
             $UserBasic->user_location = $data['user_location'];
@@ -101,6 +101,8 @@ class UserBasicFactory extends ApiFactory
             $UserBasic->has_weilidai = $data['has_weilidai'] ?? 0;
             $UserBasic->create_at = date('Y-m-d H:i:s');
             $UserBasic->update_at = date('Y-m-d H:i:s');
+            $userHasUserInfo = UserInfo::where(['user_id' => $uid])->frist();
+            $userHasUserInfo->has_userinfo = 1;
             return $UserBasic->save();
         }
 

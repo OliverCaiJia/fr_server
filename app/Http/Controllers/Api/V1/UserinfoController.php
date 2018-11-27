@@ -6,6 +6,7 @@ use App\Helpers\Http\HttpClient;
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBasicFactory;
+use App\Models\Factory\Api\FreeOrderFactory;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Helpers\RestUtils;
 use Illuminate\Http\Request;
@@ -62,6 +63,21 @@ class UserInfoController extends ApiController
     {
         $uid = $this->getUserId($request);
         $data = UserBasicFactory::fetchUserBasic($uid);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
+        }
+        return RestResponseFactory::ok($data);
+    }
+
+    /**
+     * 点击去借钱生成免费订单
+     */
+    public function freeOrder(Request $request)
+    {
+        $uid = $this->getUserId($request);
+        $amount = $request->input('amount');
+        $term = $request->input('term');
+        $data = FreeOrderFactory::Order($uid, $amount, $term);
         if (empty($data)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
         }

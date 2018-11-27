@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
@@ -24,22 +25,21 @@ class UserOrderController extends ApiController
     public function list(Request $request)
     {
         $userId = $this->getUserId($request);
-        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
+//        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
+
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, UserOrderConstant::ORDER_SUCCESS_STATUS);
         $res = [];
         foreach ($userOrder as $uOrder) {
-//            if ($uOrder['status'] != 3 || $uOrder['status'] != 4) {
-            if ($uOrder['status'] != 0) {
-                $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
-                $res[] = [
-                    "order_no" => $uOrder['order_no'],
-                    "order_type_nid" => $orderType['type_nid'],
-                    "create_at" => $uOrder['create_at'],
-                    "amount" => $uOrder['amount'],
-                    "term" => $uOrder['term'],
-                    "logo_url" => $uOrder['logo_url'],
-                    "status" => $uOrder['status']
-                ];
-            }
+            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
+            $res[] = [
+                "order_no" => $uOrder['order_no'],
+                "order_type_nid" => $orderType['type_nid'],
+                "create_at" => $uOrder['create_at'],
+                "amount" => $uOrder['amount'],
+                "term" => $uOrder['term'],
+                "logo_url" => $orderType['logo_url'],
+                "status" => $uOrder['status']
+            ];
         }
         return RestResponseFactory::ok($res);
     }
@@ -89,39 +89,70 @@ class UserOrderController extends ApiController
         $orderNo = $request->input('order_no');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
+
         $userOrderPlatfrom = UserOrderFactory::getOrderPlatformByUserIdAndOrderNo($userId, $orderNo);
+
         $res = [];
         $res["order_type_nid"] = $orderType['type_nid'];
-        $res["extra_status"] = 1;
-        foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
-            $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
 
-            $res["amount"] = $platformValue['amount'];
-            $res["status"] = $platformValue['status'];
-            $res["stop_time"] = $platformValue['update_at'];// 入中间表的时间
-            $res["borrow"][] = [
-                'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
-                'logo' => isset($platform['logo']) ? $platform['logo'] : '',
-                'url' => isset($platform['url']) ? $platform['url'] : ''
-            ];
+        //增值服务订单
+        $res["extra"] = [];
+        //报告类型订单
+        $res["report"] = [];
+        //贷款类型订单
+        $res["loan"] = [];
+        switch ($orderType['type_nid']) {
+            case 'order_extra_service' :
+//                $res["extra"]["extra_status"] = 1;
+                foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
+                    $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
+                    $res["extra"][$platformKey]["amount"] = $platformValue['amount'];
+                    $res["extra"][$platformKey]["status"] = $platformValue['status'];
+                    $res["extra"][$platformKey]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
+                    $res["extra"][$platformKey]["borrow"][] = [
+                        'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
+                        'logo' => isset($platform['logo']) ? $platform['logo'] : '',
+                        'url' => isset($platform['url']) ? $platform['url'] : ''
+                    ];
+                }
+                $res["extra"]["confirm"] = [
+                    [
+                        'time' => date('Y-m-d H:i:s'),
+                        'remark' => '提交申请',
+                        'extra_status' => 0
+                    ],
+                    [
+                        'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
+                        'remark' => '风控审核中',
+                        'status' => 1
+                    ],
+                    [
+                        'time' => date('Y-m-d H:i:s', strtotime("+2 hour")),
+                        'remark' => '一家或多家同时放款',
+                        'status' => 0
+                    ]
+                ];
+                break;
+            case 'order_report' :
+                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $res["report"]["amount"] = $userOrder['amount'];
+                $res["report"]["order_no"] = $userOrder['order_no'];
+                $res["report"]["status"] = $userOrder['status'];
+                $res["report"]["create_at"] = $userOrder['create_at'];
+                //todo::
+                $res["report"]["url"] = '';
+                break;
+            case 'order_apply':
+                $spreadNid = 'oneLoan';
+                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $res["loan"]["amount"] = $userOrder['amount'];
+                $res["loan"]["order_no"] = $userOrder['order_no'];
+                $res["loan"]["status"] = $userOrder['status'];
+                $res["loan"]["create_at"] = $userOrder['create_at'];
+                $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
+                $res["loan"]["push_status"] = $loanTask['status'];
+                break;
         }
-        $res["confirm"] = [
-            [
-                'time' => date('Y-m-d H:i:s'),
-                'remark' => '提交申请',
-                'extra_status' => 0
-            ],
-            [
-                'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
-                'remark' => '风控审核中',
-                'status' => 1
-            ],
-            [
-                'time' => date('Y-m-d H:i:s', strtotime("+2 hour")),
-                'remark' => '一家或多家同时放款',
-                'status' => 0
-            ]
-        ];
         return RestResponseFactory::ok($res);
     }
 
@@ -152,7 +183,13 @@ class UserOrderController extends ApiController
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), $result['error'], $result['code'], $result['error']);
+            $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
+            $res = [];
+            $res['order_no'] = $result['order_no'];
+            $res['status'] = $result['status'];
+            $res['order_type_nid'] = $orderTypeNid;
+            $res['order_expired'] = $result['order_expired'];
+            return RestResponseFactory::ok($res);
         }
         $res = [];
         $res['order_no'] = $result['order_no'];
