@@ -50,7 +50,7 @@
                 <div class='showData4'>
                     <div>
                         <label for="">公司所在地区：</label>
-                        <input type="text" id="company-address" readonly placeholder="请选择" class="address" value="{{isset($data['company_location']) ? $data['company_location'] : ''}}" id='company_location'>
+                        <input type="text" id="company_location" readonly placeholder="请选择" class="address" value="{{isset($data['company_location']) ? $data['company_location'] : ''}}">
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                 <div>
                     <div>
                         <label for="">芝麻分：</label>
-                        <input type="text" placeholder="请填写" value="{{isset($data['zhima_score']) ? $data['zhima_score'] : ''}}" id='zhima_score'> </div>
+                        <input type="number" placeholder="请填写" value="{{isset($data['zhima_score']) ? $data['zhima_score'] : ''}}" id='zhima_score'> </div>
                 </div>
                 <div>
                     <div>
@@ -154,127 +154,12 @@
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/base.js') }}"></script>
     <script src="{{ asset('js/sha1.min.js') }}"></script>
     <script src="{{ asset('js/larea/LAreaData1.js') }}"></script>
     <script src="{{ asset('js/larea/LArea.js') }}"></script>
     <script src="{{ asset('js/api.js') }}"></script>
-    <script>
-        var userinfoController = {
-            init: function() {
-                this.areaSelect('#address');
-                this.areaSelect('#company-address');
-                this.selectChange();
-                this.radioView();
-                this.submitView();
-            },
-            /*地址选择*/
-            areaSelect: function(dom) {
-                var _this = this;
-                var area1 = new LArea();
-                area1.init({
-                    'trigger': dom,
-                    'keys': {
-                        id: 'id',
-                        name: 'name'
-                    },
-                    'type': 1,
-                    'data': LAreaData
-                });
-                area1.value = [1, 13, 3];
-                $(dom).focus(function() {
-                    document.activeElement.blur();
-                });
-            },
-            selectChange: function() {
-                var text = $('#profession').find("option:selected").text();
-                showData(text);
-                $('#profession').on('change', function() {
-                    var text = $(this).find("option:selected").text();
-                    $(this).addClass('selectColor');
-                    $('.showData1,.showData3,.showData4').hide();
-                    showData(text);
-                })
-
-                function showData(text) {
-                    if (text == '上班族' || text == '公务员') {
-                        $('.showData1,.showData4').show();
-                    } else if (text == '企业主') {
-                        $('.showData3,.showData4').show();
-                    }
-                }
-            }, //单选点击
-            radioView: function() {
-                $('.radio-box').on('click', 'span', function() {
-                    $(this).addClass('active').siblings('span').removeClass('active');
-                })
-            }, //提交按钮
-            submitView: function() {
-                var _self = this;
-                $('.button').on('click', function() {
-                    var profession = $('#profession').find("option:selected").val() || '',
-                        work_time = $('#work_time').find("option:selected").val() || '',
-                        month_salary = $('#month_salary').find("option:selected").val() || '',
-                        house_fund_time = $('#house_fund_time').find("option:selected").val() || '',
-                        company_license_time = $('#company_license_time').find("option:selected").val() || '';
-                    $.ajax({
-                        url: api_fruitloan_host + '/v1/user/info/create',
-                        type: 'POST',
-                        data: {
-                            user_location: $('#address').val(),
-                            user_address: $('#user_address').val(),
-                            profession: profession,
-                            company_name: $('#company_name').val(),
-                            company_location: $('#company_location').val(),
-                            company_address: $('#company_address').val(),
-                            work_time: work_time,
-                            month_salary: month_salary,
-                            zhima_score: $('#zhima_score').val(),
-                            house_fund_time: house_fund_time,
-                            company_license_time: company_license_time,
-                            has_social_security: $('#has_social_security').find('.active').data('val') || 0,
-                            has_house: $('#has_house').find('.active').data('val') || 0,
-                            has_auto: $('#has_auto').find('.active').data('val') || 0,
-                            has_house_fund: $('#has_house_fund').find('.active').data('val') || 0,
-                            has_assurance: $('#has_assurance').find('.active').data('val') || 0,
-                            has_creditcard: $('#has_creditcard').find('.active').data('val') || 0,
-                            has_weilidai: $('#has_weilidai').find('.active').data('val') || 0
-                        },
-                        success: function(json) {
-                            _self.personInfoBind(json)
-                        }
-                    })
-                })
-            }, //提交成功后终端交互
-            personInfoBind: function(successData) {
-                var AndroidSuccessData = JSON.stringify(successData);
-                try {
-                    window.sd.personInfoBind(AndroidSuccessData);
-                    return;
-                } catch (e) {
-                    console.log("Android-提交信息方法失败");
-                }
-                try {
-                    window.webkit.messageHandlers.personInfoBind.postMessage(successData);
-                    return;
-                } catch (e) {
-                    console.log("ios-提交信息方法失败");
-                }
-                try {
-                    window.parent.postMessage({
-                        'type': 'personInfoBind',
-                        'successData': successData
-                    }, '*');
-                    return;
-                } catch (e) {
-                    console.log("h5-提交信息方法返失败");
-                }
-            }
-        }
-        $(function() {
-            userinfoController.init();
-        })
-
-    </script>
+    <script src="{{ asset('js/user/userinfo.js') }}"></script>
 </body>
 
 </html>
