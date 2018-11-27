@@ -30,36 +30,40 @@ class ReportPayController extends ApiController
         $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
-
-        $goodsArr = [];
-        $goodsArr['goodsName'] = $orderType['name'];
-        $goodsArr['goodsDesc'] = $orderType['remark'];
-        $goodsParamExt = json_encode($goodsArr);
-
+        $goodsName = $orderType['name'];
+        $goodsDesc = $orderType['remark'];
+        $goodsParamExt = '{"goodsName":"' . $goodsName . '","goodsDesc":"' . $goodsDesc . '"}';
 
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
         if (empty($userRealName)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该用户', 12348, '未找到该用户');
         }
         $paymentArr = [];
-        $paymentArr['cardName'] = $userRealName['real_name'];
+        $cardName = $userRealName['real_name'];
         $paymentArr['bankCardNo'] = $request->input('bank_card_no');
+        $bankCardNo = $request->input('bank_card_no');
         $userBankcard = UserBankcardFactory::getUserBankCardByCardNoAndUserId($paymentArr['bankCardNo'], $userId);
         if (empty($userBankcard)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该银行卡信息', 12350, '未找到该银行卡信息');
         }
         $paymentArr['idCardNo'] = $userBankcard['idcard'];
-        $paymentParamExt = json_encode($paymentArr);
+        $idCardNo = $userBankcard['idcard'];
+        $paymentParamExt = '{"bankCardNo":"' . $bankCardNo . '","idCardNo":"' . $idCardNo . '","cardName":"' . $cardName . '"}';
         $userNo = $userBankcard['bank_card_mobile'];
 
         $data['orderId'] = $orderId;
         //todo::先写死金额，测试
         $data['orderAmount'] = 0.01;
-//        $data['orderAmount'] = $orderAmount;
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
-        $res['url'] = YiBaoService::send($data);
+        $res = [];
+        $result = YiBaoService::send($data);
+
+        if ($result['code'] != 200) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
+        }
+        $res['url'] = $result['data']['url'];
         return RestResponseFactory::ok($res);
     }
 }
