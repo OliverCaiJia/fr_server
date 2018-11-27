@@ -22,7 +22,7 @@ class FreeOrderFactory extends ApiFactory
             $userOrder->order_no = UserOrderStrategy::createOrderNo();
             $userOrder->order_type = 2;
             $userOrder->p_order_id = 0;
-            $userOrder->order_expired = date('Y-m-d H:i:s', strtotime('+1 hour'));;
+            $userOrder->order_expired = date('Y-m-d H:i:s', strtotime('+1 hour'));
             $userOrder->amount = $amount;
             $userOrder->term = $term;
             $userOrder->count = 1;
