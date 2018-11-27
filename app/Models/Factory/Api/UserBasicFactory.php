@@ -101,8 +101,11 @@ class UserBasicFactory extends ApiFactory
             $UserBasic->has_weilidai = $data['has_weilidai'] ?? 0;
             $UserBasic->create_at = date('Y-m-d H:i:s');
             $UserBasic->update_at = date('Y-m-d H:i:s');
-            $userHasUserInfo = UserInfo::where(['user_id' => $uid])->frist();
-            $userHasUserInfo->has_userinfo = 1;
+            $res = UserInfo::where(['user_id' => $uid])->first();
+            $res->has_userinfo = 1;
+            $res->save();
+//            print_r($res);die;
+//            $userHasUserInfo->has_userinfo = 1;
             return $UserBasic->save();
         }
 
