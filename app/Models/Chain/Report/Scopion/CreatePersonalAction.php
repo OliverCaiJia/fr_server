@@ -15,10 +15,25 @@ class CreatePersonalAction extends AbstractHandler
     public function __construct($params)
     {
         $this->params = $params;
-        $this->data = $params;
     }
 
     public function handleRequest()
+    {
+        if ($this->createPersonal($this->params)) {
+            $this->setSuccessor(new UpdateUserInfoStatusAction($this->params));
+            return $this->getSuccessor()->handleRequest();
+        } else {
+            return $this->error;
+        }
+
+//        $result = UserOrderFactory::createOrderReport($this->params);
+//        if ($result) {
+//            return true;
+//        }
+//        return $this->error;
+    }
+
+    private function createPersonal($params)
     {
 
         //        CREATE TABLE `sgd_user_personal` (
@@ -58,20 +73,20 @@ class CreatePersonalAction extends AbstractHandler
 //$this->params['personal_education'] = $params['c
 //$this->params['personal_is_graduation'] = (int)$para
 
-        $para = $this->params;
+//        $para = $this->params;
 
-        $data['user_id'] = $para['user_id'];//
-        $data['idcard'] = $para['personal_idcard'];//oooo
-        $data['idcard_location'] = $para['personal_idcard_location'];//oooo
-        $data['mobile'] = $para['personal_mobile'];//oooo
-        $data['carrier'] = $para['personal_carrier'];//
-        $data['mobile_location'] = $para['personal_mobile_location'];//
-        $data['name'] = $para['personal_name'];//
-        $data['age'] = $para['personal_age'];//
-        $data['gender'] = $para['personal_gender'];//
-        $data['email'] = $para['personal_email'];//
-        $data['education'] = $para['personal_education'];//
-        $data['is_graduation'] = $para['personal_is_graduation'];//oooo
+        $data['user_id'] = $params['user_id'];//
+        $data['idcard'] = $params['personal_idcard'];//oooo
+        $data['idcard_location'] = $params['personal_idcard_location'];//oooo
+        $data['mobile'] = $params['personal_mobile'];//oooo
+        $data['carrier'] = $params['personal_carrier'];//
+        $data['mobile_location'] = $params['personal_mobile_location'];//
+        $data['name'] = $params['personal_name'];//
+        $data['age'] = $params['personal_age'];//
+        $data['gender'] = $params['personal_gender'];//
+        $data['email'] = $params['personal_email'];//
+        $data['education'] = $params['personal_education'];//
+        $data['is_graduation'] = $params['personal_is_graduation'];//oooo
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['create_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
@@ -100,19 +115,9 @@ class CreatePersonalAction extends AbstractHandler
         $result = UserOrderFactory::createPersonal($data);
 
         if ($result) {
-            return $this->data;
+            return $result;
         }
         return $this->error;
-
-
-
-
-
-
-
-
-
-
     }
 
 //    private function createPersonal($params)

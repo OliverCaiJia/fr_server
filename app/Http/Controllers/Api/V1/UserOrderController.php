@@ -108,8 +108,9 @@ class UserOrderController extends ApiController
                     $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
                     $res["extra"][$platformKey]["amount"] = $platformValue['amount'];
                     $res["extra"][$platformKey]["status"] = $platformValue['status'];
+                    $res["extra"][$platformKey]["term"] = $platformValue['term'];
                     $res["extra"][$platformKey]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
-                    $res["extra"][$platformKey]["borrow"][] = [
+                    $res["extra"]["borrow"][$platformKey] = [
                         'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
                         'logo' => isset($platform['logo']) ? $platform['logo'] : '',
                         'url' => isset($platform['url']) ? $platform['url'] : ''
@@ -143,9 +144,11 @@ class UserOrderController extends ApiController
                 $res["report"]["url"] = '';
                 break;
             case 'order_apply':
+                //todo::
                 $spreadNid = 'oneLoan';
                 $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $res["loan"]["amount"] = $userOrder['amount'];
+                $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
                 $res["loan"]["create_at"] = $userOrder['create_at'];

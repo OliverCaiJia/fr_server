@@ -325,6 +325,18 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 根据id更新订单
+     * @param $id
+     * @param array $data
+     * @return mixed
+     */
+    public static function updateOrderById($id, $data = [])
+    {
+        return UserOrder::where(['id' => $id])
+            ->update($data);
+    }
+
+    /**
      * 获取订单类型ID
      *
      * @param string $nid
@@ -508,6 +520,22 @@ class UserOrderFactory extends ApiFactory
             ->where('user_id', '=', $userId)
             ->whereIn('status', $status)
             ->get();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     *
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdOrderNoAndStatus($userId, $orderNo, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->where('order_no', '=', $orderNo)
+            ->whereIn('status', $status)
+            ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }
 
