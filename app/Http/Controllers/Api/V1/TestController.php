@@ -15,6 +15,13 @@ class TestController extends ApiController
 {
     //易宝支付
     public function test(){
+        $data = [
+            'orderId' => 'DS181126_11511192',
+            'orderAmount' => '0.01',
+            'goodsParamExt' => '{"goodsName":"水果贷测试","goodsDesc":"水果贷订单"}',
+            'paymentParamExt' => '{"bankCardNo":"6212260200101725345","idCardNo":"610303197911112419","cardName":"巨琨"}',
+            'userNo' => '15210029967',
+        ];
 //        $data = MozhangService::o()->getMoZhangContent('陈龙','142201199606297437','15210029967','application');
 //        dd($data);die;
 //        $data = [
