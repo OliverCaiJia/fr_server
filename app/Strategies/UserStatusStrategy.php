@@ -11,6 +11,8 @@ use App\Strategies\AppStrategy;
 use App\Models\Orm\UserInfo;
 use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderType;
+use App\Helpers\RestResponseFactory;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class UserStatusStrategy extends AppStrategy
 {
@@ -41,7 +43,7 @@ class UserStatusStrategy extends AppStrategy
             $userOrder['logo_url'] = $url->logo_url;
             return $userOrder;
         } else {
-            return '';
+            return  (Object)array();
         }
     }
 
