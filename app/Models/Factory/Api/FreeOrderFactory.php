@@ -40,10 +40,12 @@ class FreeOrderFactory extends ApiFactory
             $userOrder->update_at = date('Y-m-d H:i:s', time());
             $data = $userOrder->save();
             if ($data == 1) {
-                return $data = [];
+                $FreeOrder = UserOrder::where(['user_id' => $uid])->first();
+                return $FreeOrder ? $FreeOrder->toArray() : [];
             }
         } else {
-            return $orderStatus ? $orderStatus->toArray() : [];
+            $FreeOrder = UserOrder::where(['user_id' => $uid])->first();
+            return $FreeOrder ? $FreeOrder->toArray() : [];
         }
     }
 
