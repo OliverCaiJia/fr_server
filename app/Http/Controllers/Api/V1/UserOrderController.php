@@ -8,6 +8,7 @@ use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\PlatformFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
 use App\Models\Orm\Platform;
@@ -103,24 +104,24 @@ class UserOrderController extends ApiController
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
             case 'order_extra_service' :
-//                $res["extra"]["extra_status"] = 1;
+                $res["extra"]["amount"] = $userOrder['amount'];
+                $res["extra"]["status"] = $userOrder['status'];
+                $res["extra"]["term"] = $userOrder['term'];
                 foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
                     $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
-                    $res["extra"][$platformKey]["amount"] = $platformValue['amount'];
-                    $res["extra"][$platformKey]["status"] = $platformValue['status'];
-                    $res["extra"][$platformKey]["term"] = $platformValue['term'];
-                    $res["extra"][$platformKey]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
+                    $res["extra"]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
                     $res["extra"]["borrow"][$platformKey] = [
                         'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
                         'logo' => isset($platform['logo']) ? $platform['logo'] : '',
-                        'url' => isset($platform['url']) ? $platform['url'] : ''
+                        'url' => isset($platform['url']) ? $platform['url'] : '',
+                        'money_limit' => isset($platform['money_limit']) ? $platform['money_limit'] : 0,
                     ];
                 }
                 $res["extra"]["confirm"] = [
                     [
                         'time' => date('Y-m-d H:i:s'),
                         'remark' => '提交申请',
-                        'extra_status' => 0
+                        'status' => 0
                     ],
                     [
                         'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
@@ -136,12 +137,12 @@ class UserOrderController extends ApiController
                 break;
             case 'order_report' :
                 $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $userAuth = UserAuthFactory::getUserById($userId);
                 $res["report"]["amount"] = $userOrder['amount'];
                 $res["report"]["order_no"] = $userOrder['order_no'];
                 $res["report"]["status"] = $userOrder['status'];
                 $res["report"]["create_at"] = $userOrder['create_at'];
-                //todo::
-                $res["report"]["url"] = '';
+                $res["report"]["url"] = 'http://uat.fruit.witlending.com/web/v1/user/report?token=' . $userAuth['access_token'];
                 break;
             case 'order_apply':
                 //todo::
@@ -151,7 +152,7 @@ class UserOrderController extends ApiController
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
-                $res["loan"]["create_at"] = $userOrder['create_at'];
+                $res["loan"]["expired_time"] = date("Y-m-d", strtotime ("+30 days", strtotime($userOrder['create_at'])));
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
                 $res["loan"]["push_status"] = $loanTask['status'];
                 break;
