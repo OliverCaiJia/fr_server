@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use App\Models\Factory\Api\UserLoanTaskFactory;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
 
-class YjdPush extends Command
+class YjdPull extends Command
 {
     /**
      * The name and signature of the console command.
