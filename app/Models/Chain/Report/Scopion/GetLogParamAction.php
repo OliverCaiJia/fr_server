@@ -2,6 +2,8 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
+use App\Helpers\RestResponseFactory;
+use App\Helpers\RestUtils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -42,9 +44,18 @@ class GetLogParamAction extends AbstractHandler
     {
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
+        if (!$userOrder){
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1150), 1150);
+        }
         $userId = $userOrder['user_id'];
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
+        if (empty($userRealName)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
+        }
         $userAuth = UserAuthFactory::getUserById($userId);
+        if (empty($userAuth)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
+        }
 
         $reportTypeNid = $params['report_type_nid'];
         $reportType = UserReportFactory::getReportTypeByTypeNid($reportTypeNid);
