@@ -10,6 +10,7 @@ use App\Models\Factory\Api\UserBankcardFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use App\Services\Core\Payment\YiBao\YiBaoService;
+use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 
 class ReportPayController extends ApiController
@@ -17,17 +18,26 @@ class ReportPayController extends ApiController
     /**
      * 调用易宝支付返回支付页面
      * @param Request $request
-     * @return false|\Illuminate\Http\JsonResponse|string
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function doReportPay(Request $request)
     {
         $userId = $this->getUserId($request);
         $orderId = $request->input('order_id');
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
+//        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
+        $status = [0];
+        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderId, $status);
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
-
+        $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $extra = UserOrderStrategy::getExtra($orderType['type_nid']);
+        $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
+        $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
+        if (!$userOrderUpdate){
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+        }
         $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);

@@ -41,12 +41,11 @@ class OrderStatus extends Command
     /**
      * Execute the console command.
      * @return mixed
-     * 订单状态修改 未处理订单 免费订单30天过期，付费订单7天过期
+     * 订单状态修改 未处理订单 付费订单7天过期
      */
     public function handle()
     {
         $pay_order = config("order.pay_order"); //付费订单
-        $free_order = config("order.free_order"); //免费订单
         $orderTypeList = UserOrder::join('user_order_type','user_order.order_type','=','user_order_type.id')
             ->select('user_order.status','user_order.create_at','user_order_type.type_nid','user_order.user_id','user_order.order_no')
             ->where('user_order.status','=',0)
@@ -57,21 +56,14 @@ class OrderStatus extends Command
             return;
         }
 
+        $data = [
+            'status' => 2,
+            'update_ip' => Utils::ipAddress(),
+        ];
+
         foreach($orderTypeList as $order_key => $order_val){
             $pay_create_at = strtotime("{$order_val['create_at']}+7 day");
-            $free_create_at = strtotime("{$order_val['create_at']}+30 day");
-
-            $data = [
-                'status' => 2,
-                'update_ip' => Utils::ipAddress(),
-            ];
-
             if($pay_create_at <= strtotime(date('Y-m-d H:i:s')) && in_array($order_val['type_nid'],$pay_order)){
-                $data['update_at'] = date('Y-m-d H:i:s');
-                UserOrderFactory::updateOrderByUserIdAndOrderNo($order_val['user_id'],$order_val['order_no'],$data);
-            }
-
-            if($free_create_at <= strtotime(date('Y-m-d H:i:s')) && in_array($order_val['type_nid'],$free_order)){
                 $data['update_at'] = date('Y-m-d H:i:s');
                 UserOrderFactory::updateOrderByUserIdAndOrderNo($order_val['user_id'],$order_val['order_no'],$data);
             }
