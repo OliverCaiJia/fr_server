@@ -7,14 +7,14 @@ use Illuminate\Console\Command;
 use App\Models\Factory\Api\UserLoanTaskFactory;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
 
-class YjdPush extends Command
+class YjdPull extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:yijiandai';
+    protected $signature = 'command:yjdpull';
 
     /**
      * The console command description.
@@ -60,9 +60,12 @@ class YjdPush extends Command
                 UserLoanTaskFactory::updateStatusById($v['id'],4);
             }else{
                 $res = YiJianDaiPushService::o()->getPull(['mobile'=>$v['mobile']]);
-                if(!empty($res['data']['list'])){
+                if($res['error_code'] == 0 && !empty($res['data']['list'])){
+                    $data['request_data'] = json_encode(['mobile'=>$v['mobile']]);
                     $data['response_data'] = json_encode($res['data']['list']);
                     $data['status'] = 2;
+                    $data['send_at'] = date('Y-m-d H:i:s');
+                    $data['update_at'] = date('Y-m-d H:i:s');
                     UserLoanTask::where(['id'=>$v['id']])->update($data);
                 }
             }
