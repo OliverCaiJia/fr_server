@@ -42,7 +42,7 @@
                 <h3>总计：<span>￥<i>{{ $data['groom']['price'] }}</i></span></h3>
                 <p><del>原价:￥378</del></p>
             </div>
-            <div class="right"> 付款 </div>
+            <div class="right" id='submit'> 付款 </div>
         </footer>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
