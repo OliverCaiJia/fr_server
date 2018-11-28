@@ -20,6 +20,7 @@ class UpdateUserInfoStatusAction extends AbstractHandler
 
     public function handleRequest()
     {
+        //todo::
         $data['service_status'] = 3;
         $result = UserinfoFactory::UpdateUserInfoStatus($this->params['user_id'], $data);
         if ($result) {

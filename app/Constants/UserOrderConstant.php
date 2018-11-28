@@ -11,7 +11,6 @@ use App\Constants\AppConstant;
  */
 class UserOrderConstant extends AppConstant
 {
-//    const PAY_TYPE_FREE = 1;
-    const ORDER_SUCCESS_STATUS = [1];
+    const ORDER_SUCCESS_STATUS = 1;
 }
 
