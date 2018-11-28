@@ -14,7 +14,7 @@ class YjdPull extends Command
      *
      * @var string
      */
-    protected $signature = 'command:yijiandai';
+    protected $signature = 'command:yjdpull';
 
     /**
      * The console command description.
