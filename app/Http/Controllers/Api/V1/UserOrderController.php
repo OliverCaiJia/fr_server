@@ -30,19 +30,31 @@ class UserOrderController extends ApiController
 
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, UserOrderConstant::ORDER_SUCCESS_STATUS, $pageSize, $pageIndex);
+        $userOrder = UserOrderFactory::getUserOrderByUserId(
+            $userId,
+            $pageSize,
+            $pageIndex
+        );
         $res = [];
         foreach ($userOrder['data'] as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
-            $res[] = [
-                "order_no" => $uOrder['order_no'],
-                "order_type_nid" => $orderType['type_nid'],
-                "create_at" => $uOrder['create_at'],
-                "amount" => $uOrder['amount'],
-                "term" => $uOrder['term'],
-                "logo_url" => $orderType['logo_url'],
-                "status" => $uOrder['status']
-            ];
+            if (
+                ($uOrder['status'] == 0 && $orderType['type_nid'] == 'order_report')
+                ||
+                ($uOrder['status'] == 2 && $orderType['type_nid'] == 'order_apply')
+                ||
+                ($uOrder['status'] == 1)
+            ){
+                $res[] = [
+                    "order_no" => $uOrder['order_no'],
+                    "order_type_nid" => $orderType['type_nid'],
+                    "create_at" => $uOrder['create_at'],
+                    "amount" => $uOrder['amount'],
+                    "term" => $uOrder['term'],
+                    "logo_url" => $orderType['logo_url'],
+                    "status" => $uOrder['status']
+                ];
+            }
         }
         return RestResponseFactory::ok($res);
     }
@@ -138,7 +150,7 @@ class UserOrderController extends ApiController
                 ];
                 break;
             case 'order_report' :
-                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $userAuth = UserAuthFactory::getUserById($userId);
                 $res["report"]["amount"] = $userOrder['amount'];
                 $res["report"]["order_no"] = $userOrder['order_no'];
@@ -149,12 +161,12 @@ class UserOrderController extends ApiController
             case 'order_apply':
                 //todo::
                 $spreadNid = 'oneLoan';
-                $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
-                $res["loan"]["expired_time"] = date("Y-m-d", strtotime ("+30 days", strtotime($userOrder['create_at'])));
+                $res["loan"]["expired_time"] = date("Y-m-d", strtotime("+30 days", strtotime($userOrder['create_at'])));
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
                 $res["loan"]["push_status"] = $loanTask['status'];
                 break;

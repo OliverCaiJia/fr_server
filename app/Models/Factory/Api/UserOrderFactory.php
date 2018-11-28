@@ -509,16 +509,15 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
-     * 通过用户id和状态获取用户订单
+     * 通过用户id获取用户订单
      * @param $userId
      * @param array $status
      * @return array
      */
-    public static function getUserOrderByUserIdAndStatus($userId, $status = [], $pageSize = 10, $pageIndex)
+    public static function getUserOrderByUserId($userId, $pageSize = 10, $pageIndex)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
-            ->whereIn('status', $status)
             ->paginate($pageSize, ['*'], 'page', $pageIndex);
         return $userOrder ? $userOrder->toArray() : [];
     }
