@@ -107,14 +107,17 @@ class PaymentStrategy extends AppStrategy
      */
     public static function getDiffOrderTypeChain($params)
     {
+//        dd($params);
         //修改订单状态
         $orderTypeChain = new DoPaidOrderHandler($params);
         $typeRes = $orderTypeChain->handleRequest();
+
         if(!isset($typeRes['error'])){
             //生成信用报告
             $typeRes['report_type_nid'] = 'report_credit';
             $reportChain = new DoReportOrderHandler($typeRes);
-            return $reportChain;
+            $result = $reportChain->handleRequest();
+            return $result;
         }
         return $typeRes;
     }

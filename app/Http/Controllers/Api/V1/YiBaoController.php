@@ -44,7 +44,7 @@ class YiBaoController extends ApiController
 
         //处理订单信息
 //        $data['order_no'] = $resData['orderId'];
-        $data['order_no'] = '23456';
+        $data['order_no'] = 'SGD-A-20181123162814-401156';
         $res = PaymentStrategy::getDiffOrderTypeChain($data);
         dd($res);
     }

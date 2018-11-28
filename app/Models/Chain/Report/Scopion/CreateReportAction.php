@@ -57,7 +57,7 @@ class CreateReportAction extends AbstractHandler
         $report['user_id'] = $params['user_id'];//6
         //todo::
         $report['report_code'] = 'R' . UserOrderStrategy::createOrderNo();
-        $report['report_data'] = '{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}';//json_encode($params['report_data'])
+        $report['report_data'] = json_encode($params['report_data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
         $report['create_at'] = date('Y-m-d H:i:s');
         $report['update_at'] = date('Y-m-d H:i:s');
         $userReport = UserOrderFactory::createReport($report);

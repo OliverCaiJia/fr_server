@@ -47,6 +47,7 @@ class GetLogParamAction extends AbstractHandler
         if (!$userOrder){
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1150), 1150);
         }
+
         $userId = $userOrder['user_id'];
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
         if (empty($userRealName)) {
@@ -76,7 +77,6 @@ class GetLogParamAction extends AbstractHandler
 
         //反欺诈
         $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
-
         $this->params['anti_fraud'] = $antiFraud;
         $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
         //申请准入
