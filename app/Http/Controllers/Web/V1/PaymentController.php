@@ -10,6 +10,6 @@ class PaymentController extends WebController
 
     public function success(Request $request)
     {
-        return view('web.user.report');
+        return view('web.user.paymentsuccess');
     }
 }

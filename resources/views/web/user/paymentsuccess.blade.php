@@ -21,15 +21,16 @@
 
         .success,
         .error {
+            width: 5rem;
             position: absolute;
             top: 50%;
             left: 50%;
-            margin-top: -50%;
-            margin-left: -50%;
+            margin-top: -4rem;
+            margin-left: -2.5rem;
         }
 
         img {
-            width: 5rem;
+            width: 4rem;
             margin: 0 auto;
             display: block;
         }
@@ -38,6 +39,7 @@
             font-size: .32rem;
             color: #333;
             text-align: center;
+            padding-top: .3rem;
         }
 
         p a {
@@ -50,25 +52,25 @@
 <body>
     <div class="container">
         <div class="success"> <img src="/img/user/pay_success.png" alt="">
-            <p>支付成功！<a onclick="payController.paymentResult('success')">立即跳转</a></p>
+            <p>支付成功！<a onclick="payController.paymentResultJump('success')">立即跳转</a></p>
         </div>
-        <div class="error"> <img src="/img/user/pay_success.png" alt="">
-            <p>支付成功！<a onclick="payController.paymentResult('error')">立即跳转</a></p>
+        <div class="error"> <img src="/img/user/pay_error.png" alt="">
+            <p>支付失败！<a onclick="payController.paymentResultJump('error')">立即跳转</a></p>
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script>
         var payController = {
             //立即跳转-支付
-            paymentResult: function(payResult) {
+            paymentResultJump: function(payResult) {
                 try {
-                    window.sd.paymentResult(payResult);
+                    window.sd.paymentResultJump(payResult);
                     return;
                 } catch (e) {
                     console.log("Android-点击协议方法失败");
                 }
                 try {
-                    window.webkit.messageHandlers.paymentResult.postMessage({
+                    window.webkit.messageHandlers.paymentResultJump.postMessage({
                         payResult: payResult
                     });
                     return;
@@ -77,7 +79,7 @@
                 }
                 try {
                     window.parent.postMessage({
-                        'type': 'paymentResult',
+                        'type': 'paymentResultJump',
                         'payResult': payResult
                     }, '*');
                     return;
