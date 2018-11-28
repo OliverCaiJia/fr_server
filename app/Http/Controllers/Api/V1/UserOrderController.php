@@ -26,8 +26,6 @@ class UserOrderController extends ApiController
     public function list(Request $request)
     {
         $userId = $this->getUserId($request);
-//        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
-
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
         $userOrder = UserOrderFactory::getUserOrderByUserId(
