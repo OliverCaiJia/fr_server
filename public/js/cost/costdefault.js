@@ -9,29 +9,40 @@
              $(this).find('.selectIcon').show();
              _self.recommendService();
          })
+     },
+     submitView() {
+         $('#submit').on('click', function () {
+             $.ajax({
+                 url: api_fruitloan_host + '/v1/user/info/create',
+                 type: 'POST',
+                 data: {},
+                 success: function (json) {
+                     _self.recommendService(json)
+                 }
+             })
+         })
      }, //选择赠送协议交互
-     recommendService: function () {
+     recommendService: function (successData) {
+         var AndroidSuccessData = JSON.stringify(successData);
          try {
-             window.sd.recommendService();
+             window.sd.recommendService(AndroidSuccessData);
              return;
-         }
-         catch (e) {
+         } catch (e) {
              console.log("Android-选择赠送协议方法失败");
          }
          try {
-             window.webkit.messageHandlers.recommendService.postMessage({});
+             window.webkit.messageHandlers.recommendService.postMessage(successData);
              return;
-         }
-         catch (e) {
+         } catch (e) {
              console.log("ios-选择赠送协议方法失败");
          }
          try {
              window.parent.postMessage({
-                 'type': 'recommendService'
+                 'type': 'recommendService',
+                 'successData': successData
              }, '*');
              return;
-         }
-         catch (e) {
+         } catch (e) {
              console.log("h5-选择赠送协议方法返失败");
          }
      }
