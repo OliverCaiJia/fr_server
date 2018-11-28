@@ -13,8 +13,9 @@ use App\Models\Chain\Order\ReportOrder\DoReportOrderLogicHandler;
 use App\Models\Chain\Order\SubVipOrder\DoSubVipOrderLogicHandler;
 use App\Models\Chain\Payment\SubVipOrder\DoSubVipOrderHandler;
 use App\Models\Chain\Order\PayOrder\DoVipOrderLogicHandler;
-use App\Models\Chain\Payment\ReportOrder\DoReportOrderHandler;
+use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Payment\VipOrder\DoVipOrderHandler;
+use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
 use App\Models\Factory\UserIdentityFactory;
 use App\Models\Factory\UserReportFactory;
 use App\Models\Factory\UserVipFactory;
@@ -104,42 +105,18 @@ class PaymentStrategy extends AppStrategy
      * @param $order
      * @return mixed
      */
-    public static function getDiffOrderTypeChain($order)
+    public static function getDiffOrderTypeChain($params)
     {
-        switch ($order['type']) {
-            //会员
-            case UserVipConstant::ORDER_TYPE:
-                $chain = new DoVipOrderLogicHandler($order);
-                $result = $chain->handleRequest();
-                break;
-//            //年度会员
-//            case UserVipConstant::ORDER_VIP_ANNUAL_MEMBER:
-//                $order['subtypeNid'] = UserVipConstant::VIP_ANNUAL_MEMBER;
-//                $chain = new DoSubVipOrderLogicHandler($order);
-//                $result = $chain->handleRequest();
-//                break;
-//            //季度会员
-//            case UserVipConstant::ORDER_VIP_QUARTERLY_MEMBER:
-//                $order['subtypeNid'] = UserVipConstant::VIP_QUARTERLY_MEMBER;
-//                $chain = new DoSubVipOrderLogicHandler($order);
-//                $result = $chain->handleRequest();
-//                break;
-//            //月度会员
-//            case UserVipConstant::ORDER_VIP_MONTHLY_MEMBER:
-//                $order['subtypeNid'] = UserVipConstant::VIP_MONTHLY_MEMBER;
-//                $chain = new DoSubVipOrderLogicHandler($order);
-//                $result = $chain->handleRequest();
-//                break;
-//            //信用报告
-//            case UserReportConstant::REPORT_ORDER_TYPE:
-//                $chain = new DoReportOrderLogicHandler($order);
-//                $result = $chain->handleRequest();
-//                break;
-            default:
-                $result = ['error' => RestUtils::getErrorMessage(1139), 'code' => 1139];
+        //修改订单状态
+        $orderTypeChain = new DoPaidOrderHandler($params);
+        $typeRes = $orderTypeChain->handleRequest();
+        if(!isset($typeRes['error'])){
+            //生成信用报告
+            $typeRes['report_type_nid'] = 'report_credit';
+            $reportChain = new DoReportOrderHandler($typeRes);
+            return $reportChain;
         }
-
-        return $result;
+        return $typeRes;
     }
 
     /**
