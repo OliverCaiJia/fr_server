@@ -53,6 +53,9 @@ class GetLogParamAction extends AbstractHandler
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
         }
         $userAuth = UserAuthFactory::getUserById($userId);
+        if (empty($userAuth)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
+        }
 
         $reportTypeNid = $params['report_type_nid'];
         $reportType = UserReportFactory::getReportTypeByTypeNid($reportTypeNid);
