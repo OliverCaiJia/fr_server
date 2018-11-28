@@ -35,6 +35,9 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
 
         //个人资料列表
         $router->any('info/create', ['uses' => 'UserController@userinfo']);
+
+        //支付成功
+        $router->any('payment/success', ['uses' => 'PaymentController@success']);
 //        $router->any('report', ['middleware' => ['authWeb'],'uses' => 'UserController@report']);
     });
 
