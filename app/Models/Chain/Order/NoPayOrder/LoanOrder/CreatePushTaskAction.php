@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Chain\Order\NoPayOrder\ApplyOrder;
+namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
 use App\Models\Chain\AbstractHandler;
 use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
@@ -83,37 +83,5 @@ class CreatePushTaskAction extends AbstractHandler
             return false;
         }
         return true;
-    }
-
-    private function getSignInfo($params = array(),$key) {
-        $srcStr = "";
-        $names = array();
-        foreach($params as $name => $value) {
-            $names[$name] = $name;
-        }
-
-        sort($names);
-
-        foreach($names as $name) {
-            $srcStr = $srcStr.$name."=".$params[$name]."&";
-        }
-
-        $srcStr = substr($srcStr, 0, strlen($srcStr) - 1);
-
-        return md5($srcStr.$key);
-
-    }
-
-    private function diffBetweenTwoDays($day1, $day2)
-    {
-        $second1 = strtotime($day1);
-        $second2 = strtotime($day2);
-
-        if ($second1 < $second2) {
-            $tmp = $second2;
-            $second2 = $second1;
-            $second1 = $tmp;
-        }
-        return ($second1 - $second2) / 86400;
     }
 }
