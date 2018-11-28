@@ -103,17 +103,17 @@ class UserOrderController extends ApiController
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
             case 'order_extra_service' :
-//                $res["extra"]["extra_status"] = 1;
+                $res["extra"]["amount"] = $userOrder['amount'];
+                $res["extra"]["status"] = $userOrder['status'];
+                $res["extra"]["term"] = $userOrder['term'];
                 foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
                     $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
-                    $res["extra"][$platformKey]["amount"] = $platformValue['amount'];
-                    $res["extra"][$platformKey]["status"] = $platformValue['status'];
-                    $res["extra"][$platformKey]["term"] = $platformValue['term'];
-                    $res["extra"][$platformKey]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
+                    $res["extra"]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
                     $res["extra"]["borrow"][$platformKey] = [
                         'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
                         'logo' => isset($platform['logo']) ? $platform['logo'] : '',
-                        'url' => isset($platform['url']) ? $platform['url'] : ''
+                        'url' => isset($platform['url']) ? $platform['url'] : '',
+                        'money_limit' => isset($platform['money_limit']) ? $platform['money_limit'] : 0,
                     ];
                 }
                 $res["extra"]["confirm"] = [
