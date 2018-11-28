@@ -28,7 +28,10 @@ class UserOrderController extends ApiController
         $userId = $this->getUserId($request);
 //        $userOrder = UserOrderFactory::getOrderAndTypeLogoByUserId($userId);
 
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, UserOrderConstant::ORDER_SUCCESS_STATUS);
+        $pageSize = $request->input('page_size');
+        $pageIndex = $request->input('page_index');
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, UserOrderConstant::ORDER_SUCCESS_STATUS, $pageSize, $pageIndex);
+
         $res = [];
         foreach ($userOrder as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);

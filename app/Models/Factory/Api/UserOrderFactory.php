@@ -514,12 +514,12 @@ class UserOrderFactory extends ApiFactory
      * @param array $status
      * @return array
      */
-    public static function getUserOrderByUserIdAndStatus($userId, $status = [])
+    public static function getUserOrderByUserIdAndStatus($userId, $status = [], $pageSize = 10, $pageIndex)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->whereIn('status', $status)
-            ->get();
+            ->paginate($pageSize, ['*'], 'page', $pageIndex);
         return $userOrder ? $userOrder->toArray() : [];
     }
 
