@@ -120,7 +120,7 @@ class UserOrderController extends ApiController
                     [
                         'time' => date('Y-m-d H:i:s'),
                         'remark' => '提交申请',
-                        'extra_status' => 0
+                        'status' => 0
                     ],
                     [
                         'time' => date('Y-m-d H:i:s', strtotime("+1 hour")),
@@ -151,7 +151,7 @@ class UserOrderController extends ApiController
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
-                $res["loan"]["create_at"] = $userOrder['create_at'];
+                $res["loan"]["expired_time"] = $userOrder['create_at'];
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
                 $res["loan"]["push_status"] = $loanTask['status'];
                 break;
