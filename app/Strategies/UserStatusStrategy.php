@@ -41,7 +41,7 @@ class UserStatusStrategy extends AppStrategy
             $userOrder['logo_url'] = $url->logo_url;
             return $userOrder;
         } else {
-            return $data = '{}';
+            return '';
         }
     }
 
