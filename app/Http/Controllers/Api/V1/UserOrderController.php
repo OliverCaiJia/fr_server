@@ -8,6 +8,7 @@ use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\PlatformFactory;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
 use App\Models\Orm\Platform;
@@ -136,12 +137,12 @@ class UserOrderController extends ApiController
                 break;
             case 'order_report' :
                 $userOrder= UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $userAuth = UserAuthFactory::getUserById($userId);
                 $res["report"]["amount"] = $userOrder['amount'];
                 $res["report"]["order_no"] = $userOrder['order_no'];
                 $res["report"]["status"] = $userOrder['status'];
                 $res["report"]["create_at"] = $userOrder['create_at'];
-                //todo::
-                $res["report"]["url"] = '';
+                $res["report"]["url"] = 'http://uat.fruit.witlending.com/web/v1/user/report?token=' . $userAuth['access_token'];
                 break;
             case 'order_apply':
                 //todo::
