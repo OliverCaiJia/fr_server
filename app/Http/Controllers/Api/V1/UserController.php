@@ -83,6 +83,7 @@ class UserController extends ApiController
         $uid = $this->getUserId($request);
         $data = UserRealnameFactory::fetchUserRealname($uid);
         $userStatus = UserStatusStrategy::getUserInfo($uid);
+        $data['paid_order']= UserStatusStrategy::paidOrder($uid);
         $data['service_status'] = $userStatus['service_status'] ?? '0';
         $data['has_userinfo'] = $userStatus['has_userinfo'] ?? '0';
         $data['order_status'] = UserStatusStrategy::getOrder($uid);
