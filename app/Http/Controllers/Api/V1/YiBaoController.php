@@ -58,13 +58,12 @@ class YiBaoController extends ApiController
         //修改订单状态
         $orderTypeChain = new DoPaidOrderHandler($data);
         $typeRes = $orderTypeChain->handleRequest();
-
         if(isset($typeRes['error'])){
             return 'ERROR';
         }
 
         //生成信用报告
-        $data['report_type_nid'] = 'report_credit';
+        $data['report_type_nid'] = $typeRes['report_type_nid'];
         $reportChain = new DoReportOrderHandler($data);
         $reportRes = $reportChain->handleRequest();
         if(isset($reportRes['error'])){
