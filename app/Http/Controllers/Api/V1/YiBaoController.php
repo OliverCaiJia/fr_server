@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Helpers\RestResponseFactory;
-use App\Helpers\RestUtils;
 use App\Helpers\Logger\SLogger;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use Illuminate\Http\Request;
-use App\Strategies\PaymentStrategy;
-use App\Models\Factory\Api\UserOrderFactory;
 use App\Services\Core\Payment\YiBao\YiBaoConfig;
 use App\Services\Core\Payment\YiBao\YopSignUtils;
 use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
 use Illuminate\Support\Facades\DB;
 
-
+/**
+ * Class YiBaoController
+ * @package App\Http\Controllers\Api\V1
+ * 易宝回调
+ */
 class YiBaoController extends ApiController
 {
     /**
-     * 获取账户信息
+     * 易宝同步回调
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-//    public  function sync(Request $request)
-//    {
-//        $params = $request->input('orderId');
-//    }
+    public  function sync(Request $request)
+    {
+        return 'ERROR';
+    }
 
     /**
      * 易宝异步回调
