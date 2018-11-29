@@ -23,10 +23,10 @@ class YiBaoController extends ApiController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-//    public  function sync(Request $request)
-//    {
-//        $params = $request->input('orderId');
-//    }
+    public  function sync(Request $request)
+    {
+        return 'ERROR';
+    }
 
     /**
      * 易宝异步回调
