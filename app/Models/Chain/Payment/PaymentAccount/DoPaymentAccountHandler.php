@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\Chain\Payment\SubVipOrder;
+namespace App\Models\Chain\Payment\PaymentAccount;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 同步更新会员和订单
+ * 报告
  */
-class DoSubVipOrderHandler extends AbstractHandler
+class DoPaymentAccountHandler extends AbstractHandler
 {
     #外部传参
 
@@ -22,13 +22,6 @@ class DoSubVipOrderHandler extends AbstractHandler
     }
 
     /**
-     * 思路：
-     * 0.获取回调的传参数
-     * 1.同步user_order表中的订单状态
-     * 2.同步user_vip表中的会员状态、会员有效期期限
-     */
-
-    /**
      * @return mixed]
      * 入口
      */
@@ -39,13 +32,13 @@ class DoSubVipOrderHandler extends AbstractHandler
         DB::beginTransaction();
         try
         {
-            $this->setSuccessor(new YibaoCallBackDataAction($this->params));
+            $this->setSuccessor();
             $result = $this->getSuccessor()->handleRequest();
             if (isset($result['error']))
             {
                 DB::rollback();
 
-                SLogger::getStream()->error('同步订单会员状态, 事务异常-try');
+                SLogger::getStream()->error('同步订单报告状态, 事务异常-try');
                 SLogger::getStream()->error($result['error']);
             }
             else
@@ -58,7 +51,7 @@ class DoSubVipOrderHandler extends AbstractHandler
         {
             DB::rollBack();
 
-            SLogger::getStream()->error('同步订单会员状态, 事务异常-catch');
+            SLogger::getStream()->error('同步订单报告状态, 事务异常-catch');
             SLogger::getStream()->error($e->getMessage());
         }
 
