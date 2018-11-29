@@ -82,4 +82,12 @@ class UserRealnameFactory extends ApiFactory
         }
         return false;
     }
+
+    public static function getUserRealnameByUserId($userId)
+    {
+        $userRealname = UserRealname::select()
+            ->where('user_id', '=', $userId)
+            ->first();
+        return $userRealname ? $userRealname->toArray() : [];
+    }
 }

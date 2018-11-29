@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
+use App\Constants\UserOrderConstant;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\UserOrderType;
@@ -19,7 +20,7 @@ class IfHasApplyOrderAction extends AbstractHandler
 
     public function handleRequest()
     {
-        if ($this->checkIfPaid($this->params)) {
+        if ($this->ifHasApplyOrder($this->params)) {
             $this->setSuccessor(new CreatePushTaskAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
@@ -27,17 +28,13 @@ class IfHasApplyOrderAction extends AbstractHandler
         }
     }
 
-    private function checkIfPaid($params)
+    private function ifHasApplyOrder($params)
     {
-        $userId = $params['user_id'];
-        $orderTypeNid = $params['order_type_nid'];
-        $pid = $params['pid'];
+        $orderTypeNid = UserOrderConstant::ORDER_APPLY;
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
-        $this->params['order_type'] = $orderType['id'];
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderId($userId, $pid);
-
-        if (!empty($userOrder) && $userOrder['status'] != 1) {//订单处理完成
-            $this->error['error'] = "用户您好，您未能通过报告订单，请先进行支付.";
+        $userOrderApply = UserOrderFactory::getUserOrderByUserIdAndOrderType($params['user_id'], $orderType['id']);
+        if (empty($userOrderApply)) {
+            $this->error['error'] = "用户您好，您还没有贷款订单.";
             return false;
         }
         return true;

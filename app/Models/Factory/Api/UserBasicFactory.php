@@ -40,7 +40,6 @@ class UserBasicFactory extends ApiFactory
             'has_weilidai'])
             ->where(['user_id' => $userId])
             ->first();
-
         return $userRealname ? $userRealname->toArray() : [];
     }
 
@@ -76,5 +75,13 @@ class UserBasicFactory extends ApiFactory
         ]);
         return $userData->toArray();
 
+    }
+
+    public static function getUserBasicByUserId($userId)
+    {
+        $userOrder = UserBasic::select()
+            ->where('user_id', '=', $userId)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
     }
 }
