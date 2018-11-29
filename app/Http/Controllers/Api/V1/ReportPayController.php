@@ -64,7 +64,8 @@ class ReportPayController extends ApiController
         $userNo = $userBankcard['bank_card_mobile'];
 
         $data['orderId'] = $orderId;
-        $data['orderAmount'] = $userOrder['amount'];
+//        $data['orderAmount'] = $userOrder['amount'];
+        $data['orderAmount'] = 0.01;
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
