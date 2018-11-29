@@ -37,8 +37,6 @@ class UserOrderController extends ApiController
         foreach ($userOrder['data'] as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
             if (
-                ($uOrder['status'] == 0 && $orderType['type_nid'] == 'order_report')
-                ||
                 ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
                 ||
                 ($uOrder['status'] == 1)
