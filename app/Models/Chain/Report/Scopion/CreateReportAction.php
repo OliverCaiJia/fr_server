@@ -27,7 +27,7 @@ class CreateReportAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->createReport($this->params)) {
-            $this->setSuccessor(new CreateAntifraudAction($this->params));
+            $this->setSuccessor(new CreateOrderReportAction($this->params));//
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
@@ -60,6 +60,7 @@ class CreateReportAction extends AbstractHandler
         $report['report_data'] = json_encode($params['report_data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
         $report['create_at'] = date('Y-m-d H:i:s');
         $report['update_at'] = date('Y-m-d H:i:s');
+
         $userReport = UserOrderFactory::createReport($report);
         $this->params['user_report_id'] = $userReport['id'];
 

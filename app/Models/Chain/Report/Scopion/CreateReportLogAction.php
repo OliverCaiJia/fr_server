@@ -35,7 +35,7 @@ class CreateReportLogAction extends AbstractHandler
 //        $result = UserOrderFactory::createOrderReport($this->params);
 //        if ($result) {
 //            return true;
-//        }
+//        }user_report_type_id
 //        return $this->error;
     }
 
@@ -58,12 +58,28 @@ class CreateReportLogAction extends AbstractHandler
         $reportLog['user_id'] = $params['user_id'];//=6
         $reportLog['order_id'] = $params['order_id'];//=91
         $reportLog['status'] = 1;
-        $reportLog['data'] = json_encode($params['report_data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
+//        $reportLog['data'] = json_encode($params['report_data']);//'{"people":[{"firstName":"Brett","lastName":"McLaughlin","email":"aaaa"},{"firstName":"Jason","lastName":"Hunter","email":"bbbb"},{"firstName":"Elliotte","lastName":"Harold","email":"cccc"}]}'
         $reportLog['create_at'] = date('Y-m-d H:i:s', time());
         $reportLog['create_ip'] = Utils::ipAddress();
         $reportLog['update_at'] = date('Y-m-d H:i:s', time());
         $reportLog['update_ip'] = Utils::ipAddress();
 
+        $reportLog['data'] = json_encode($params['anti_fraud']);
+        $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+        $reportLog['data'] = json_encode($params['application']);
+        $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+        $reportLog['data'] = json_encode($params['credit_qualification']);
+        $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+        $reportLog['data'] = json_encode($params['post_load']);
+        $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+        $reportLog['data'] = json_encode($params['black_gray']);
+        $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+        $reportLog['data'] = json_encode($params['multi_info']);
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
 //        $userId = $params['user_id'];

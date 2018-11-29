@@ -109,7 +109,6 @@ class CreateAmountEstAction extends AbstractHandler
 
         $userAmountEst = UserOrderFactory::createAmountEst($data);
 
-
 //        $data['idcard'] = $params['idcard'];//oooo
 //        $data['idcard_location'] = $params['idcard_location'];//oooo
 //        $data['mobile'] = $params['mobile'];//oooo

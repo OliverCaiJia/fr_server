@@ -133,6 +133,23 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 创建报告订单关系
+     * @param $params
+     * @return array|bool
+     */
+    public static function createOrderReport($params)
+    {
+        $orderReport = new UserOrderReport();
+        $orderReport->order_id = $params['order_id'];
+        $orderReport->report_id = $params['report_id'];
+
+        if ($orderReport->save()) {
+            return $orderReport->toArray();
+        }
+        return false;
+    }
+
+    /**
      * 创建申请
      * @param $params
      * @return array|bool

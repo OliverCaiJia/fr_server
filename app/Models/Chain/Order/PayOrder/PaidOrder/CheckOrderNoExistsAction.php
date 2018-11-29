@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Order\PayOrder\PaidOrder;
 
 use App\Constants\OrderConstant;
+use App\Constants\UserOrderConstant;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -33,10 +34,8 @@ class CheckOrderNoExistsAction extends AbstractHandler
 
     private function checkOrderNoExists($params)
     {
+        $this->params['report_credit'] = UserOrderConstant::ORDER_REPORT_CREDIT;
         $orderNo = $params['order_no'];
-
-
-
         if (empty($orderNo)) {
             $this->error['error'] = "您好，订单编号不存在！";
             return false;

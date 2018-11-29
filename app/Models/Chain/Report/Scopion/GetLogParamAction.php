@@ -84,6 +84,14 @@ class GetLogParamAction extends AbstractHandler
 
         $this->params['application'] = $apply;
         $this->params['report_data']['application'] = $apply['data'];
+
+        //魔杖2.0系列-额度评估(账户)
+        //todo::
+//        $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
+//        dd($credidtEvaluation);
+//        $this->params['credit_evaluation'] = $credidtEvaluation;
+//        $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
+
         //额度评估(电商)
         $credidtQualification = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'credit.qualification');
 
