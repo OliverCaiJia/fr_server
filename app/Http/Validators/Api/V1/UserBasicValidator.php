@@ -20,7 +20,7 @@ class UserBasicValidator extends AbstractValidator
         'has_house' => ['required'],
         'has_auto' => ['required'],
         'has_assurance' => ['required'],
-        'has_house_fund' => ['required'],
+//        'has_house_fund' => ['required'],
         'has_weilidai' => ['required'],
     );
 
@@ -39,7 +39,7 @@ class UserBasicValidator extends AbstractValidator
         'has_house.required' => '必须填写',
         'has_auto.required' => '必须填写',
         'has_assurance.required' => '必须填写',
-        'has_house_fund.required' => '必须填写',
+//        'has_house_fund.required' => '必须填写',
         'has_weilidai.required' => '必须填写',
     );
 
