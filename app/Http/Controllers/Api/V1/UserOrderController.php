@@ -146,8 +146,8 @@ class UserOrderController extends ApiController
                         'status' => 0
                     ]
                 ];
-                $res["report"] = (object)array();
-                $res["loan"] = (object)array();
+                $res["report"] = null;
+                $res["loan"] = null;
                 break;
             case 'order_report' :
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
@@ -157,8 +157,8 @@ class UserOrderController extends ApiController
                 $res["report"]["status"] = $userOrder['status'];
                 $res["report"]["create_at"] = $userOrder['create_at'];
                 $res["report"]["url"] = 'http://uat.fruit.witlending.com/web/v1/user/report?token=' . $userAuth['access_token'];
-                $res["extra"] = (object)array();
-                $res["loan"] = (object)array();
+                $res["extra"] = null;
+                $res["loan"] = null;
                 break;
             case 'order_apply':
                 //todo::
@@ -171,8 +171,8 @@ class UserOrderController extends ApiController
                 $res["loan"]["expired_time"] = date("Y-m-d", strtotime("+30 days", strtotime($userOrder['create_at'])));
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
                 $res["loan"]["push_status"] = $loanTask['status'];
-                $res["report"] = (object)array();
-                $res["loan"] = (object)array();
+                $res["report"] = null;
+                $res["loan"] = null;
                 break;
         }
         return RestResponseFactory::ok($res);
