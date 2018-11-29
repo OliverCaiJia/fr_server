@@ -22,6 +22,8 @@ class UserBasicFactory extends ApiFactory
     {
         $userRealname = UserBasic::select([
             'user_id',
+            'user_location',
+            'user_address',
             'profession',
             'company_name',
             'company_location',
