@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Logger\SLogger;
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
+use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use Illuminate\Http\Request;
 use App\Services\Core\Payment\YiBao\YiBaoConfig;

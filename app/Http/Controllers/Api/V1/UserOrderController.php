@@ -204,15 +204,15 @@ class UserOrderController extends ApiController
         $data['platform_nid'] = $request->input('platform_nid', '');
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
-        if (isset($result['error'])) {
-            $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
-            $res = [];
-            $res['order_no'] = $result['order_no'];
-            $res['status'] = $result['status'];
-            $res['order_type_nid'] = $orderTypeNid;
-            $res['order_expired'] = $result['order_expired'];
-            return RestResponseFactory::ok($res);
-        }
+//        if (isset($result['error'])) {
+//            $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
+//            $res = [];
+//            $res['order_no'] = $result['order_no'];
+//            $res['status'] = $result['status'];
+//            $res['order_type_nid'] = $orderTypeNid;
+//            $res['order_expired'] = $result['order_expired'];
+//            return RestResponseFactory::ok($res);
+//        }
         $res = [];
         $res['order_no'] = $result['order_no'];
         $res['status'] = $result['status'];
