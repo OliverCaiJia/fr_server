@@ -25,7 +25,6 @@ class UserBasicFactory extends ApiFactory
             'profession',
             'company_name',
             'company_location',
-            'city',
             'company_address',
             'company_license_time',
             'work_time',
