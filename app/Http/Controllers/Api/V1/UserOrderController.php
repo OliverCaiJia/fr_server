@@ -184,6 +184,7 @@ class UserOrderController extends ApiController
      */
     public function create(Request $request)
     {
+        SLogger::getStream()->error(json_encode($request));
         $data = $request->all();
         $data['user_id'] = $this->getUserId($request);
         $orderTypeNid = $request->input('order_type_nid');
