@@ -136,7 +136,6 @@
                      has_weilidai: has_weilidai
                  },
                  success: function (json) {
-                     console.log(json);return false;
                      _self.personInfoBind(json)
                  }
              })
