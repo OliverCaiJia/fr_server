@@ -90,12 +90,10 @@
              //                 return;
              //             }
              if (professionText === '上班族' || professionText === '公务员') {
-                 if (company_name === '' || company_location === '' || company_address === '' || work_time === '' || month_salary === '') {
+                 if (company_name === '' || company_location === '' || company_address === '') {
                      console.log(company_name)
                      console.log(company_location)
                      console.log(company_address)
-                     console.log(work_time)
-                     console.log(month_salary)
                      base.popupCover({
                          content: '请填写完整信息！'
                      });
@@ -138,6 +136,7 @@
                      has_weilidai: has_weilidai
                  },
                  success: function (json) {
+                     console.log(json);return false;
                      _self.personInfoBind(json)
                  }
              })
