@@ -38,7 +38,7 @@ class ReportPayController extends ApiController
         if (!$userOrderUpdate){
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
-        $orderAmount = $userOrder['amount'];
+//        $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
         $goodsName = $orderType['name'];
@@ -64,7 +64,7 @@ class ReportPayController extends ApiController
 
         $data['orderId'] = $orderId;
         //todo::先写死金额，测试
-        $data['orderAmount'] = 0.01;
+        $data['orderAmount'] = $userOrder['amount'];
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
