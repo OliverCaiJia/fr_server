@@ -18,6 +18,7 @@ class MozhangConfig
     const SCORPIO_METHOD = [
         'anti-fraud'=>'moxie.api.risk.magicwand2.anti-fraud', //魔杖2.0系列-反欺诈
         'application'=>'moxie.api.risk.magicwand2.application', //魔杖2.0系列-申请准入
+        'evaluation'=>'moxie.api.risk.magicwand2.credit.evaluation', //魔杖2.0系列-额度评估(账户)
         'credit.qualification'=>'moxie.api.risk.magicwand2.credit.qualification', //魔杖2.0系列-额度评估(电商)
         'post-load'=>'moxie.api.risk.magicwand2.post-load', //魔杖2.0系列-贷后行为
         'black-gray'=>'moxie.api.risk.magicwand2.black-gray', //魔杖2.0系列-黑灰名单
