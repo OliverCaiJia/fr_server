@@ -28,6 +28,8 @@ class ReportPayController extends ApiController
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         $status = [0];
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderId, $status);
+        SLogger::getStream()->error(json_encode($userOrder));
+
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
