@@ -25,7 +25,6 @@ class UserController extends WebController
      */
     public function userinfo(Request $request)
     {
-        echo 111;die;
         $user_id = $this->getUserId($request);
         $data = UserBasicFactory::fetchUserBasic($user_id);
         $token = $this->getToken($request);
