@@ -53,6 +53,7 @@ class YiBaoController extends ApiController
         $public_key = YiBaoConfig::YOP_PUBLIC_KEY;
         $private_key = YiBaoConfig::PRIVATE_KEY;
         $resData = YopSignUtils::decrypt($params,$private_key,$public_key);
+        $resData = json_decode($resData,true);
         $data['order_no'] = $resData['orderId'];
 
         //修改订单状态

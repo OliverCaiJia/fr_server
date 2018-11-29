@@ -14,6 +14,7 @@ use App\Models\Orm\UserOrder;
 use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserPersonal;
 use App\Models\Orm\UserPostloan;
+use App\Models\Orm\UserReport;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
 
@@ -32,5 +33,15 @@ class UserReportFactory extends ApiFactory
             ->where('status', '=', 1)//TODO::CONSTANT
             ->first();
         return $reportType ? $reportType->toArray() : [];
+    }
+
+    /**
+     * 根据用户id获取信用报告
+     * @param $userId
+     */
+    public static function getReportByUserId($userId)
+    {
+        $reportData = UserReport::where(['user_id'=>$userId])->first();
+        return $reportData ? $reportData->toArray() : [];
     }
 }
