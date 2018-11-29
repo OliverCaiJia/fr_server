@@ -6,7 +6,7 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Logger\SLogger;
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
+use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use Illuminate\Http\Request;
 use App\Strategies\PaymentStrategy;
