@@ -54,60 +54,28 @@ class UserBasicFactory extends ApiFactory
      */
     public static function createOrUpdateUserBasic($data, $uid = [])
     {
-        $UserData = UserBasic::where(['user_id' => $uid])->first();
-        //如果不为空说明表中有用户的个人信息,修改
-        if (!empty($UserData)) {
-            $UserData->user_location = $data['user_location'];
-            $UserData->user_address = $data['user_address'];
-            $UserData->profession = $data['profession'];
-            $UserData->company_name = $data['company_name'];
-            $UserData->company_location = $data['company_location'] ?? '';
-            $UserData->company_address = $data['company_address'];
-            $UserData->company_license_time = $data['company_license_time'] ?? 0;
-            $UserData->work_time = $data['work_time'];
-            $UserData->month_salary = $data['month_salary'];
-            $UserData->zhima_score = $data['zhima_score'];
-            $UserData->house_fund_time = $data['house_fund_time'];
-            $UserData->has_social_security = $data['has_social_security'] ?? 0;
-            $UserData->has_house = $data['has_house'] ?? 0;
-            $UserData->has_auto = $data['has_auto'] ?? 0;
-            $UserData->has_house_fund = $data['has_house_fund'] ?? 0;
-            $UserData->has_creditcard = $data['has_creditcard'] ?? 0;
-            $UserData->has_assurance = $data['has_assurance'] ?? 0;
-            $UserData->has_weilidai = $data['has_weilidai'] ?? 0;
-            $UserData->update_at = date('Y-m-d H:i:s');
-            return $UserData->save();
-        } else {
-            //如果为空,创建
-            $UserBasic = new UserBasic();
-            $UserBasic->user_id = $uid;
-            $UserBasic->user_location = $data['user_location'];
-            $UserBasic->user_address = $data['user_address'];
-            $UserBasic->profession = $data['profession'];
-            $UserBasic->company_name = $data['company_name'];
-            $UserBasic->company_location = $data['company_location'] ?? '';
-            $UserBasic->company_address = $data['company_address'];
-            $UserBasic->company_license_time = $data['company_license_time'] ?? 0;
-            $UserBasic->work_time = $data['work_time'];
-            $UserBasic->month_salary = $data['month_salary'];
-            $UserBasic->zhima_score = $data['zhima_score'];
-            $UserBasic->house_fund_time = $data['house_fund_time'];
-            $UserBasic->has_social_security = $data['has_social_security'] ?? 0;
-            $UserBasic->has_house = $data['has_house'] ?? 0;
-            $UserBasic->has_auto = $data['has_auto'] ?? 0;
-            $UserBasic->has_house_fund = $data['has_house_fund'] ?? 0;
-            $UserBasic->has_creditcard = $data['has_creditcard'] ?? 0;
-            $UserBasic->has_assurance = $data['has_assurance'] ?? 0;
-            $UserBasic->has_weilidai = $data['has_weilidai'] ?? 0;
-            $UserBasic->create_at = date('Y-m-d H:i:s');
-            $UserBasic->update_at = date('Y-m-d H:i:s');
-            $res = UserInfo::where(['user_id' => $uid])->first();
-            $res->has_userinfo = 1;
-            $res->save();
-//            print_r($res);die;
-//            $userHasUserInfo->has_userinfo = 1;
-            return $UserBasic->save();
-        }
+        $userData = UserBasic::updateOrCreate(['user_id' => $uid], [
+            'user_location' => $data['user_location'],
+            'user_address' => $data['user_address'],
+            'profession' => $data['profession'],
+            'company_name' => $data['company_name'],
+            'company_location' => $data['company_location']?? '',
+            'company_address' => $data['company_address'],
+            'company_license_time' => $data['company_license_time']?? 0,
+            'work_time' => $data['work_time'],
+            'month_salary' => $data['month_salary'],
+            'zhima_score' => $data['zhima_score'],
+            'house_fund_time' => $data['house_fund_time'],
+            'has_social_security' => $data['has_social_security']?? 0,
+            'has_house' => $data['has_house']?? 0,
+            'has_auto' => $data['has_auto']?? 0,
+            'has_house_fund' => $data['has_house_fund']?? 0,
+            'has_assurance' => $data['has_assurance']?? 0,
+            'has_weilidai' => $data['has_weilidai']?? 0,
+            'create_at' => date('Y-m-d H:i:s', time()),
+            'update_at' => date('Y-m-d H:i:s', time()),
+        ]);
+        return $userData->toArray();
 
     }
 }
