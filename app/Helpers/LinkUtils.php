@@ -16,7 +16,7 @@ class LinkUtils
     //分享落地页
     public static function shareLanding($invite_code = '')
     {
-        return AppService::EVENT_URL . '/login?sd_invite_code=' . $invite_code;
+        return AppService::EVENT_URL . '/login?invite_code=' . $invite_code;
     }
     //AppLogo
     public static function getLogo()
