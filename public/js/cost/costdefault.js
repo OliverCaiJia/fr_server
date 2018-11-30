@@ -1,12 +1,21 @@
  var costdefatltController = {
      init: function () {
-         this.selectView()
+         this.selectView();
+         this.getoOriginalPrice();
+         $('.give-service-list').eq(0).addClass('selectIconShow');
+     },
+     getoOriginalPrice: function () {
+         var recommendPrice = $('.recommendPrice').text();
+         var givePrice = $('.selectIconShow').find('.givePrice').text();
+         var originalPrice = Number(recommendPrice) + Number(givePrice);
+         $('.originalPrice').text(originalPrice)
      }, //选择赠送协议
      selectView: function () {
          var _self = this;
-         $('.service-list').on('click', function () {
-             $(this).siblings('div').find('.selectIcon').hide();
-             $(this).find('.selectIcon').show();
+         $('.give-service-list').on('click', function () {
+             $('.give-service-list').removeClass('selectIconShow');
+             $(this).addClass('selectIconShow');
+             _self.getoOriginalPrice();
              _self.recommendService();
          })
      },
