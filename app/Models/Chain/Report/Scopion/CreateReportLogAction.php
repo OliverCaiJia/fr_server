@@ -8,6 +8,7 @@ use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
+use App\Strategies\ReportStrategy;
 
 class CreateReportLogAction extends AbstractHandler
 {
@@ -47,6 +48,7 @@ class CreateReportLogAction extends AbstractHandler
         $reportLog['update_at'] = date('Y-m-d H:i:s', time());
         $reportLog['update_ip'] = Utils::ipAddress();
 
+
         /**
          * 反欺诈
          */
@@ -54,19 +56,7 @@ class CreateReportLogAction extends AbstractHandler
             $reportLog['data'] = json_encode($params['anti_fraud']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
 
-            $antifraud['user_id'] = $params['user_id'];
-            $antifraud['user_report_id'] = $params['user_report_id'];
-            $antifraud['courtcase_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['courtcase_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'] : '';
-            $antifraud['dishonest_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['dishonest_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'] : '';
-            $antifraud['fraudulence_is_hit'] = intval(isset($params['anti_fraud']['data']['fraudulence_info']['is_hit'])) ? $params['anti_fraud']['data']['fraudulence_info']['is_hit'] : 0;
-            $antifraud['untrusted_info'] = json_encode(isset($params['anti_fraud']['data']['untrusted_info']) ? $params['anti_fraud']['data']['untrusted_info'] : []);
-            $antifraud['suspicious_idcard'] = json_encode(isset($params['anti_fraud']['data']['suspicious_idcard']) ? $params['anti_fraud']['data']['suspicious_idcard'] : []);
-            $antifraud['suspicious_mobile'] = json_encode(isset($params['anti_fraud']['data']['suspicious_mobile']) ? $params['anti_fraud']['data']['suspicious_mobile'] : []);
-            $antifraud['data'] = json_encode(isset($params['anti_fraud']['data']) ? $params['anti_fraud']['data'] : []);
-            $antifraud['fee'] = isset($params['anti_fraud']['fee']) ? $params['anti_fraud']['fee'] : '';
-            $antifraud['create_at'] = date('Y-m-d H:i:s', time());
-            $antifraud['update_at'] = date('Y-m-d H:i:s', time());
-
+            $antifraud = ReportStrategy::getAntifraud($params);
             UserOrderFactory::createAntifraud($antifraud);
         }
 
@@ -76,6 +66,9 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['application'])) {
             $reportLog['data'] = json_encode($params['application']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userApply = ReportStrategy::getApply($params);
+            UserOrderFactory::createApply($userApply);
         }
         /**
          * 魔杖2.0系列-额度评估(账户)
@@ -90,6 +83,9 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['credit_qualification'])) {
             $reportLog['data'] = json_encode($params['credit_qualification']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userAmountEst = ReportStrategy::getAmountEst($params);
+            UserOrderFactory::createAmountEst($userAmountEst);
         }
         /**
          *贷后行为
@@ -97,6 +93,9 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['post_load'])) {
             $reportLog['data'] = json_encode($params['post_load']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userPostLoan = ReportStrategy::getPostLoan($params);
+            UserOrderFactory::createPostloan($userPostLoan);
         }
         /**
          *黑灰名单
@@ -104,6 +103,9 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['black_gray'])) {
             $reportLog['data'] = json_encode($params['black_gray']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userBlackList = ReportStrategy::getBlackList($params);
+            UserOrderFactory::createBlackList($userBlackList);
         }
         /**
          *多头报告
@@ -111,6 +113,17 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['multi_info'])) {
             $reportLog['data'] = json_encode($params['multi_info']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userMultiinfo = ReportStrategy::getMultiInfo($params);
+            UserOrderFactory::createMultiinfo($userMultiinfo);
+        }
+
+        /**
+         * 个人信息
+         */
+        if (isset($params['credit_qualification'])) {
+            $userPersonal = ReportStrategy::getPersonal($params);
+            UserOrderFactory::createPersonal($userPersonal);
         }
 
         return true;
