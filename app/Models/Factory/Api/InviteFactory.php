@@ -129,7 +129,7 @@ class InviteFactory extends ApiFactory
             'user_id' => intval($params['user_id']),
             'invite_user_id' => intval($params['invite_user_id']),
             'from' => $params['from'],
-            'code' => $params['sd_invite_code'],
+            'code' => $params['invite_code'],
             'mobile' => $params['mobile'],
             'status' => $params['status'],
             'created_at' => date('Y-m-d H:i:s', time()),
@@ -139,7 +139,7 @@ class InviteFactory extends ApiFactory
         $inviteObj->user_id = $params['user_id'];
         $inviteObj->invite_user_id = intval($params['invite_user_id']);
         $inviteObj->from = $params['from'];
-        $inviteObj->code = $params['sd_invite_code'];
+        $inviteObj->code = $params['invite_code'];
         $inviteObj->mobile = $params['mobile'];
         $inviteObj->status = $params['status'];
         $inviteObj->created_at = date('Y-m-d H:i:s', time());
@@ -164,7 +164,7 @@ class InviteFactory extends ApiFactory
         $inviteObj->user_id = $user_id;
         $inviteObj->invite_user_id = intval($invite_user_id);
         $inviteObj->from = $invite['from'];
-        $inviteObj->code = $invite['sd_invite_code'];
+        $inviteObj->code = $invite['invite_code'];
         $inviteObj->mobile = $invite['mobile'];
         $inviteObj->status = $invite['status'];
         $inviteObj->created_at = date('Y-m-d H:i:s', time());
