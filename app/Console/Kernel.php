@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\OrderStatus::class, //订单过期状态跑批
-        Commands\YjdPull::class, //一键贷推送结果
+        Commands\OrderStatusCommand::class, //订单过期状态跑批
+        Commands\YjdPullCommand::class, //一键结果
+        Commands\YjdPushCommand::class, //一键贷数据推送跑批
     ];
 
     /**
@@ -26,7 +27,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:orderstatus')->everyTenMinutes(); //订单过期状态跑批,10分钟
-        $schedule->command('command:yjdpull')->everyFiveMinutes(); //一键贷推送结果获取
+        $schedule->command('command:yjdpull')->everyFiveMinutes(); //一键贷结果获取，5分钟
+        $schedule->command('command:yjdpush')->everyFiveMinutes(); //一键贷数据推送跑批，5分钟
 
     }
 

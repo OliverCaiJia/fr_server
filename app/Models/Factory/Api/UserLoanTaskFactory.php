@@ -54,4 +54,23 @@ class UserLoanTaskFactory extends ApiFactory
 
         return false;
     }
+
+    /**
+     * 根据任务状态获取
+     * @return array
+     */
+    public static function getTaskByStatus($status){
+        $data = UserLoanTask::where('status','=',$status)->get();
+        return $data ? $data->toArray() : [];
+    }
+
+    /**
+     * @param $id
+     * @param $data
+     * 修改数据
+     */
+    public static function updateDataById($id,$data){
+        return UserLoanTask::where(['id' => $id])
+            ->update($data);
+    }
 }
