@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
 use App\Models\Factory\Api\UserAuthFactory;
@@ -152,6 +153,7 @@ class CreatePushTaskAction extends AbstractHandler
             'city' => $userBasic['city'],
             'money' => empty($userOrder['money']) ? 10000 : $userOrder['money']
         );
+        SLogger::getStream()->error(__CLASS__.'===='.json_encode($requestData));
 //        dd($data);
 //        array:19 [
 //        "mobile" => "13810560398"
