@@ -96,7 +96,6 @@ class CreateReportLogAction extends AbstractHandler
             SLogger::getStream()->error(__CLASS__.'===--------------===ddddddddddddddddddddddddddddddddddddddd');
 
             UserOrderFactory::createAmountEst($userAmountEst);
-            SLogger::getStream()->error(__CLASS__.'======2121212121212121'.json_encode($aaa));
         }
         /**
          *贷后行为
