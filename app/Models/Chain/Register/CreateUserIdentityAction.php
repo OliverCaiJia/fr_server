@@ -40,9 +40,9 @@ class CreateUserIdentityAction extends AbstractHandler
      */
     public function createUserIdentity($params)
     {
-        if (isset($params['sd_invite_code']) && !empty($params['sd_invite_code'])) {
+        if (isset($params['invite_code']) && !empty($params['invite_code'])) {
             //如果邀请码存在并且不为空,则根据邀请码获得邀请人id
-            $user_id = InviteFactory::fetchInviteUserIdByCode($params['sd_invite_code']);
+            $user_id = InviteFactory::fetchInviteUserIdByCode($params['invite_code']);
             if($user_id){
                 $userInvite = InviteFactory::createUserInvite($params);
                 return $userInvite ? true : false;
