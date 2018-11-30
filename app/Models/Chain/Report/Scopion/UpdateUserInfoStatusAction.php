@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserinfoFactory;
@@ -20,6 +21,8 @@ class UpdateUserInfoStatusAction extends AbstractHandler
 
     public function handleRequest()
     {
+        SLogger::getStream()->error(__CLASS__);
+
         //todo::
         $data['service_status'] = 3;
         $result = UserinfoFactory::UpdateUserInfoStatus($this->params['user_id'], $data);

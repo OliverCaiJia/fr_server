@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -39,6 +40,8 @@ class CreatePostLoanAction extends AbstractHandler
 
     private function createPostloan($params)
     {
+        SLogger::getStream()->error(__CLASS__);
+
 //        CREATE TABLE `sgd_user_postloan` (
 //    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
 //  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',

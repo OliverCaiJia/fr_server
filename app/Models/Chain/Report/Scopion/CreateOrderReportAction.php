@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -36,6 +37,8 @@ class CreateOrderReportAction extends AbstractHandler
 
     private function createOrderReport($params)
     {
+        SLogger::getStream()->error(__CLASS__);
+
         $orderReportParam = [];
         $orderReportParam['order_id'] = $params['order_id'];
         $orderReportParam['report_id'] = $params['user_report_id'];

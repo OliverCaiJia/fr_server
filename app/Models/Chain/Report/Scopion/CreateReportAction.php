@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -42,6 +43,8 @@ class CreateReportAction extends AbstractHandler
 
     private function createReport($params)
     {
+        SLogger::getStream()->error(__CLASS__);
+
 
 //        CREATE TABLE `sgd_user_report` (
 //    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',

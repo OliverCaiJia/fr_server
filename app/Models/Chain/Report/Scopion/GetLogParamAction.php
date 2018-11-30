@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Models\Chain\AbstractHandler;
@@ -42,20 +43,26 @@ class GetLogParamAction extends AbstractHandler
 
     private function getParams($params)
     {
+
+        SLogger::getStream()->error(__CLASS__);
+
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         if (!$userOrder){
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1150), 1150);
+            $this->error['error'] = '未找到该订单';
+            return $this->error;
         }
 
         $userId = $userOrder['user_id'];
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
         if (empty($userRealName)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
+            $this->error['error'] = '未找到该实名用户';
+            return $this->error;
         }
         $userAuth = UserAuthFactory::getUserById($userId);
         if (empty($userAuth)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1199), 1199);
+            $this->error['error'] = '未找到该认证用户';
+            return $this->error;
         }
 
         $reportTypeNid = $params['report_type_nid'];
@@ -77,11 +84,18 @@ class GetLogParamAction extends AbstractHandler
 
         //反欺诈
         $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
+        if (empty($antiFraud['data'])) {
+            $this->error['error'] = '未找到反欺诈信息';
+            return $this->error;
+        }
         $this->params['anti_fraud'] = $antiFraud;
         $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
         //申请准入
         $apply = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'application');
-
+        if (empty($apply['data'])) {
+            $this->error['error'] = '未找到申请准入信息';
+            return $this->error;
+        }
         $this->params['application'] = $apply;
         $this->params['report_data']['application'] = $apply['data'];
 
@@ -94,23 +108,36 @@ class GetLogParamAction extends AbstractHandler
 
         //额度评估(电商)
         $credidtQualification = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'credit.qualification');
-
+        if (empty($credidtQualification['data'])) {
+            $this->error['error'] = '未找到额度评估(电商)信息';
+            return $this->error;
+        }
         $this->params['credit_qualification'] = $credidtQualification;
         $this->params['report_data']['credit_qualification'] = $credidtQualification['data'];
 
         //贷后行为
         $postLoad = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'post-load');
-
+        if (empty($postLoad['data'])) {
+            $this->error['error'] = '未找到贷后行为信息';
+            return $this->error;
+        }
         $this->params['post_load'] = $postLoad;
         $this->params['report_data']['post_load'] = $postLoad['data'];
         //黑灰名单
         $blackGray = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'black-gray');
 
+        if (empty($blackGray['data'])) {
+            $this->error['error'] = '未找到黑灰名单';
+            return $this->error;
+        }
         $this->params['black_gray'] = $blackGray;
         $this->params['report_data']['black_gray'] = $blackGray['data'];
         //多头报告
         $multiinfo = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'multi-info');
-
+        if (empty($multiinfo['data'])) {
+            $this->error['error'] = '未找到多头报告';
+            return $this->error;
+        }
         $this->params['multi_info'] = $multiinfo;
         $this->params['report_data']['multi_info'] = $multiinfo['data'];
 
