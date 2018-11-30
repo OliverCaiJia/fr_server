@@ -51,7 +51,7 @@ class DoReportOrderHandler extends AbstractHandler
         catch (\Exception $e)
         {
             DB::rollBack();
-            
+
             Log::error($e);
 
             SLogger::getStream()->error('报告订单捕获异常, 报告异常-catch');
