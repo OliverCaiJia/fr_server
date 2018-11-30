@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Models\Chain\AbstractHandler;
