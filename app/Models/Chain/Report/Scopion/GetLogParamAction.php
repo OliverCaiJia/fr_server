@@ -76,76 +76,63 @@ class GetLogParamAction extends AbstractHandler
          * 反欺诈
          */
         $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
-        if (empty($antiFraud['data'])) {
-            $this->error['error'] = '未找到反欺诈信息';
-            return false;
+        if (isset($antiFraud['data'])) {
+            $this->params['anti_fraud'] = $antiFraud;
+            $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
         }
-        $this->params['anti_fraud'] = $antiFraud;
-        $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
 
         /**
          * 申请准入
          */
         $apply = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'application');
 
-        if (empty($apply['data'])) {
-            $this->error['error'] = '未找到申请准入信息';
-            return false;
+        if (isset($apply['data'])) {
+            $this->params['application'] = $apply;
+            $this->params['report_data']['application'] = $apply['data'];
         }
-        $this->params['application'] = $apply;
-        $this->params['report_data']['application'] = $apply['data'];
 
         /**
          * 魔杖2.0系列-额度评估(账户)
          */
-//        $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
-//        dd($credidtEvaluation);
-//        $this->params['credit_evaluation'] = $credidtEvaluation;
-//        $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
+        $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
+        if (isset($credidtEvaluation['data'])) {
+            $this->params['credit_evaluation'] = $credidtEvaluation;
+            $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
+        }
 
         /**
          * 额度评估(电商)
          */
         $credidtQualification = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'credit.qualification');
-        if (empty($credidtQualification['data'])) {
-            $this->error['error'] = '未找到额度评估(电商)信息';
-            return false;
+        if (isset($credidtQualification['data'])) {
+            $this->params['credit_qualification'] = $credidtQualification;
+            $this->params['report_data']['credit_qualification'] = $credidtQualification['data'];
         }
-        $this->params['credit_qualification'] = $credidtQualification;
-        $this->params['report_data']['credit_qualification'] = $credidtQualification['data'];
 
         /**
          * 贷后行为
          */
         $postLoad = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'post-load');
-        if (empty($postLoad['data'])) {
-            $this->error['error'] = '未找到贷后行为信息';
-            return false;
+        if (isset($postLoad['data'])) {
+            $this->params['post_load'] = $postLoad;
+            $this->params['report_data']['post_load'] = $postLoad['data'];
         }
-        $this->params['post_load'] = $postLoad;
-        $this->params['report_data']['post_load'] = $postLoad['data'];
         /**
          * 黑灰名单
          */
         $blackGray = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'black-gray');
-        if (empty($blackGray['data'])) {
-            $this->error['error'] = '未找到黑灰名单';
-            return false;
+        if (isset($blackGray['data'])) {
+            $this->params['black_gray'] = $blackGray;
+            $this->params['report_data']['black_gray'] = $blackGray['data'];
         }
-        $this->params['black_gray'] = $blackGray;
-        $this->params['report_data']['black_gray'] = $blackGray['data'];
         /**
          * 多头报告
          */
         $multiinfo = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'multi-info');
-        if (empty($multiinfo['data'])) {
-            $this->error['error'] = '未找到多头报告';
-            return false;
+        if (isset($multiinfo['data'])) {
+            $this->params['multi_info'] = $multiinfo;
+            $this->params['report_data']['multi_info'] = $multiinfo['data'];
         }
-        $this->params['multi_info'] = $multiinfo;
-        $this->params['report_data']['multi_info'] = $multiinfo['data'];
-
-
         return true;
     }
 }

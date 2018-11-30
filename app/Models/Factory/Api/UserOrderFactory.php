@@ -495,6 +495,19 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
+    /**
+     * 根据订单id和状态获取订单唯一标识
+     * @param $typeId
+     * @return array
+     */
+    public static function getOrderTypeNidByTypeIdAndStatus($typeId, $status)
+    {
+        $userOrder = UserOrderType::select()
+            ->where('id', '=', $typeId)
+            ->where('status', '=', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
 
     /**
      * 根据订单id获取订单类型

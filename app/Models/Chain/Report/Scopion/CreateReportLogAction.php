@@ -47,53 +47,57 @@ class CreateReportLogAction extends AbstractHandler
         $reportLog['update_at'] = date('Y-m-d H:i:s', time());
         $reportLog['update_ip'] = Utils::ipAddress();
 
-        if (empty($params['anti_fraud'])) {
-            $this->error['error'] = '未找到反欺诈信息';
-            return false;
+        /**
+         * 反欺诈
+         */
+        if (isset($params['anti_fraud'])) {
+            $reportLog['data'] = json_encode($params['anti_fraud']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['anti_fraud']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
 
-
-        if (empty($params['application'])) {
-            $this->error['error'] = '未找到申请准入信息';
-            return false;
+        /**
+         * 申请准入
+         */
+        if (isset($params['application'])) {
+            $reportLog['data'] = json_encode($params['application']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['application']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
-
-        if (empty($params['credit_qualification'])) {
-            $this->error['error'] = '未找到额度评估(电商)信息';
-            return false;
+        /**
+         * 魔杖2.0系列-额度评估(账户)
+         */
+        if (isset($params['credit_evaluation'])) {
+            $reportLog['data'] = json_encode($params['credit_evaluation']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['credit_qualification']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
-
-        if (empty($params['post_load'])) {
-            $this->error['error'] = '未找到贷后行为信息';
-            return false;
+        /**
+         *额度评估(电商)
+         */
+        if (isset($params['credit_qualification'])) {
+            $reportLog['data'] = json_encode($params['credit_qualification']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['post_load']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
-
-        if (empty($params['black_gray'])) {
-            $this->error['error'] = '未找到黑灰名单';
-            return false;
+        /**
+         *贷后行为
+         */
+        if (isset($params['post_load'])) {
+            $reportLog['data'] = json_encode($params['post_load']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['black_gray']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
-
-        if (empty($params['multi_info'])) {
-            $this->error['error'] = '未找到多头报告';
-            return false;
+        /**
+         *黑灰名单
+         */
+        if (isset($params['black_gray'])) {
+            $reportLog['data'] = json_encode($params['black_gray']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
-        $reportLog['data'] = json_encode($params['multi_info']);
-        $reportLog = UserOrderFactory::createReportLog($reportLog);
-
-        if (!$reportLog) {
-            $this->error['error'] = "您好，用户报告报告录入异常！";
-            return false;
+        /**
+         *多头报告
+         */
+        if (isset($params['multi_info'])) {
+            $reportLog['data'] = json_encode($params['multi_info']);
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
+
         return true;
     }
 }
