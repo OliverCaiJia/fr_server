@@ -37,6 +37,7 @@ class UserinfoFactory extends AbsModelFactory
      * 修改用户状态
      */
     public static function UpdateUserInfoStatus($user_id,$data){
-        return UserInfo::where('user_id','=',$user_id)->update($data);
+        return UserInfo::where('user_id','=',$user_id)
+            ->update($data);
     }
 }
