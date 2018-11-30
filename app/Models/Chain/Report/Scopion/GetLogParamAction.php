@@ -3,8 +3,6 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Helpers\Logger\SLogger;
-use App\Helpers\RestResponseFactory;
-use App\Helpers\RestUtils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -35,118 +33,119 @@ class GetLogParamAction extends AbstractHandler
         } else {
             return $this->error;
         }
-//        if ($this->getParams($this->params)) {
-//            return true;
-//        }
     }
 
 
     private function getParams($params)
     {
-
         SLogger::getStream()->error(__CLASS__);
-
+        //查询订单
         $orderNo = $params['order_no'];
+        if (!$orderNo) {
+            $this->error['error'] = "您好，报告记录关系异常！";
+            return false;
+        }
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         if (!$userOrder){
             $this->error['error'] = '未找到该订单';
-            return $this->error;
+            return false;
         }
-
+        //查询实名信息
         $userId = $userOrder['user_id'];
         $userRealName = UserRealnameFactory::fetchUserRealname($userId);
         if (empty($userRealName)) {
             $this->error['error'] = '未找到该实名用户';
-            return $this->error;
+            return false;
         }
+        //查询认证用户信息
         $userAuth = UserAuthFactory::getUserById($userId);
         if (empty($userAuth)) {
             $this->error['error'] = '未找到该认证用户';
-            return $this->error;
+            return false;
         }
 
         $reportTypeNid = $params['report_type_nid'];
+        //查询报告雷类型
         $reportType = UserReportFactory::getReportTypeByTypeNid($reportTypeNid);
-
-        //todo::
-//        $res = [];
-//        $res['user_report_type_id'] = $reportType['id'];
-//        $res['user_id'] = $userId;
-//        $res['order_id'] = $userOrder['id'];
-//        $res['user_real_name']['real_name'] = $userRealName['real_name'];
-//        $res['user_real_name']['id_card_no'] = $userRealName['id_card_no'];
-//        $res['user_auth']['mobile'] = $userAuth['mobile'];
-
 
         $this->params['user_report_type_id'] = $reportType['id'];
         $this->params['user_id'] = $userId;
         $this->params['order_id'] = $userOrder['id'];
-
-        //反欺诈
+        $this->params['report_data'] = [];
+        /**
+         * 反欺诈
+         */
         $antiFraud = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'anti-fraud');
         if (empty($antiFraud['data'])) {
             $this->error['error'] = '未找到反欺诈信息';
-            return $this->error;
+            return false;
         }
-//        SLogger::getStream()->error(__CLASS__.'======'.json_encode($antiFraud));
         $this->params['anti_fraud'] = $antiFraud;
         $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
-        //申请准入
+
+        /**
+         * 申请准入
+         */
         $apply = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'application');
+
         if (empty($apply['data'])) {
             $this->error['error'] = '未找到申请准入信息';
-            return $this->error;
+            return false;
         }
-        SLogger::getStream()->error(__CLASS__.'======'.json_encode($apply));
         $this->params['application'] = $apply;
         $this->params['report_data']['application'] = $apply['data'];
 
-        //魔杖2.0系列-额度评估(账户)
-        //todo::
+        /**
+         * 魔杖2.0系列-额度评估(账户)
+         */
 //        $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
 //        dd($credidtEvaluation);
 //        $this->params['credit_evaluation'] = $credidtEvaluation;
 //        $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
 
-        //额度评估(电商)
+        /**
+         * 额度评估(电商)
+         */
         $credidtQualification = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'credit.qualification');
         if (empty($credidtQualification['data'])) {
             $this->error['error'] = '未找到额度评估(电商)信息';
-            return $this->error;
+            return false;
         }
         $this->params['credit_qualification'] = $credidtQualification;
         $this->params['report_data']['credit_qualification'] = $credidtQualification['data'];
 
-        //贷后行为
+        /**
+         * 贷后行为
+         */
         $postLoad = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'post-load');
         if (empty($postLoad['data'])) {
             $this->error['error'] = '未找到贷后行为信息';
-            return $this->error;
+            return false;
         }
         $this->params['post_load'] = $postLoad;
         $this->params['report_data']['post_load'] = $postLoad['data'];
-        //黑灰名单
+        /**
+         * 黑灰名单
+         */
         $blackGray = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'black-gray');
-
         if (empty($blackGray['data'])) {
             $this->error['error'] = '未找到黑灰名单';
-            return $this->error;
+            return false;
         }
         $this->params['black_gray'] = $blackGray;
         $this->params['report_data']['black_gray'] = $blackGray['data'];
-        //多头报告
+        /**
+         * 多头报告
+         */
         $multiinfo = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'multi-info');
         if (empty($multiinfo['data'])) {
             $this->error['error'] = '未找到多头报告';
-            return $this->error;
+            return false;
         }
         $this->params['multi_info'] = $multiinfo;
         $this->params['report_data']['multi_info'] = $multiinfo['data'];
 
-        if (!$orderNo) {
-            $this->error['error'] = "您好，报告记录关系异常！";
-            return false;
-        }
+
         return true;
     }
 }
