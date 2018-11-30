@@ -32,6 +32,11 @@ class YjdPushCommand extends Command
     public function __construct()
     {
         parent::__construct();
+        // 防止超时
+        set_time_limit(0);
+        ignore_user_abort();
+        //时区配置
+        date_default_timezone_set('Asia/Shanghai');
     }
 
     /**
