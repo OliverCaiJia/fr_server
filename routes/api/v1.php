@@ -172,7 +172,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
     /**
      * 微信 sdk
      */
-    $router->group(['prefix' => 'wechat', 'middleware' => ['authApi']], function ($router) {
+    $router->group(['prefix' => 'wechat'], function ($router) {
         //水果贷 分享
         $router->post('', ['uses' => 'WechatController@fetchSignPackage']);
     });
