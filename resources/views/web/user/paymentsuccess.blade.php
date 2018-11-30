@@ -52,11 +52,11 @@
 <body>
     <div class="container">
         <div class="success"> <img src="/img/user/pay_success.png" alt="">
-            <p>支付成功！<a onclick="payController.paymentResultJump('success')">立即跳转</a></p>
+            <p>支付完成！<a onclick="payController.paymentResultJump('success')">立即跳转</a></p>
         </div>
-        <div class="error"> <img src="/img/user/pay_error.png" alt="">
-            <p>支付失败！<a onclick="payController.paymentResultJump('error')">立即跳转</a></p>
-        </div>
+        {{--<div class="error"> <img src="/img/user/pay_error.png" alt="">--}}
+            {{--<p>支付失败！<a onclick="payController.paymentResultJump('error')">立即跳转</a></p>--}}
+        {{--</div>--}}
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script>
