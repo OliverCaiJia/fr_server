@@ -6,6 +6,7 @@ use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Chain\Report\Scopion\CreateAntifraudAction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class DoReportOrderHandler extends AbstractHandler
@@ -50,6 +51,8 @@ class DoReportOrderHandler extends AbstractHandler
         catch (\Exception $e)
         {
             DB::rollBack();
+            
+            Log::error($e);
 
             SLogger::getStream()->error('报告订单捕获异常, 报告异常-catch');
             SLogger::getStream()->error($e->getMessage());
