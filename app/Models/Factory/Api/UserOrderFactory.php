@@ -58,34 +58,6 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
-     * 创建反欺诈
-     * @param $params
-     * @return array|bool
-     */
-    public static function createAntifraud($params)
-    {
-        $userAntifraud = new UserAntifraud();
-        $userAntifraud->user_id = $params['user_id'];
-        $userAntifraud->user_report_id = $params['user_report_id'];
-        $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
-        $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
-        $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
-        $userAntifraud->untrusted_info = $params['untrusted_info'];
-        $userAntifraud->suspicious_idcard = $params['suspicious_idcard'];
-        $userAntifraud->suspicious_mobile = $params['suspicious_mobile'];
-        $userAntifraud->data = $params['data'];
-        $userAntifraud->fee = $params['fee'];
-        $userAntifraud->create_at = $params['create_at'];
-        $userAntifraud->update_at = $params['update_at'];
-
-        if ($userAntifraud->save()) {
-            return $userAntifraud->toArray();
-        }
-
-        return false;
-    }
-
-    /**
      * 创建报告日志
      * @param $params
      * @return array|bool
@@ -96,8 +68,6 @@ class UserOrderFactory extends ApiFactory
         $userReportLog->user_id = $params['user_id'];
         $userReportLog->user_report_type_id = $params['user_report_type_id'];
         $userReportLog->order_id = $params['order_id'];
-
-
         $userReportLog->status = $params['status'];
         $userReportLog->data = $params['data'];
         $userReportLog->create_at = $params['create_at'];
@@ -142,12 +112,47 @@ class UserOrderFactory extends ApiFactory
         $orderReport = new UserOrderReport();
         $orderReport->order_id = $params['order_id'];
         $orderReport->report_id = $params['report_id'];
+        $orderReport->create_at = $params['create_at'];
+        $orderReport->create_ip = $params['create_ip'];
 
         if ($orderReport->save()) {
             return $orderReport->toArray();
         }
         return false;
     }
+
+
+    /**
+     * 创建反欺诈
+     * @param $params
+     * @return array|bool
+     */
+    public static function createAntifraud($params)
+    {
+        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userAntifraud)){
+            $userAntifraud = new UserAntifraud();
+        }
+        $userAntifraud->user_id = $params['user_id'];
+        $userAntifraud->user_report_id = $params['user_report_id'];
+        $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
+        $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
+        $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
+        $userAntifraud->untrusted_info = $params['untrusted_info'];
+        $userAntifraud->suspicious_idcard = $params['suspicious_idcard'];
+        $userAntifraud->suspicious_mobile = $params['suspicious_mobile'];
+        $userAntifraud->data = $params['data'];
+        $userAntifraud->fee = $params['fee'];
+        $userAntifraud->create_at = $params['create_at'];
+        $userAntifraud->update_at = $params['update_at'];
+
+        if ($userAntifraud->save()) {
+            return $userAntifraud->toArray();
+        }
+
+        return false;
+    }
+
 
     /**
      * 创建申请
@@ -156,7 +161,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
-        $userApply = new UserApply();
+        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userApply)){
+            $userApply = new UserApply();
+        }
         $userApply->user_id = $params['user_id'];
         $userApply->user_report_id = $params['user_report_id'];
         $userApply->transid = $params['transid'];
@@ -179,7 +187,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAmountEst($params)
     {
-        $userAmountEst = new UserAmountEst();
+        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userAmountEst)){
+            $userAmountEst = new UserAmountEst();
+        }
         $userAmountEst->user_id = $params['user_id'];
         $userAmountEst->user_report_id = $params['user_report_id'];
         $userAmountEst->zm_score = $params['zm_score'];
@@ -204,7 +215,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPostloan($params)
     {
-        $userPostloan = new UserPostloan();
+        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userPostloan)){
+            $userPostloan = new UserPostloan();
+        }
         $userPostloan->user_id = $params['user_id'];
         $userPostloan->user_report_id = $params['user_report_id'];
         $userPostloan->transid = $params['transid'];
@@ -229,7 +243,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createBlackList($params)
     {
-        $userBlacklist = new UserBlacklist();
+        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userBlacklist)){
+            $userBlacklist = new UserBlacklist();
+        }
         $userBlacklist->user_id = $params['user_id'];
         $userBlacklist->user_report_id = $params['user_report_id'];
         $userBlacklist->transid = $params['transid'];
@@ -254,7 +271,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createMultiinfo($params)
     {
-        $userMultiinfo = new UserMultiinfo();
+        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userMultiinfo)){
+            $userMultiinfo = new UserMultiinfo();
+        }
         $userMultiinfo->user_id = $params['user_id'];
         $userMultiinfo->user_report_id = $params['user_report_id'];
         $userMultiinfo->register_org_count = $params['register_org_count'];
@@ -278,7 +298,10 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPersonal($params)
     {
-        $userPersonal = new UserPersonal();
+        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id']);
+        if(empty($userPersonal)){
+            $userPersonal = new UserPersonal();
+        }
         $userPersonal->user_id = $params['user_id'];
         $userPersonal->idcard = $params['idcard'];
         $userPersonal->idcard_location = $params['idcard_location'];
@@ -309,7 +332,7 @@ class UserOrderFactory extends ApiFactory
      * @param $status
      * @return mixed
      */
-    public static function updateOrderStatusBUserIdAndOrderNo($userId, $orderNo, $status)
+    public static function updateOrderStatusByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
             ->update(['status' => $status]);
@@ -377,7 +400,6 @@ class UserOrderFactory extends ApiFactory
     {
         $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
             ->where([UserOrder::TABLE_NAME . '.user_id' => $userId])
-//            ->leftJoin(Platform::TABLE_NAME, UserOrder::TABLE_NAME . '.platform_nid', '=', Platform::TABLE_NAME . '.platform_nid')
             ->get();
 
         return $userOrder ? $userOrder->toArray() : [];
@@ -406,7 +428,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getOrderDetailByOrderNo($orderNo)
     {
-        $userOrder = UserOrder::where([UserOrder::TABLE_NAME . '.order_no' => $orderNo])
+        $userOrder = UserOrder::where(['order_no' => $orderNo])
             ->get();
         return $userOrder ? $userOrder->toArray() : [];
     }
@@ -495,6 +517,19 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
+    /**
+     * 根据订单id和状态获取订单唯一标识
+     * @param $typeId
+     * @return array
+     */
+    public static function getOrderTypeNidByTypeIdAndStatus($typeId, $status)
+    {
+        $userOrder = UserOrderType::select()
+            ->where('id', '=', $typeId)
+            ->where('status', '=', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
 
     /**
      * 根据订单id获取订单类型
@@ -625,17 +660,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createUserLoanLog($params)
     {
-//        `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `platform_id` int(11) unsigned NOT NULL COMMENT '平台接口id',
-//  `loan_order_id` int(11) NOT NULL COMMENT '贷款申请订单id',
-//  `expire_day` int(10) NOT NULL DEFAULT '0' COMMENT '失效时间',
-//  `loan_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '申请金额',
-//  `loan_peroid` int(8) NOT NULL DEFAULT '0' COMMENT '申请周期',
-//  `request_data` json NOT NULL COMMENT '请求数据参数',
-//  `response_data` json NOT NULL COMMENT '响应返回数据',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
         $userLoanLog = new UserLoanLog();
         $userLoanLog->user_id = $params['user_id'];
 
@@ -667,21 +691,6 @@ class UserOrderFactory extends ApiFactory
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }
-
-//    /**
-//     * 创建订单报告中间表
-//     * @param $params
-//     * @return bool
-//     */
-//    public static function createOrderReport($params)
-//    {
-//        dd($params);
-//        $userOrderReport = new UserOrderReport();
-//        $userOrderReport->order_id = $params['order_id'];
-//        $userOrderReport->report_id = $params['report_id'];
-//
-//        return $userOrderReport->save();
-//    }
 
     /**
      *创建用户报告日志

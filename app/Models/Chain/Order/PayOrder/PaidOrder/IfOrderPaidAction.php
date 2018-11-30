@@ -40,7 +40,8 @@ class IfOrderPaidAction extends AbstractHandler
             $this->error['error'] = "您好，订单状态必须是支付中！";
             return false;
         }
-        $userOrderTypeNid = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $status = 1;//订单处理完成
+        $userOrderTypeNid = UserOrderFactory::getOrderTypeNidByTypeIdAndStatus($userOrder['order_type'], $status);
         $this->params['order_type_nid'] = $userOrderTypeNid['type_nid'];
         $this->params['user_id'] = $userOrder['user_id'];
         $this->params['order_no'] = $userOrder['order_no'];
