@@ -130,6 +130,7 @@ class CreatePushTaskAction extends AbstractHandler
         $days = self::diffBetweenTwoDays($licenseDay, $now);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($params['user_id'], $orderType['id']);
+
         $requestData = array(
             'mobile' => $userAuth['mobile'],
             'name' => $userRealName['real_name'],
@@ -149,7 +150,7 @@ class CreatePushTaskAction extends AbstractHandler
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
             'city' => $userBasic['city'],
-            'money' => $userOrder['money']
+            'money' => empty($userOrder['money']) ? 10000 : $userOrder['money']
         );
 //        dd($data);
 //        array:19 [
