@@ -11,6 +11,7 @@ use App\Services\Core\Payment\YiBao\YiBaoConfig;
 use App\Services\Core\Payment\YiBao\YopSignUtils;
 use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class YiBaoController
@@ -83,6 +84,7 @@ class YiBaoController extends ApiController
         {
             //订单异常事务回滚
             DB::rollBack();
+            Log::error($e);
             //异常日志记录
             SLogger::getStream()->error('支付回调, 支付回调订单-catch');
             SLogger::getStream()->error($e->getMessage());
