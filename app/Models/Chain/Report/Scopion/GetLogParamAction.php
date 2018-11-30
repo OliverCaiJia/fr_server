@@ -96,6 +96,7 @@ class GetLogParamAction extends AbstractHandler
             $this->error['error'] = '未找到申请准入信息';
             return $this->error;
         }
+        SLogger::getStream()->error('======='.json_encode($apply).'=======');
         $this->params['application'] = $apply;
         $this->params['report_data']['application'] = $apply['data'];
 
