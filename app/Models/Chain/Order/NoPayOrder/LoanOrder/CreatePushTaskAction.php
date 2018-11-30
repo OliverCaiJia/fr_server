@@ -123,10 +123,13 @@ class CreatePushTaskAction extends AbstractHandler
 //  "update_at" => "2018-11-16 22:19:39"
 //  "update_ip" => "1"
 //]
+
         $licenseDay = $userBasic['company_license_time'];
         $now = date('Y-m-d H:i:s');
 
         $days = self::diffBetweenTwoDays($licenseDay, $now);
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($params['user_id'], $orderType['id']);
         $requestData = array(
             'mobile' => $userAuth['mobile'],
             'name' => $userRealName['real_name'],
@@ -146,7 +149,7 @@ class CreatePushTaskAction extends AbstractHandler
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
             'city' => $userBasic['city'],
-            'money' => $params['money']
+            'money' => $userOrder['money']
         );
 //        dd($data);
 //        array:19 [
