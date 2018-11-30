@@ -49,18 +49,17 @@ class YiBaoController extends ApiController
         }
         //获取订单编号
         $data['order_no'] = $resData['orderId'];
-
-        //修改订单状态
-        $orderTypeChain = new DoPaidOrderHandler($data);
-        $typeRes = $orderTypeChain->handleRequest();
-        if(isset($typeRes['error'])){
-            return 'ERROR';
-        }
-
         //事务处理
         DB::beginTransaction();
         try
         {
+            //修改订单状态
+            $orderTypeChain = new DoPaidOrderHandler($data);
+            $typeRes = $orderTypeChain->handleRequest();
+            if(isset($typeRes['error'])){
+                return 'ERROR';
+            }
+
             //生成信用报告
             $data['report_type_nid'] = $typeRes['report_type_nid'];
             $reportChain = new DoReportOrderHandler($data);
