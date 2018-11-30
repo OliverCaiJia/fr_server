@@ -1,13 +1,21 @@
  var costdefatltController = {
      init: function () {
-         this.selectView()
+         this.selectView();
+         this.getoOriginalPrice();
+         $('.give-service-list').eq(0).addClass('selectIconShow');
+     },
+     getoOriginalPrice: function () {
+         var recommendPrice = $('.recommendPrice').text();
+         var givePrice = $('.selectIconShow').find('.givePrice').text();
+         var originalPrice = Number(recommendPrice) + Number(givePrice);
+         $('.originalPrice').text(originalPrice)
      }, //选择赠送协议
      selectView: function () {
          var _self = this;
-         $('.service-list').on('click', function () {
-             $(this).siblings('div').find('.selectIcon').hide();
-             $(this).find('.selectIcon').show();
-             _self.recommendService();
+         $('.give-service-list').on('click', function () {
+             $('.give-service-list').removeClass('selectIconShow');
+             $(this).addClass('selectIconShow');
+             _self.getoOriginalPrice();
          })
      },
      submitView() {
@@ -15,7 +23,12 @@
              $.ajax({
                  url: api_fruitloan_host + '/v1/user/info/create',
                  type: 'POST',
-                 data: {},
+                 data: {
+                     'order_type_nid': 'order_extra_service',
+                     'amount': Number($('#totalPrice').text()),
+                     'count': 1,
+                     'extra_type_nid': $('.selectIconShow').data('seqNid')
+                 },
                  success: function (json) {
                      _self.recommendService(json)
                  }
