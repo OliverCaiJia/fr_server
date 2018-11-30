@@ -56,8 +56,8 @@
 <body>
     <div class="container">
         <p class="agreement">申请即同意<span onclick="createreportController.creditEvaluateServicePolicy()">《信用评估服务协议》</span></p>
-        <div class="service"> <img src="/img/user/kefu_icon.png" alt="">
-            <p onclick="createreportController.creditServiceOnlineCustomer()">在线客服</p>
+        <div class="service" onclick="createreportController.creditServiceOnlineCustomer()"> <img src="/img/user/kefu_icon.png" alt="">
+            <p>在线客服</p>
         </div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
