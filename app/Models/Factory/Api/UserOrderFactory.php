@@ -330,7 +330,7 @@ class UserOrderFactory extends ApiFactory
     public static function updateOrderStatusByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
-            ->update(['status' => $status]);
+            ->update(['status' => $status, 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -343,7 +343,7 @@ class UserOrderFactory extends ApiFactory
     public static function updatePersonByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
-            ->update(['status' => $status]);
+            ->update(['status' => $status, 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -715,10 +715,10 @@ class UserOrderFactory extends ApiFactory
      * @param $params
      * @return mixed
      */
-    public static function UpdateUserReportLogOrderIdById($params)
+    public static function updateUserReportLogOrderIdById($params)
     {
         return UserReportLog::where(['id' => $params['user_report_log_id']])
-            ->update(['order_id' => $params['user_order_id']]);
+            ->update(['order_id' => $params['user_order_id'], 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**

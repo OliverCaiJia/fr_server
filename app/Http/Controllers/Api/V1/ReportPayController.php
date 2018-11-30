@@ -35,6 +35,7 @@ class ReportPayController extends ApiController
         $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
         $extra = UserOrderStrategy::getExtra($orderType['type_nid']);
         $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
+        $data['update_at'] = date('Y-m-d H:i:s');
         $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
         if (!$userOrderUpdate){
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);

@@ -18,7 +18,7 @@ class UpdateUserReportLogAction extends AbstractHandler
 
     public function handleRequest()
     {
-        $result = UserOrderFactory::UpdateUserReportLogOrderIdById($this->params);
+        $result = UserOrderFactory::updateUserReportLogOrderIdById($this->params);
 
         if ($result) {
             return $this->data;
