@@ -7,6 +7,7 @@ use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBasicFactory;
 use App\Models\Factory\Api\FreeOrderFactory;
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Helpers\RestUtils;
 use Illuminate\Http\Request;
@@ -79,6 +80,21 @@ class UserInfoController extends ApiController
         $term = $request->input('term');
         $data = FreeOrderFactory::Order($uid, $amount, $term);
 
+        return RestResponseFactory::ok($data);
+    }
+
+    /**首页获取用户所选金额周期
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userQuota(Request $request)
+    {
+        $uid = $this->getUserId($request);
+        $amount = $request->all();
+        $data = UserBorrowLogFactory::createUserBorrowLog($uid, $amount);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
+        }
         return RestResponseFactory::ok($data);
     }
 }
