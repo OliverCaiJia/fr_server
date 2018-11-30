@@ -88,7 +88,7 @@ class GetLogParamAction extends AbstractHandler
             $this->error['error'] = '未找到反欺诈信息';
             return $this->error;
         }
-        SLogger::getStream()->error(__CLASS__.'======'.json_encode($antiFraud));
+//        SLogger::getStream()->error(__CLASS__.'======'.json_encode($antiFraud));
         $this->params['anti_fraud'] = $antiFraud;
         $this->params['report_data']['anti_fraud'] = $antiFraud['data'];
         //申请准入
