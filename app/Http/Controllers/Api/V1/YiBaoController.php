@@ -57,7 +57,7 @@ class YiBaoController extends ApiController
             $orderTypeChain = new DoPaidOrderHandler($data);
             $typeRes = $orderTypeChain->handleRequest();
             if(isset($typeRes['error'])){
-                return 'ERROR';
+                return 'ERROR1';
             }
 
             //生成信用报告
@@ -65,14 +65,14 @@ class YiBaoController extends ApiController
             $reportChain = new DoReportOrderHandler($data);
             $reportRes = $reportChain->handleRequest();
             if(isset($reportRes['error'])){
-                return 'ERROR';
+                return 'ERROR2';
             }
 
             //推送一键贷
             $task = new DoApplyOrderHandler($data);
             $taskRes = $task->handleRequest();
             if(isset($taskRes['error'])){
-                return 'ERROR';
+                return 'ERROR3';
             }
             //记录
             //1.payment_log
