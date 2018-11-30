@@ -67,6 +67,9 @@ class AuthController extends ApiController
     public function quickLogin(Request $request)
     {
         $data = $request->all();
+        $data['dev_type'] = $request->header('X-DevType') ? $request->header('X-DevType') : '';
+        $data['dev_model'] = $request->header('X-DevModel') ? $request->header('X-DevModel') : '';
+        $data['dev_version'] = $request->header('X-DevVersion') ? $request->header('X-DevVersion') : '';
         #查库检查用户手机号是否存在
         $user = UserAuthFactory::getMobileAndIndent($data['mobile']);
         if ($user)

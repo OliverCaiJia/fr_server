@@ -53,15 +53,18 @@
     <div class="container">
         <div class="success"> <img src="/img/user/pay_success.png" alt="">
             <p>支付完成！<a onclick="payController.paymentResultJump('success')">立即跳转</a></p>
-        </div>
-        {{--<div class="error"> <img src="/img/user/pay_error.png" alt="">--}}
-            {{--<p>支付失败！<a onclick="payController.paymentResultJump('error')">立即跳转</a></p>--}}
-        {{--</div>--}}
-    </div>
+        </div> {{--
+        <div class="error"> <img src="/img/user/pay_error.png" alt="">--}} {{--
+            <p>支付失败！<a onclick="payController.paymentResultJump('error')">立即跳转</a></p>--}} {{--</div>--}} </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script>
         var payController = {
-            //立即跳转-支付
+            init: function() {
+                var _self = this;
+                setTimeout(function() {
+                    _self.paymentResultJump();
+                }, 3000)
+            }, //立即跳转-支付
             paymentResultJump: function(payResult) {
                 try {
                     window.sd.paymentResultJump(payResult);
