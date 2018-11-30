@@ -67,6 +67,7 @@ class UserRealnameFactory extends ApiFactory
         $userRealname->gender = $data['gender'];
         $userRealname->id_card_type = $data['id_card_type'];
         $userRealname->id_card_no = $data['id_card_no'];
+        $userRealname->birthday = $data['birthday'];
         $userRealname->id_card_front_img = $data['id_card_front_img'];
         $userRealname->id_card_back_img = $data['id_card_back_img'];
         $userRealname->issued_by = $data['issued_by'];

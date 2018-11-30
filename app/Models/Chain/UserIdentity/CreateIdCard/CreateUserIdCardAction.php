@@ -45,11 +45,13 @@ class CreateUserIdCardAction extends AbstractHandler
      */
     private function updateUserBanks($params)
     {
+        $birthday = strlen($params['id_card_no'])==15 ? ('19' . substr($params['id_card_no'], 6, 6)) : substr($params['id_card_no'], 6, 8);
         $data['user_id'] = $params['user_id'];
         $data['real_name'] = $params['real_name'];
         $data['gender'] = $params['gender'];
         $data['id_card_type'] = 0;
         $data['id_card_no'] = $params['id_card_no'];
+        $data['birthday'] = date('Y-m-d',strtotime($birthday));
         $data['id_card_front_img'] = $params['id_card_front_img'];
         $data['id_card_back_img'] = $params['id_card_back_img'];
         $data['issued_by'] = $params['issued_by'];
