@@ -53,6 +53,21 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['anti_fraud'])) {
             $reportLog['data'] = json_encode($params['anti_fraud']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $antifraud['user_id'] = $params['user_id'];
+            $antifraud['user_report_id'] = $params['user_report_id'];
+            $antifraud['courtcase_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['courtcase_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'] : '';
+            $antifraud['dishonest_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['dishonest_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'] : '';
+            $antifraud['fraudulence_is_hit'] = intval(isset($params['anti_fraud']['data']['fraudulence_info']['is_hit'])) ? $params['anti_fraud']['data']['fraudulence_info']['is_hit'] : 0;
+            $antifraud['untrusted_info'] = json_encode(isset($params['anti_fraud']['data']['untrusted_info']) ? $params['anti_fraud']['data']['untrusted_info'] : []);
+            $antifraud['suspicious_idcard'] = json_encode(isset($params['anti_fraud']['data']['suspicious_idcard']) ? $params['anti_fraud']['data']['suspicious_idcard'] : []);
+            $antifraud['suspicious_mobile'] = json_encode(isset($params['anti_fraud']['data']['suspicious_mobile']) ? $params['anti_fraud']['data']['suspicious_mobile'] : []);
+            $antifraud['data'] = json_encode(isset($params['anti_fraud']['data']) ? $params['anti_fraud']['data'] : []);
+            $antifraud['fee'] = isset($params['anti_fraud']['fee']) ? $params['anti_fraud']['fee'] : '';
+            $antifraud['create_at'] = date('Y-m-d H:i:s', time());
+            $antifraud['update_at'] = date('Y-m-d H:i:s', time());
+
+            UserOrderFactory::createAntifraud($antifraud);
         }
 
         /**
