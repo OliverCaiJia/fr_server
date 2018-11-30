@@ -50,7 +50,9 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //个人资料提交/创建
         $router->any('info/create', ['middleware' => ['valiApi:userBasic'], 'uses' => 'UserinfoController@updateCertifyinfo']);//添加验证器
         //生成信用报告
-        $router->any('loan/apply', ['uses' => 'UserinfoController@freeOrder']);//添加验证器
+        $router->any('loan/apply', ['uses' => 'UserinfoController@freeOrder']);
+        //记录首页用户申请金额
+        $router->any('loan/borrow', ['uses' => 'UserinfoController@userQuota']);
 
         //身份验证
         $router->group(['prefix' => 'verify'], function ($router) {
@@ -162,7 +164,9 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      */
     $router->group(['prefix' => 'loan', 'middleware' => ['authApi']], function ($router) {
         //推荐产品列表
-        $router->any('products', ['middleware' => ['valiApi:loan'],'uses' => 'LoanController@products']);//添加验证器
+        $router->any('products', ['middleware' => ['valiApi:loan'],'uses' => 'LoanController@products']);
+        //获取产品url
+        $router->any('products/url', ['uses' => 'LoanController@productUrl']);
     });
 
     /**

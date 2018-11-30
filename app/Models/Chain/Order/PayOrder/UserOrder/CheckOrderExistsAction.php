@@ -38,9 +38,9 @@ class CheckOrderExistsAction extends AbstractHandler
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
 
         if (!empty($userOrder) && $userOrder['status'] == 0) {//处理中
-            return $userOrder;
-//            $this->error['error'] = "用户您好，您还有未支付订单，请先进行支付！";
-//            return false;
+//            return $userOrder;
+            $this->error['error'] = "用户您好，您还有未支付订单，请先进行支付！";
+            return false;
         }
         return true;
     }
