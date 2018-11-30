@@ -75,6 +75,9 @@ class UserBasicFactory extends ApiFactory
             'create_at' => date('Y-m-d H:i:s', time()),
             'update_at' => date('Y-m-d H:i:s', time()),
         ]);
+        $updateUserStatus = UserInfo::where(['user_id' => $uid])->first();
+        $updateUserStatus->has_userinfo = 1;
+        $updateUserStatus->save();
         return $userData->toArray();
 
     }
