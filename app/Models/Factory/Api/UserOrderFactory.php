@@ -198,6 +198,7 @@ class UserOrderFactory extends ApiFactory
         $userAmountEst->create_at = $params['create_at'];
         $userAmountEst->update_at = $params['update_at'];
 
+        Log::error($userAmountEst);
         if ($userAmountEst->save()) {
             return $userAmountEst->toArray();
         }
