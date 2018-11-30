@@ -76,10 +76,10 @@ class UserInfoController extends ApiController
     public function freeOrder(Request $request)
     {
         $uid = $this->getUserId($request);
-        $amount = $request->input('amount');
-        $term = $request->input('term');
-        $data = FreeOrderFactory::Order($uid, $amount, $term);
-
+        $data = FreeOrderFactory::Order($uid);
+        if (empty($data)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
+        }
         return RestResponseFactory::ok($data);
     }
 

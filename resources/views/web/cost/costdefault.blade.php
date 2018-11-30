@@ -28,18 +28,18 @@
             </div>
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
-                <div class="service-list give-service-list">
-                    <dl data-seqNid="{{ $item['seq_nid'] }}"> <dt><img src="" alt=""></dt>
+                <div class="service-list give-service-list" data-seqnid="{{ $item['seq_nid'] }}">
+                    <dl> <dt><img src="" alt=""></dt>
                         <dd>
                             <h4>{{ $item['name'] }}</h4>
                             <p>{{ $item['remark'] }}
-                                <br><span>￥<i id="totalPrice">{{ $item['price'] }}</i></span><del>￥<i class="givePrice">{{ $item['old_price'] }}</i></del></p>
+                                <br><span>￥<i>{{ $item['price'] }}</i></span><del>￥<i class="givePrice">{{ $item['old_price'] }}</i></del></p>
                         </dd> <span class='selectIcon'></span> </dl>
                 </div> @endforeach </div>
         </div>
         <footer>
             <div class="left">
-                <h3>总计：<span>￥<i>{{ $data['groom']['price'] }}</i></span></h3>
+                <h3>总计：<span>￥<i id="totalPrice">{{ $data['groom']['price'] }}</i></span></h3>
                 <p><del>原价:￥<i class="originalPrice"></i></del></p>
             </div>
             <div class="right" id='submit'> 付款 </div>
