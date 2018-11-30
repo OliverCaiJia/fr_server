@@ -2,12 +2,9 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
-use App\Constants\OrderConstant;
 use App\Helpers\Logger\SLogger;
-use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserinfoFactory;
-use App\Models\Factory\Api\UserOrderFactory;
 
 class UpdateUserInfoStatusAction extends AbstractHandler
 {
