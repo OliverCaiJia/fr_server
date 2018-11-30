@@ -4,15 +4,11 @@ namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
 use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
-use App\Models\Chain\Order\Loan\CreateApplyUserOrderAction;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserBasicFactory;
-use App\Models\Factory\Api\UserCertifyFactory;
 use App\Models\Factory\Api\UserLoanTaskFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
-use App\Models\Orm\UserCertify;
-use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
 
 class CreatePushTaskAction extends AbstractHandler
 {
@@ -77,7 +73,6 @@ class CreatePushTaskAction extends AbstractHandler
             'money' => empty($userOrder['money']) ? 10000 : $userOrder['money']
         );
         SLogger::getStream()->error(__CLASS__.'===='.json_encode($requestData));
-
 
         $data['user_id'] = $params['user_id'];
         $data['type_id'] = 0;//平台推送

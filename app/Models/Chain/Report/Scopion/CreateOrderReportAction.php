@@ -42,6 +42,8 @@ class CreateOrderReportAction extends AbstractHandler
         $orderReportParam = [];
         $orderReportParam['order_id'] = $params['order_id'];
         $orderReportParam['report_id'] = $params['user_report_id'];
+        $orderReportParam['create_at'] = date('Y-m-d H:i:s', time());
+        $orderReportParam['create_ip'] =  Utils::ipAddress();
         $orderReport = UserOrderFactory::createOrderReport($orderReportParam);
         if (!$orderReport) {
             $this->error['error'] = "您好，报告关系异常！";

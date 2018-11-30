@@ -96,8 +96,6 @@ class UserOrderFactory extends ApiFactory
         $userReportLog->user_id = $params['user_id'];
         $userReportLog->user_report_type_id = $params['user_report_type_id'];
         $userReportLog->order_id = $params['order_id'];
-
-
         $userReportLog->status = $params['status'];
         $userReportLog->data = $params['data'];
         $userReportLog->create_at = $params['create_at'];
@@ -142,6 +140,8 @@ class UserOrderFactory extends ApiFactory
         $orderReport = new UserOrderReport();
         $orderReport->order_id = $params['order_id'];
         $orderReport->report_id = $params['report_id'];
+        $orderReport->create_at = $params['create_at'];
+        $orderReport->create_ip = $params['create_ip'];
 
         if ($orderReport->save()) {
             return $orderReport->toArray();
