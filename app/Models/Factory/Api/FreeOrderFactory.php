@@ -17,7 +17,7 @@ class FreeOrderFactory extends ApiFactory
     public static function Order($uid)
     {
         $orderStatus = UserLoanTask::where(['user_id' => $uid, 'status' => 0])->first();
-        //如果等于
+        //不等于空修改状态
         if (!empty($orderStatus)) {
             $orderStatus->status = 1;
             $orderStatus->update_at = date('Y-m-d H:i:s');
