@@ -52,6 +52,7 @@ class CreateUserAction extends AbstractHandler
             'password' => '',
             'auth_key' => '',
             'access_token' => TokenGenerator::generateToken(),
+            'expire_at' => date('Y-m-d H:i:s',strtotime('+1year')),
             'create_at' => date('Y-m-d H:i:s', time()),
             'create_ip' => Utils::ipAddress(),
             'last_login_at' => date('Y-m-d H:i:s', time()),
