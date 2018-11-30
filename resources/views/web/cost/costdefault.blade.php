@@ -29,11 +29,11 @@
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
                 <div class="service-list give-service-list">
-                    <dl data-orderno="{{ $item['seq_nid'] }}"> <dt><img src="" alt=""></dt>
+                    <dl data-seqNid="{{ $item['seq_nid'] }}"> <dt><img src="" alt=""></dt>
                         <dd>
                             <h4>{{ $item['name'] }}</h4>
                             <p>{{ $item['remark'] }}
-                                <br><span>￥<i>{{ $item['price'] }}</i></span><del>￥<i class="givePrice">{{ $item['old_price'] }}</i></del></p>
+                                <br><span>￥<i id="totalPrice">{{ $item['price'] }}</i></span><del>￥<i class="givePrice">{{ $item['old_price'] }}</i></del></p>
                         </dd> <span class='selectIcon'></span> </dl>
                 </div> @endforeach </div>
         </div>

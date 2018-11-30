@@ -16,7 +16,6 @@
              $('.give-service-list').removeClass('selectIconShow');
              $(this).addClass('selectIconShow');
              _self.getoOriginalPrice();
-             _self.recommendService();
          })
      },
      submitView() {
@@ -24,7 +23,12 @@
              $.ajax({
                  url: api_fruitloan_host + '/v1/user/info/create',
                  type: 'POST',
-                 data: {},
+                 data: {
+                     'order_type_nid': 'order_extra_service',
+                     'amount': Number($('#totalPrice').text()),
+                     'count': 1,
+                     'extra_type_nid': $('.selectIconShow').data('seqNid');
+                 },
                  success: function (json) {
                      _self.recommendService(json)
                  }
