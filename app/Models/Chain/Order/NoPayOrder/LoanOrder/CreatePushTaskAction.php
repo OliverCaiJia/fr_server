@@ -80,11 +80,11 @@ class CreatePushTaskAction extends AbstractHandler
 
 
         $data['user_id'] = $params['user_id'];
-        $data['type_id'] = 0;
+        $data['type_id'] = 0;//平台推送
         $data['spread_nid'] = 'oneLoan';
         $data['request_data'] = json_encode($requestData);
         $data['response_data'] = json_encode(new \ArrayObject());
-        $data['status'] = 0;
+        $data['status'] = 0;//未激活
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['send_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());

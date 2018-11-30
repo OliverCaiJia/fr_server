@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
+use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
@@ -136,18 +137,22 @@ class TestController extends ApiController
     }
 
     public function doApply(Request $request) {
-        $order = [];
-        $order['order_no'] = 'SGD-A-20181123162814-401156';
-        $order['money'] = '666';
+//        $order = [];
+//        $order['order_no'] = 'SGD-A-20181123162814-401156';
+//        $order['money'] = '666';
+//
+////        $order['user_id'] = $this->getUserId($request);
+////        $order['order_type_nid'] = $request->input('order_type_nid');
+////        $order['pid'] = $request->input('pid');
+////        $order['money'] = $request->input('money');
+//        $chain = new DoApplyOrderHandler($order);
+//        $result = $chain->handleRequest();
+//        dd($result);
 
-//        $order['user_id'] = $this->getUserId($request);
-//        $order['order_type_nid'] = $request->input('order_type_nid');
-//        $order['pid'] = $request->input('pid');
-//        $order['money'] = $request->input('money');
-        $chain = new DoApplyOrderHandler($order);
-        $result = $chain->handleRequest();
-        dd($result);
 
+        $apply = MozhangService::o()->getMoZhangContent('蔡嘉', '130702198111071511','18510536684', 'application', '');
+
+        dd($apply);
 
     }
 }
