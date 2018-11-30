@@ -87,10 +87,12 @@ class CreateReportLogAction extends AbstractHandler
         SLogger::getStream()->error(__CLASS__.'credit_qualification');
         if (isset($params['credit_qualification'])) {
             $reportLog['data'] = json_encode($params['credit_qualification']);
-            $reportLog = UserOrderFactory::createReportLog($reportLog);
 
+            $reportLog = UserOrderFactory::createReportLog($reportLog);
+            SLogger::getStream()->error(__CLASS__.'======'.json_encode($reportLog));
             $userAmountEst = ReportStrategy::getAmountEst($params);
             UserOrderFactory::createAmountEst($userAmountEst);
+            SLogger::getStream()->error(__CLASS__.'===--------------===');
         }
         /**
          *贷后行为
