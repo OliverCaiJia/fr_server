@@ -2,13 +2,10 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
-use App\Constants\OrderConstant;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
-use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
-use App\Strategies\UserOrderStrategy;
 
 class CreateOrderReportAction extends AbstractHandler
 {
@@ -28,7 +25,7 @@ class CreateOrderReportAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->createOrderReport($this->params)) {
-            $this->setSuccessor(new CreateAntifraudAction($this->params));
+            $this->setSuccessor(new UpdateUserInfoStatusAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;

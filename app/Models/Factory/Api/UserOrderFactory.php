@@ -134,7 +134,6 @@ class UserOrderFactory extends ApiFactory
             $userAntifraud = new UserAntifraud();
         }
         $userAntifraud->user_id = $params['user_id'];
-        $userAntifraud->user_report_id = $params['user_report_id'];
         $userAntifraud->courtcase_cnt = $params['courtcase_cnt'];
         $userAntifraud->dishonest_cnt = $params['dishonest_cnt'];
         $userAntifraud->fraudulence_is_hit = $params['fraudulence_is_hit'];
@@ -166,7 +165,6 @@ class UserOrderFactory extends ApiFactory
             $userApply = new UserApply();
         }
         $userApply->user_id = $params['user_id'];
-        $userApply->user_report_id = $params['user_report_id'];
         $userApply->transid = $params['transid'];
         $userApply->data = $params['data'];
         $userApply->fee = $params['fee'];
@@ -192,7 +190,6 @@ class UserOrderFactory extends ApiFactory
             $userAmountEst = new UserAmountEst();
         }
         $userAmountEst->user_id = $params['user_id'];
-        $userAmountEst->user_report_id = $params['user_report_id'];
         $userAmountEst->zm_score = $params['zm_score'];
         $userAmountEst->huabai_limit = $params['huabai_limit'];
         $userAmountEst->credit_amt = $params['credit_amt'];
@@ -220,7 +217,6 @@ class UserOrderFactory extends ApiFactory
             $userPostloan = new UserPostloan();
         }
         $userPostloan->user_id = $params['user_id'];
-        $userPostloan->user_report_id = $params['user_report_id'];
         $userPostloan->transid = $params['transid'];
         $userPostloan->due_days_non_cdq_12_mon = $params['due_days_non_cdq_12_mon'];
         $userPostloan->pay_cnt_12_mon = $params['pay_cnt_12_mon'];
@@ -248,7 +244,6 @@ class UserOrderFactory extends ApiFactory
             $userBlacklist = new UserBlacklist();
         }
         $userBlacklist->user_id = $params['user_id'];
-        $userBlacklist->user_report_id = $params['user_report_id'];
         $userBlacklist->transid = $params['transid'];
         $userBlacklist->mobile_name_in_blacklist = $params['mobile_name_in_blacklist'];
         $userBlacklist->idcard_name_in_blacklist = $params['idcard_name_in_blacklist'];
@@ -276,7 +271,6 @@ class UserOrderFactory extends ApiFactory
             $userMultiinfo = new UserMultiinfo();
         }
         $userMultiinfo->user_id = $params['user_id'];
-        $userMultiinfo->user_report_id = $params['user_report_id'];
         $userMultiinfo->register_org_count = $params['register_org_count'];
         $userMultiinfo->loan_cnt = $params['loan_cnt'];
         $userMultiinfo->loan_org_cnt = $params['loan_org_cnt'];
