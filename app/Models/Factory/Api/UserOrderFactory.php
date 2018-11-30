@@ -130,7 +130,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAntifraud($params)
     {
-        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id']);
+        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userAntifraud)){
             $userAntifraud = new UserAntifraud();
         }
@@ -161,7 +161,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
-        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id']);
+        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userApply)){
             $userApply = new UserApply();
         }
@@ -186,7 +186,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAmountEst($params)
     {
-        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id']);
+        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userAmountEst)){
             $userAmountEst = new UserAmountEst();
         }
@@ -199,7 +199,6 @@ class UserOrderFactory extends ApiFactory
         $userAmountEst->create_at = $params['create_at'];
         $userAmountEst->update_at = $params['update_at'];
 
-        Log::error('xxxxxx',$userAmountEst);
         if ($userAmountEst->save()) {
             return $userAmountEst->toArray();
         }
@@ -214,7 +213,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPostloan($params)
     {
-        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id']);
+        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userPostloan)){
             $userPostloan = new UserPostloan();
         }
@@ -241,7 +240,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createBlackList($params)
     {
-        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id']);
+        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userBlacklist)){
             $userBlacklist = new UserBlacklist();
         }
@@ -268,7 +267,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createMultiinfo($params)
     {
-        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id']);
+        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userMultiinfo)){
             $userMultiinfo = new UserMultiinfo();
         }
@@ -294,7 +293,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPersonal($params)
     {
-        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id']);
+        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userPersonal)){
             $userPersonal = new UserPersonal();
         }
