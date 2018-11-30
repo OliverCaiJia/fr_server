@@ -21,6 +21,7 @@ use App\Models\Orm\UserPostloan;
 use App\Models\Orm\UserReport;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UserOrderFactory
