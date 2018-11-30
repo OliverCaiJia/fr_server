@@ -27,7 +27,7 @@
                      'order_type_nid': 'order_extra_service',
                      'amount': Number($('#totalPrice').text()),
                      'count': 1,
-                     'extra_type_nid': $('.selectIconShow').data('seqNid');
+                     'extra_type_nid': $('.selectIconShow').data('seqNid')
                  },
                  success: function (json) {
                      _self.recommendService(json)
