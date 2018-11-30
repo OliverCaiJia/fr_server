@@ -42,6 +42,9 @@ class GetLogParamAction extends AbstractHandler
 
     private function getParams($params)
     {
+
+        SLogger::getStream()->error(__CLASS__);
+
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         if (!$userOrder){

@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -35,6 +36,7 @@ class CreatePersonalAction extends AbstractHandler
 
     private function createPersonal($params)
     {
+        SLogger::getStream()->error(__CLASS__);
 
         //        CREATE TABLE `sgd_user_personal` (
 //    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',

@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -39,6 +40,8 @@ class CreateApplyAction extends AbstractHandler
 
     private function createApply($params)
     {
+        SLogger::getStream()->error(__CLASS__);
+
 //        CREATE TABLE `sgd_user_apply` (
 //    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
 //  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户id',
