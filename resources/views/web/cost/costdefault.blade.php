@@ -44,6 +44,7 @@
             </div>
             <div class="right" id='submit'> 付款 </div>
         </footer>
+        <div class="token" style="display: none">{{ $token }}</div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/base.js') }}"></script>
