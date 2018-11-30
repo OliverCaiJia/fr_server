@@ -61,7 +61,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
     /**
      *  推荐服务
      */
-    $router->group(['prefix' => 'cost'], function ($router) {
+    $router->group(['prefix' => 'cost','middleware' => ['authWeb']], function ($router) {
         //推荐服务/信用评估默认配置
         $router->any('costdefault', ['uses' => 'CostController@costDefault']);
     });

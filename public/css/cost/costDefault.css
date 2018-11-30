@@ -82,7 +82,7 @@ body {
 .main .give-list .service-list .selectIcon {
   display: none;
 }
-.main .give-list .service-list:nth-of-type(1) .selectIcon {
+.main .give-list .service-list.selectIconShow .selectIcon {
   display: block;
 }
 footer {

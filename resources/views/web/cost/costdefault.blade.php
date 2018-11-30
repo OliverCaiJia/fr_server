@@ -22,28 +22,29 @@
                         <dd>
                             <h4>{{ $data['groom']['name'] }}</h4>
                             <p>{{ $data['groom']['remark'] }}
-                                <br><span>￥<i>{{ $data['groom']['price'] }}</i></span><del>￥{{ $data['groom']['old_price'] }}</del></p>
+                                <br><span>￥<i>{{ $data['groom']['price'] }}</i></span><del>￥<i class="recommendPrice">{{ $data['groom']['old_price'] }}</i></del></p>
                         </dd> <span></span> </dl>
                 </div>
             </div>
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
-                <div class="service-list">
-                    <dl data-orderno="{{ $item['seq_nid'] }}"> <dt><img src="" alt=""></dt>
+                <div class="service-list give-service-list" data-seqnid="{{ $item['seq_nid'] }}">
+                    <dl> <dt><img src="" alt=""></dt>
                         <dd>
                             <h4>{{ $item['name'] }}</h4>
                             <p>{{ $item['remark'] }}
-                                <br><span>￥<i>{{ $item['price'] }}</i></span><del>￥{{ $item['old_price'] }}</del></p>
+                                <br><span>￥<i>{{ $item['price'] }}</i></span><del>￥<i class="givePrice">{{ $item['old_price'] }}</i></del></p>
                         </dd> <span class='selectIcon'></span> </dl>
                 </div> @endforeach </div>
         </div>
         <footer>
             <div class="left">
-                <h3>总计：<span>￥<i>{{ $data['groom']['price'] }}</i></span></h3>
-                <p><del>原价:￥378</del></p>
+                <h3>总计：<span>￥<i id="totalPrice">{{ $data['groom']['price'] }}</i></span></h3>
+                <p><del>原价:￥<i class="originalPrice"></i></del></p>
             </div>
             <div class="right" id='submit'> 付款 </div>
         </footer>
+        <div class="token" style="display: none">{{ $token }}</div>
     </div>
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/base.js') }}"></script>

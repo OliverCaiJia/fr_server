@@ -68,21 +68,46 @@ class CreateReportLogAction extends AbstractHandler
         $reportLog['update_ip'] = Utils::ipAddress();
 
         $reportLog['data'] = json_encode($params['anti_fraud']);
+        if (empty($params['anti_fraud'])) {
+            $this->error['error'] = '未找到反欺诈信息';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
         $reportLog['data'] = json_encode($params['application']);
+
+        if (empty($params['application'])) {
+            $this->error['error'] = '未找到申请准入信息';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
         $reportLog['data'] = json_encode($params['credit_qualification']);
+        if (empty($params['credit_qualification'])) {
+            $this->error['error'] = '未找到额度评估(电商)信息';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
         $reportLog['data'] = json_encode($params['post_load']);
+        if (empty($params['post_load'])) {
+            $this->error['error'] = '未找到贷后行为信息';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
         $reportLog['data'] = json_encode($params['black_gray']);
+        if (empty($params['black_gray'])) {
+            $this->error['error'] = '未找到黑灰名单';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
         $reportLog['data'] = json_encode($params['multi_info']);
+        if (empty($params['multi_info'])) {
+            $this->error['error'] = '未找到多头报告';
+            return $this->error;
+        }
         $reportLog = UserOrderFactory::createReportLog($reportLog);
 
 //        $userId = $params['user_id'];
