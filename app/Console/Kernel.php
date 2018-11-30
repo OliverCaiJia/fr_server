@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\OrderStatus::class, //订单过期状态跑批
-        Commands\YjdPull::class, //一键贷推送结果
+        Commands\OrderStatusCommand::class, //订单过期状态跑批
+        Commands\YjdPullCommand::class, //一键结果
+        Commands\YjdPushCommand::class, //一键贷数据推送跑批
     ];
 
     /**

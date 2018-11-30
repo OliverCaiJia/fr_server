@@ -7,7 +7,7 @@ use App\Models\Orm\UserOrder;
 use Illuminate\Console\Command;
 use App\Helpers\Utils;
 
-class OrderStatus extends Command
+class OrderStatusCommand extends Command
 {
     /**
      * The name and signature of the console command.

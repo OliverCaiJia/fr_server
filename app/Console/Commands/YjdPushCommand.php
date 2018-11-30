@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
 use DB;
 
-class YjdPush extends Command
+class YjdPushCommand extends Command
 {
     /**
      * The name and signature of the console command.
