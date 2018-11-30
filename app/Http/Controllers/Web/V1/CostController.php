@@ -17,6 +17,7 @@ class CostController extends WebController
      */
     public function costDefault(Request $request)
     {
+        $token = $this->getToken($request);
         $fee_res = FeeFactory::getFeeByFeeNid('CREDIT_COST_DEFAULT');
 
         $data['groom'] = [
@@ -52,6 +53,6 @@ class CostController extends WebController
                 'seq_nid' => '1000_14days',
             ],
         ];
-        return view('web.cost.costdefault', compact('data'));
+        return view('web.cost.costdefault', compact('data','token'));
     }
 }
