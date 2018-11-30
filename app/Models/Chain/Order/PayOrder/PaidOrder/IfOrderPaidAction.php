@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Order\PayOrder\PaidOrder;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -30,6 +31,7 @@ class IfOrderPaidAction extends AbstractHandler
     {
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
+        SLogger::getStream()->error('==================================='.json_encode($orderNo).'===========================================');
         if (empty($userOrder)) {//处理中
             $this->error['error'] = "您好，订单不存在！";
             return false;

@@ -22,6 +22,8 @@ class UserBasicFactory extends ApiFactory
     {
         $userRealname = UserBasic::select([
             'user_id',
+            'user_location',
+            'user_address',
             'profession',
             'company_name',
             'company_location',
@@ -40,7 +42,6 @@ class UserBasicFactory extends ApiFactory
             'has_weilidai'])
             ->where(['user_id' => $userId])
             ->first();
-
         return $userRealname ? $userRealname->toArray() : [];
     }
 
@@ -60,20 +61,32 @@ class UserBasicFactory extends ApiFactory
             'company_location' => $data['company_location']?? '',
             'company_address' => $data['company_address'],
             'company_license_time' => $data['company_license_time']?? 0,
-//            'work_time' => $data['work_time'],
-//            'month_salary' => $data['month_salary'],
+            'work_time' => $data['work_time'] ?? 0,
+            'month_salary' => $data['month_salary'] ?? 0,
             'zhima_score' => $data['zhima_score'],
-            'house_fund_time' => $data['house_fund_time'],
-//            'has_social_security' => $data['has_social_security']?? 0,
+            'house_fund_time' => $data['house_fund_time'] ?? 0,
+            'has_social_security' => $data['has_social_security']?? 0,
             'has_house' => $data['has_house']?? 0,
             'has_auto' => $data['has_auto']?? 0,
-//            'has_house_fund' => $data['has_house_fund']?? 0,
+            'has_house_fund' => $data['has_house_fund']?? 0,
+            'has_creditcard' => $data['has_creditcard']?? 0,
             'has_assurance' => $data['has_assurance']?? 0,
             'has_weilidai' => $data['has_weilidai']?? 0,
             'create_at' => date('Y-m-d H:i:s', time()),
             'update_at' => date('Y-m-d H:i:s', time()),
         ]);
+        $updateUserStatus = UserInfo::where(['user_id' => $uid])->first();
+        $updateUserStatus->has_userinfo = 1;
+        $updateUserStatus->save();
         return $userData->toArray();
 
+    }
+
+    public static function getUserBasicByUserId($userId)
+    {
+        $userOrder = UserBasic::select()
+            ->where('user_id', '=', $userId)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
     }
 }

@@ -29,7 +29,7 @@
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
                 <div class="service-list">
-                    <dl> <dt><img src="" alt=""></dt>
+                    <dl data-orderno="{{ $item['seq_nid'] }}"> <dt><img src="" alt=""></dt>
                         <dd>
                             <h4>{{ $item['name'] }}</h4>
                             <p>{{ $item['remark'] }}

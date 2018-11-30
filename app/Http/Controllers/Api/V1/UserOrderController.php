@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Constants\UserOrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
@@ -37,8 +38,6 @@ class UserOrderController extends ApiController
         foreach ($userOrder['data'] as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
             if (
-                ($uOrder['status'] == 0 && $orderType['type_nid'] == 'order_report')
-                ||
                 ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
                 ||
                 ($uOrder['status'] == 1)
@@ -164,6 +163,7 @@ class UserOrderController extends ApiController
                 //todo::
                 $spreadNid = 'oneLoan';
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+
                 $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
@@ -172,7 +172,7 @@ class UserOrderController extends ApiController
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
                 $res["loan"]["push_status"] = $loanTask['status'];
                 $res["report"] = null;
-                $res["loan"] = null;
+                $res["extra"] = null;
                 break;
         }
         return RestResponseFactory::ok($res);
@@ -204,15 +204,15 @@ class UserOrderController extends ApiController
         $data['platform_nid'] = $request->input('platform_nid', '');
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
-        if (isset($result['error'])) {
-            $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
-            $res = [];
-            $res['order_no'] = $result['order_no'];
-            $res['status'] = $result['status'];
-            $res['order_type_nid'] = $orderTypeNid;
-            $res['order_expired'] = $result['order_expired'];
-            return RestResponseFactory::ok($res);
-        }
+//        if (isset($result['error'])) {
+//            $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
+//            $res = [];
+//            $res['order_no'] = $result['order_no'];
+//            $res['status'] = $result['status'];
+//            $res['order_type_nid'] = $orderTypeNid;
+//            $res['order_expired'] = $result['order_expired'];
+//            return RestResponseFactory::ok($res);
+//        }
         $res = [];
         $res['order_no'] = $result['order_no'];
         $res['status'] = $result['status'];

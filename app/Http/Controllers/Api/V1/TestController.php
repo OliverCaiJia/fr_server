@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Chain\Order\NoPayOrder\ApplyOrder\DoApplyOrderHandler;
+use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Services\Core\Validator\ValidatorService;
@@ -137,10 +137,13 @@ class TestController extends ApiController
 
     public function doApply(Request $request) {
         $order = [];
-        $order['user_id'] = $this->getUserId($request);
-        $order['order_type_nid'] = $request->input('order_type_nid');
-        $order['pid'] = $request->input('pid');
-        $order['money'] = $request->input('money');
+        $order['order_no'] = 'SGD-A-20181123162814-401156';
+        $order['money'] = '666';
+
+//        $order['user_id'] = $this->getUserId($request);
+//        $order['order_type_nid'] = $request->input('order_type_nid');
+//        $order['pid'] = $request->input('pid');
+//        $order['money'] = $request->input('money');
         $chain = new DoApplyOrderHandler($order);
         $result = $chain->handleRequest();
         dd($result);

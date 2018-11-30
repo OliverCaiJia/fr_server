@@ -33,6 +33,7 @@ class CostController extends WebController
                 'remark' => '放款快,周期长,利率低',
                 'price' => 0,
                 'old_price' => 88,
+                'seq_nid' => '1000_7days',
             ],
             [
                 'seq_no' => 2,
@@ -40,6 +41,7 @@ class CostController extends WebController
                 'remark' => '放款快,周期长,利率低',
                 'price' => 0,
                 'old_price' => 50,
+                'seq_nid' => '500_7days',
             ],
             [
                 'seq_no' => 3,
@@ -47,6 +49,7 @@ class CostController extends WebController
                 'remark' => '放款快,周期长,利率低',
                 'price' => 0,
                 'old_price' => 148,
+                'seq_nid' => '1000_14days',
             ],
         ];
         return view('web.cost.costdefault', compact('data'));

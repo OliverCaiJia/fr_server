@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Report\Scopion;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Models\Chain\AbstractHandler;
@@ -42,6 +43,9 @@ class GetLogParamAction extends AbstractHandler
 
     private function getParams($params)
     {
+
+        SLogger::getStream()->error(__CLASS__);
+
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         if (!$userOrder){

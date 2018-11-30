@@ -40,7 +40,7 @@ class InviteController extends ApiController
         //分享标题
         $inviteArr['share'] = "立即注册,与我分享奖励";
         //分享内容
-        $inviteArr['content'] = "得积分兑红包,快;快来注册吧";
+        $inviteArr['content'] = "得积分兑红包,快来注册吧";
         return RestResponseFactory::ok($inviteArr);
     }
 

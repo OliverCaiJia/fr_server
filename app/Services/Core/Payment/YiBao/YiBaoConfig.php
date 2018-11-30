@@ -25,7 +25,7 @@ class YiBaoConfig
     const NOTIFYURL = PRODUCTION_ENV ? '': 'http://uat.fruit.witlending.com/api/v1/callback/yibao/async';
 
     //服务器页面回调地址
-    const REDIRECTURL = PRODUCTION_ENV ? '': 'http://uat.fruit.witlending.com/api/v1/callback/yibao/sync';
+    const REDIRECTURL = PRODUCTION_ENV ? '': 'http://uat.fruit.witlending.com/web/v1/payment/success';
 
     //易宝url
     const SERVERROOT = "https://open.yeepay.com/yop-center";

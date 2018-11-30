@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -54,6 +55,8 @@ class CreateReportLogAction extends AbstractHandler
 //  `update_ip` varchar(16) NOT NULL DEFAULT '' COMMENT '更新IP',
 //  PRIMARY KEY (`id`)
 //) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='用户报告日志表（单次请求）'
+        SLogger::getStream()->error(__CLASS__);
+
         $reportLog['user_report_type_id'] = $params['user_report_type_id'];//=1
         $reportLog['user_id'] = $params['user_id'];//=6
         $reportLog['order_id'] = $params['order_id'];//=91

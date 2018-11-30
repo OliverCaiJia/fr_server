@@ -28,6 +28,7 @@ class ReportPayController extends ApiController
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         $status = [0];
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderId, $status);
+
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
@@ -38,7 +39,7 @@ class ReportPayController extends ApiController
         if (!$userOrderUpdate){
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
-        $orderAmount = $userOrder['amount'];
+//        $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
         $goodsName = $orderType['name'];
@@ -62,8 +63,8 @@ class ReportPayController extends ApiController
         $paymentParamExt = '{"bankCardNo":"' . $bankCardNo . '","idCardNo":"' . $idCardNo . '","cardName":"' . $cardName . '"}';
         $userNo = $userBankcard['bank_card_mobile'];
 
-        $data['orderId'] = $orderId;
-        //todo::先写死金额，测试
+        $data['orderId'] = $data['order_no'];
+//        $data['orderAmount'] = $userOrder['amount'];
         $data['orderAmount'] = 0.01;
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;

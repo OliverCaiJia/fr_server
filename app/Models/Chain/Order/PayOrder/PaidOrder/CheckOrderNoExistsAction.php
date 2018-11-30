@@ -34,7 +34,7 @@ class CheckOrderNoExistsAction extends AbstractHandler
 
     private function checkOrderNoExists($params)
     {
-        $this->params['report_credit'] = UserOrderConstant::ORDER_REPORT_CREDIT;
+        $this->params['report_type_nid'] = UserOrderConstant::ORDER_REPORT_CREDIT;
         $orderNo = $params['order_no'];
         if (empty($orderNo)) {
             $this->error['error'] = "您好，订单编号不存在！";

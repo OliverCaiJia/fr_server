@@ -14,6 +14,7 @@ class UserOrderConstant extends AppConstant
     const ORDER_SUCCESS_STATUS = 1;
     const ORDER_REPORT_CREDIT = 'report_credit';
     const ORDER_REPORT_EVALUATION = 'report_evaluation';
+    const ORDER_APPLY = 'order_apply';
 
     const ORDER_REPORT =
         [

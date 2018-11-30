@@ -52,12 +52,13 @@ class CreateUserAction extends AbstractHandler
             'password' => '',
             'auth_key' => '',
             'access_token' => TokenGenerator::generateToken(),
+            'expire_at' => date('Y-m-d H:i:s',strtotime('+1year')),
             'create_at' => date('Y-m-d H:i:s', time()),
             'create_ip' => Utils::ipAddress(),
             'last_login_at' => date('Y-m-d H:i:s', time()),
             'last_login_ip' => Utils::ipAddress(),
         ];
-        $invite['sd_invite_code'] = isset($data['sd_invite_code']) ? $data['sd_invite_code'] : ''; //邀请码
+        $invite['invite_code'] = isset($data['invite_code']) ? $data['invite_code'] : ''; //邀请码
         $user = UserAuthFactory::createUser($data);
         return $user ? true : false;
     }

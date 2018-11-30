@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Report\Scopion;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
@@ -41,6 +42,8 @@ class CreateAntifraudAction extends AbstractHandler
 
     private function createAntifraud($params)
     {
+        SLogger::getStream()->error(__CLASS__);
+
 //        `id` int(11) NOT NULL COMMENT 'id',
 //  `user_id` int(11) NOT NULL COMMENT '用户id',
 //  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'user_reports表的id',
