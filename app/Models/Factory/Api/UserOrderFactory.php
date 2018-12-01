@@ -21,6 +21,7 @@ use App\Models\Orm\UserPostloan;
 use App\Models\Orm\UserReport;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UserOrderFactory
@@ -129,7 +130,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAntifraud($params)
     {
-        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id']);
+        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userAntifraud)){
             $userAntifraud = new UserAntifraud();
         }
@@ -160,7 +161,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
-        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id']);
+        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userApply)){
             $userApply = new UserApply();
         }
@@ -185,7 +186,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAmountEst($params)
     {
-        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id']);
+        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id'])->first();
         if(empty($userAmountEst)){
             $userAmountEst = new UserAmountEst();
         }
@@ -212,7 +213,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPostloan($params)
     {
-        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id']);
+        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userPostloan)){
             $userPostloan = new UserPostloan();
         }
@@ -239,7 +240,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createBlackList($params)
     {
-        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id']);
+        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userBlacklist)){
             $userBlacklist = new UserBlacklist();
         }
@@ -266,7 +267,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createMultiinfo($params)
     {
-        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id']);
+        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userMultiinfo)){
             $userMultiinfo = new UserMultiinfo();
         }
@@ -292,7 +293,7 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPersonal($params)
     {
-        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id']);
+        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id'])->first();;
         if(empty($userPersonal)){
             $userPersonal = new UserPersonal();
         }
@@ -329,7 +330,7 @@ class UserOrderFactory extends ApiFactory
     public static function updateOrderStatusByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
-            ->update(['status' => $status]);
+            ->update(['status' => $status, 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -342,7 +343,7 @@ class UserOrderFactory extends ApiFactory
     public static function updatePersonByUserIdAndOrderNo($userId, $orderNo, $status)
     {
         return UserOrder::where(['user_id' => $userId, 'order_no' => $orderNo])
-            ->update(['status' => $status]);
+            ->update(['status' => $status, 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -423,7 +424,7 @@ class UserOrderFactory extends ApiFactory
     public static function getOrderDetailByOrderNo($orderNo)
     {
         $userOrder = UserOrder::where(['order_no' => $orderNo])
-            ->get();
+            ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }
 
@@ -714,10 +715,10 @@ class UserOrderFactory extends ApiFactory
      * @param $params
      * @return mixed
      */
-    public static function UpdateUserReportLogOrderIdById($params)
+    public static function updateUserReportLogOrderIdById($params)
     {
         return UserReportLog::where(['id' => $params['user_report_log_id']])
-            ->update(['order_id' => $params['user_order_id']]);
+            ->update(['order_id' => $params['user_order_id'], 'update_at' => date('Y-m-d H:i:s')]);
     }
 
     /**

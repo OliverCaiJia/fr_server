@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\UserBasicFactory;
 use App\Models\Factory\Api\UserReportFactory;
 use Illuminate\Http\Request;
@@ -16,15 +17,19 @@ class UserController extends WebController
         $data = [];
         $user_id = $this->getUserId($request);
         $resData = UserReportFactory::getReportByUserId($user_id);
-        $reportData = json_decode($resData['report_data'],true);
+        $reportData = json_decode($resData['report_data'], true);
+
         //组装数据
         $data['report_code'] = $resData['report_code']; //报告编号
         $data['create_at'] = $resData['create_at']; //生成时间
-        $data['name'] = $reportData['post_load']['person_info']['name']; //姓名
-        $data['gender'] = $reportData['post_load']['person_info']['gender']; //性别
-        $data['age'] = $reportData['post_load']['person_info']['age']; //年龄
+
+        $data['name'] = isset($reportData['post_load']['person_info']['name']) ? $reportData['post_load']['person_info']['name'] : null; //姓名
+        $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ? $reportData['post_load']['person_info']['gender'] : null; //性别
+        SLogger::getStream()->error('======-----------' . json_encode($data['gender']));
+        $data['age'] = isset($reportData['post_load']['person_info']['age']) ? $reportData['post_load']['person_info']['age'] : null; //年龄
+        SLogger::getStream()->error('======-----------' . json_encode($data['age']));
         //学历
-        switch ($reportData['post_load']['person_info']['education_info']['level']){
+        switch ($reportData['post_load']['person_info']['education_info']['level']) {
             case 0:
                 $data['level'] = '未知';
                 break;
@@ -49,22 +54,28 @@ class UserController extends WebController
             default:
                 $data['level'] = '未知';
         }
-        $data['idcard'] = $reportData['post_load']['person_info']['idcard']; //身份证号
-        $data['idcard_location'] = $reportData['post_load']['person_info']['idcard_location']; //身份证归属地
-        $data['mobile'] = $reportData['post_load']['person_info']['mobile']; //手机号
-        $data['carrier'] = $reportData['post_load']['person_info']['carrier']; //手机运营商
-        $data['mobile_location'] = $reportData['post_load']['person_info']['mobile_location']; //手机号码归属地
+        $data['idcard'] = isset($reportData['post_load']['person_info']['idcard']) ? $reportData['post_load']['person_info']['idcard'] : null; //身份证号
+        SLogger::getStream()->error('======-----------' . json_encode($data['idcard']));
+        $data['idcard_location'] = isset($reportData['post_load']['person_info']['idcard_location']) ? $reportData['post_load']['person_info']['idcard_location'] : null; //身份证归属地
 
-        $data['courtcase_cnt'] = $reportData['anti_fraud']['untrusted_info']['courtcase_cnt']; //法院执行人次数
-        $data['dishonest_cnt'] = $reportData['anti_fraud']['untrusted_info']['dishonest_cnt']; //失信未执行次数
+        SLogger::getStream()->error('======-----------' . json_encode($data['idcard_location']));
+        $data['mobile'] = isset($reportData['post_load']['person_info']['mobile']) ? $reportData['post_load']['person_info']['mobile'] : null; //手机号
+        SLogger::getStream()->error('======-----------' . json_encode($data['mobile']));
+        $data['carrier'] = isset($reportData['post_load']['person_info']['carrier']) ? $reportData['post_load']['person_info']['carrier'] : null; //手机运营商
+        SLogger::getStream()->error('======-----------' . json_encode($data['carrier']));
+        $data['mobile_location'] = isset($reportData['post_load']['person_info']['mobile_location']) ? $reportData['post_load']['person_info']['mobile_location'] : null; //手机号码归属地
+        SLogger::getStream()->error('======-----------' . json_encode($data['mobile_location']));
+        $data['courtcase_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['courtcase_cnt']) ? $reportData['anti_fraud']['untrusted_info']['courtcase_cnt'] : null; //法院执行人次数
+        $data['dishonest_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['dishonest_cnt']) ? $reportData['anti_fraud']['untrusted_info']['dishonest_cnt'] : null; //失信未执行次数
         $data['is_hit'] = $reportData['anti_fraud']['fraudulence_info']['is_hit'] ? '是' : '否'; //欺诈风险名单是否命中
         $data['type'] = empty($reportData['anti_fraud']['fraudulence_info']['type']) ? '无' : $reportData['anti_fraud']['fraudulence_info']['type']; //欺诈风险名单类型
 
-        $data['org_count'] = $reportData['multi_info']['auth_queried_detail']['register_info']['org_count']; //注册机构数量
+        $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ? $reportData['multi_info']['auth_queried_detail']['register_info']['org_count'] : null; //注册机构数量
         $org_types = $reportData['multi_info']['auth_queried_detail']['register_info']['org_types']; //注册机构类型
-        if(!empty($org_types)){
-            foreach($org_types as $k=>$v){
-                switch ($v){
+
+        if (!empty($org_types)) {
+            foreach ($org_types as $k => $v) {
+                switch ($v) {
                     case 'ZHENGXIN':
                         $data['org_types'][] = '信用机构';
                         break;
@@ -102,19 +113,19 @@ class UserController extends WebController
                         $data['org_types'][] = '其他';
                 }
             }
-            $data['org_types'] = implode(',',$data['org_types']);
-        }else{
+            $data['org_types'] = implode(',', $data['org_types']);
+        } else {
             $data['org_types'] = '无';
         }
 
-        $data['loan_org_cnt'] = $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt']; //借贷机构数
-        $data['loan_cnt'] = $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt']; //借贷次数
+        $data['loan_org_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt']) ? $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt'] : null; //借贷机构数
+        $data['loan_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt']) ? $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt'] : null; //借贷次数
 
         $data['idcard_name_in_blacklist'] = $reportData['black_gray']['black_info_detail']['idcard_name_in_blacklist'] ? '是' : '否'; //身份证和姓名是否在黑名单
         $data['mobile_name_in_blacklist'] = $reportData['black_gray']['black_info_detail']['mobile_name_in_blacklist'] ? '是' : '否'; //手机和姓名是否在黑名单
 
-        $data['overdue_card'] = $reportData['application']['credit_card']['overdue_card']; //有过逾期的卡片数
-        $data['bill_nums'] = $reportData['application']['credit_card']['bill_nums']; //账单总数
+        $data['overdue_card'] = isset($reportData['application']['credit_card']['overdue_card']) ? $reportData['application']['credit_card']['overdue_card'] : null; //有过逾期的卡片数
+        $data['bill_nums'] = isset($reportData['application']['credit_card']['bill_nums']) ? $reportData['application']['credit_card']['bill_nums'] : null; //账单总数
         $data['max_overdue_money'] = empty($reportData['application']['credit_card']['max_overdue_money']) ? 0 : $reportData['application']['credit_card']['max_overdue_money']; //最大逾期金额
 
         $data['sum_sure_due_days_non_cdq_all_time_m12'] = empty($reportData['post_load']['loan_behavior_analysis']['feature_360d']['sum_sure_due_days_non_cdq_all_time_m12']) ? 0 : $reportData['post_load']['loan_behavior_analysis']['feature_360d']['sum_sure_due_days_non_cdq_all_time_m12']; //近12个月非超短期现金贷累计逾期天数
@@ -142,10 +153,10 @@ class UserController extends WebController
         $data = UserBasicFactory::fetchUserBasic($user_id);
         $token = $this->getToken($request);
 
-        if(empty($data)){
-            return view('web.user.userinfo', compact('data','token'));
+        if (empty($data)) {
+            return view('web.user.userinfo', compact('data', 'token'));
         }
-        switch ($data['profession']){
+        switch ($data['profession']) {
             case 0:
                 $data['profession'] = '上班族';
                 break;
@@ -156,7 +167,7 @@ class UserController extends WebController
                 $data['profession'] = '自由职业';
         }
 
-        switch ($data['work_time']){
+        switch ($data['work_time']) {
             case 0:
                 $data['work_time'] = '半年内';
                 break;
@@ -167,7 +178,7 @@ class UserController extends WebController
                 $data['work_time'] = '一年以上';
         }
 
-        switch ($data['month_salary']){
+        switch ($data['month_salary']) {
             case 0:
                 $data['month_salary'] = '2千以下';
                 break;
@@ -182,7 +193,7 @@ class UserController extends WebController
                 break;
         }
 
-        switch ($data['house_fund_time']){
+        switch ($data['house_fund_time']) {
             case 0:
                 $data['house_fund_time'] = '无公积金';
                 break;
@@ -193,6 +204,6 @@ class UserController extends WebController
                 $data['house_fund_time'] = '一年以上';
                 break;
         }
-        return view('web.user.userinfo', compact('data','token'));
+        return view('web.user.userinfo', compact('data', 'token'));
     }
 }

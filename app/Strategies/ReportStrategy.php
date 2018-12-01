@@ -14,7 +14,6 @@ class ReportStrategy extends AppStrategy
     public static function getAntifraud($params)
     {
         $antifraud['user_id'] = $params['user_id'];
-        $antifraud['user_report_id'] = $params['user_report_id'];
         $antifraud['courtcase_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['courtcase_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['courtcase_cnt'] : '';
         $antifraud['dishonest_cnt'] = isset($params['anti_fraud']['data']['untrusted_info']['dishonest_cnt']) ? $params['anti_fraud']['data']['untrusted_info']['dishonest_cnt'] : '';
         $antifraud['fraudulence_is_hit'] = intval(isset($params['anti_fraud']['data']['fraudulence_info']['is_hit'])) ? $params['anti_fraud']['data']['fraudulence_info']['is_hit'] : 0;
@@ -36,7 +35,6 @@ class ReportStrategy extends AppStrategy
     public static function getApply($params)
     {
         $userApply['user_id'] = $params['user_id'];
-        $userApply['user_report_id'] = $params['user_report_id'];
         $userApply['transid'] = $params['application']['data']['trans_id'];
         $userApply['data'] = json_encode($params['application']['data']);
         $userApply['fee'] = $params['application']['fee'];
@@ -53,7 +51,6 @@ class ReportStrategy extends AppStrategy
     public static function getAmountEst($params)
     {
         $userAmountEst['user_id'] = $params['user_id'];
-        $userAmountEst['user_report_id'] = $params['user_report_id'];
         $userAmountEst['zm_score'] = $params['credit_qualification']['data']['qualification_info']['zm_score_info']['zm_score'];
         $userAmountEst['huabai_limit'] = $params['credit_qualification']['data']['qualification_info']['huabei_info']['huabai_limit'];
         $userAmountEst['credit_amt'] = $params['credit_qualification']['data']['qualification_info']['jiebei_info']['credit_amt'];
@@ -72,7 +69,6 @@ class ReportStrategy extends AppStrategy
     public static function getPostLoan($params)
     {
         $userPostLoan['user_id'] = $params['user_id'];
-        $userPostLoan['user_report_id'] = $params['user_report_id'];
         $userPostLoan['transid'] = $params['post_load']['data']['trans_id'];
         $userPostLoan['due_days_non_cdq_12_mon'] = $params['post_load']['data']['loan_behavior_analysis']['feature_360d']['last_to_end_sure_due_non_cdq_all_time_m12'];
         $userPostLoan['pay_cnt_12_mon'] = $params['post_load']['data']['loan_behavior_analysis']['feature_360d']['sum_pay_cnt_all_pro_all_time_m12'];
@@ -91,7 +87,6 @@ class ReportStrategy extends AppStrategy
     public static function getBlackList($params)
     {
         $userBlackList['user_id'] = $params['user_id'];
-        $userBlackList['user_report_id'] = $params['user_report_id'];
         $userBlackList['transid'] = $params['black_gray']['data']['trans_id'];
         $userBlackList['mobile_name_in_blacklist'] = (int)$params['black_gray']['data']['black_info_detail']['mobile_name_in_blacklist'];
         $userBlackList['idcard_name_in_blacklist'] = (int)$params['black_gray']['data']['black_info_detail']['idcard_name_in_blacklist'];
@@ -112,7 +107,6 @@ class ReportStrategy extends AppStrategy
     public static function getMultiInfo($params)
     {
         $userMultiinfo['user_id'] = $params['user_id'];
-        $userMultiinfo['user_report_id'] = $params['user_report_id'];
         $userMultiinfo['register_org_count'] = $params['multi_info']['data']['auth_queried_detail']['register_info']['org_count'];
         $userMultiinfo['loan_cnt'] = $params['multi_info']['data']['auth_queried_detail']['loan_info']['loan_cnt'];
         $userMultiinfo['loan_org_cnt'] = $params['multi_info']['data']['auth_queried_detail']['loan_info']['loan_org_cnt'];

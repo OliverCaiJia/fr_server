@@ -81,19 +81,18 @@ class CreateReportLogAction extends AbstractHandler
             $reportLog['data'] = json_encode($params['credit_evaluation']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
         }
+
+
         /**
          *额度评估(电商)
          */
         SLogger::getStream()->error(__CLASS__.'credit_qualification');
         if (isset($params['credit_qualification'])) {
-            SLogger::getStream()->error(__CLASS__.'======'.json_encode($params['credit_qualification']));
             $reportLog['data'] = json_encode($params['credit_qualification']);
-
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
             $userAmountEst = ReportStrategy::getAmountEst($params);
-            SLogger::getStream()->error(__CLASS__.'======'.json_encode($userAmountEst));
             UserOrderFactory::createAmountEst($userAmountEst);
-            SLogger::getStream()->error(__CLASS__.'===--------------===');
         }
         /**
          *贷后行为

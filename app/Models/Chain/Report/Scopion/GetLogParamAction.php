@@ -85,7 +85,6 @@ class GetLogParamAction extends AbstractHandler
          * 申请准入
          */
         $apply = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'application');
-
         if (isset($apply['data'])) {
             $this->params['application'] = $apply;
             $this->params['report_data']['application'] = $apply['data'];
@@ -104,6 +103,7 @@ class GetLogParamAction extends AbstractHandler
          * 额度评估(电商)
          */
         $credidtQualification = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'credit.qualification');
+//        dd($credidtQualification);//ok
         if (isset($credidtQualification['data'])) {
             $this->params['credit_qualification'] = $credidtQualification;
             $this->params['report_data']['credit_qualification'] = $credidtQualification['data'];
@@ -113,6 +113,7 @@ class GetLogParamAction extends AbstractHandler
          * 贷后行为
          */
         $postLoad = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'post-load');
+//        dd($postLoad);//ok
         if (isset($postLoad['data'])) {
             $this->params['post_load'] = $postLoad;
             $this->params['report_data']['post_load'] = $postLoad['data'];
