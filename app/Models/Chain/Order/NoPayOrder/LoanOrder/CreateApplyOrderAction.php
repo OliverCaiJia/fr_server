@@ -33,6 +33,7 @@ class CreateApplyOrderAction extends AbstractHandler
 
     private function createApplyOrder($params)
     {
+        SLogger::getStream()->error('========================================');
         SLogger::getStream()->error(__CLASS__);
         $applyOrder = [];
         $applyOrder['user_id'] = $params['user_id'];
@@ -44,8 +45,8 @@ class CreateApplyOrderAction extends AbstractHandler
         $data['p_order_id'] = 0;//没有父级订单
         $data['amount'] = 0;//免费订单金额为零
         $borrowLog = UserOrderFactory::getBorrowLogByUserId($params['user_id']);
-        $data['term'] = $borrowLog['term'];
-        $data['money'] = $borrowLog['money'];
+        $data['term'] = $borrowLog['loan_period'];
+        $data['money'] = $borrowLog['loan_amount'];
         $data['count'] = 1;//订单数量为一
         $data['status'] = 0;//订单为未支付
         $data['create_ip'] = Utils::ipAddress();
