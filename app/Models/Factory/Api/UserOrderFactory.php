@@ -9,6 +9,7 @@ use App\Models\Orm\UserAntifraud;
 use App\Models\Orm\UserApply;
 use App\Models\Orm\UserApplyLog;
 use App\Models\Orm\UserBlacklist;
+use App\Models\Orm\UserBorrowLog;
 use App\Models\Orm\UserLoanLog;
 use App\Models\Orm\UserLoanTask;
 use App\Models\Orm\UserMultiinfo;
@@ -36,6 +37,30 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createOrder($params)
     {
+//        CREATE TABLE `sgd_user_order` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+//  `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
+//  `order_type` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单类型',
+//  `p_order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否是子订单',
+//  `order_expired` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '订单有效期',
+//  `amount` decimal(15,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额 ，以分为单位的整型',
+//  `money` decimal(15,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额 ，以分为单位的整型',
+//  `term` tinyint(11) NOT NULL COMMENT '订单期限',
+//  `count` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '订单数量',
+//  `status` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '订单状态 0:订单处理中 1:订单处理完成 2:订单过期 3:订单撤销 4订单失败 ',
+//  `create_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '用户支付时使用的网络终端IP',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '更新IP',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`) USING BTREE,
+//  KEY `FK_USER_ORDER_ORDER_TYPE` (`order_type`),
+//  KEY `FK_USER_ORDER_UID_ORDERID` (`user_id`,`order_no`) USING BTREE COMMENT '用户ID和订单号的联合索引',
+//  KEY `INDEX_USER_ID` (`user_id`),
+//  KEY `INDEX_STATUS` (`status`),
+//  CONSTRAINT `FK_USER_ORDER_ORDER_TYPE` FOREIGN KEY (`order_type`) REFERENCES `sgd_user_order_type` (`id`) ON UPDATE CASCADE,
+//  CONSTRAINT `FK_USER_ORDER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON UPDATE CASCADE
+//) ENGINE=InnoDB AUTO_INCREMENT=287 DEFAULT CHARSET=utf8 COMMENT='用户订单表'
         $userOrderObj = new UserOrder();
         $userOrderObj->user_id = $params['user_id'];
         $userOrderObj->order_no = $params['order_no'];
@@ -43,6 +68,7 @@ class UserOrderFactory extends ApiFactory
         $userOrderObj->p_order_id = $params['p_order_id'];
         $userOrderObj->order_expired = $params['order_expired'];//读配置
         $userOrderObj->amount = $params['amount'];
+        $userOrderObj->money = $params['money'];
         $userOrderObj->term = $params['term'];
         $userOrderObj->count = $params['count'];
         $userOrderObj->status = $params['status'];
@@ -130,8 +156,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAntifraud($params)
     {
-        $userAntifraud = UserAntifraud::select()->where('user_id', '=' , $params['user_id'])->first();
-        if(empty($userAntifraud)){
+        $userAntifraud = UserAntifraud::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userAntifraud)) {
             $userAntifraud = new UserAntifraud();
         }
         $userAntifraud->user_id = $params['user_id'];
@@ -161,8 +187,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createApply($params)
     {
-        $userApply = UserApply::select()->where('user_id', '=' , $params['user_id'])->first();
-        if(empty($userApply)){
+        $userApply = UserApply::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userApply)) {
             $userApply = new UserApply();
         }
         $userApply->user_id = $params['user_id'];
@@ -186,8 +212,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createAmountEst($params)
     {
-        $userAmountEst = UserAmountEst::select()->where('user_id', '=' , $params['user_id'])->first();
-        if(empty($userAmountEst)){
+        $userAmountEst = UserAmountEst::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userAmountEst)) {
             $userAmountEst = new UserAmountEst();
         }
         $userAmountEst->user_id = $params['user_id'];
@@ -213,8 +239,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPostloan($params)
     {
-        $userPostloan = UserPostloan::select()->where('user_id', '=' , $params['user_id'])->first();;
-        if(empty($userPostloan)){
+        $userPostloan = UserPostloan::select()->where('user_id', '=', $params['user_id'])->first();;
+        if (empty($userPostloan)) {
             $userPostloan = new UserPostloan();
         }
         $userPostloan->user_id = $params['user_id'];
@@ -240,8 +266,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createBlackList($params)
     {
-        $userBlacklist = UserBlacklist::select()->where('user_id', '=' , $params['user_id'])->first();;
-        if(empty($userBlacklist)){
+        $userBlacklist = UserBlacklist::select()->where('user_id', '=', $params['user_id'])->first();;
+        if (empty($userBlacklist)) {
             $userBlacklist = new UserBlacklist();
         }
         $userBlacklist->user_id = $params['user_id'];
@@ -267,8 +293,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createMultiinfo($params)
     {
-        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=' , $params['user_id'])->first();;
-        if(empty($userMultiinfo)){
+        $userMultiinfo = UserMultiinfo::select()->where('user_id', '=', $params['user_id'])->first();;
+        if (empty($userMultiinfo)) {
             $userMultiinfo = new UserMultiinfo();
         }
         $userMultiinfo->user_id = $params['user_id'];
@@ -293,8 +319,8 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createPersonal($params)
     {
-        $userPersonal = UserPersonal::select()->where('user_id', '=' , $params['user_id'])->first();;
-        if(empty($userPersonal)){
+        $userPersonal = UserPersonal::select()->where('user_id', '=', $params['user_id'])->first();;
+        if (empty($userPersonal)) {
             $userPersonal = new UserPersonal();
         }
         $userPersonal->user_id = $params['user_id'];
@@ -743,5 +769,19 @@ class UserOrderFactory extends ApiFactory
             ->where('spread_nid', '=', $spreadNid)
             ->first();
         return $userLoanTask ? $userLoanTask->toArray() : [];
+    }
+
+    /**
+     * 依据用户id获取申请贷款行为
+     * @param $userId
+     * @return array
+     */
+    public static function getBorrowLogByUserId($userId)
+    {
+        $userBorrowLog = UserBorrowLog::select()
+            ->where('user_id', '=', $userId)
+            ->orderby('id', 'desc')
+            ->first();
+        return $userBorrowLog ? $userBorrowLog->toArray() : [];
     }
 }
