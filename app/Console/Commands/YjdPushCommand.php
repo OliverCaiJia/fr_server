@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserLoanTaskFactory;
 use Illuminate\Console\Command;
 use App\Services\Core\Push\Yijiandai\YiJianDaiPushService;
-use DB;
 
 class YjdPushCommand extends Command
 {
@@ -51,7 +49,6 @@ class YjdPushCommand extends Command
             return;
         }
 
-        DB::beginTransaction();
         foreach ($res_task as $task_key => $taskj_val){
             $request_data = json_decode($res_task[$task_key]['request_data'],true);
             $data = [
@@ -84,20 +81,7 @@ class YjdPushCommand extends Command
                     'response_data' => $yjd_result,
                     'update_at' => date('Y-m-d H:i:s')
                 ];
-                $task_res = UserLoanTaskFactory::updateDataById($taskj_val['id'],$task_data);
-
-                //update user_info service_status
-                $user_data = [
-                    'service_status' => 4,
-                    'update_at' => date('Y-m-d H:i:s')
-                ];
-                $user_res = UserinfoFactory::UpdateUserInfoStatus($taskj_val['user_id'],$user_data);
-
-                if($task_res && $user_res){
-                    DB::commit();
-                }else{
-                    DB::rollBack();
-                }
+                UserLoanTaskFactory::updateDataById($taskj_val['id'],$task_data);
             }
         }
     }

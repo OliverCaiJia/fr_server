@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
+use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
@@ -165,14 +166,18 @@ class TestController extends ApiController
 //        $order['order_type_nid'] = $request->input('order_type_nid');
 //        $order['pid'] = $request->input('pid');
 //        $order['money'] = $request->input('money');
-        $chain = new DoApplyOrderHandler($order);
-        $result = $chain->handleRequest();
-        dd($result);
+
+
+
+//        $chain = new DoApplyOrderHandler($order);
+//        $result = $chain->handleRequest();
+//        dd($result);
 
 
 //        $apply = MozhangService::o()->getMoZhangContent('蔡嘉', '130702198111071511','18510536684', 'application', '');
 //
 //        dd($apply);
-
+        $birthday = Utils::getBirthdayByIdCard('130702198111071511');
+        dd($birthday);
     }
 }
