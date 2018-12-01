@@ -24,6 +24,7 @@ class UserController extends WebController
         $data['create_at'] = $resData['create_at']; //生成时间
 
         $data['name'] = isset($reportData['post_load']['person_info']['name']) ?: null; //姓名
+        SLogger::getStream()->error('======-----------'.json_encode($data['name']));
         $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ?: null; //性别
         $data['age'] = isset($reportData['post_load']['person_info']['age']) ?: null; //年龄
         //学历
@@ -65,6 +66,7 @@ class UserController extends WebController
 
         $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ?: null; //注册机构数量
         $org_types = $reportData['multi_info']['auth_queried_detail']['register_info']['org_types']; //注册机构类型
+
         if (!empty($org_types)) {
             foreach ($org_types as $k => $v) {
                 switch ($v) {
