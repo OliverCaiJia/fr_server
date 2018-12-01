@@ -23,7 +23,7 @@ class UserController extends WebController
         $data['report_code'] = $resData['report_code']; //报告编号
         $data['create_at'] = $resData['create_at']; //生成时间
 
-        $data['name'] = isset($reportData['post_load']['person_info']['name']) ?: null; //姓名
+        $data['name'] = isset($reportData['post_load']['person_info']['name']) ? $reportData['post_load']['person_info']['name'] : null; //姓名
         SLogger::getStream()->error('======-----------'.json_encode($data['name']));
         $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ?: null; //性别
         $data['age'] = isset($reportData['post_load']['person_info']['age']) ?: null; //年龄
