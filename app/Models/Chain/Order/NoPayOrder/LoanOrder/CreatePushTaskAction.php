@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
 use App\Helpers\Logger\SLogger;
+use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserBasicFactory;
@@ -40,11 +41,16 @@ class CreatePushTaskAction extends AbstractHandler
         SLogger::getStream()->error('========================================');
         SLogger::getStream()->error(__CLASS__);
         $userBasic = UserBasicFactory::getUserBasicByUserId($params['user_id']);
+        $userLocationArr = explode(',', $userBasic['user_location']);
+        if (isset($userLocationArr)) {
+            $city = $userLocationArr[1];
+        }
 
         $userAuth = UserAuthFactory::getUserById($params['user_id']);
 
         $userRealName = UserRealnameFactory::getUserRealnameByUserId($params['user_id']);
 
+        $birthday = Utils::getBirthdayByIdCard($userRealName['id_card_no']);
         $licenseDay = $userBasic['company_license_time'];
         $now = date('Y-m-d H:i:s');
 
@@ -57,7 +63,7 @@ class CreatePushTaskAction extends AbstractHandler
             'name' => $userRealName['real_name'],
             'certificate_no' => $userRealName['id_card_no'],
             'sex' => $userRealName['gender'],
-            'birthday' => isset($userRealName['birthday']) ?: '1990-01-01',
+            'birthday' => isset($birthday) ?: '1990-01-01',
             'has_insurance' => $userBasic['has_assurance'],
             'house_info' => '00' . $userBasic['has_house'],
             'car_info' => '00' . $userBasic['has_auto'],
@@ -70,7 +76,7 @@ class CreatePushTaskAction extends AbstractHandler
             'has_creditcard' => $userBasic['has_creditcard'],
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
-            'city' => $userBasic['city'],
+            'city' => $city,
             'money' => empty($userOrder['money']) ? 10000 : $userOrder['money']
         );
         SLogger::getStream()->error(__CLASS__.'===='.json_encode($requestData));
