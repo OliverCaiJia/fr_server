@@ -63,7 +63,7 @@ class CreatePushTaskAction extends AbstractHandler
             'name' => $userRealName['real_name'],
             'certificate_no' => $userRealName['id_card_no'],
             'sex' => $userRealName['gender'],
-            'birthday' => isset($birthday) ?: '1990-01-01',
+            'birthday' => $birthday ?: '1990-01-01',
             'has_insurance' => $userBasic['has_assurance'],
             'house_info' => '00' . $userBasic['has_house'],
             'car_info' => '00' . $userBasic['has_auto'],
