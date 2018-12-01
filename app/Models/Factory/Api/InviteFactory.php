@@ -226,9 +226,9 @@ class InviteFactory extends ApiFactory
         $inviteObj->mobile = $data['mobile'];
         $inviteObj->channel_nid = $data['channel_nid'];
         $inviteObj->code = $data['invite_code'];
-        $inviteObj->create_at = date('Y-m-d H:i:s', time());
+        $inviteObj->create_at = date('Y-m-d H:i:s');
         $inviteObj->create_ip = Utils::ipAddress();
-        $inviteObj->update_at = date('Y-m-d H:i:s', time());
+        $inviteObj->update_at = date('Y-m-d H:i:s');
         $inviteObj->update_ip = Utils::ipAddress();
         if($inviteObj->save()){
             return true;
