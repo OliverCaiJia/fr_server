@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\UserOrderType;
@@ -20,7 +21,7 @@ class IfHasPaidOrderAction extends AbstractHandler
     public function handleRequest()
     {
         if ($this->checkIfPaid($this->params)) {
-            $this->setSuccessor(new CreatePushTaskAction($this->params));
+            $this->setSuccessor(new CreateApplyOrderAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
             return $this->error;
@@ -29,6 +30,10 @@ class IfHasPaidOrderAction extends AbstractHandler
 
     private function checkIfPaid($params)
     {
+        SLogger::getStream()->error('========================================');
+        SLogger::getStream()->error(json_encode($params));
+        SLogger::getStream()->error('-------------------------------------------');
+        SLogger::getStream()->error(__CLASS__);
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $this->params['user_id'] = $userOrder['user_id'];

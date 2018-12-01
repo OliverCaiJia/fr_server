@@ -137,22 +137,42 @@ class TestController extends ApiController
     }
 
     public function doApply(Request $request) {
-//        $order = [];
-//        $order['order_no'] = 'SGD-A-20181123162814-401156';
+        $order = [];
+        $order['order_no'] = 'SGD-R-20181201154025-311957';
+        $order['report_type_nid'] = 'report_credit';
 //        $order['money'] = '666';
+
+//        $userOrderObj = new UserOrder();
+//        $userOrderObj->user_id = $params['user_id'];
+//        $userOrderObj->order_no = $params['order_no'];
+//        $userOrderObj->order_type = $params['order_type'];
+//        $userOrderObj->p_order_id = $params['p_order_id'];
+//        $userOrderObj->order_expired = $params['order_expired'];//读配置
+//        $userOrderObj->amount = $params['amount'];
+//        $userOrderObj->term = $params['term'];
+//        $userOrderObj->count = $params['count'];
+//        $userOrderObj->status = $params['status'];
+//        $userOrderObj->create_ip = $params['create_ip'];
+//        $userOrderObj->create_at = $params['create_at'];
+//        $userOrderObj->update_ip = $params['update_ip'];
+//        $userOrderObj->update_at = $params['update_at'];
+
+
+
+
+
+//        $order['user_id'] = $this->getUserId($request);
+//        $order['order_type_nid'] = $request->input('order_type_nid');
+//        $order['pid'] = $request->input('pid');
+//        $order['money'] = $request->input('money');
+        $chain = new DoApplyOrderHandler($order);
+        $result = $chain->handleRequest();
+        dd($result);
+
+
+//        $apply = MozhangService::o()->getMoZhangContent('蔡嘉', '130702198111071511','18510536684', 'application', '');
 //
-////        $order['user_id'] = $this->getUserId($request);
-////        $order['order_type_nid'] = $request->input('order_type_nid');
-////        $order['pid'] = $request->input('pid');
-////        $order['money'] = $request->input('money');
-//        $chain = new DoApplyOrderHandler($order);
-//        $result = $chain->handleRequest();
-//        dd($result);
-
-
-        $apply = MozhangService::o()->getMoZhangContent('蔡嘉', '130702198111071511','18510536684', 'application', '');
-
-        dd($apply);
+//        dd($apply);
 
     }
 }

@@ -32,12 +32,13 @@ class CreatePushTaskAction extends AbstractHandler
     private function createLoanTask() {
 
         $data = $this->getLoanParams($this->params);
-
         return UserLoanTaskFactory::createLoanTask($data);
     }
 
     private function getLoanParams($params)
     {
+        SLogger::getStream()->error('========================================');
+        SLogger::getStream()->error(__CLASS__);
         $userBasic = UserBasicFactory::getUserBasicByUserId($params['user_id']);
 
         $userAuth = UserAuthFactory::getUserById($params['user_id']);
@@ -76,10 +77,13 @@ class CreatePushTaskAction extends AbstractHandler
 
         $data['user_id'] = $params['user_id'];
         $data['type_id'] = 0;//平台推送
+        $data['loan_order_no'] = $params['order_no'];
         $data['spread_nid'] = 'oneLoan';
         $data['request_data'] = json_encode($requestData);
         $data['response_data'] = json_encode(new \ArrayObject());
         $data['status'] = 0;//未激活
+        $data['retrieve_req_data'] = json_encode(new \ArrayObject());
+        $data['retrieve_rsp_data'] = json_encode(new \ArrayObject());
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['send_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());
