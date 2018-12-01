@@ -27,7 +27,7 @@ class YjdPullCommand extends Command
      *
      * @var string
      */
-    protected $description = '一键贷推送结果';
+    protected $description = '一键贷推送结果获取';
 
     /**
      * Create a new command instance.
@@ -51,6 +51,56 @@ class YjdPullCommand extends Command
      */
     public function handle()
     {
+        $taskList = UserLoanTask::leftjoin(UserAuth::TABLE_NAME,'user_id','=',UserAuth::TABLE_NAME.'.id')
+                    ->select(UserLoanTask::TABLE_NAME.'.*',UserAuth::TABLE_NAME.'.mobile')
+                    ->where(UserLoanTask::TABLE_NAME.'.type_id',0)
+                    ->where(UserLoanTask::TABLE_NAME.'.status',2)
+                    ->chunk(100,function($res_task){
+
+                        //数据处理
+                        foreach($res_task as $k=>$v){
+                            if(strtotime("{$v['create_at']}+30 day") < time()){
+                                UserLoanTaskFactory::updateStatusById($v['id'],9);
+                            }else{
+                                //获取订单信息
+                                $data = UserOrderFactory::getOrderDetailByOrderNo($v['loan_order_no']);
+
+                                //定义接口参数
+                                $sendParams['mobile'] = $v['mobile'];
+                                $res = YiJianDaiPushService::o()->getPull($sendParams);
+
+                                //组合参数
+                                $data['task_id'] = $v['id'];
+                                $data['request_data'] = json_encode($sendParams);
+                                $data['response_data'] = json_encode($res['data']['list']);
+                                $data['status'] = 3;
+                                $data['platform_id'] = 1;
+
+                                //记录loan_log
+                                UserLoanLogFactory::createUserLoanLog($data);
+
+                                //更新数据
+                                if($res['error_code'] == 0 && !empty($res['data']['list'])){
+                                    //更新loan_task
+                                    UserLoanTaskFactory::updateTaskResult($data);
+                                    //记录loan
+                                    foreach($res['data']['list'] as $res_key=>$res_val){
+                                        $data['res_status'] = $res_val['status'];
+                                        UserLoanFactory::createUserLoan($data);
+                                    }
+                                }
+                            }
+                        }
+        });
+
+
+
+
+
+
+
+
+
         //获取已发送任务
         $params['type_id'] = 0;
         $params['status'] = 2;
