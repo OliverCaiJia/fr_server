@@ -25,21 +25,33 @@ class ReportPayController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNoRaw = $request->input('order_no');
-        $status = [0];
+        $bankCardNo = $request->input('bank_card_no');
+        $status = [0];//未支付状态
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNoRaw, $status);
 
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
-        $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
-        $extra = UserOrderStrategy::getExtra($orderType['type_nid']);
-        $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
-        $data['update_at'] = date('Y-m-d H:i:s');
-        $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
-        if (!$userOrderUpdate){
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+        $res = [];
+        if (empty($userOrder['card_no'])) {
+            $data['card_no'] = $bankCardNo;
+            $data['update_at'] = date('Y-m-d H:i:s');
+            $userOrderRaw = UserOrderFactory::updateOrderByUserIdAndOrderNo($userId, $orderNoRaw, $data);
+            if (!$userOrderRaw) {
+                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+            }
+            $res['order_no'] = $userOrderRaw['order_no'];
+        } else if (($userOrder['card_no']) != $bankCardNo) {
+            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+            $extra = UserOrderStrategy::getExtra($orderType['type_nid']);
+            $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
+            $data['update_at'] = date('Y-m-d H:i:s');
+            $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
+            if (!$userOrderUpdate) {
+                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+            }
+            $res['order_no'] = $userOrderUpdate['order_no'];
         }
-//        $orderAmount = $userOrder['amount'];
 
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
         $goodsName = $orderType['name'];
@@ -53,7 +65,6 @@ class ReportPayController extends ApiController
         $paymentArr = [];
         $cardName = $userRealName['real_name'];
         $paymentArr['bankCardNo'] = $request->input('bank_card_no');
-        $bankCardNo = $request->input('bank_card_no');
         $userBankcard = UserBankcardFactory::getUserBankCardByCardNoAndUserId($paymentArr['bankCardNo'], $userId);
         if (empty($userBankcard)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该银行卡信息', 12350, '未找到该银行卡信息');
@@ -70,14 +81,14 @@ class ReportPayController extends ApiController
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
         SLogger::getStream()->error(json_encode($data));
-        $res = [];
         $result = YiBaoService::send($data);
 
         if ($result['code'] != 200) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
         $res['url'] = $result['data']['url'];
-        $res['order_no'] = $data['order_no'];
+
+//        $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);
     }
 }
