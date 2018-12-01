@@ -17,6 +17,9 @@ class UserController extends WebController
         $data = [];
         $user_id = $this->getUserId($request);
         $resData = UserReportFactory::getReportByUserId($user_id);
+        if(empty($resData)){
+            return view('web.user.report', compact('data'));
+        }
         $reportData = json_decode($resData['report_data'], true);
 
         //组装数据
@@ -70,6 +73,7 @@ class UserController extends WebController
             foreach ($org_types as $k => $v) {
                 switch ($v) {
                     case 'ZHENGXIN':
+
                         $data['org_types'][] = '信用机构';
                         break;
                     case 'DATACOVERGE':

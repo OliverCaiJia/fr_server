@@ -25,7 +25,7 @@
     <div class="main">
         <section>
             <h3>基本信息</h3>
-            <p><span>@if(isset($data['name']))姓名：{{ $data['name'] }}@endif</span>   <span>年龄：@if(isset($data['age'])){{ $data['age'] }}岁@endif</span></p>
+            <p><span>姓名：@if(isset($data['name'])){{ $data['name'] }}@endif</span>   <span>年龄：@if(isset($data['age'])){{ $data['age'] }}岁@endif</span></p>
             <p><span>性别：@if(isset($data['gender'])){{ $data['gender'] }}@endif</span>   <span>学历：@if(isset($data['level'])){{ $data['level'] }}@endif</span></p>
             <p>身份证号码：@if(isset($data['idcard'])){{ $data['idcard'] }}@endif</p>
             <p>身份证归属地：@if(isset($data['idcard_location'])){{ $data['idcard_location'] }}@endif</p>
