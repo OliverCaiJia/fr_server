@@ -194,6 +194,7 @@ class UserOrderController extends ApiController
         $data['order_type'] = $orderType['id'];
         $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
+        $data['money'] = $request->input('money',0)?:0;
         $data['term'] = $request->input('term', 0);
         $data['count'] = 1;
         $data['status'] = 0;
