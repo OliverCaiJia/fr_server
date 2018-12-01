@@ -71,7 +71,7 @@ class UserInfoController extends ApiController
     }
 
     /**
-     * 点击去借钱生成免费订单
+     * 点击去借钱修改状态
      */
     public function freeOrder(Request $request)
     {
