@@ -24,9 +24,9 @@ class UserController extends WebController
         $data['create_at'] = $resData['create_at']; //生成时间
 
         $data['name'] = isset($reportData['post_load']['person_info']['name']) ? $reportData['post_load']['person_info']['name'] : null; //姓名
-        SLogger::getStream()->error('======-----------'.json_encode($data['name']));
-        $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ?: null; //性别
-        $data['age'] = isset($reportData['post_load']['person_info']['age']) ?: null; //年龄
+        SLogger::getStream()->error('======-----------' . json_encode($data['name']));
+        $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ? $reportData['post_load']['person_info']['gender'] : null; //性别
+        $data['age'] = isset($reportData['post_load']['person_info']['age']) ? $reportData['post_load']['person_info']['age'] : null; //年龄
         //学历
         switch ($reportData['post_load']['person_info']['education_info']['level']) {
             case 0:
@@ -53,18 +53,18 @@ class UserController extends WebController
             default:
                 $data['level'] = '未知';
         }
-        $data['idcard'] = isset($reportData['post_load']['person_info']['idcard']) ?: null; //身份证号
-        $data['idcard_location'] = isset($reportData['post_load']['person_info']['idcard_location']) ?: null; //身份证归属地
-        $data['mobile'] = isset($reportData['post_load']['person_info']['mobile']) ?: null; //手机号
-        $data['carrier'] = isset($reportData['post_load']['person_info']['carrier']) ?: null; //手机运营商
-        $data['mobile_location'] = isset($reportData['post_load']['person_info']['mobile_location']) ?: null; //手机号码归属地
+        $data['idcard'] = isset($reportData['post_load']['person_info']['idcard']) ? $reportData['post_load']['person_info']['idcard'] : null; //身份证号
+        $data['idcard_location'] = isset($reportData['post_load']['person_info']['idcard_location']) ? $reportData['post_load']['person_info']['idcard_location'] : null; //身份证归属地
+        $data['mobile'] = isset($reportData['post_load']['person_info']['mobile']) ? $reportData['post_load']['person_info']['mobile'] : null; //手机号
+        $data['carrier'] = isset($reportData['post_load']['person_info']['carrier']) ? $reportData['post_load']['person_info']['carrier'] : null; //手机运营商
+        $data['mobile_location'] = isset($reportData['post_load']['person_info']['mobile_location']) ? $reportData['post_load']['person_info']['mobile_location'] : null; //手机号码归属地
 
-        $data['courtcase_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['courtcase_cnt']) ?: null; //法院执行人次数
-        $data['dishonest_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['dishonest_cnt']) ?: null; //失信未执行次数
+        $data['courtcase_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['courtcase_cnt']) ? $reportData['anti_fraud']['untrusted_info']['courtcase_cnt'] : null; //法院执行人次数
+        $data['dishonest_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['dishonest_cnt']) ? $reportData['anti_fraud']['untrusted_info']['dishonest_cnt'] : null; //失信未执行次数
         $data['is_hit'] = $reportData['anti_fraud']['fraudulence_info']['is_hit'] ? '是' : '否'; //欺诈风险名单是否命中
         $data['type'] = empty($reportData['anti_fraud']['fraudulence_info']['type']) ? '无' : $reportData['anti_fraud']['fraudulence_info']['type']; //欺诈风险名单类型
 
-        $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ?: null; //注册机构数量
+        $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ? $reportData['multi_info']['auth_queried_detail']['register_info']['org_count'] : null; //注册机构数量
         $org_types = $reportData['multi_info']['auth_queried_detail']['register_info']['org_types']; //注册机构类型
 
         if (!empty($org_types)) {
@@ -112,14 +112,14 @@ class UserController extends WebController
             $data['org_types'] = '无';
         }
 
-        $data['loan_org_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt']) ?: null; //借贷机构数
-        $data['loan_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt']) ?: null; //借贷次数
+        $data['loan_org_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt']) ? $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_org_cnt'] : null; //借贷机构数
+        $data['loan_cnt'] = isset($reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt']) ? $reportData['multi_info']['auth_queried_detail']['loan_info']['loan_cnt'] : null; //借贷次数
 
         $data['idcard_name_in_blacklist'] = $reportData['black_gray']['black_info_detail']['idcard_name_in_blacklist'] ? '是' : '否'; //身份证和姓名是否在黑名单
         $data['mobile_name_in_blacklist'] = $reportData['black_gray']['black_info_detail']['mobile_name_in_blacklist'] ? '是' : '否'; //手机和姓名是否在黑名单
 
-        $data['overdue_card'] = isset($reportData['application']['credit_card']['overdue_card']) ?: null; //有过逾期的卡片数
-        $data['bill_nums'] = isset($reportData['application']['credit_card']['bill_nums']) ?: null; //账单总数
+        $data['overdue_card'] = isset($reportData['application']['credit_card']['overdue_card']) ? $reportData['application']['credit_card']['overdue_card'] : null; //有过逾期的卡片数
+        $data['bill_nums'] = isset($reportData['application']['credit_card']['bill_nums']) ? $reportData['application']['credit_card']['bill_nums'] : null; //账单总数
         $data['max_overdue_money'] = empty($reportData['application']['credit_card']['max_overdue_money']) ? 0 : $reportData['application']['credit_card']['max_overdue_money']; //最大逾期金额
 
         $data['sum_sure_due_days_non_cdq_all_time_m12'] = empty($reportData['post_load']['loan_behavior_analysis']['feature_360d']['sum_sure_due_days_non_cdq_all_time_m12']) ? 0 : $reportData['post_load']['loan_behavior_analysis']['feature_360d']['sum_sure_due_days_non_cdq_all_time_m12']; //近12个月非超短期现金贷累计逾期天数
