@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\UserBasicFactory;
 use App\Models\Factory\Api\UserReportFactory;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class UserController extends WebController
 
         $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ?: null; //注册机构数量
         $org_types = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_types']) ?: null; //注册机构类型
+        SLogger::getStream()->error('======-----------'.json_encode($reportData));
         if (!empty($org_types)) {
             foreach ($org_types as $k => $v) {
                 switch ($v) {
