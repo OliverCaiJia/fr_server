@@ -65,7 +65,6 @@ class UserController extends WebController
 
         $data['org_count'] = isset($reportData['multi_info']['auth_queried_detail']['register_info']['org_count']) ?: null; //注册机构数量
         $org_types = $reportData['multi_info']['auth_queried_detail']['register_info']['org_types']; //注册机构类型
-        SLogger::getStream()->error('======-----------'.json_encode($reportData));
         if (!empty($org_types)) {
             foreach ($org_types as $k => $v) {
                 switch ($v) {
