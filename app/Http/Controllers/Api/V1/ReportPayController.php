@@ -33,7 +33,7 @@ class ReportPayController extends ApiController
         SLogger::getStream()->error(json_encode($userOrder));
         SLogger::getStream()->error('---------------------------');
         if (empty($userOrder)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单'.$bankCardNo.'===='.$bankCardNo, 12345, '未找到该订单'.$bankCardNo.'===='.$bankCardNo);
+            return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单'.$orderNoRaw.'===='.$bankCardNo, 12345, '未找到该订单'.$orderNoRaw.'===='.$bankCardNo);
         }
         $res = [];
         if (empty($userOrder['card_no'])) {
