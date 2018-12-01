@@ -24,10 +24,9 @@ class ReportPayController extends ApiController
     public function doReportPay(Request $request)
     {
         $userId = $this->getUserId($request);
-        $orderId = $request->input('order_id');
-//        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
+        $orderNoRaw = $request->input('order_no');
         $status = [0];
-        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderId, $status);
+        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNoRaw, $status);
 
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
