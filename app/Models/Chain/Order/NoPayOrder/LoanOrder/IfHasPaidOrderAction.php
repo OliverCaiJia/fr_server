@@ -31,6 +31,8 @@ class IfHasPaidOrderAction extends AbstractHandler
     private function checkIfPaid($params)
     {
         SLogger::getStream()->error('========================================');
+        SLogger::getStream()->error(json_encode($params));
+        SLogger::getStream()->error('-------------------------------------------');
         SLogger::getStream()->error(__CLASS__);
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
