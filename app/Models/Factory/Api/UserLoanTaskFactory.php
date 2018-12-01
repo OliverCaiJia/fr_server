@@ -2,6 +2,7 @@
 
 namespace App\Models\Factory\Api;
 
+use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserLoanTask;
 
 /**
@@ -97,5 +98,41 @@ class UserLoanTaskFactory extends ApiFactory
     public static function updateDataById($id,$data){
         return UserLoanTask::where(['id' => $id])
             ->update($data);
+    }
+
+    /**
+     * 关联获取用户手机号
+     * @param $params
+     * @return array
+     */
+    public static function getTasksAndUserMobile($params)
+    {
+        $taskList = UserLoanTask::leftjoin(UserAuth::TABLE_NAME,'user_id','=',UserAuth::TABLE_NAME.'.id')
+                    ->select(UserLoanTask::TABLE_NAME.'.*',UserAuth::TABLE_NAME.'.mobile')
+                    ->where(UserLoanTask::TABLE_NAME.'.type_id',$params['type_id'])
+                    ->where(UserLoanTask::TABLE_NAME.'.status',$params['status'])
+                    ->get();
+        return $taskList ? $taskList->toArray() : [];
+    }
+
+    /**
+     * 更新task任务结果
+     * @param $params
+     * @return array|bool
+     */
+    public static function updateTaskResult($params)
+    {
+        $task = UserLoanTask::where('id',$params['task_id'])->first();
+        if(empty($task)){
+            $task = new UserLoanTask();
+        }
+        $task->status = $params['status'];
+        $task->retrieve_req_data = $params['request_data'];
+        $task->retrieve_rsp_data = $params['response_data'];
+        $task->update_at = date('Y-m-d H:i:s');
+        if($task->save()){
+            return $task->toArray();
+        }
+        return false;
     }
 }
