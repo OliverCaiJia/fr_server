@@ -21,7 +21,7 @@
         <section>
             <p>满100元可随时取现</p> <a onclick="withdrawView()">立即提现</a> </section>
         <section>
-            <p> <span>当面扫码或<br>分享链接给好友</span> <span>好友成功付费</span> <span>提取奖金</span> </p>
+            <p> <span>分享链接给好友</span> <span>好友成功付费</span> <span>提取奖金</span> </p>
         </section>
         <section> <img src="/img/invite/invite_bg4_title.png" alt="">
             <ul>

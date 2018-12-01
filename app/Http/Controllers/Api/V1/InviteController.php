@@ -8,6 +8,7 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\InviteFactory;
+use App\Models\Factory\Api\InviteConfigFactory;
 use App\Strategies\InviteStrategy;
 use App\Strategies\SmsStrategy;
 use Illuminate\Http\Request;
@@ -35,12 +36,14 @@ class InviteController extends ApiController
         $inviteArr['share_link'] = LinkUtils::shareLanding($inviteCode);
         //短信内容
         $inviteArr['sms_content'] = SmsStrategy::getSmsContent($inviteArr['share_link']);
+        //获取配置表中数据
+        $inviteContent =InviteConfigFactory::getInviteContent();
         //logo
-        $inviteArr['logo'] = LinkUtils::getLogo();
+        $inviteArr['logo'] =$inviteContent['logo'];
         //分享标题
-        $inviteArr['share'] = "立即注册,与我分享奖励";
+        $inviteArr['share'] = $inviteContent['title'];
         //分享内容
-        $inviteArr['content'] = "得积分兑红包,快来注册吧";
+        $inviteArr['content'] = $inviteContent['content'];
         return RestResponseFactory::ok($inviteArr);
     }
 
