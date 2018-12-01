@@ -424,7 +424,7 @@ class UserOrderFactory extends ApiFactory
     public static function getOrderDetailByOrderNo($orderNo)
     {
         $userOrder = UserOrder::where(['order_no' => $orderNo])
-            ->get();
+            ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }
 

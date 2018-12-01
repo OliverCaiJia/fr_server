@@ -75,10 +75,6 @@ class YiBaoController extends ApiController
             if(isset($taskRes['error'])){
                 return 'ERROR';
             }
-            //记录
-            //1.payment_log
-            //2.user_account_log记录 修改user_account主表
-            //3.
         }
         catch (\Exception $e)
         {
@@ -92,6 +88,11 @@ class YiBaoController extends ApiController
         }
         //事务提交
         DB::commit();
+
+        //记录
+//        $paymentChain = new DoPaymentAccountHandler($resData);
+//        $paymentChain->handleRequest();
+
         return 'SUCCESS';
 
     }
