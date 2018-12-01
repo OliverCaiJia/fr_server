@@ -78,6 +78,7 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
         $res['url'] = $result['data']['url'];
+        $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);
     }
 }

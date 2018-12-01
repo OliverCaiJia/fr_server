@@ -142,4 +142,26 @@ class AccountFactory extends ApiFactory
 
         return $account ? $account : [];
     }
+
+    /**
+     * 创建用户账户
+     * @param $params
+     * @return bool
+     */
+    public static function createUserAccount($params)
+    {
+        $userAccount = UserAccount::where('user_id',$params['user_id'])->first();
+        if(empty($userAccount)){
+            $userAccount = new UserAccount();
+        }
+        $userAccount->user_id = $params['user_id'];
+        $userAccount->expend = $params['payAmount'];
+        $userAccount->status = $params['status'];
+        $userAccount->create_at = date('Y-m-d H:i:s');
+        $userAccount->create_ip = Utils::ipAddress();
+        if($userAccount->save()){
+            return true;
+        }
+        return false;
+    }
 }
