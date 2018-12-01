@@ -214,4 +214,25 @@ class InviteFactory extends ApiFactory
     {
         return UserInviteLog::where('mobile', '=', $mobile)->update(['status' => 2, 'invite_user_id' => $user_id]);
     }
+
+    /**
+     * @param $data
+     * 插入邀请人信息
+     */
+    public static function createUserInvite($data){
+        $inviteObj = new UserInvite();
+        $inviteObj->user_id = $data['id'];
+        $inviteObj->invite_user_id = $data['user_id'];
+        $inviteObj->mobile = $data['mobile'];
+        $inviteObj->channel_nid = $data['channel_nid'];
+        $inviteObj->code = $data['invite_code'];
+        $inviteObj->create_at = date('Y-m-d H:i:s', time());
+        $inviteObj->create_ip = Utils::ipAddress();
+        $inviteObj->update_at = date('Y-m-d H:i:s', time());
+        $inviteObj->update_ip = Utils::ipAddress();
+        if($inviteObj->save()){
+            return true;
+        }
+        return false;
+    }
 }
