@@ -26,7 +26,7 @@ class SmsFactory extends AbsModelFactory
      * @param $value
      * @return bool
      */
-    public static function putSmsCodeToCache($key, $value, $sec = 500)
+    public static function putSmsCodeToCache($key, $value, $sec = 100)
     {
         Cache::put($key, $value, Carbon::now()->second($sec));
         return true;
