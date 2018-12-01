@@ -206,6 +206,9 @@ class UserOrderController extends ApiController
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
             $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
+            SLogger::getStream()->error('=========111111111===========');
+            SLogger::getStream()->error(json_encode($result));
+            SLogger::getStream()->error('---------2222222222-----------');
             $res = [];
             $res['order_no'] = $result['order_no'];
             $res['status'] = $result['status'];
