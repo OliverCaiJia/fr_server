@@ -25,9 +25,7 @@ class UserController extends WebController
 
         $data['name'] = isset($reportData['post_load']['person_info']['name']) ? $reportData['post_load']['person_info']['name'] : null; //姓名
         $data['gender'] = isset($reportData['post_load']['person_info']['gender']) ? $reportData['post_load']['person_info']['gender'] : null; //性别
-        SLogger::getStream()->error('======-----------' . json_encode($data['gender']));
         $data['age'] = isset($reportData['post_load']['person_info']['age']) ? $reportData['post_load']['person_info']['age'] : null; //年龄
-        SLogger::getStream()->error('======-----------' . json_encode($data['age']));
         //学历
         switch ($reportData['post_load']['person_info']['education_info']['level']) {
             case 0:
@@ -55,16 +53,11 @@ class UserController extends WebController
                 $data['level'] = '未知';
         }
         $data['idcard'] = isset($reportData['post_load']['person_info']['idcard']) ? $reportData['post_load']['person_info']['idcard'] : null; //身份证号
-        SLogger::getStream()->error('======-----------' . json_encode($data['idcard']));
         $data['idcard_location'] = isset($reportData['post_load']['person_info']['idcard_location']) ? $reportData['post_load']['person_info']['idcard_location'] : null; //身份证归属地
 
-        SLogger::getStream()->error('======-----------' . json_encode($data['idcard_location']));
         $data['mobile'] = isset($reportData['post_load']['person_info']['mobile']) ? $reportData['post_load']['person_info']['mobile'] : null; //手机号
-        SLogger::getStream()->error('======-----------' . json_encode($data['mobile']));
         $data['carrier'] = isset($reportData['post_load']['person_info']['carrier']) ? $reportData['post_load']['person_info']['carrier'] : null; //手机运营商
-        SLogger::getStream()->error('======-----------' . json_encode($data['carrier']));
         $data['mobile_location'] = isset($reportData['post_load']['person_info']['mobile_location']) ? $reportData['post_load']['person_info']['mobile_location'] : null; //手机号码归属地
-        SLogger::getStream()->error('======-----------' . json_encode($data['mobile_location']));
         $data['courtcase_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['courtcase_cnt']) ? $reportData['anti_fraud']['untrusted_info']['courtcase_cnt'] : null; //法院执行人次数
         $data['dishonest_cnt'] = isset($reportData['anti_fraud']['untrusted_info']['dishonest_cnt']) ? $reportData['anti_fraud']['untrusted_info']['dishonest_cnt'] : null; //失信未执行次数
         $data['is_hit'] = $reportData['anti_fraud']['fraudulence_info']['is_hit'] ? '是' : '否'; //欺诈风险名单是否命中
