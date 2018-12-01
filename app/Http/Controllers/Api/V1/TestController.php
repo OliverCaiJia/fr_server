@@ -138,7 +138,8 @@ class TestController extends ApiController
 
     public function doApply(Request $request) {
         $order = [];
-//        $order['order_no'] = 'SGD-A-20181123162814-401156';
+        $order['order_no'] = 'SGD-R-20181201154025-311957';
+        $order['report_type_nid'] = 'report_credit';
 //        $order['money'] = '666';
 
 //        $userOrderObj = new UserOrder();
