@@ -16,15 +16,17 @@ class UserController extends WebController
         $data = [];
         $user_id = $this->getUserId($request);
         $resData = UserReportFactory::getReportByUserId($user_id);
-        $reportData = json_decode($resData['report_data'],true);
+        $reportData = json_decode($resData['report_data'], true);
+
         //组装数据
         $data['report_code'] = $resData['report_code']; //报告编号
         $data['create_at'] = $resData['create_at']; //生成时间
-        $data['name'] = $reportData['post_load']['person_info']['name']; //姓名
+
+        $data['name'] = isset($reportData['post_load']['person_info']['name']) ?: null; //姓名
         $data['gender'] = $reportData['post_load']['person_info']['gender']; //性别
         $data['age'] = $reportData['post_load']['person_info']['age']; //年龄
         //学历
-        switch ($reportData['post_load']['person_info']['education_info']['level']){
+        switch ($reportData['post_load']['person_info']['education_info']['level']) {
             case 0:
                 $data['level'] = '未知';
                 break;
@@ -62,9 +64,9 @@ class UserController extends WebController
 
         $data['org_count'] = $reportData['multi_info']['auth_queried_detail']['register_info']['org_count']; //注册机构数量
         $org_types = $reportData['multi_info']['auth_queried_detail']['register_info']['org_types']; //注册机构类型
-        if(!empty($org_types)){
-            foreach($org_types as $k=>$v){
-                switch ($v){
+        if (!empty($org_types)) {
+            foreach ($org_types as $k => $v) {
+                switch ($v) {
                     case 'ZHENGXIN':
                         $data['org_types'][] = '信用机构';
                         break;
@@ -102,8 +104,8 @@ class UserController extends WebController
                         $data['org_types'][] = '其他';
                 }
             }
-            $data['org_types'] = implode(',',$data['org_types']);
-        }else{
+            $data['org_types'] = implode(',', $data['org_types']);
+        } else {
             $data['org_types'] = '无';
         }
 
@@ -142,10 +144,10 @@ class UserController extends WebController
         $data = UserBasicFactory::fetchUserBasic($user_id);
         $token = $this->getToken($request);
 
-        if(empty($data)){
-            return view('web.user.userinfo', compact('data','token'));
+        if (empty($data)) {
+            return view('web.user.userinfo', compact('data', 'token'));
         }
-        switch ($data['profession']){
+        switch ($data['profession']) {
             case 0:
                 $data['profession'] = '上班族';
                 break;
@@ -156,7 +158,7 @@ class UserController extends WebController
                 $data['profession'] = '自由职业';
         }
 
-        switch ($data['work_time']){
+        switch ($data['work_time']) {
             case 0:
                 $data['work_time'] = '半年内';
                 break;
@@ -167,7 +169,7 @@ class UserController extends WebController
                 $data['work_time'] = '一年以上';
         }
 
-        switch ($data['month_salary']){
+        switch ($data['month_salary']) {
             case 0:
                 $data['month_salary'] = '2千以下';
                 break;
@@ -182,7 +184,7 @@ class UserController extends WebController
                 break;
         }
 
-        switch ($data['house_fund_time']){
+        switch ($data['house_fund_time']) {
             case 0:
                 $data['house_fund_time'] = '无公积金';
                 break;
@@ -193,6 +195,6 @@ class UserController extends WebController
                 $data['house_fund_time'] = '一年以上';
                 break;
         }
-        return view('web.user.userinfo', compact('data','token'));
+        return view('web.user.userinfo', compact('data', 'token'));
     }
 }
