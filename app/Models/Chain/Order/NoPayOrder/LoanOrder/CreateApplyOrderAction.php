@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Order\NoPayOrder\LoanOrder;
 
 use App\Constants\UserOrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -32,6 +33,7 @@ class CreateApplyOrderAction extends AbstractHandler
 
     private function createApplyOrder($params)
     {
+        SLogger::getStream()->error(__CLASS__);
         $applyOrder = [];
         $applyOrder['user_id'] = $params['user_id'];
         $orderTypeNid = 'order_apply';
