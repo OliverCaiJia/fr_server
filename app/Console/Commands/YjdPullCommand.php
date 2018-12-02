@@ -32,7 +32,7 @@ class YjdPullCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @return voidn
      */
     public function __construct()
     {
