@@ -38,7 +38,6 @@ class CreatePushTaskAction extends AbstractHandler
 
     private function getLoanParams($params)
     {
-        SLogger::getStream()->error('========================================');
         SLogger::getStream()->error(__CLASS__);
         $userBasic = UserBasicFactory::getUserBasicByUserId($params['user_id']);
         $userLocationArr = explode(',', $userBasic['user_location']);
