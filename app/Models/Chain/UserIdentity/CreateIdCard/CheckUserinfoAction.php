@@ -29,7 +29,7 @@ class CheckUserinfoAction extends AbstractHandler
     {
         if ($this->checkUserinfo($this->params) == true)
         {
-            $this->setSuccessor(new CheckUserIdCardAction($this->params));
+            $this->setSuccessor(new CheckIdCardDateAction($this->params));
             return $this->getSuccessor()->handleRequest();
         }
         else

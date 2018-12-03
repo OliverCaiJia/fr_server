@@ -33,7 +33,6 @@ class CreateApplyOrderAction extends AbstractHandler
 
     private function createApplyOrder($params)
     {
-        SLogger::getStream()->error('========================================');
         SLogger::getStream()->error(__CLASS__);
         $data = [];
         $data['user_id'] = $params['user_id'];
