@@ -21,23 +21,13 @@ class CreatePushTaskAction extends AbstractHandler
         $this->params = $params;
     }
 
-//    public function handleRequest()
-//    {
-//        $task = $this->createLoanTask();
-//        if ($task) {
-//            return $task;
-//        }
-//        return $this->error;
-//    }
-
     public function handleRequest()
     {
-        if ($this->createLoanTask($this->params)) {
-            $this->setSuccessor(new UpdateUserInfoStatusAction($this->params));
-            return $this->getSuccessor()->handleRequest();
-        } else {
-            return $this->error;
+        $task = $this->createLoanTask();
+        if ($task) {
+            return $task;
         }
+        return $this->error;
     }
 
     private function createLoanTask() {
