@@ -24,10 +24,10 @@ class ReportPayController extends ApiController
     public function doReportPay(Request $request)
     {
         $userId = $this->getUserId($request);
-        $orderId = $request->input('order_id');
+        $orderNo = $request->input('order_no');
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         $status = [0];
-        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderId, $status);
+        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNo, $status);
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
@@ -62,7 +62,7 @@ class ReportPayController extends ApiController
         $paymentParamExt = '{"bankCardNo":"' . $bankCardNo . '","idCardNo":"' . $idCardNo . '","cardName":"' . $cardName . '"}';
         $userNo = $userBankcard['bank_card_mobile'];
 
-        $data['orderId'] = $orderId;
+        $data['orderId'] = $data['order_no'];
         //todo::先写死金额，测试
         $data['orderAmount'] = 0.01;
         $data['goodsParamExt'] = $goodsParamExt;
@@ -76,6 +76,7 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
         $res['url'] = $result['data']['url'];
+        $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);
     }
 }
