@@ -37,9 +37,9 @@ class PutValueToCacheAction extends AbstractHandler
     private function putValueToCache($params,$randoms)
     {
         #存储验证码
-        $codeCache = SmsFactory::putSmsCodeToCache('login_phone_code_'.$params['mobile'],$params['code']);
+        $codeCache = SmsFactory::putSmsCodeToCache('login_phone_code_'.$params['mobile'],$params['code'],1);
         #存储32位随机字符串
-        $signCache = SmsFactory::putSmsCodeToCache('login_random_'.$params['mobile'],$randoms['sign']);
+        $signCache = SmsFactory::putSmsCodeToCache('login_random_'.$params['mobile'],$randoms['sign'],1);
         if($codeCache && $signCache) {
             return true;
         }
