@@ -56,6 +56,9 @@ class YiBaoController extends ApiController
         //获取订单编号
         $data['order_no'] = $resData['orderId'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($data['order_no']);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
+        }
         $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
         switch ($orderType['type_nid']) {
             case 'order_report':

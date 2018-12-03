@@ -28,15 +28,9 @@ class ReportPayController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        SLogger::getStream()->error('=====111=====');
-        SLogger::getStream()->error(json_encode($orderNo));
-        SLogger::getStream()->error('=====222=====');
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         $status = [0];
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNo, $status);
-        SLogger::getStream()->error('=====333=====');
-        SLogger::getStream()->error(json_encode($userOrder));
-        SLogger::getStream()->error('=====444=====');
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
@@ -45,9 +39,6 @@ class ReportPayController extends ApiController
         $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
 
-        SLogger::getStream()->error('=====555=====');
-        SLogger::getStream()->error(json_encode($userOrderUpdate));
-        SLogger::getStream()->error('=====66=====');
         if (!$userOrderUpdate) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
@@ -88,7 +79,11 @@ class ReportPayController extends ApiController
         if ($result['code'] != 200) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
-
+        $cardUpdate['card_no'] = $bankCardNo;
+        $userCardUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $cardUpdate);
+        if (!$userCardUpdate) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+        }
         //记录payment_log
         $paymentData['user_id'] = $userId;
         $paymentData['payment_id'] = $userId;
