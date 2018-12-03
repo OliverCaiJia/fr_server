@@ -87,14 +87,6 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
 
-        $userInfo['service_status'] = 5;//增值服务状态
-        $userInfo['update_at'] = date('Y-m-d H:i:s');
-        if ($orderType['type_nid'] == 'order_extra_service') {
-            $extraOrder = UserInfoFactory::UpdateUserInfoStatus($userId, $userInfo);
-            if (!$extraOrder) {
-                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
-            }
-        }
         $res['url'] = $result['data']['url'];
         $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);
