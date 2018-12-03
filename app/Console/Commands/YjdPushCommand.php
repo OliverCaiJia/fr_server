@@ -45,8 +45,13 @@ class YjdPushCommand extends Command
      */
     public function handle()
     {
-        UserLoanTask::where('status','=',1)->chunk(100,function ($res_task){
-            foreach ($res_task as $task_key => $taskj_val){
+        $start = 0;
+        $count = 100;
+
+        while(true){
+            $res_task = UserLoanTask::where('status','=',1)->skip($start)->take($count)->get()->toArray();
+
+            foreach ($res_task as $task_key => $task_val){
                 $request_data = json_decode($res_task[$task_key]['request_data'],true);
                 $data = [
                     'mobile' => isset($request_data['mobile'] ) ? $request_data['mobile'] : '',
@@ -78,10 +83,11 @@ class YjdPushCommand extends Command
                         'response_data' => $yjd_result,
                         'update_at' => date('Y-m-d H:i:s')
                     ];
-                    UserLoanTaskFactory::updateDataById($taskj_val['id'],$task_data);
+                    UserLoanTaskFactory::updateDataById($task_val['id'],$task_data);
                 }
             }
-        });
 
+            if(count($res_task) < $count) break;
+        }
     }
 }
