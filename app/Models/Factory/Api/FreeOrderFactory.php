@@ -6,6 +6,7 @@ use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\ApiFactory;
 use App\Strategies\UserOrderStrategy;
 use App\Models\Orm\UserOrder;
+use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserLoanTask;
 use App\Models\Orm\UserInfo;
 use App\Helpers\Utils;
@@ -28,11 +29,10 @@ class FreeOrderFactory extends ApiFactory
             if (!empty($userInfo)) {
                 $userInfo->service_status = 4;
                 $userInfo->update_at = date('Y-m-d H:i:s');
-                if ($userInfo->save()) {
-                    return $userInfo->toArray();
-                }
+                $userInfo->save();
             }
-
         }
+        $typeId = UserOrderType::where(['type_nid' => 'order_apply'])->first();
+        return UserOrder::where(['user_id' => $uid, 'order_type' => $typeId->id])->first()->toArray();
     }
 }
