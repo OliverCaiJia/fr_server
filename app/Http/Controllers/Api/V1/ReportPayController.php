@@ -7,11 +7,12 @@ use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBankcardFactory;
+use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Strategies\UserOrderStrategy;
-use Illuminate\Http\Request;
+    use Illuminate\Http\Request;
 
 class ReportPayController extends ApiController
 {
@@ -45,7 +46,7 @@ class ReportPayController extends ApiController
         SLogger::getStream()->error('=====555=====');
         SLogger::getStream()->error(json_encode($userOrderUpdate));
         SLogger::getStream()->error('=====66=====');
-        if (!$userOrderUpdate){
+        if (!$userOrderUpdate) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
         $orderAmount = $userOrder['amount'];
@@ -86,6 +87,14 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
 
+        $userInfo['service_status'] = 5;//增值服务状态
+        $userInfo['update_at'] = date('Y-m-d H:i:s');
+        if ($orderType['type_nid'] == 'order_extra_service') {
+            $extraOrder = UserInfoFactory::UpdateUserInfoStatus($userId, $userInfo);
+            if (!$extraOrder) {
+                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
+            }
+        }
         $res['url'] = $result['data']['url'];
         $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);
