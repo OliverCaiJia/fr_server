@@ -8,12 +8,13 @@ use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBankcardFactory;
+use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
 use App\Models\Orm\PaymentLog;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Strategies\UserOrderStrategy;
-use Illuminate\Http\Request;
+    use Illuminate\Http\Request;
 
 class ReportPayController extends ApiController
 {
@@ -47,7 +48,7 @@ class ReportPayController extends ApiController
         SLogger::getStream()->error('=====555=====');
         SLogger::getStream()->error(json_encode($userOrderUpdate));
         SLogger::getStream()->error('=====66=====');
-        if (!$userOrderUpdate){
+        if (!$userOrderUpdate) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
         $orderAmount = $userOrder['amount'];
