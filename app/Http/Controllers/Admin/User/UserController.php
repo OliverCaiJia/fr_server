@@ -1,108 +1,85 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Config;
+namespace App\Http\Controllers\Admin\User;
 
-use App\Constants\SaasConstant;
 use App\Events\OperationLogEvent;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserRequest;
-use App\Models\Factory\Admin\Order\OrderFactory;
-use App\Models\Factory\Admin\Order\SaasOrderFactory;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
-use App\Models\Orm\AdminPersons;
-use App\Models\Orm\SaasOrderSaas;
+use App\Models\Orm\UserAuth;
 use App\Models\Orm\SaasPerson;
-use App\Strategies\AdminPersonStrategy;
+use App\Http\Controllers\Admin\User\ViewController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use Hash;
 
-class BannerConfigController extends Controller
+class UserController extends ViewController
 {
-    /**
-     * 管理员列表
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+    /**注册用户
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        //查询条件
-        $name = $request->input('name');
-        $username = $request->input('username');
-
-        $users = AdminPersons::when($name, function ($query) use ($name) {
-            return $query->where('name', $name);
+        $requests = $this->getRequests($request);
+//        //查询条件
+        $mobile = $request->input('mobile');
+        $username = $request->input('user_name');
+//
+        $query = UserAuth::when($mobile, function ($query) use ($mobile) {
+            return $query->where('mobile', $mobile);
         })->when($username, function ($query) use ($username) {
-            return $query->where('username', $username);
+            return $query->where('user_name', 'like',  '%' . $username . '%');
         });
 
-        $authUser = Auth::user();
-        $users = $users->where('is_deleted', 0)
-            ->where('saas_auth_id', $authUser->saas_auth_id)
-            ->where('id', '!=', $authUser->id);
+        $total = $query->count('id');
+        $results = $query->offset($requests['pageSize'] * ($requests['pageCurrent'] - 1))
+            ->orderBy($requests['orderField'], $requests['orderDirection'])
+            ->limit($requests['pageSize'])
+            ->get()->toArray();
 
-        if (!$authUser->super_user) {
-            $ids = AdminPersonStrategy::getSubIdsById($authUser->id);
-            $users = $users->whereIn('id', $ids);
-        }
-
-        $users = $users->orderBy('id', 'desc')->paginate(10);
-
-        return view('admin.user.index', compact('users'));
-    }
-
-    public function create()
-    {
-        $roles = SaasRoleFactory::getBySaasAuthId(Auth::user()->saas_auth_id);
-
-        return view('admin.user.create', compact('roles'));
+        return view('admin.users.index',[
+            'items' => $results,
+            'total' => $total,
+            'pageSize' => $requests['pageSize'],
+            'pageCurrent' => $requests['pageCurrent']
+            ]);
     }
 
     /**
-     * 存储管理员
-     *
-     * @param \App\Http\Requests\UserRequest $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
+     * 编辑页
+     * @param Request $request
+     * @return type
      */
-    public function store(UserRequest $request)
+    public function edit(Request $request)
     {
-        $authUser = Auth::user();
-        $user = SaasPerson::updateOrCreate([
-            'username' => $request->input('username'),
-            'is_deleted' => SaasConstant::SAAS_USER_DELETED_TRUE
-        ], [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'username' => $request->input('username'),
-            'password' => bcrypt($request->input('password')),
-            'saas_auth_id' => $authUser->saas_auth_id,
-            'create_id' => $authUser->id,
-            'is_deleted' => SaasConstant::SAAS_USER_DELETED_FALSE,
-            'mobilephone' => $request->input('mobilephone')
+        $id = $request->get('id');
+        print_r($id);die;
+        $user = UserAuth::find($id);
+        if ($this->isPostMethod($request))
+        {
+            $user->type_id = $request->input('type_id', '0');
+            $user->type_nid = $request->input('type_nid', '');
+            $user->name = $request->input('name');
+            $user->remark = $request->input('remark');
+            $user->status = $request->input('status', 0);
+            $user->pending = $request->input('pending', 0);
+            $user->updated_at = date('Y-m-d H:i:s', time());
+            $user->updated_id = $request->user()->id;
+            if ($user->save())
+            {
+                return AdminResponseFactory::ok('operate-config');
+            }
+        }
+        // 数据
+        $item = $model->toArray();
+        $types = SpreadMarketFactory::getTypes();
+        return view('admin_modules.operate.config.edit', [
+            'item' => $item,
+            'types' => $types
         ]);
-
-        $user->roles()->attach($request->input('role'));
-        event(new OperationLogEvent(10, json_encode($user->toArray())));
-
-        return redirect()->route('admin.user.index')->with('success', '添加成功！');
-    }
-
-    public function edit($id)
-    {
-        $saasAuthId = Auth::user()->saas_auth_id;
-        $user = SaasPerson::where('saas_auth_id', $saasAuthId)->findOrFail($id);
-
-        $roleId = $user->roles->first()->id;
-        $roles = SaasRoleFactory::getBySaasAuthId($saasAuthId);
-
-        return view('admin.user.edit', compact('user', 'roleId', 'roles'));
     }
 
     /**
