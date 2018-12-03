@@ -42,6 +42,11 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::get('account', 'AccountController@index')->name('account.index');
     });
 
+    Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {
+        //账户管理
+        Route::any('index', 'BannerConfigController@index')->name('config.index');
+    });
+
     //---------------------------- 订单管理 ----------------------------------//
     Route::group(['namespace' => 'Order', 'prefix' => 'order'], function () {
         // 订单记录
