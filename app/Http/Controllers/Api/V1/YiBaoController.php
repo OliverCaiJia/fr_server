@@ -8,6 +8,7 @@ use App\Helpers\RestUtils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
+use App\Models\Chain\Payment\PaymentAccount\DoPaymentAccountHandler;
 use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use Illuminate\Http\Request;
@@ -95,8 +96,8 @@ class YiBaoController extends ApiController
                 DB::commit();
 
                 //记录
-//        $paymentChain = new DoPaymentAccountHandler($resData);
-//        $paymentChain->handleRequest();
+                $paymentChain = new DoPaymentAccountHandler($resData);
+                $paymentChain->handleRequest();
 
                 return 'SUCCESS';
                 break;
