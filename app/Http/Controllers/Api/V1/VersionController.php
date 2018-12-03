@@ -56,7 +56,7 @@ class VersionController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(3003), 3003);
         }
         //比较版本大小 数据梳理
-        $version = VersionStrategy::getVersionAndroid($versionName, $versionData);
+        $version = VersionStrategy::getVersionIos($versionName, $versionData);
 
         return RestResponseFactory::ok($version);
     }
