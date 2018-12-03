@@ -41,6 +41,10 @@ class ReportPayController extends ApiController
         $extra = UserOrderStrategy::getExtra($orderType['type_nid']);
         $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $userOrderUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $data);
+
+        SLogger::getStream()->error('=====555=====');
+        SLogger::getStream()->error(json_encode($userOrderUpdate));
+        SLogger::getStream()->error('=====66=====');
         if (!$userOrderUpdate){
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);
         }
@@ -81,6 +85,7 @@ class ReportPayController extends ApiController
         if ($result['code'] != 200) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
+
         $res['url'] = $result['data']['url'];
         $res['order_no'] = $data['order_no'];
         return RestResponseFactory::ok($res);

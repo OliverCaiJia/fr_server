@@ -204,6 +204,10 @@ class UserOrderController extends ApiController
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $data['platform_nid'] = $request->input('platform_nid', '');
 
+        SLogger::getStream()->error('=========33===========');
+        SLogger::getStream()->error(json_encode($data));
+        SLogger::getStream()->error('---------44-----------');
+
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
             $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
