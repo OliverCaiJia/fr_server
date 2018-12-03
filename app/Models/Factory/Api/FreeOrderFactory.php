@@ -25,12 +25,12 @@ class FreeOrderFactory extends ApiFactory
             $orderStatus->status = 1;
             $orderStatus->update_at = date('Y-m-d H:i:s');
             $orderStatus->save();
-            $userInfo = UserInfo::where(['user_id' => $uid, 'service_status' => 3])->first();
-            if (!empty($userInfo)) {
-                $userInfo->service_status = 4;
-                $userInfo->update_at = date('Y-m-d H:i:s');
-                $userInfo->save();
-            }
+        }
+        $userInfo = UserInfo::where(['user_id' => $uid, 'service_status' => 3])->first();
+        if (!empty($userInfo)) {
+            $userInfo->service_status = 4;
+            $userInfo->update_at = date('Y-m-d H:i:s');
+            $userInfo->save();
         }
         $typeId = UserOrderType::where(['type_nid' => 'order_apply'])->first();
         return UserOrder::where(['user_id' => $uid, 'order_type' => $typeId->id])->first()->toArray();
