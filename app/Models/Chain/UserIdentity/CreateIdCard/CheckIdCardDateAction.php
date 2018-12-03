@@ -2,7 +2,6 @@
 namespace App\Models\Chain\UserIdentity\CreateIdCard;
 
 use App\Models\Chain\AbstractHandler;
-use App\Models\Orm\UserAuth;
 
 /**
  * Class CheckUserinfoAction
