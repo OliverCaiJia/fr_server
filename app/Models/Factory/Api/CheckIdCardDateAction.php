@@ -7,12 +7,12 @@ use App\Models\Orm\UserAuth;
 /**
  * Class CheckUserinfoAction
  * @package App\Models\Chain\Payment\Bankcard
- * 1.验证用户信息，获取用户信息
+ * 验证用户身份证是否过期
  */
-class CheckUserinfoAction extends AbstractHandler
+class CheckIdCardDateAction extends AbstractHandler
 {
     private $params = array();
-    protected $error = array('error' => '用户未认证！', 'code' => 10001);
+    protected $error = array('error' => '用户身份证已过期！', 'code' => 10001);
 
     public function __construct($params)
     {
@@ -22,14 +22,14 @@ class CheckUserinfoAction extends AbstractHandler
 
 
     /**
-     * 验证用户是否存在,是否激活
+     * 验证用户身份证是否过期
      * @return array|bool
      */
     public function handleRequest()
     {
-        if ($this->checkUserinfo($this->params) == true)
+        if ($this->checkIdCardDate($this->params) == true)
         {
-            $this->setSuccessor(new CheckIdCardDateAction($this->params));
+            $this->setSuccessor(new CheckUserIdCardAction($this->params));
             return $this->getSuccessor()->handleRequest();
         }
         else
@@ -40,15 +40,15 @@ class CheckUserinfoAction extends AbstractHandler
 
 
     /**
-     * 验证用户是否存在，是否激活
+     * 验证用户身份证是否过期
      * @param $params
      * @return bool
      */
-    private function checkUserinfo($params)
+    private function checkIdCardDate($params)
     {
-        $user = UserAuth::select("id")->where('id', '=', $params['user_id'])->where('status','=',1)->first();
-
-        return $user ? true : false;
-
+        if(strtotime($params['valid_end_date']) < strtotime(date('Y-m-d'))){
+            return false;
+        }
+        return true;
     }
 }
