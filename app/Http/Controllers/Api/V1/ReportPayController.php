@@ -25,12 +25,15 @@ class ReportPayController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
+        SLogger::getStream()->error('=====111=====');
+        SLogger::getStream()->error(json_encode($orderNo));
+        SLogger::getStream()->error('=====222=====');
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
         $status = [0];
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNo, $status);
-        SLogger::getStream()->error('=====111=====');
+        SLogger::getStream()->error('=====333=====');
         SLogger::getStream()->error(json_encode($userOrder));
-        SLogger::getStream()->error('=====222=====');
+        SLogger::getStream()->error('=====444=====');
         if (empty($userOrder)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
