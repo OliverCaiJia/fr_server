@@ -2,6 +2,7 @@
 
 namespace App\Models\Factory\Api;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\ApiFactory;
 use App\Strategies\UserOrderStrategy;
 use App\Models\Orm\UserOrder;
