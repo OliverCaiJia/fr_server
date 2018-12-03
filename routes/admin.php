@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         'uses' => 'Saas\UserController@changePsw',
     ]);
 
-    Route::group(['namespace' => 'Saas'], function () {
+    Route::group(['namespace' => 'Saas', 'prefix' => 'saas'], function () {
         //用户设置相关
         Route::resource('user', 'UserController');
         Route::resource('role', 'RoleController');
@@ -42,9 +42,19 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::get('account', 'AccountController@index')->name('account.index');
     });
 
+
+    //---------------------------- 配置中心 ----------------------------------//
     Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {
         //账户管理
         Route::any('index', 'BannerConfigController@index')->name('config.index');
+    });
+
+    //---------------------------- 用户中心 ----------------------------------//
+    Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
+        //账户管理
+        Route::any('index', 'UserController@index')->name('user.index');
+        //编辑账户状态
+        Route::any('edit', 'UserController@edit')->name('edit.index');
     });
 
     //---------------------------- 订单管理 ----------------------------------//
