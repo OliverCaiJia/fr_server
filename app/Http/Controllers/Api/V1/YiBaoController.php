@@ -11,6 +11,7 @@ use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Payment\PaymentAccount\DoPaymentAccountHandler;
 use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 use App\Services\Core\Payment\YiBao\YiBaoConfig;
 use App\Services\Core\Payment\YiBao\YopSignUtils;
@@ -60,81 +61,8 @@ class YiBaoController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该订单', 12345, '未找到该订单');
         }
         $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
-        switch ($orderType['type_nid']) {
-            case 'order_report':
-                //事务处理
-                DB::beginTransaction();
-                try {
-                    //修改订单状态
-                    $orderTypeChain = new DoPaidOrderHandler($data);
-                    $typeRes = $orderTypeChain->handleRequest();
-                    if (isset($typeRes['error'])) {
-                        return 'ERROR';
-                    }
+        UserOrderStrategy::getChainsByTypeNid($orderType['type_nid'], $data, $resData, $userOrder['user_id']);
 
-                    //生成信用报告
-                    $data['report_type_nid'] = $typeRes['report_type_nid'];
-                    $reportChain = new DoReportOrderHandler($data);
-                    $reportRes = $reportChain->handleRequest();
-                    if (isset($reportRes['error'])) {
-                        return 'ERROR';
-                    }
-
-                    //推送一键贷
-                    $task = new DoApplyOrderHandler($data);
-                    $taskRes = $task->handleRequest();
-                    if (isset($taskRes['error'])) {
-                        return 'ERROR';
-                    }
-                } catch (\Exception $e) {
-                    //订单异常事务回滚
-                    DB::rollBack();
-                    Log::error($e);
-                    //异常日志记录
-                    SLogger::getStream()->error('支付回调, 支付回调订单-catch');
-                    SLogger::getStream()->error($e->getMessage());
-                    return 'ERROR';
-                }
-                //事务提交
-                DB::commit();
-
-                //记录
-                $paymentChain = new DoPaymentAccountHandler($resData);
-                $paymentChain->handleRequest();
-
-                return 'SUCCESS';
-                break;
-
-            case 'order_extra_service':
-                //事务处理
-                DB::beginTransaction();
-                try {
-                    //修改订单状态
-                    $orderTypeChain = new DoPaidOrderHandler($data);
-                    $typeRes = $orderTypeChain->handleRequest();
-                    if (isset($typeRes['error'])) {
-                        return 'ERROR';
-                    }
-
-                    //更新
-                    $userInfo['service_status'] = 5;//增值服务状态
-                    $userInfo['update_at'] = date('Y-m-d H:i:s');
-                    $extraOrder = UserInfoFactory::UpdateUserInfoStatus($userOrder['user_id'], $userInfo);
-                    if (!$extraOrder) {
-                        return 'ERROR';
-                    }
-                } catch (\Exception $e) {
-                    //订单异常事务回滚
-                    DB::rollBack();
-                    Log::error($e);
-                    //异常日志记录
-                    SLogger::getStream()->error('支付回调, 支付回调订单-catch');
-                    SLogger::getStream()->error($e->getMessage());
-                    return 'ERROR';
-                }
-                //事务提交
-                DB::commit();
-        }
 
 
     }
