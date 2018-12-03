@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
+use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBankcardFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
+use App\Models\Orm\PaymentLog;
 use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
@@ -85,6 +87,23 @@ class ReportPayController extends ApiController
         if ($result['code'] != 200) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
+
+        //记录payment_log
+        $paymentData['user_id'] = $userId;
+        $paymentData['payment_id'] = $userId;
+        $paymentData['payment_order_no'] = $data['order_no'];
+        $paymentData['payment_type'] = 1;
+        $paymentData['order_expired'] = $userOrder['order_expired'];
+        $paymentData['terminal_nid'] = $request->header('X-DevType');
+        $paymentData['bankcard_id'] = $paymentArr['bankCardNo'];
+        $paymentData['lastno'] = substr($bankCardNo,-4);
+        $paymentData['amount'] = $userOrder['amount'];
+        $paymentData['status'] = $userOrder['status'];
+        $paymentData['request_data'] = json_encode($data);
+        $paymentData['response_data'] = '{}';
+        $paymentData['create_ip'] = Utils::ipAddress();
+        $paymentData['create_at'] = date('Y-m-d H:i:s');
+        PaymentLog::insert($paymentData);
 
         $res['url'] = $result['data']['url'];
         $res['order_no'] = $data['order_no'];
