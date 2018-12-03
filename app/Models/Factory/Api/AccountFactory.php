@@ -155,7 +155,7 @@ class AccountFactory extends ApiFactory
             $userAccount = new UserAccount();
         }
         $userAccount->user_id = $params['user_id'];
-        $userAccount->expend = $params['payAmount'];
+        $userAccount->expend += $params['payAmount'];
         $userAccount->status = $params['status'];
         $userAccount->create_at = date('Y-m-d H:i:s');
         $userAccount->create_ip = Utils::ipAddress();
