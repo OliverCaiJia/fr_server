@@ -5,7 +5,8 @@ namespace App\Models\Chain\QuickLogin;
 use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Chain\AbstractHandler;
 use Cache;
-use Carbon\Carbon;
+use App\Helpers\Utils;
+use App\Helpers\Generator\TokenGenerator;
 
 class RenovateTokenAction extends AbstractHandler
 {
@@ -44,10 +45,20 @@ class RenovateTokenAction extends AbstractHandler
     private function renovateToken($params)
     {
 	    $user = UserAuthFactory::getUserById($params['id']);
-        if ($user)
+        if (!empty($user))
         {
-            Cache::put('user_token_' . $params['id'], $user, Carbon::now()->addDays(7));
-            return true;
+            $data = [
+                'access_token' => TokenGenerator::generateToken(),
+                'last_login_at' => date('Y-m-d H:i:s'),
+                'last_login_ip' => Utils::ipAddress(),
+            ];
+            $user_id = $user['id'];
+
+           $user_res = UserAuthFactory::updateUserData($user_id,$data);
+           if($user_res){
+               return true;
+           }
+            return false;
         }
         return false;
     }
