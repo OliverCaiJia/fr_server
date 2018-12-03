@@ -6,6 +6,7 @@ use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Chain\AbstractHandler;
 use Cache;
 use Carbon\Carbon;
+use App\Helpers\Generator\TokenGenerator;
 
 class RenovateTokenAction extends AbstractHandler
 {
@@ -44,10 +45,16 @@ class RenovateTokenAction extends AbstractHandler
     private function renovateToken($params)
     {
 	    $user = UserAuthFactory::getUserById($params['id']);
-        if ($user)
+        if (!empty($user))
         {
-            Cache::put('user_token_' . $params['id'], $user, Carbon::now()->addDays(7));
-            return true;
+            $user_id = $user['id'];
+            $access_token = TokenGenerator::generateToken();
+
+           $user_res = UserAuthFactory::updateUserTokenById($user_id,$access_token);
+           if($user_res){
+               return true;
+           }
+            return false;
         }
         return false;
     }
