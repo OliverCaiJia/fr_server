@@ -26,9 +26,9 @@ class UserAccountLogController extends ViewController
      */
     public function edit($id)
     {
-        $user = UserAccount::findOrFail($id);
+        $user = UserAccountLog::findOrFail($id);
 
-        return view('admin.users.useraccount.edit', compact('user'));
+        return view('admin.users.useraccountlog.edit', compact('user'));
     }
 
     public function update(Request $request, $id)

@@ -38,21 +38,13 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>交易号</th>
                         <th>用户名</th>
-                        <th>资金总额</th>
-                        <th>总收入</th>
-                        <th>总支出</th>
-                        <th>余额</th>
-                        <th>可提现</th>
-                        <th>不可提现</th>
-                        <th>冻结金额</th>
-                        <th>提现冻结金额</th>
-                        <th>其他提现冻结金额</th>
-                        <th>待收金额</th>
-                        <th>待还金额</th>
-                        <th>状态</th>
+                        <th>类型</th>
+                        <th>操作金额</th>
+                        <th>收入</th>
+                        <th>支出</th>
                         <th>创建时间</th>
-                        <th>修改时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -60,29 +52,15 @@
                     @foreach ($query as $k => $item)
                         <tr>
                             <td style="word-break:break-all;max-width:350px;">{{$item->id}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->nid_no}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Users\UsersFactory::getUsername($item->user_id)}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->total}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->type}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->money}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->income}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->expend}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->balance}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->balance_cash}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->balance_frost}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->frost}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->frost_cash}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->frost_other}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->await}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->repay}}</td>
-                            <td style="word-break:break-all;max-width:350px;">
-                                @if($item->status == 0)
-                                    <span style="color: red;font-weight: bold;">无效</span>
-                                @elseif($item->status == 1)
-                                    <span style="color : green;font-weight: bold">有效</span>
-                                @endif
-                            </td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->create_at }}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->update_at }}</td>
                             <td>
-                                <a href="{{ route('admin.useraccount.edit', ['id' => $item->id]) }}">
+                                <a href="{{ route('admin.useraccountlog.edit', ['id' => $item->id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
                                         <i class="fa fa-paste"></i> 修改
                                     </button>
