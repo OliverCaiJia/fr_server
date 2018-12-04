@@ -43,13 +43,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">服务状态：</label>
                         <div class="input-group col-sm-2">
-                            <select class="form-control m-b" name="service_status" value="{{$item->status or '' }}">
-                                <option  @isset($user->status) @if($user->status == '0') selected @endif @endisset value='0'>未认证</option>
-                                <option  @isset($user->status) @if($user->status == '1') selected @endif @endisset value='1'>身份认证</option>
-                                <option  @isset($user->status) @if($user->status == '2') selected @endif @endisset value='2'>绑定银行卡</option>
-                                <option  @isset($user->status) @if($user->status == '3') selected @endif @endisset value='3'>信用报告</option>
-                                <option  @isset($user->status) @if($user->status == '4') selected @endif @endisset value='4'>申请贷款</option>
-                                <option  @isset($user->status) @if($user->status == '5') selected @endif @endisset value='5'>增值服务</option>
+                            <select class="form-control m-b" name="service_status" value="{{$item->service_status or '' }}">
+                                <option  @isset($user->service_status) @if($user->service_status == '0') selected @endif @endisset value='0'>未认证</option>
+                                <option  @isset($user->service_status) @if($user->service_status == '1') selected @endif @endisset value='1'>身份认证</option>
+                                <option  @isset($user->service_status) @if($user->service_status == '2') selected @endif @endisset value='2'>绑定银行卡</option>
+                                <option  @isset($user->service_status) @if($user->service_status == '3') selected @endif @endisset value='3'>信用报告</option>
+                                <option  @isset($user->service_status) @if($user->service_status == '4') selected @endif @endisset value='4'>申请贷款</option>
+                                <option  @isset($user->service_status) @if($user->service_status == '5') selected @endif @endisset value='5'>增值服务</option>
                             </select>
                         </div>
                     </div>
