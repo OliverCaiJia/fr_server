@@ -7,7 +7,7 @@
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
-                <a href="{{route('admin.user.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回用户列表</button></a>
+                <a href="{{route('admin.userinvite.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回用户列表</button></a>
                 <div class="hr-line-dashed m-t-sm m-b-sm"></div>
                 <form class="form-horizontal m-t-md" action="{{ route('admin.userinvite.update', $user->id) }}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                     {!! csrf_field() !!}

@@ -64,6 +64,10 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('userinvite', 'UserInviteController');
         //用户邀请好友生成code
         Route::resource('userinvitecode', 'UserInviteCodeController');
+        //用户贷款数据
+        Route::resource('usertask', 'UserTaskController');
+        //用户账户流水
+        Route::resource('useraccountlog', 'UserAccountLogController');
     });
 
     //---------------------------- 订单管理 ----------------------------------//
