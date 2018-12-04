@@ -159,7 +159,7 @@ class UserOrderController extends ApiController
                 $spreadNid = 'oneLoan';
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
 
-                $res["loan"]["amount"] = $userOrder['amount'];
+                $res["loan"]["amount"] = $userOrder['money'];//
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
