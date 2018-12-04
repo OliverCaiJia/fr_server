@@ -43,7 +43,7 @@ class UserOrderController extends ApiController
                     "order_no" => $uOrder['order_no'],
                     "order_type_nid" => $orderType['type_nid'],
                     "create_at" => $uOrder['create_at'],
-                    "amount" => $uOrder['amount'],
+                    "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
                     "term" => $uOrder['term'],
                     "logo_url" => $orderType['logo_url'],
                     "status" => $uOrder['status']
@@ -110,7 +110,7 @@ class UserOrderController extends ApiController
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
             case 'order_extra_service' :
-                $res["extra"]["amount"] = $userOrder['money'];//前端不改字段，用money， ××（金额）/××（天）
+                $res["extra"]["amount"] = $userOrder['amount'];
                 $res["extra"]["status"] = $userOrder['status'];
                 $res["extra"]["term"] = $userOrder['term'];
                 $res["extra"]["stop_time"] = $userOrder['update_at'];
@@ -159,7 +159,7 @@ class UserOrderController extends ApiController
                 $spreadNid = 'oneLoan';
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
 
-                $res["loan"]["amount"] = $userOrder['money'];//前端不改字段，用money， ××（金额）/××（天）
+                $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
