@@ -62,6 +62,8 @@ class OrderStatusCommand extends Command
                 ->get()
                 ->toArray();
 
+            if(empty($orderTypeList)) break;
+
             foreach($orderTypeList as $order_key => $order_val){
                 $data = [
                     'status' => 2,

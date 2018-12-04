@@ -55,6 +55,8 @@ class YjdPushCommand extends Command
         while(true){
             $res_task = UserLoanTask::where('status','=',1)->skip($start)->take($count)->get()->toArray();
 
+            if(empty($res_task)) break;
+
             foreach ($res_task as $task_key => $task_val){
                 $request_data = json_decode($res_task[$task_key]['request_data'],true);
                 $data = [
