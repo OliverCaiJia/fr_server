@@ -105,6 +105,15 @@ class UserOrderStrategy extends AppStrategy
         return $userOrder['id'];
     }
 
+    /**
+     * 根据不同订单类型进行支付回调
+     * @param $typeNid
+     * @param $data
+     * @param $resData
+     * @param $userId
+     * @return string
+     * @throws \Exception
+     */
     public static function getChainsByTypeNid($typeNid, $data, $resData, $userId)
     {
         switch ($typeNid) {
@@ -181,6 +190,12 @@ class UserOrderStrategy extends AppStrategy
                 }
                 //事务提交
                 DB::commit();
+                //记录
+                $paymentChain = new DoPaymentAccountHandler($resData);
+                $paymentChain->handleRequest();
+
+                return 'SUCCESS';
+                break;
         }
     }
 }
