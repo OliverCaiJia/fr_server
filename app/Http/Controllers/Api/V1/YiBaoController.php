@@ -55,6 +55,6 @@ class YiBaoController extends ApiController
             return 'ERROR';
         }
         //todo::需确定后，进行优化
-        UserOrderStrategy::getChainsByTypeNid($orderType['type_nid'], $data, $resData, $userOrder['user_id']);
+        return UserOrderStrategy::getChainsByTypeNid($orderType['type_nid'], $data, $resData, $userOrder['user_id']);
     }
 }
