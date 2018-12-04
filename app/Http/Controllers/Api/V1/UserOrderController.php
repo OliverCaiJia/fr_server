@@ -42,21 +42,23 @@ class UserOrderController extends ApiController
                 $res[] = [
                     "order_no" => $uOrder['order_no'],
                     "order_type_nid" => $orderType['type_nid'],
+                    "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                    "term" => $uOrder['term'],
                     "create_at" => $uOrder['create_at'],
                     "logo_url" => $orderType['logo_url'],
                     "status" => $uOrder['status']
                 ];
-                if ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service') {
-                    $res[] = [
-                        "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
-                        "term" => $uOrder['term'],
-                    ];
-                }
-                if ($orderType['type_nid'] == 'order_report') {
-                    $res[] = [
-                        "amount" => $uOrder['amount']
-                    ];
-                }
+//                if ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service') {
+//                    $res[] = [
+//                        "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+//                        "term" => $uOrder['term'],
+//                    ];
+//                }
+//                if ($orderType['type_nid'] == 'order_report') {
+//                    $res[] = [
+//                        "amount" => $uOrder['amount']
+//                    ];
+//                }
             }
         }
         return RestResponseFactory::ok($res);
