@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('userinfo', 'UserInfoController');
         //用户贷款流水
         Route::resource('userborrow', 'UserBorrowController');
+        //用户账户信息
+        Route::resource('useraccount', 'UserAccountController');
     });
 
     //---------------------------- 订单管理 ----------------------------------//
