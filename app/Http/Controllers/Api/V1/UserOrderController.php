@@ -110,7 +110,7 @@ class UserOrderController extends ApiController
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
             case 'order_extra_service' :
-                $res["extra"]["amount"] = $userOrder['amount'];
+                $res["extra"]["amount"] = $userOrder['money'];//前端不改字段，用money， ××（金额）/××（天）
                 $res["extra"]["status"] = $userOrder['status'];
                 $res["extra"]["term"] = $userOrder['term'];
                 $res["extra"]["stop_time"] = $userOrder['update_at'];
@@ -159,7 +159,7 @@ class UserOrderController extends ApiController
                 $spreadNid = 'oneLoan';
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
 
-                $res["loan"]["amount"] = $userOrder['money'];//
+                $res["loan"]["amount"] = $userOrder['money'];//前端不改字段，用money， ××（金额）/××（天）
                 $res["loan"]["term"] = $userOrder['term'];
                 $res["loan"]["order_no"] = $userOrder['order_no'];
                 $res["loan"]["status"] = $userOrder['status'];
