@@ -49,7 +49,7 @@ class YjdPushCommand extends Command
     {
         $start = 0;
         $count = 100;
-
+        $error_num = 0;
         DB::beginTransaction();
 
         while(true){
@@ -100,12 +100,14 @@ class YjdPushCommand extends Command
                     if($task_up && $userInfo_up !== false){
                         DB::commit();
                     }else{
+                        $error_num++;
                         DB::rollback();
                     }
                 }
             }
 
             if(count($res_task) < $count) break;
+            if($error_num >= $count) break;
         }
     }
 }
