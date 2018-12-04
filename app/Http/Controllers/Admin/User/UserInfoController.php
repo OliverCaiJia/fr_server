@@ -8,6 +8,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
 use App\Models\Orm\UserAuth;
+use App\Models\Orm\UserInfo;
 use App\Models\Orm\SaasPerson;
 use App\Http\Controllers\Admin\User\ViewController;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Hash;
 
-class UserController extends ViewController
+class UserInfoController extends ViewController
 {
     /**注册用户
      * @param Request $request
@@ -24,17 +25,19 @@ class UserController extends ViewController
     public function index(Request $request)
     {
         //查询条件
-        $mobile = $request->input('mobile');
-        $username = $request->input('user_name');
-//
+        $status = $request->input('status');
+        $service_status = $request->input('service_status');
+        $has_userinfo = $request->input('has_userinfo');
 
-        $query = UserAuth::when($mobile, function ($query) use ($mobile) {
-            return $query->where('mobile', '=', $mobile);
-        })->when($username, function ($query) use ($username) {
-            return $query->where('type_nid', 'like',  '%' . $username . '%');
+        $query = UserInfo::when($status, function ($query) use ($status) {
+            return $query->where('status', '=', $status);
+        })->when($service_status, function ($query) use ($service_status) {
+            return $query->where('service_status', '=', $service_status);
+        })->when($has_userinfo, function ($query) use ($has_userinfo) {
+            return $query->where('has_userinfo', '=', $has_userinfo);
         })->orderBy('id', 'desc')->paginate(10);
 
-        return view('admin.users.index', compact('query'));
+        return view('admin.users.userinfo.index', compact('query'));
     }
 
     /**
@@ -44,9 +47,9 @@ class UserController extends ViewController
      */
     public function edit($id)
     {
-        $user = UserAuth::findOrFail($id);
+        $user = UserInfo::findOrFail($id);
 
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.userinfo.edit', compact('user'));
     }
 
     /**

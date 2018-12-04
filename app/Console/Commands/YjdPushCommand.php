@@ -49,11 +49,13 @@ class YjdPushCommand extends Command
     {
         $start = 0;
         $count = 100;
-
+        $error_num = 0;
         DB::beginTransaction();
 
         while(true){
             $res_task = UserLoanTask::where('status','=',1)->skip($start)->take($count)->get()->toArray();
+
+            if(empty($res_task)) break;
 
             foreach ($res_task as $task_key => $task_val){
                 $request_data = json_decode($res_task[$task_key]['request_data'],true);
@@ -100,12 +102,14 @@ class YjdPushCommand extends Command
                     if($task_up && $userInfo_up !== false){
                         DB::commit();
                     }else{
+                        $error_num++;
                         DB::rollback();
                     }
                 }
             }
 
             if(count($res_task) < $count) break;
+            if($error_num >= $count) break;
         }
     }
 }

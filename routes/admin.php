@@ -51,10 +51,13 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
 
     //---------------------------- 用户中心 ----------------------------------//
     Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
-        //账户管理
-        Route::any('index', 'UserController@index')->name('user.index');
-        //编辑账户状态
-        Route::any('edit', 'UserController@edit')->name('edit.index');
+
+        //用户管理
+        Route::resource('user', 'UserController');
+        //用户个人信息
+        Route::resource('userinfo', 'UserInfoController');
+        //用户贷款流水
+        Route::resource('userborrow', 'UserBorrowController');
     });
 
     //---------------------------- 订单管理 ----------------------------------//
