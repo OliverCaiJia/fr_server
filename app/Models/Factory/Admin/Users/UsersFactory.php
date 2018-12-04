@@ -3,7 +3,7 @@
 namespace App\Models\Factory\Admin\Users;
 
 use App\Models\AbsModelFactory;
-use App\Models\User;
+use App\Models\Orm\UserAuth;
 
 class UsersFactory extends AbsModelFactory
 {
@@ -15,6 +15,11 @@ class UsersFactory extends AbsModelFactory
     public static function getUserInfoById($id)
     {
         return User::whereKey($id)->first()->toArray();
+    }
+
+    public static function getUsername($user_id){
+       $username = UserAuth::where(['id'=>$user_id])->first();
+       return $username ? $username->user_name: '';
     }
 
     /**

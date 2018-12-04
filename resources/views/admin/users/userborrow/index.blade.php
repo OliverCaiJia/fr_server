@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户管理</h5>
+                <h5>用户个人信息管理</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -39,10 +39,10 @@
                     <tr>
                         <th>ID</th>
                         <th>用户名</th>
-                        <th>手机号</th>
-                        <th>用户状态</th>
+                        <th>申请金额</th>
+                        <th>申请周期</th>
                         <th>创建时间</th>
-                        <th>最后登录时间</th>
+                        <th>更新时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -50,33 +50,25 @@
                     @foreach ($query as $k => $item)
                         <tr>
                             <td style="word-break:break-all;max-width:350px;">{{$item->id}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->user_name}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->mobile}}</td>
-                            <td style="word-break:break-all;max-width:350px;">
-                                @if($item->status == 0)
-                                    <span style="color: red;font-weight: bold;">未激活</span>
-                                @elseif($item->status == 1)
-                                    <span style="color : green;font-weight: bold">激活</span>
-                                @elseif($item->status == 2)
-                                    <span style="color: red;font-weight: bold;">锁定</span>
-                                @endif
-                            </td>
+                            <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Users\UsersFactory::getUsername($item->user_id)}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->loan_amount}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->loan_peroid}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->create_at or ''}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->last_login_at or ''}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->update_at or ''}}</td>
                             <td>
-                                <a href="{{ route('admin.user.edit', ['id' => $item->id]) }}">
-                                    <button class="btn btn-primary btn-xs" type="button">
-                                        <i class="fa fa-paste"></i> 修改
-                                    </button>
-                                </a>
-                                {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}
-                                      {{--class="inline">--}}
-                                    {{--{{ csrf_field() }}--}}
-                                    {{--{{ method_field('DELETE') }}--}}
-                                    {{--<button class="btn btn-danger btn-xs" type="submit">--}}
-                                        {{--<i class="fa fa-trash-o"></i> 删除--}}
+                                {{--<a href="{{ route('admin.user.edit', ['id' => $item->id]) }}">--}}
+                                    {{--<button class="btn btn-primary btn-xs" type="button">--}}
+                                        {{--<i class="fa fa-paste"></i> 修改--}}
                                     {{--</button>--}}
-                                {{--</form>--}}
+                                {{--</a>--}}
+                                <form action="{{ route('admin.userborrow.destroy', ['id' => $item->id]) }}" method="post"
+                                      class="inline">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button class="btn btn-danger btn-xs" type="submit">
+                                        <i class="fa fa-trash-o"></i> 删除
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
