@@ -2,9 +2,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
+use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\UserApplyLog;
 use App\Services\Core\Product\SuDaiZhiJiaProductService;
+use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 use App\Helpers\RestUtils;
 
@@ -69,5 +72,45 @@ class LoanController extends ApiController
 
         return RestResponseFactory::ok($res);
 
+    }
+
+    /**
+     * 重新借款免费订单创建
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    public function reapply(Request $request){
+        $data = $request->all();
+        $userId = $this->getUserId($request);
+        $status = [1];//订单处理完成
+        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $data['order_no'], $status);
+        if (!empty($userOrder)){
+            return RestResponseFactory::ok($userOrder);
+        }
+        $applyUser = [];
+        $applyUser['user_id']=$userId;
+        $orderTypeNid ='order_apply';
+        $extra = UserOrderStrategy::getExtra($orderTypeNid);
+        $applyUser['order_no'] = UserOrderStrategy::createOrderNo($extra);
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
+        $applyUser['order_type'] = $orderType['id'];
+        $applyUser['p_order_id'] = 0;//默认无父级
+        $applyUser['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        $applyUser['amount'] = $request->input('amount');
+        $applyUser['money'] = $request->input('money', 0) ?: 0;
+        $applyUser['term'] = $request->input('term', 0);
+        $applyUser['count'] = 1;
+        $applyUser['status'] = 0;
+        $applyUser['create_ip'] = Utils::ipAddress();
+        $applyUser['create_at'] = date('Y-m-d H:i:s', time());
+        $applyUser['update_ip'] = Utils::ipAddress();
+        $applyUser['update_at'] = date('Y-m-d H:i:s', time());
+
+        $result = UserOrderFactory::createOrder($applyUser);
+
+        if ($result) {
+            return RestResponseFactory::ok($result);
+        }
+        return false;
     }
 }

@@ -212,7 +212,7 @@ class UserOrderController extends ApiController
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
-        $data['platform_nid'] = $request->input('platform_nid', '');
+//        $data['platform_nid'] = $request->input('platform_nid', '');
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
