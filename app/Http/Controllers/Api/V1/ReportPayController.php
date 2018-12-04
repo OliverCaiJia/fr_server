@@ -80,6 +80,7 @@ class ReportPayController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1155), 1155);
         }
         $cardUpdate['card_no'] = $bankCardNo;
+        $cardUpdate['update_at'] = date('Y-m-d H:i:s');
         $userCardUpdate = UserOrderFactory::updateOrderById($userOrder['id'], $cardUpdate);
         if (!$userCardUpdate) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1141), 1141);

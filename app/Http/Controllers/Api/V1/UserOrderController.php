@@ -165,6 +165,9 @@ class UserOrderController extends ApiController
                 $res["loan"]["status"] = $userOrder['status'];
                 $res["loan"]["expired_time"] = date("Y-m-d", strtotime("+30 days", strtotime($userOrder['create_at'])));
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
+                if ($loanTask['code'] != 200) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1166), 1166);
+                }
                 $res["loan"]["push_status"] = $loanTask['status'];
                 $res["report"] = null;
                 $res["extra"] = null;
