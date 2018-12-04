@@ -45,7 +45,7 @@ class CheckBankCardAction extends AbstractHandler
         $bank_res = AlipayBankService::validateBankName($params['bankcard']);
         $support_bank = Bank::select('bank_code')->where('bank_code' ,'=', $bank_res['bank'])->first();
         //信用卡 CC 储蓄卡 DC
-        if(!$support_bank || $support_bank['cardType'] == 'CC'){
+        if(!$support_bank || $bank_res['cardType'] == 'CC'){
             return false;
         }
         $this->params['bank_code'] = $bank_res['bank'];
