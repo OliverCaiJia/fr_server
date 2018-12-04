@@ -60,33 +60,19 @@ class UserInfoController extends ViewController
      *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
 
-        dd($id);
-        $user = SaasPerson::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
-        $password = $request->input('password');
-
+        $user = UserInfo::findOrFail($id);
         $userData = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'username' => $request->input('username'),
-            'mobilephone' => $request->input('mobilephone')
+            'status' => $request->input('status'),
+            'has_userinfo' => $request->input('has_userinfo'),
+            'service_status' => $request->input('service_status'),
+            'update_at' => date('Y-m-d H:i:s')
         ];
-        $userData = $password ? array_merge($userData, ['password' => bcrypt($password)]) : $userData;
-
         $user->update($userData);
 
-        if ($request->input('role')) {
-            $user->roles()->sync($request->input('role'));
-        } else {
-            $user->roles()->detach();
-        }
-        event(new OperationLogEvent(12, json_encode($user->toArray())));
-
-        return redirect()->route('admin.user.edit', ['id' => $id])->with('success', '修改成功');
+        return redirect()->route('admin.userinfo.index', ['id' => $id])->with('success', '修改成功');
     }
 
     /**
