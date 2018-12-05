@@ -642,12 +642,14 @@ class UserOrderFactory extends ApiFactory
      * 通过用户id、状态获取用户订单
      * @param $userId
      * @param array $status
+     * @param $typeId
      * @return array
      */
-    public static function getUserOrderByUserIdAndStatus($userId, $status = [])
+    public static function getUserOrderByUserIdAndStatusAndTypeId($userId, $status = [], $typeId)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
+            ->where('order_type', '=', $typeId)
             ->whereIn('status', $status)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
@@ -659,10 +661,11 @@ class UserOrderFactory extends ApiFactory
      * @param array $status
      * @return array
      */
-    public static function getUserOrderByUserIdAndStatusDesc($userId, $status = [])
+    public static function getUserOrderByUserIdAndStatusAndTypeIdDesc($userId, $status = [], $orderType)
     {
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
+            ->where('order_type', '=', $orderType)
             ->whereIn('status', $status)
             ->orderBy('create_at', 'desc')
             ->first();

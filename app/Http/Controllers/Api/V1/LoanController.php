@@ -6,6 +6,7 @@ use App\Constants\UserOrderConstant;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\UserApplyLog;
 use App\Services\Core\Product\SuDaiZhiJiaProductService;
@@ -85,17 +86,14 @@ class LoanController extends ApiController
     public function reapply(Request $request)
     {
         $userId = $this->getUserId($request);
+        $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
+        if (empty($orderTypeApply)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1167), 1167);
+        }
         $normalStatus = [1];
-        $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, $normalStatus);
-        if (empty($userOrderNormal)) {
-            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1188), 1188);
-        }
-        return $this->arrangeData($userOrderNormal);
+        $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeId($userId, $normalStatus, $orderTypeApply['id']);
         $status = [2, 3, 4];//订单过期等非正常状态
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusDesc($userId, $status);
-        if (empty($userOrder)) {
-            return RestResponseFactory::ok([]);
-        }
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeIdDesc($userId, $status, $orderTypeApply['id']);
         $applyUser = [];
         $applyUser['user_id'] = $userId;
         $orderTypeNid = UserOrderConstant::ORDER_APPLY;
@@ -105,19 +103,38 @@ class LoanController extends ApiController
         $applyUser['order_type'] = $orderType['id'];
         $applyUser['p_order_id'] = 0;//默认无父级
         $applyUser['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
-        $applyUser['amount'] = $userOrder['amount'];
-        $applyUser['money'] = $userOrder['money'];
-        $applyUser['term'] = $userOrder['term'];
         $applyUser['count'] = 1;
         $applyUser['status'] = 1;//默认订单处理完成
         $applyUser['create_ip'] = Utils::ipAddress();
         $applyUser['create_at'] = date('Y-m-d H:i:s', time());
         $applyUser['update_ip'] = Utils::ipAddress();
         $applyUser['update_at'] = date('Y-m-d H:i:s', time());
-
-        $result = UserOrderFactory::createOrder($applyUser);
-        if ($result) {
-            return $this->arrangeData($result);
+        if (empty($userOrderNormal) && empty($userOrder)) {
+            //create-----borrow_log
+            $userBorrowLog = UserBorrowLogFactory::getBorrowLogDesc($userId);
+            $applyUser['amount'] = 0;
+            $applyUser['money'] = isset($userBorrowLog['money']) ? $userBorrowLog['money'] : 0;
+            $applyUser['term'] = isset($userBorrowLog['term']) ? $userBorrowLog['term'] : 0;
+            $result = UserOrderFactory::createOrder($applyUser);
+            if (empty($result)) {
+                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1136), 1136);
+            }
+            return RestResponseFactory::ok($result);
+        }
+        if (empty($userOrderNormal) && !empty($userOrder)) {
+            //create-----
+            $applyUser['amount'] = $userOrder['amount'];
+            $applyUser['money'] = $userOrder['money'];
+            $applyUser['term'] = $userOrder['term'];
+            $result = UserOrderFactory::createOrder($applyUser);
+            if (empty($result)) {
+                return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1136), 1136);
+            }
+            return RestResponseFactory::ok($result);
+        }
+        if (!empty($userOrderNormal)) {
+            //非空返回
+            return RestResponseFactory::ok($userOrderNormal);
         }
     }
 
