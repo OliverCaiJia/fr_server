@@ -82,7 +82,7 @@ class CreateReportLogAction extends AbstractHandler
             $reportLog = UserOrderFactory::createReportLog($reportLog);
 
             $userEvaluation = ReportStrategy::getEvaluation($params);
-            UserOrderFactory::createEvaluation($userApply);
+            UserOrderFactory::createEvaluation($userEvaluation);
         }
         /**
          *额度评估(电商)

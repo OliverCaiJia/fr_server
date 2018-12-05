@@ -129,9 +129,13 @@ class ReportStrategy extends AppStrategy
 //  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
         $userEvaluation['user_id'] = $params['user_id'];
-        $userEvaluation['fund_money'] = $params['evaluation']['data']['trans_id'];
-        $userEvaluation['data'] = json_encode($params['application']['data']);
-        $userEvaluation['fee'] = $params['application']['fee'];
+        $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
+        $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
+        $userEvaluation['year_salary'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'];
+        $userEvaluation['credit_card_num'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'];
+        $userEvaluation['credit_card_limit'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'];
+        $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
+        $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
         $userEvaluation['create_at'] = date('Y-m-d H:i:s', time());
         $userEvaluation['update_at'] = date('Y-m-d H:i:s', time());
         return $userEvaluation;

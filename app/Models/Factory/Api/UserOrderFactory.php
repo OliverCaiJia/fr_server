@@ -10,6 +10,7 @@ use App\Models\Orm\UserApply;
 use App\Models\Orm\UserApplyLog;
 use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserBorrowLog;
+use App\Models\Orm\UserEvaluation;
 use App\Models\Orm\UserLoanLog;
 use App\Models\Orm\UserLoanTask;
 use App\Models\Orm\UserMultiinfo;
@@ -205,25 +206,41 @@ class UserOrderFactory extends ApiFactory
         return false;
     }
 
+
+    //        CREATE TABLE `sgd_user_estimate_rep` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',---------------------
+//  `fund_money` decimal(15,2) NOT NULL COMMENT '公积金余额',
+//  `year_income` decimal(15,2) NOT NULL COMMENT '年收入',
+//  `year_salary` decimal(15,2) NOT NULL COMMENT '年工资',
+//  `credit_card_num` int(10) NOT NULL COMMENT '信用卡数量',
+//  `credit_card_limit` decimal(15,2) NOT NULL COMMENT '新用卡总额度',
+//  `data` json NOT NULL COMMENT '返回数据',
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`),
+//  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
     public static function createEvaluation($params)
     {
-        $userAmountEst = UserAmountEst::select()->where('user_id', '=', $params['user_id'])->first();
-        if (empty($userAmountEst)) {
-            $userAmountEst = new UserAmountEst();
+        $userEvaluation = UserEvaluation::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userEvaluation)) {
+            $userEvaluation = new UserEvaluation();
         }
-        $userAmountEst->user_id = $params['user_id'];
-        $userAmountEst->zm_score = $params['zm_score'];
-        $userAmountEst->huabai_limit = $params['huabai_limit'];
-        $userAmountEst->credit_amt = $params['credit_amt'];
-        $userAmountEst->data = $params['data'];
-        $userAmountEst->fee = $params['fee'];
-        $userAmountEst->create_at = $params['create_at'];
-        $userAmountEst->update_at = $params['update_at'];
-
-        if ($userAmountEst->save()) {
-            return $userAmountEst->toArray();
+        $userEvaluation->user_id = $params['user_id'];
+        $userEvaluation->zm_score = $params['zm_score'];
+        $userEvaluation->huabai_limit = $params['huabai_limit'];
+        $userEvaluation->credit_amt = $params['credit_amt'];
+        $userEvaluation->data = $params['data'];
+        $userEvaluation->fee = $params['fee'];
+        $userEvaluation->create_at = $params['create_at'];
+        $userEvaluation->update_at = $params['update_at'];
+        if ($userEvaluation->save()) {
+            return $userEvaluation->toArray();
         }
-
         return false;
     }
 
