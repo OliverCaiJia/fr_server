@@ -84,13 +84,12 @@ class LoanController extends ApiController
      */
     public function reapply(Request $request)
     {
-        $data = $request->all();
         $userId = $this->getUserId($request);
         $status = [1];//订单处理完成
         $userOrderType = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderTypeAndStatus($userId, $userOrderType['id'], $status);
         if (!empty($userOrder)) {
-            return RestResponseFactory::ok($userOrder);
+            return $this->arrangeData($userOrder);
         }
         $applyUser = [];
         $applyUser['user_id'] = $userId;
@@ -112,10 +111,29 @@ class LoanController extends ApiController
         $applyUser['update_at'] = date('Y-m-d H:i:s', time());
 
         $result = UserOrderFactory::createOrder($applyUser);
-
         if ($result) {
-            return RestResponseFactory::ok($result);
+            return $this->arrangeData($result);
         }
-        return false;
+    }
+
+    /**
+     * 整理数据返回
+     * @param $userOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function arrangeData($userOrder)
+    {
+        $res = [];
+        $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $res[] = [
+            "order_no" => $userOrder['order_no'],
+            "order_type_nid" => UserOrderConstant::ORDER_APPLY,
+            "amount" => $userOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+            "term" => $userOrder['term'],
+            "create_at" => $userOrder['create_at'],
+            "logo_url" => $orderType['logo_url'],
+            "status" => $userOrder['status']
+        ];
+        return RestResponseFactory::ok($res);
     }
 }

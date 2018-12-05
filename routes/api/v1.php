@@ -168,7 +168,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
         //获取产品url
         $router->any('products/url', ['middleware' => ['valiApi:productUrl'],'uses' => 'LoanController@productUrl']);
         //重新借款
-        $router->any('reapply', ['middleware' => ['valiApi:reapply'],'uses' => 'LoanController@reapply']);
+        $router->any('reapply', ['uses' => 'LoanController@reapply']);
     });
 
     /**
