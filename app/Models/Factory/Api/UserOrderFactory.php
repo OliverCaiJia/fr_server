@@ -2,6 +2,7 @@
 
 namespace App\Models\Factory\Api;
 
+use App\Constants\UserOrderConstant;
 use App\Constants\UserVipConstant;
 use App\Models\Orm\Platform;
 use App\Models\Orm\UserAmountEst;
@@ -23,7 +24,6 @@ use App\Models\Orm\UserPostloan;
 use App\Models\Orm\UserReport;
 use App\Models\Orm\UserReportLog;
 use App\Models\Orm\UserReportType;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class UserOrderFactory
@@ -38,30 +38,6 @@ class UserOrderFactory extends ApiFactory
      */
     public static function createOrder($params)
     {
-//        CREATE TABLE `sgd_user_order` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-//  `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
-//  `order_type` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单类型',
-//  `p_order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否是子订单',
-//  `order_expired` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '订单有效期',
-//  `amount` decimal(15,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额 ，以分为单位的整型',
-//  `money` decimal(15,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额 ，以分为单位的整型',
-//  `term` tinyint(11) NOT NULL COMMENT '订单期限',
-//  `count` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '订单数量',
-//  `status` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '订单状态 0:订单处理中 1:订单处理完成 2:订单过期 3:订单撤销 4订单失败 ',
-//  `create_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '用户支付时使用的网络终端IP',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_ip` varchar(32) NOT NULL DEFAULT '' COMMENT '更新IP',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`) USING BTREE,
-//  KEY `FK_USER_ORDER_ORDER_TYPE` (`order_type`),
-//  KEY `FK_USER_ORDER_UID_ORDERID` (`user_id`,`order_no`) USING BTREE COMMENT '用户ID和订单号的联合索引',
-//  KEY `INDEX_USER_ID` (`user_id`),
-//  KEY `INDEX_STATUS` (`status`),
-//  CONSTRAINT `FK_USER_ORDER_ORDER_TYPE` FOREIGN KEY (`order_type`) REFERENCES `sgd_user_order_type` (`id`) ON UPDATE CASCADE,
-//  CONSTRAINT `FK_USER_ORDER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON UPDATE CASCADE
-//) ENGINE=InnoDB AUTO_INCREMENT=287 DEFAULT CHARSET=utf8 COMMENT='用户订单表'
         $userOrderObj = new UserOrder();
         $userOrderObj->user_id = $params['user_id'];
         $userOrderObj->order_no = $params['order_no'];
@@ -632,27 +608,11 @@ class UserOrderFactory extends ApiFactory
      */
     public static function getUserOrderByUserIdPage($userId, $typeArr, $pageSize = 10, $pageIndex)
     {
-//        $status = TagSeo::select()->where(['id' => $v, 'status' => 1])->first();
-//        $goodsShow = Goods::where('cate_id','=',$cate_id)
-//            ->where(function($query){
-//                $query->where('status','<','61')
-//                    ->orWhere(function($query){
-//                        $query->where('status', '91');
-//                    });
-//            })->first();
-//        $userOrder = UserOrder::select()
-//            ->where('user_id', '=', $userId)
-//            ->where('status', '=', 1)
-//            ->paginate($pageSize, ['*'], 'page', $pageIndex);
-//        return $userOrder ? $userOrder->toArray() : [];
-//        ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
-//        ||
-//        ($uOrder['status'] == 1)
         $userOrder = UserOrder::where('user_id', '=', $userId)
             ->where(function ($query) use ($typeArr) {
-                $query->where('status', '=', 1)
+                $query->where('status', '=', UserOrderConstant::ORDER_FINISH)
                     ->orWhere(function ($query) use ($typeArr) {
-                        $query->where('status', '=', 2)
+                        $query->where('status', '=', UserOrderConstant::ORDER_EXPIRED)
                             ->where(function ($query) use ($typeArr) {
                                 $query->whereIn('order_type', $typeArr);
                         });
