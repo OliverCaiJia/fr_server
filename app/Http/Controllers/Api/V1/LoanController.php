@@ -130,7 +130,7 @@ class LoanController extends ApiController
     {
         $res = [];
         $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
-        $res[] = [
+        $res = [
             "order_no" => $userOrder['order_no'],
             "order_type_nid" => UserOrderConstant::ORDER_APPLY,
             "amount" => $userOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
