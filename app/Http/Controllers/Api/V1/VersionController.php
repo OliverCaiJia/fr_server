@@ -45,7 +45,7 @@ class VersionController extends ApiController
         //app来源
         $platType = $request->input('platType', 'ios');
         //app产品来源
-        $appType = $request->input('appType', 'sgd');
+        $appType = $request->input('appType', 'appstore');
         //版本号
         $versionName = $request->input('versionName', '1.0.0');
 

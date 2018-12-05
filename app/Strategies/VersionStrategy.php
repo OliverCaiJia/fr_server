@@ -44,6 +44,7 @@ class VersionStrategy extends AppStrategy
     public static function getVersionIos($versionName,$versionData = [])
     {
         $compare = version_compare($versionName, $versionData['version_code'], '<');
+
         if ($compare) {
             $is_upload = $versionData['type'];
         } else {
@@ -51,6 +52,7 @@ class VersionStrategy extends AppStrategy
         }
         $data = [];
         $data['is_upload'] = $is_upload;
+        $data['is_show'] = $versionData['pending'];
         $data['version_code'] = $versionData['version_code'];
         $data['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
         $data['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
