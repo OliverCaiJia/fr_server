@@ -27,10 +27,11 @@ class VersionStrategy extends AppStrategy
         }
         $version                    = [];
         $version['is_upload'] = $is_upload;
+        $version['is_show'] = $versionData['pending'];
         $version['version_code'] = $versionData['version_code'];
-        $version['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
-        $version['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
-        $version['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
+        $version['app_url'] = isset($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $version['app_url_type'] = isset($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
+        $version['upgrade_point'] = isset($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $version;
     }
@@ -54,9 +55,9 @@ class VersionStrategy extends AppStrategy
         $data['is_upload'] = $is_upload;
         $data['is_show'] = $versionData['pending'];
         $data['version_code'] = $versionData['version_code'];
-        $data['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
-        $data['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
-        $data['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
+        $data['app_url'] = isset($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $data['app_url_type'] = isset($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
+        $data['upgrade_point'] = isset($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $data;
     }
