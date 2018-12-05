@@ -27,19 +27,26 @@ class UserOrderController extends ApiController
         $userId = $this->getUserId($request);
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
-        $userOrder = UserOrderFactory::getUserOrderByUserId(
+        $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
+        //todo::
+        $orderTypeExtra = UserOrderFactory::getOrderTypeByTypeNid('order_extra_service');
+        //todo::
+        $typeArr = [$orderTypeApply['id'], $orderTypeExtra['id']];
+        $userOrder = UserOrderFactory::getUserOrderByUserIdPage(
             $userId,
+            $typeArr,
             $pageSize,
             $pageIndex
         );
         $res = [];
         foreach ($userOrder['data'] as $uOrder) {
-            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
-            if (
-                ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
-                ||
-                ($uOrder['status'] == 1)
-            ) {
+            $orderType = UserOrderFactory::getOrderTypeById($uOrder['order_type']);
+//            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
+//            if (
+//                ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
+//                ||
+//                ($uOrder['status'] == 1)
+//            ) {
                 switch ($orderType['type_nid']) {
                     case 'order_apply':
                         $res[] = [
@@ -77,7 +84,7 @@ class UserOrderController extends ApiController
                         break;
                 }
             }
-        }
+//        }
         return RestResponseFactory::ok($res);
     }
 

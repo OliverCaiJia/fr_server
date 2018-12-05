@@ -630,10 +630,34 @@ class UserOrderFactory extends ApiFactory
      * @param array $status
      * @return array
      */
-    public static function getUserOrderByUserId($userId, $pageSize = 10, $pageIndex)
+    public static function getUserOrderByUserIdPage($userId, $typeArr, $pageSize = 10, $pageIndex)
     {
-        $userOrder = UserOrder::select()
-            ->where('user_id', '=', $userId)
+//        $status = TagSeo::select()->where(['id' => $v, 'status' => 1])->first();
+//        $goodsShow = Goods::where('cate_id','=',$cate_id)
+//            ->where(function($query){
+//                $query->where('status','<','61')
+//                    ->orWhere(function($query){
+//                        $query->where('status', '91');
+//                    });
+//            })->first();
+//        $userOrder = UserOrder::select()
+//            ->where('user_id', '=', $userId)
+//            ->where('status', '=', 1)
+//            ->paginate($pageSize, ['*'], 'page', $pageIndex);
+//        return $userOrder ? $userOrder->toArray() : [];
+//        ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
+//        ||
+//        ($uOrder['status'] == 1)
+        $userOrder = UserOrder::where('user_id', '=', $userId)
+            ->where(function ($query) use ($typeArr) {
+                $query->where('status', '=', 1)
+                    ->orWhere(function ($query) use ($typeArr) {
+                        $query->where('status', '=', 2)
+                            ->where(function ($query) use ($typeArr) {
+                                $query->whereIn('order_type', $typeArr);
+                        });
+                    });
+            })
             ->paginate($pageSize, ['*'], 'page', $pageIndex);
         return $userOrder ? $userOrder->toArray() : [];
     }
