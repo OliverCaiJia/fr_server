@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Models\Orm\UserInvite;
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
-class UserInviteController extends ViewController
+class UserInviteController extends AdminController
 {
     /**邀请好友
      * @param Request $request

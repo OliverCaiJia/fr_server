@@ -144,9 +144,9 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
                 'uses' => 'LoanController@refuse',
             ]);
             //已拒绝放款
-            Route::any('refused', [
-                'as' => 'order.loan.refused',
-                'uses' => 'LoanController@refused',
+            Route::any('index', [
+                'as' => 'order.loan.index',
+                'uses' => 'LoanController@index',
             ]);
         });
 

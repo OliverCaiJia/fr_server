@@ -4,18 +4,13 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Events\OperationLogEvent;
 use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Requests\UserRequest;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
-use App\Models\Factory\Admin\Saas\SaasRoleFactory;
 use App\Models\Orm\UserAuth;
 use App\Models\Orm\SaasPerson;
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Auth;
-use Hash;
 
-class UserController extends ViewController
+class UserController extends AdminController
 {
     /**注册用户
      * @param Request $request
@@ -31,7 +26,7 @@ class UserController extends ViewController
         $query = UserAuth::when($mobile, function ($query) use ($mobile) {
             return $query->where('mobile', '=', $mobile);
         })->when($username, function ($query) use ($username) {
-            return $query->where('type_nid', 'like',  '%' . $username . '%');
+            return $query->where('user_name', 'like',  '%' . $username . '%');
         })->orderBy('id', 'desc')->paginate(10);
 
         return view('admin.users.index', compact('query'));

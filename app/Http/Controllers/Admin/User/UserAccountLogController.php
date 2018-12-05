@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 use App\Models\Orm\UserAccountLog;
 
-class UserAccountLogController extends ViewController
+class UserAccountLogController extends AdminController
 {
     /**用户贷款流水
      * @param Request $request

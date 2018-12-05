@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Models\Orm\UserLoanTask;
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
-class UserTaskController extends ViewController
+class UserTaskController extends AdminController
 {
     /**用户贷款流水
      * @param Request $request
