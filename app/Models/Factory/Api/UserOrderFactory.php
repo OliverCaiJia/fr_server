@@ -666,6 +666,22 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 通过用户id、状态获取用户订单并按创建时间倒序排序
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatusDesc($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->whereIn('status', $status)
+            ->orderBy('create_at', 'desc')
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
      * 根据用户id和订单id检查订单是否支付
      * @param $userId
      * @param $orderId
