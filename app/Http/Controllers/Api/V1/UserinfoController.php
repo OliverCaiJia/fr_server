@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBasicFactory;
