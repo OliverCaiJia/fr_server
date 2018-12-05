@@ -37,10 +37,11 @@ class UserStatusStrategy extends AppStrategy
     public static function paidOrder($uid)
     {
         $userStatus = self::getUserInfo($uid);
-        if ($userStatus['service_status'] == 4) {
-            $userOrder = UserOrder::select(['order_no', 'order_type', 'create_at', 'amount', 'term', 'status'])->where(['user_id' => $uid, 'status' => 1])->first()->toArray();
-            $url = UserOrderType::select(['logo_url'])->where(['id' => $userOrder['order_type']])->first();
+        if ($userStatus['service_status'] == 5) {
+            $url = UserOrderType::select(['logo_url','type_nid','id'])->where(['type_nid' => 'order_extra_service'])->first();
+            $userOrder = UserOrder::select(['order_no', 'order_type', 'create_at', 'amount', 'term', 'status'])->where(['user_id' => $uid, 'order_type' => $url->id])->first()->toArray();
             $userOrder['logo_url'] = $url->logo_url;
+            $userOrder['type_nid']= $url->type_nid;
             return $userOrder;
         } else {
             return  (Object)array();

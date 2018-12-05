@@ -320,4 +320,14 @@ class Utils
         eval('array_multisort(' . $sort_rule . ' $list);');
         return $list;
     }
+
+    /**
+     * 根据身份证获取生日
+     * @param $idCardNo
+     * @return bool|string
+     */
+    public static function getBirthdayByIdCard($idCardNo)
+    {
+        return strlen($idCardNo) == 15 ? ('19' . substr($idCardNo, 6, 6)) : substr($idCardNo, 6, 8);
+    }
 }

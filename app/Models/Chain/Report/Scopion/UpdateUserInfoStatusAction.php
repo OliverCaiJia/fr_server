@@ -21,7 +21,7 @@ class UpdateUserInfoStatusAction extends AbstractHandler
         SLogger::getStream()->error(__CLASS__);
 
         //todo::
-        $data['service_status'] = 3;
+        $data['service_status'] = 3;//信用报告状态
         $data['update_at'] = date('Y-m-d H:i:s', time());
         $result = UserinfoFactory::UpdateUserInfoStatus($this->params['user_id'], $data);
         if ($result) {

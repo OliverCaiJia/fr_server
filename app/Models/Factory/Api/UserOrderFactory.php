@@ -10,6 +10,7 @@ use App\Models\Orm\UserApply;
 use App\Models\Orm\UserApplyLog;
 use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserBorrowLog;
+use App\Models\Orm\UserEvaluation;
 use App\Models\Orm\UserLoanLog;
 use App\Models\Orm\UserLoanTask;
 use App\Models\Orm\UserMultiinfo;
@@ -202,6 +203,31 @@ class UserOrderFactory extends ApiFactory
             return $userApply->toArray();
         }
 
+        return false;
+    }
+
+    /**
+     * 创建额度评估（账户）
+     * @param $params
+     * @return array|bool
+     */
+    public static function createEvaluation($params)
+    {
+        $userEvaluation = UserEvaluation::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userEvaluation)) {
+            $userEvaluation = new UserEvaluation();
+        }
+        $userEvaluation->user_id = $params['user_id'];
+        $userEvaluation->zm_score = $params['zm_score'];
+        $userEvaluation->huabai_limit = $params['huabai_limit'];
+        $userEvaluation->credit_amt = $params['credit_amt'];
+        $userEvaluation->data = $params['data'];
+        $userEvaluation->fee = $params['fee'];
+        $userEvaluation->create_at = $params['create_at'];
+        $userEvaluation->update_at = $params['update_at'];
+        if ($userEvaluation->save()) {
+            return $userEvaluation->toArray();
+        }
         return false;
     }
 
@@ -582,6 +608,23 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 通过用户id和订单类型和订单状态获取用户订单
+     * @param $userId
+     * @param $orderType
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndOrderTypeAndStatus($userId, $orderType, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->where('order_type', '=', $orderType)
+            ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
      * 通过用户id获取用户订单
      * @param $userId
      * @param array $status
@@ -596,7 +639,7 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
-     *
+     * 通过用户id、单号、状态获取用户订单
      * @param $userId
      * @param array $status
      * @return array
@@ -607,6 +650,37 @@ class UserOrderFactory extends ApiFactory
             ->where('user_id', '=', $userId)
             ->where('order_no', '=', $orderNo)
             ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 通过用户id、状态获取用户订单
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatus($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 通过用户id、状态获取用户订单并按创建时间倒序排序
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatusDesc($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->whereIn('status', $status)
+            ->orderBy('create_at', 'desc')
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }

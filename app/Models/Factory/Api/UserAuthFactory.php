@@ -140,6 +140,15 @@ class UserAuthFactory extends ApiFactory
         ]);
     }
 
+    /**
+     * @param $userId
+     * @param $data
+     * 更新用户信息
+     */
+    public static function updateUserData($userId,$data){
+        return UserAuth::where('id', $userId)->update($data);
+    }
+
     /** 新增/更新用户
      * @param $data
      * @return mixed

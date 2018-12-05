@@ -28,7 +28,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:orderstatus')->everyTenMinutes(); //订单过期状态跑批,10分钟
         $schedule->command('command:yjdpull')->everyFiveMinutes(); //一键贷结果获取，5分钟
-        $schedule->command('command:yjdpush')->everyFiveMinutes(); //一键贷数据推送跑批，5分钟
+        //$schedule->command('command:yjdpush')->everyFiveMinutes(); //一键贷数据推送跑批，5分钟
+        $schedule->command('command:yjdpush')->everyMinute(); //一键贷数据推送跑批，1分钟
+        $schedule->command('command:tasknotactivehandle')->everyTenMinutes(); //task表未激活状态跑批处理,10分钟
 
     }
 

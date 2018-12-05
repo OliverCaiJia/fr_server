@@ -40,4 +40,14 @@ class UserinfoFactory extends AbsModelFactory
         return UserInfo::where('user_id','=',$user_id)
             ->update($data);
     }
+
+    /**
+     * @param $whereInfo
+     * @param $data
+     * 修改用户信息
+     */
+
+    public static function updateUserInfoData($whereInfo,$data){
+        return UserInfo::where($whereInfo)->update($data);
+    }
 }

@@ -33,13 +33,47 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         'uses' => 'Saas\UserController@changePsw',
     ]);
 
-    Route::group(['namespace' => 'Saas'], function () {
+    Route::group(['namespace' => 'Saas', 'prefix' => 'saas'], function () {
         //用户设置相关
         Route::resource('user', 'UserController');
         Route::resource('role', 'RoleController');
 
         //账户管理
         Route::get('account', 'AccountController@index')->name('account.index');
+    });
+
+
+    //---------------------------- 配置中心 ----------------------------------//
+    Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {
+        //账户管理
+        Route::any('index', 'BannerConfigController@index')->name('config.index');
+    });
+
+    //---------------------------- 用户中心 ----------------------------------//
+    Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
+
+        //用户管理
+        Route::resource('user', 'UserController');
+        //用户个人信息
+        Route::resource('userinfo', 'UserInfoController');
+        //用户贷款流水
+        Route::resource('userborrow', 'UserBorrowController');
+        //用户账户信息
+        Route::resource('useraccount', 'UserAccountController');
+        //用户邀请好友
+        Route::resource('userinvite', 'UserInviteController');
+        //用户邀请好友生成code
+        Route::resource('userinvitecode', 'UserInviteCodeController');
+        //用户贷款数据
+        Route::resource('usertask', 'UserTaskController');
+        //用户账户流水
+        Route::resource('useraccountlog', 'UserAccountLogController');
+    });
+
+    //---------------------------- 报告管理 ----------------------------------//
+    Route::group(['namespace' => 'Report', 'prefix' => 'report'], function () {
+        //用户管理
+        Route::resource('report', 'ReportController');
     });
 
     //---------------------------- 订单管理 ----------------------------------//
@@ -49,15 +83,15 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
             'as' => 'order.index',
             'uses' => 'OrderController@index',
         ]);
-        // 查看详情
-        Route::any('detail/{id}', [
-            'as' => 'order.detail',
-            'uses' => 'OrderController@detail',
+        // 编辑页
+        Route::any('edit/{id}', [
+            'as' => 'order.edit',
+            'uses' => 'OrderController@edit',
         ]);
-        // 已拒绝订单
-        Route::any('refused', [
-            'as' => 'order.refused',
-            'uses' => 'OrderController@refused',
+        // 修改
+        Route::any('update/{id}', [
+            'as' => 'order.update',
+            'uses' => 'OrderController@update',
         ]);
         // 已通过审核订单
         Route::any('passed', [
@@ -116,9 +150,9 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
                 'uses' => 'LoanController@refuse',
             ]);
             //已拒绝放款
-            Route::any('refused', [
-                'as' => 'order.loan.refused',
-                'uses' => 'LoanController@refused',
+            Route::any('index', [
+                'as' => 'order.loan.index',
+                'uses' => 'LoanController@index',
             ]);
         });
 

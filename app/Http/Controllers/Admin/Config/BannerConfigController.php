@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Saas;
+namespace App\Http\Controllers\Admin\Config;
 
 use App\Constants\SaasConstant;
 use App\Events\OperationLogEvent;
@@ -10,6 +10,7 @@ use App\Models\Factory\Admin\Order\OrderFactory;
 use App\Models\Factory\Admin\Order\SaasOrderFactory;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
+use App\Models\Orm\AdminPersons;
 use App\Models\Orm\SaasOrderSaas;
 use App\Models\Orm\SaasPerson;
 use App\Strategies\AdminPersonStrategy;
@@ -18,7 +19,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Hash;
 
-class UserController extends Controller
+class BannerConfigController extends Controller
 {
     /**
      * 管理员列表
@@ -33,7 +34,7 @@ class UserController extends Controller
         $name = $request->input('name');
         $username = $request->input('username');
 
-        $users = SaasPerson::when($name, function ($query) use ($name) {
+        $users = AdminPersons::when($name, function ($query) use ($name) {
             return $query->where('name', $name);
         })->when($username, function ($query) use ($username) {
             return $query->where('username', $username);

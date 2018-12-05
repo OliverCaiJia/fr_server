@@ -2,10 +2,13 @@
 
 namespace App\Models\Factory\Api;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\ApiFactory;
 use App\Strategies\UserOrderStrategy;
 use App\Models\Orm\UserOrder;
+use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserLoanTask;
+use App\Models\Orm\UserInfo;
 use App\Helpers\Utils;
 
 /**
@@ -21,9 +24,15 @@ class FreeOrderFactory extends ApiFactory
         if (!empty($orderStatus)) {
             $orderStatus->status = 1;
             $orderStatus->update_at = date('Y-m-d H:i:s');
-            if ($orderStatus->save()) {
-                return $orderStatus->toArray();
-            }
+            $orderStatus->save();
         }
+        $userInfo = UserInfo::where(['user_id' => $uid, 'service_status' => 3])->first();
+        if (!empty($userInfo)) {
+            $userInfo->service_status = 4;
+            $userInfo->update_at = date('Y-m-d H:i:s');
+            $userInfo->save();
+        }
+        $typeId = UserOrderType::where(['type_nid' => 'order_apply'])->first();
+        return UserOrder::where(['user_id' => $uid, 'order_type' => $typeId->id])->first()->toArray();
     }
 }

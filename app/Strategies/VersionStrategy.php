@@ -27,10 +27,11 @@ class VersionStrategy extends AppStrategy
         }
         $version                    = [];
         $version['is_upload'] = $is_upload;
+        $version['is_show'] = $versionData['pending'];
         $version['version_code'] = $versionData['version_code'];
-        $version['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
-        $version['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
-        $version['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
+        $version['app_url'] = isset($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $version['app_url_type'] = isset($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
+        $version['upgrade_point'] = isset($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $version;
     }
@@ -41,13 +42,22 @@ class VersionStrategy extends AppStrategy
      * @return array
      * Ios —— 版本升级
      */
-    public static function getVersionIos($versionData = [])
+    public static function getVersionIos($versionName,$versionData = [])
     {
+        $compare = version_compare($versionName, $versionData['version_code'], '<');
+
+        if ($compare) {
+            $is_upload = $versionData['type'];
+        } else {
+            $is_upload = 0;
+        }
         $data = [];
-        $data['type'] = empty($versionData['type']) ? 0 : $versionData['type'];
-        $data['app_url'] = !empty($versionData['apk_url']) ? $versionData['apk_url'] : '';
-        $data['app_url_type'] = !empty($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
-        $data['upgrade_point'] = !empty($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
+        $data['is_upload'] = $is_upload;
+        $data['is_show'] = $versionData['pending'];
+        $data['version_code'] = $versionData['version_code'];
+        $data['app_url'] = isset($versionData['apk_url']) ? $versionData['apk_url'] : '';
+        $data['app_url_type'] = isset($versionData['apk_url_type']) ? $versionData['apk_url_type'] : 1;
+        $data['upgrade_point'] = isset($versionData['upgrade_point']) ? $versionData['upgrade_point'] : '';
 
         return $data;
     }

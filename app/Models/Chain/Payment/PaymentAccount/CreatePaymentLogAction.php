@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Payment\PaymentAccount;
 
+use App\Helpers\Utils;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\PaymentLog;
@@ -43,7 +44,11 @@ class CreatePaymentLogAction extends AbstractHandler
         $order_no = $params['orderId'];
         $response_data = json_encode($params);
         //根据订单号修改payment_log
-        $result = PaymentLog::where(['payment_order_no' => $order_no])->update(['response_data' => $response_data,'status'=>1]);
+        $data['response_data'] = $response_data;
+        $data['status'] = 1;
+        $data['update_at'] = date('Y-m-d H:i:s');
+        $data['update_ip'] = Utils::ipAddress();
+        $result = PaymentLog::where(['payment_order_no' => $order_no])->update($data);
         if ($result) {
             return true;
         }

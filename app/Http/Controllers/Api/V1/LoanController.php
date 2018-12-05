@@ -1,10 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\RestResponseFactory;
+use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Orm\UserApplyLog;
 use App\Services\Core\Product\SuDaiZhiJiaProductService;
+use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
 use App\Helpers\RestUtils;
 
@@ -22,11 +27,11 @@ class LoanController extends ApiController
             'terminalType' => $data['terminalType'],
         ];
 
-        $product_res = json_decode(SuDaiZhiJiaProductService::productCooperate($product_data),true);
+        $product_res = json_decode(SuDaiZhiJiaProductService::productCooperate($product_data), true);
         $data_list = isset($product_res['data']['list']) ? $product_res['data']['list'] : [];
 
         $res = [];
-        if(!empty($data_list)) {
+        if (!empty($data_list)) {
             foreach ($data_list as $data_key => &$data_val) {
                 $res[$data_key]['platform_product_id'] = $data_val['platform_product_id'];
                 $res[$data_key]['product_logo'] = $data_val['product_logo'];
@@ -44,7 +49,8 @@ class LoanController extends ApiController
      * @return \Illuminate\Http\JsonResponse
      * 获取产品url
      */
-    public function productUrl(Request $request){
+    public function productUrl(Request $request)
+    {
         $data = $request->all();
         $data_url = [
             'productId' => $data['product_id'],
@@ -61,7 +67,7 @@ class LoanController extends ApiController
         $data_apply['create_at'] = date('Y-m-d H:i:s');
         $data_apply['update_at'] = date('Y-m-d H:i:s');
         $resultLog = UserApplyLog::insert($data_apply);
-        if(!$resultLog){
+        if (!$resultLog) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
         }
 
@@ -69,5 +75,70 @@ class LoanController extends ApiController
 
         return RestResponseFactory::ok($res);
 
+    }
+
+    /**
+     * 重新借款免费订单创建
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    public function reapply(Request $request)
+    {
+        $userId = $this->getUserId($request);
+        $normalStatus = [1];
+        $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, $normalStatus);
+        if (empty($userOrderNormal)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1188), 1188);
+        }
+        return $this->arrangeData($userOrderNormal);
+        $status = [2, 3, 4];//订单过期等非正常状态
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusDesc($userId, $status);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok([]);
+        }
+        $applyUser = [];
+        $applyUser['user_id'] = $userId;
+        $orderTypeNid = UserOrderConstant::ORDER_APPLY;
+        $extra = UserOrderStrategy::getExtra($orderTypeNid);
+        $applyUser['order_no'] = UserOrderStrategy::createOrderNo($extra);
+        $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
+        $applyUser['order_type'] = $orderType['id'];
+        $applyUser['p_order_id'] = 0;//默认无父级
+        $applyUser['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        $applyUser['amount'] = $userOrder['amount'];
+        $applyUser['money'] = $userOrder['money'];
+        $applyUser['term'] = $userOrder['term'];
+        $applyUser['count'] = 1;
+        $applyUser['status'] = 1;//默认订单处理完成
+        $applyUser['create_ip'] = Utils::ipAddress();
+        $applyUser['create_at'] = date('Y-m-d H:i:s', time());
+        $applyUser['update_ip'] = Utils::ipAddress();
+        $applyUser['update_at'] = date('Y-m-d H:i:s', time());
+
+        $result = UserOrderFactory::createOrder($applyUser);
+        if ($result) {
+            return $this->arrangeData($result);
+        }
+    }
+
+    /**
+     * 整理数据返回
+     * @param $userOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function arrangeData($userOrder)
+    {
+        $res = [];
+        $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $res[] = [
+            "order_no" => $userOrder['order_no'],
+            "order_type_nid" => UserOrderConstant::ORDER_APPLY,
+            "amount" => $userOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+            "term" => $userOrder['term'],
+            "create_at" => $userOrder['create_at'],
+            "logo_url" => $orderType['logo_url'],
+            "status" => $userOrder['status']
+        ];
+        return RestResponseFactory::ok($res);
     }
 }

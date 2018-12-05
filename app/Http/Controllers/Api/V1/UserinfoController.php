@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\Http\HttpClient;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserBasicFactory;
@@ -48,6 +49,7 @@ class UserInfoController extends ApiController
 //            'create_at' => '2018-11-12 15:41:16',
 //            'update_at' => '2018-11-12 15:41:16',
 //        ];
+        SLogger::getStream()->error(print_r($data,true));
         $UserBasic = UserBasicFactory::createOrUpdateUserBasic($data, $uid);
         if ($UserBasic) {
             return RestResponseFactory::ok($data);
@@ -71,7 +73,7 @@ class UserInfoController extends ApiController
     }
 
     /**
-     * 点击去借钱生成免费订单
+     * 点击去借钱修改状态
      */
     public function freeOrder(Request $request)
     {

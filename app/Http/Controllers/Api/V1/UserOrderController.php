@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Constants\UserOrderConstant;
-use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Factory\Api\PlatformFactory;
+use App\Models\Factory\Api\ExtraProductFactory;
 use App\Models\Factory\Api\UserAuthFactory;
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
-use App\Models\Orm\Platform;
 use App\Strategies\OrderStrategy;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
@@ -41,16 +39,43 @@ class UserOrderController extends ApiController
                 ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
                 ||
                 ($uOrder['status'] == 1)
-            ){
-                $res[] = [
-                    "order_no" => $uOrder['order_no'],
-                    "order_type_nid" => $orderType['type_nid'],
-                    "create_at" => $uOrder['create_at'],
-                    "amount" => $uOrder['amount'],
-                    "term" => $uOrder['term'],
-                    "logo_url" => $orderType['logo_url'],
-                    "status" => $uOrder['status']
-                ];
+            ) {
+                switch ($orderType['type_nid']) {
+                    case 'order_apply':
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                            "term" => $uOrder['term'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
+                    case 'order_report':
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $uOrder['amount'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
+                    case 'order_extra_service':
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $uOrder['money'],
+//                            "amount" => $userBorrowLog['loan_amount'],
+//                            "term" => $userBorrowLog['loan_peroid'],
+                            "term" => $uOrder['term'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
+                }
             }
         }
         return RestResponseFactory::ok($res);
@@ -102,8 +127,6 @@ class UserOrderController extends ApiController
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
 
-        $userOrderPlatfrom = UserOrderFactory::getOrderPlatformByUserIdAndOrderNo($userId, $orderNo);
-
         $res = [];
         $res["order_type_nid"] = $orderType['type_nid'];
 
@@ -118,14 +141,14 @@ class UserOrderController extends ApiController
                 $res["extra"]["amount"] = $userOrder['amount'];
                 $res["extra"]["status"] = $userOrder['status'];
                 $res["extra"]["term"] = $userOrder['term'];
-                foreach ($userOrderPlatfrom as $platformKey => $platformValue) {
-                    $platform = PlatformFactory::getPlatformById($platformValue['platform_id']);
-                    $res["extra"]["stop_time"] = $platformValue['update_at'];// 入中间表的时间
-                    $res["extra"]["borrow"][$platformKey] = [
-                        'platform_name' => isset($platform['platform_name']) ? $platform['platform_name'] : '',
-                        'logo' => isset($platform['logo']) ? $platform['logo'] : '',
-                        'url' => isset($platform['url']) ? $platform['url'] : '',
-                        'money_limit' => isset($platform['money_limit']) ? $platform['money_limit'] : 0,
+                $res["extra"]["stop_time"] = $userOrder['update_at'];
+                $extraProduct = ExtraProductFactory::getExtraProduct();
+                foreach ($extraProduct as $extraKey => $extraValue) {
+                    $res["extra"]["borrow"][$extraKey] = [
+                        'ext_prod_name' => isset($extraValue['ext_prod_name']) ? $extraValue['ext_prod_name'] : '',
+                        'logo' => isset($extraValue['logo']) ? $extraValue['logo'] : '',
+                        'url' => isset($extraValue['url']) ? $extraValue['url'] : '',
+                        'money_limit' => isset($extraValue['money_limit']) ? $extraValue['money_limit'] : 0,
                     ];
                 }
                 $res["extra"]["confirm"] = [
@@ -170,6 +193,9 @@ class UserOrderController extends ApiController
                 $res["loan"]["status"] = $userOrder['status'];
                 $res["loan"]["expired_time"] = date("Y-m-d", strtotime("+30 days", strtotime($userOrder['create_at'])));
                 $loanTask = UserOrderFactory::getLoanTaskByUserIdAndSpreadNid($userId, $spreadNid);
+                if (empty($loanTask)) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1166), 1166);
+                }
                 $res["loan"]["push_status"] = $loanTask['status'];
                 $res["report"] = null;
                 $res["extra"] = null;
@@ -194,7 +220,7 @@ class UserOrderController extends ApiController
         $data['order_type'] = $orderType['id'];
         $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
         $data['amount'] = $request->input('amount');
-        $data['money'] = $request->input('money',0)?:0;
+        $data['money'] = $request->input('money', 0) ?: 0;
         $data['term'] = $request->input('term', 0);
         $data['count'] = 1;
         $data['status'] = 0;
@@ -202,14 +228,11 @@ class UserOrderController extends ApiController
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
-        $data['platform_nid'] = $request->input('platform_nid', '');
+//        $data['platform_nid'] = $request->input('platform_nid', '');
 
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
             $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
-            SLogger::getStream()->error('=========111111111===========');
-            SLogger::getStream()->error(json_encode($result));
-            SLogger::getStream()->error('---------2222222222-----------');
             $res = [];
             $res['order_no'] = $result['order_no'];
             $res['status'] = $result['status'];

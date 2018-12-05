@@ -2,6 +2,7 @@
 
 namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -18,6 +19,7 @@ class CreateUserOrderAction extends AbstractHandler
     public function handleRequest()
     {
         $result = UserOrderFactory::createOrder($this->params);
+
         if ($result) {
             return $result;
         }

@@ -45,7 +45,7 @@ class VersionController extends ApiController
         //app来源
         $platType = $request->input('platType', 'ios');
         //app产品来源
-        $appType = $request->input('appType', 'sgd');
+        $appType = $request->input('appType', 'appstore');
         //版本号
         $versionName = $request->input('versionName', '1.0.0');
 
@@ -56,7 +56,7 @@ class VersionController extends ApiController
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(3003), 3003);
         }
         //比较版本大小 数据梳理
-        $version = VersionStrategy::getVersionAndroid($versionName, $versionData);
+        $version = VersionStrategy::getVersionIos($versionName, $versionData);
 
         return RestResponseFactory::ok($version);
     }

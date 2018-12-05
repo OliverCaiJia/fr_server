@@ -25,4 +25,18 @@ class UserBorrowLogFactory extends ApiFactory
             return $userBorrow->toArray();
         }
     }
+
+    /**
+     * 根据用户id获取log信息（单条）
+     * @param $userId
+     * @return array
+     */
+    public static function getBorrowLogDesc($userId)
+    {
+        $borrowLog = UserBorrowLog::select()
+            ->where('user_id', '=', $userId)
+            ->orderBy('create_at', 'desc')
+            ->first();
+        return $borrowLog ? $borrowLog->toArray() : [];
+    }
 }
