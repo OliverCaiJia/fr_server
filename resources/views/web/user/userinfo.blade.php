@@ -115,37 +115,37 @@
                 <div>
                     <div>
                         <label for="">社保：</label>
-                        <p class="radio-box" id='has_social_security'> <span @if(isset($data[ 'has_social_security']) && $data[ 'has_social_security']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_social_security']) && $data[ 'has_social_security']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_social_security'> <span @if(isset($data[ 'has_social_security']) && $data[ 'has_social_security']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_social_security']) && $data[ 'has_social_security']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">名下房产：</label>
-                        <p class="radio-box" id='has_house'> <span @if(isset($data[ 'has_house']) && $data[ 'has_house']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_house']) && $data[ 'has_house']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_house'> <span @if(isset($data[ 'has_house']) && $data[ 'has_house']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_house']) && $data[ 'has_house']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">名下汽车：</label>
-                        <p class="radio-box" id='has_auto'> <span @if(isset($data[ 'has_auto']) && $data[ 'has_auto']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_auto']) && $data[ 'has_auto']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_auto'> <span @if(isset($data[ 'has_auto']) && $data[ 'has_auto']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_auto']) && $data[ 'has_auto']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">寿险保单：</label>
-                        <p class="radio-box" id='has_assurance'> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_assurance'> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">信用卡：</label>
-                        <p class="radio-box" id='has_creditcard'> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_creditcard'> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
                 <div>
                     <div>
                         <label for="">微粒贷：</label>
-                        <p class="radio-box" id='has_weilidai'> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==1 ) class="active" @endif data-val='0'>有</span> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==0 ) class="active" @endif data-val='1'>无</span> </p>
+                        <p class="radio-box" id='has_weilidai'> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_weilidai']) && $data[ 'has_weilidai']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
             </div>
