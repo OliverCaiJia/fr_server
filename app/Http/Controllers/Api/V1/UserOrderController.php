@@ -8,6 +8,7 @@ use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\ExtraProductFactory;
 use App\Models\Factory\Api\UserAuthFactory;
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
 use App\Strategies\OrderStrategy;
@@ -39,26 +40,40 @@ class UserOrderController extends ApiController
                 ||
                 ($uOrder['status'] == 1)
             ) {
-                if ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service') {
-                    $res[] = [
-                        "order_no" => $uOrder['order_no'],
-                        "order_type_nid" => $orderType['type_nid'],
-                        "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
-                        "term" => $uOrder['term'],
-                        "create_at" => $uOrder['create_at'],
-                        "logo_url" => $orderType['logo_url'],
-                        "status" => $uOrder['status']
-                    ];
-                }
-                if ($orderType['type_nid'] == 'order_report') {
-                    $res[] = [
-                        "order_no" => $uOrder['order_no'],
-                        "order_type_nid" => $orderType['type_nid'],
-                        "amount" => $uOrder['amount'],
-                        "create_at" => $uOrder['create_at'],
-                        "logo_url" => $orderType['logo_url'],
-                        "status" => $uOrder['status']
-                    ];
+                switch ($orderType['type_nid']) {
+                    case 'order_apply':
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                            "term" => $uOrder['term'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
+                    case 'order_report':
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $uOrder['amount'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
+                    case 'order_extra_service':
+                        $userBorrowLog = UserBorrowLogFactory::getBorrowLogDesc($userId);
+                        $res[] = [
+                            "order_no" => $uOrder['order_no'],
+                            "order_type_nid" => $orderType['type_nid'],
+                            "amount" => $userBorrowLog['loan_amount'],
+                            "term" => $userBorrowLog['loan_peroid'],
+                            "create_at" => $uOrder['create_at'],
+                            "logo_url" => $orderType['logo_url'],
+                            "status" => $uOrder['status']
+                        ];
+                        break;
                 }
             }
         }

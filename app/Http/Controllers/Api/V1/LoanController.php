@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\RestResponseFactory;
@@ -25,11 +26,11 @@ class LoanController extends ApiController
             'terminalType' => $data['terminalType'],
         ];
 
-        $product_res = json_decode(SuDaiZhiJiaProductService::productCooperate($product_data),true);
+        $product_res = json_decode(SuDaiZhiJiaProductService::productCooperate($product_data), true);
         $data_list = isset($product_res['data']['list']) ? $product_res['data']['list'] : [];
 
         $res = [];
-        if(!empty($data_list)) {
+        if (!empty($data_list)) {
             foreach ($data_list as $data_key => &$data_val) {
                 $res[$data_key]['platform_product_id'] = $data_val['platform_product_id'];
                 $res[$data_key]['product_logo'] = $data_val['product_logo'];
@@ -47,7 +48,8 @@ class LoanController extends ApiController
      * @return \Illuminate\Http\JsonResponse
      * 获取产品url
      */
-    public function productUrl(Request $request){
+    public function productUrl(Request $request)
+    {
         $data = $request->all();
         $data_url = [
             'productId' => $data['product_id'],
@@ -64,7 +66,7 @@ class LoanController extends ApiController
         $data_apply['create_at'] = date('Y-m-d H:i:s');
         $data_apply['update_at'] = date('Y-m-d H:i:s');
         $resultLog = UserApplyLog::insert($data_apply);
-        if(!$resultLog){
+        if (!$resultLog) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1005), 1005);
         }
 
@@ -79,17 +81,18 @@ class LoanController extends ApiController
      * @param Request $request
      * @return bool|\Illuminate\Http\JsonResponse
      */
-    public function reapply(Request $request){
+    public function reapply(Request $request)
+    {
         $data = $request->all();
         $userId = $this->getUserId($request);
         $status = [1];//订单处理完成
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $data['order_no'], $status);
-        if (!empty($userOrder)){
+        if (!empty($userOrder)) {
             return RestResponseFactory::ok($userOrder);
         }
         $applyUser = [];
-        $applyUser['user_id']=$userId;
-        $orderTypeNid ='order_apply';
+        $applyUser['user_id'] = $userId;
+        $orderTypeNid = 'order_apply';
         $extra = UserOrderStrategy::getExtra($orderTypeNid);
         $applyUser['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
