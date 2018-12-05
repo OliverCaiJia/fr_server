@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Events\OperationLogEvent;
-use App\Http\Requests\UserRequest;
 use App\Models\Orm\UserBorrowLog;
-use App\Models\Orm\SaasPerson;
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
-class UserBorrowController extends ViewController
+class UserBorrowController extends AdminController
 {
     /**用户贷款流水
      * @param Request $request

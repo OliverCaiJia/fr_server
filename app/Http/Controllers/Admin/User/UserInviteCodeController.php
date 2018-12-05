@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Models\Orm\UserInviteCode;
-use App\Http\Controllers\Admin\User\ViewController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
-class UserInviteCodeController extends ViewController
+class UserInviteCodeController extends AdminController
 {
     /**注册用户
      * @param Request $request
