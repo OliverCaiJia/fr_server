@@ -46,7 +46,9 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
     //---------------------------- 配置中心 ----------------------------------//
     Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {
         //账户管理
-        Route::any('index', 'BannerConfigController@index')->name('config.index');
+        Route::resource('bannerconfig', 'BannerConfigController');
+        //分享配置
+        Route::resource('inviteconfig', 'InviteConfigController');
     });
 
     //---------------------------- 用户中心 ----------------------------------//

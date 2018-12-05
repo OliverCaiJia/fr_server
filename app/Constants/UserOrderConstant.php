@@ -19,6 +19,12 @@ class UserOrderConstant extends AppConstant
     const ORDER_PRODUCT = 'order_product';
     const ORDER_REPORT_FOR_TYPE= 'order_report';
 
+    const ORDER_DEALING= 0;
+    const ORDER_FINISH= 1;
+    const ORDER_EXPIRED= 2;
+    const ORDER_CANCEL= 3;
+    const ORDER_FAILURE= 4;
+
     const ORDER_REPORT =
         [
             self::ORDER_REPORT_CREDIT => 'order_report',
