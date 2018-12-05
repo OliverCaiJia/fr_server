@@ -206,24 +206,11 @@ class UserOrderFactory extends ApiFactory
         return false;
     }
 
-
-    //        CREATE TABLE `sgd_user_estimate_rep` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',---------------------
-//  `fund_money` decimal(15,2) NOT NULL COMMENT '公积金余额',
-//  `year_income` decimal(15,2) NOT NULL COMMENT '年收入',
-//  `year_salary` decimal(15,2) NOT NULL COMMENT '年工资',
-//  `credit_card_num` int(10) NOT NULL COMMENT '信用卡数量',
-//  `credit_card_limit` decimal(15,2) NOT NULL COMMENT '新用卡总额度',
-//  `data` json NOT NULL COMMENT '返回数据',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
+    /**
+     * 创建额度评估（账户）
+     * @param $params
+     * @return array|bool
+     */
     public static function createEvaluation($params)
     {
         $userEvaluation = UserEvaluation::select()->where('user_id', '=', $params['user_id'])->first();

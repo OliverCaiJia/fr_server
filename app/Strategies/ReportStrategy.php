@@ -43,91 +43,13 @@ class ReportStrategy extends AppStrategy
         return $userApply;
     }
 
+    /**
+     * 获取额度评估(账户)
+     * @param $params
+     * @return mixed
+     */
     public static function getEvaluation($params)
     {
-//        {
-//            "success": boolean,
-//  "code": "string",
-//  "msg": "string",
-//  "data": {
-//            "person_info": {
-//                "idcard": "string",
-//          "idcard_location": "string",
-//          "mobile": "string",
-//          "carrier": "string",
-//          "mobile_location": "string",
-//          "name": "string",
-//          "age": int,
-//          "gender": "string",
-//          "email": "string",
-//           "education_info": {
-//                    "level": int,
-//            "is_graduation": boolean
-//          }
-//       },
-//       "fund_infos": [
-//        {
-//            "fund_basic": {
-//            "last_pay_date": "string",
-//                "update_date": "string",
-//                "open_date": "string",
-//                "open_location": "string",
-//                "account_status": "string",
-//                "balance": "string",
-//                "base_amount": "string",
-//                "monthly_income": "string"
-//            },
-//            "fund_statistics": {
-//            "continuous_months": int,
-//                "repay_times": int,
-//                "total_companies": int,
-//                "total_months": int
-//            }
-//        }
-//       ],
-//       "bank_infos": {
-//                "debit_card_info": {
-//                    "update_date": "string",
-//                "card_amount": int,
-//                "balance": "string",
-//                "total_income": "string",
-//                "total_salary_income": "string",
-//                "total_loan_income": "string",
-//                "total_outcome": "string",
-//                "total_consume_outcome": "string",
-//                "total_loan_outcome": "string"
-//            },
-//            "credit_card_info": {
-//                    "update_date": "string",
-//                "card_amount": int,
-//                "total_credit_limit": "string",
-//                "total_credit_available": "string",
-//                "max_credit_limit": "string",
-//                "overdue_times": int,
-//                "overdue_months": int
-//            }
-//  }
-//  }
-//  "fee": "string"
-//}
-
-//        CREATE TABLE `sgd_user_estimate_rep` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',---------------------
-//  `fund_money` decimal(15,2) NOT NULL COMMENT '公积金余额',
-//  `year_income` decimal(15,2) NOT NULL COMMENT '年收入',
-//  `year_salary` decimal(15,2) NOT NULL COMMENT '年工资',
-//  `credit_card_num` int(10) NOT NULL COMMENT '信用卡数量',
-//  `credit_card_limit` decimal(15,2) NOT NULL COMMENT '新用卡总额度',
-//  `data` json NOT NULL COMMENT '返回数据',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`),
-//  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COMMENT='用户电商额度数据表'
         $userEvaluation['user_id'] = $params['user_id'];
         $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
         $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
