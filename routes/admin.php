@@ -70,6 +70,12 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('useraccountlog', 'UserAccountLogController');
     });
 
+    //---------------------------- 报告管理 ----------------------------------//
+    Route::group(['namespace' => 'Report', 'prefix' => 'report'], function () {
+        //用户管理
+        Route::resource('report', 'ReportController');
+    });
+
     //---------------------------- 订单管理 ----------------------------------//
     Route::group(['namespace' => 'Order', 'prefix' => 'order'], function () {
         // 订单记录
@@ -82,7 +88,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
             'as' => 'order.edit',
             'uses' => 'OrderController@edit',
         ]);
-        // 已拒绝订单
+        // 修改
         Route::any('update/{id}', [
             'as' => 'order.update',
             'uses' => 'OrderController@update',
