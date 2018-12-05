@@ -80,9 +80,10 @@ class CreateReportLogAction extends AbstractHandler
         if (isset($params['credit_evaluation'])) {
             $reportLog['data'] = json_encode($params['credit_evaluation']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
+
+            $userEvaluation = ReportStrategy::getEvaluation($params);
+            UserOrderFactory::createEvaluation($userApply);
         }
-
-
         /**
          *额度评估(电商)
          */

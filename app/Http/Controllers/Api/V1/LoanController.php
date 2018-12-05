@@ -84,26 +84,30 @@ class LoanController extends ApiController
      */
     public function reapply(Request $request)
     {
-        $data = $request->all();
         $userId = $this->getUserId($request);
-        $status = [1];//订单处理完成
-        $userOrderType = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
-        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderTypeAndStatus($userId, $userOrderType['id'], $status);
-        if (!empty($userOrder)) {
-            return RestResponseFactory::ok($userOrder);
+        $normalStatus = [1];
+        $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatus($userId, $normalStatus);
+        if (empty($userOrderNormal)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1188), 1188);
+        }
+        return $this->arrangeData($userOrderNormal);
+        $status = [2, 3, 4];//订单过期等非正常状态
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusDesc($userId, $status);
+        if (empty($userOrder)) {
+            return RestResponseFactory::ok([]);
         }
         $applyUser = [];
         $applyUser['user_id'] = $userId;
-        $orderTypeNid = 'order_apply';
+        $orderTypeNid = UserOrderConstant::ORDER_APPLY;
         $extra = UserOrderStrategy::getExtra($orderTypeNid);
         $applyUser['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $applyUser['order_type'] = $orderType['id'];
         $applyUser['p_order_id'] = 0;//默认无父级
         $applyUser['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
-        $applyUser['amount'] = $request->input('amount');
-        $applyUser['money'] = $request->input('money', 0) ?: 0;
-        $applyUser['term'] = $request->input('term', 0);
+        $applyUser['amount'] = $userOrder['amount'];
+        $applyUser['money'] = $userOrder['money'];
+        $applyUser['term'] = $userOrder['term'];
         $applyUser['count'] = 1;
         $applyUser['status'] = 1;//默认订单处理完成
         $applyUser['create_ip'] = Utils::ipAddress();
@@ -112,10 +116,29 @@ class LoanController extends ApiController
         $applyUser['update_at'] = date('Y-m-d H:i:s', time());
 
         $result = UserOrderFactory::createOrder($applyUser);
-
         if ($result) {
-            return RestResponseFactory::ok($result);
+            return $this->arrangeData($result);
         }
-        return false;
+    }
+
+    /**
+     * 整理数据返回
+     * @param $userOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function arrangeData($userOrder)
+    {
+        $res = [];
+        $orderType = UserOrderFactory::getOrderTypeNidByTypeId($userOrder['order_type']);
+        $res[] = [
+            "order_no" => $userOrder['order_no'],
+            "order_type_nid" => UserOrderConstant::ORDER_APPLY,
+            "amount" => $userOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+            "term" => $userOrder['term'],
+            "create_at" => $userOrder['create_at'],
+            "logo_url" => $orderType['logo_url'],
+            "status" => $userOrder['status']
+        ];
+        return RestResponseFactory::ok($res);
     }
 }

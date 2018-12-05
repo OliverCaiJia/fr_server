@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
             'uses' => 'OrderController@edit',
         ]);
         // 已拒绝订单
-        Route::any('update', [
+        Route::any('update/{id}', [
             'as' => 'order.update',
             'uses' => 'OrderController@update',
         ]);

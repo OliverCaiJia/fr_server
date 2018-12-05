@@ -48,17 +48,16 @@ class OrderController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        echo $id;die;
-        $user = UserInfo::findOrFail($id);
+
+        $user = UserOrder::findOrFail($id);
         $userData = [
             'status' => $request->input('status'),
-            'has_userinfo' => $request->input('has_userinfo'),
-            'service_status' => $request->input('service_status'),
+            'order_expired' => $request->input('order_expired'),
             'update_at' => date('Y-m-d H:i:s')
         ];
         $user->update($userData);
 
-        return redirect()->route('admin.userinfo.index', ['id' => $id])->with('success', '修改成功');
+        return redirect()->route('admin.order.index', ['id' => $id])->with('success', '修改成功');
     }
 
 }

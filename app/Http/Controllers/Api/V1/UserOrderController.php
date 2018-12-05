@@ -63,12 +63,13 @@ class UserOrderController extends ApiController
                         ];
                         break;
                     case 'order_extra_service':
-                        $userBorrowLog = UserBorrowLogFactory::getBorrowLogDesc($userId);
                         $res[] = [
                             "order_no" => $uOrder['order_no'],
                             "order_type_nid" => $orderType['type_nid'],
-                            "amount" => $userBorrowLog['loan_amount'],
-                            "term" => $userBorrowLog['loan_peroid'],
+                            "amount" => $uOrder['money'],
+//                            "amount" => $userBorrowLog['loan_amount'],
+//                            "term" => $userBorrowLog['loan_peroid'],
+                            "term" => $uOrder['term'],
                             "create_at" => $uOrder['create_at'],
                             "logo_url" => $orderType['logo_url'],
                             "status" => $uOrder['status']

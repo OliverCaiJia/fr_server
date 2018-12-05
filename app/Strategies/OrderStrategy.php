@@ -9,6 +9,7 @@ use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Order\PayOrder\UserOrder\DoPayOrderHandler;
 use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,9 @@ class OrderStrategy extends AppStrategy
                 break;
             //增值服务订单(推荐）（一个接口）user_extra_service_log
             case 'order_extra_service':
+                $userBorrowLog = UserBorrowLogFactory::getBorrowLogDesc($order['user_id']);
+                $order['money'] = $userBorrowLog['loan_amount'];
+                $order['term'] = $userBorrowLog['loan_peroid'];
                 $chain = new DoPayOrderHandler($order);
                 $result = $chain->handleRequest();
                 break;

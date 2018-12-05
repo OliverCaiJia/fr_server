@@ -205,6 +205,28 @@ class UserOrderFactory extends ApiFactory
         return false;
     }
 
+    public static function createEvaluation($params)
+    {
+        $userAmountEst = UserAmountEst::select()->where('user_id', '=', $params['user_id'])->first();
+        if (empty($userAmountEst)) {
+            $userAmountEst = new UserAmountEst();
+        }
+        $userAmountEst->user_id = $params['user_id'];
+        $userAmountEst->zm_score = $params['zm_score'];
+        $userAmountEst->huabai_limit = $params['huabai_limit'];
+        $userAmountEst->credit_amt = $params['credit_amt'];
+        $userAmountEst->data = $params['data'];
+        $userAmountEst->fee = $params['fee'];
+        $userAmountEst->create_at = $params['create_at'];
+        $userAmountEst->update_at = $params['update_at'];
+
+        if ($userAmountEst->save()) {
+            return $userAmountEst->toArray();
+        }
+
+        return false;
+    }
+
     /**
      * 创建用户电商额度数据
      * @param $params
@@ -639,6 +661,22 @@ class UserOrderFactory extends ApiFactory
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 通过用户id、状态获取用户订单并按创建时间倒序排序
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatusDesc($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->whereIn('status', $status)
+            ->orderBy('create_at', 'desc')
             ->first();
         return $userOrder ? $userOrder->toArray() : [];
     }
