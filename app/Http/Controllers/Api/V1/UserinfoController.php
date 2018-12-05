@@ -49,7 +49,7 @@ class UserInfoController extends ApiController
 //            'create_at' => '2018-11-12 15:41:16',
 //            'update_at' => '2018-11-12 15:41:16',
 //        ];
-        SLogger::getStream()->info('data', ['data' =>$data]);
+        SLogger::getStream()->error($data);
         $UserBasic = UserBasicFactory::createOrUpdateUserBasic($data, $uid);
         if ($UserBasic) {
             return RestResponseFactory::ok($data);
