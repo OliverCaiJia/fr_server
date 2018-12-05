@@ -100,7 +100,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('qudao')
             ->middleware('qudao')
-            ->namespace($this->namespace . '\Web')
+            ->namespace($this->namespace . '\Qudao')
             ->group(base_path('routes/qudao.php'));
     }
 }
