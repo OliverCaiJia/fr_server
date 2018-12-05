@@ -26,4 +26,39 @@ class OrderController extends AdminController
         return view('admin.order.order.index', compact('query'));
     }
 
+    /**
+     * 编辑页
+     * @param Request $request
+     * @return type
+     */
+    public function edit($id)
+    {
+        $user = UserOrder::findOrFail($id);
+
+        return view('admin.order.order.edit', compact('user'));
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param \App\Http\Requests\UserRequest $request
+     * @param                                $id
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        echo $id;die;
+        $user = UserInfo::findOrFail($id);
+        $userData = [
+            'status' => $request->input('status'),
+            'has_userinfo' => $request->input('has_userinfo'),
+            'service_status' => $request->input('service_status'),
+            'update_at' => date('Y-m-d H:i:s')
+        ];
+        $user->update($userData);
+
+        return redirect()->route('admin.userinfo.index', ['id' => $id])->with('success', '修改成功');
+    }
+
 }
