@@ -198,4 +198,52 @@ class UserOrderStrategy extends AppStrategy
                 break;
         }
     }
+
+    /**
+     * 根据订单类型唯一标识组装对应数据
+     * @param $orderTypeNid
+     * @param $orderType
+     * @param $uOrder
+     * @param $res
+     * @return array
+     */
+    public static function getListByTypeNid($orderTypeNid, $orderType, $uOrder, $res)
+    {
+        switch ($orderTypeNid) {
+            case 'order_apply':
+                $res[] = [
+                    "order_no" => $uOrder['order_no'],
+                    "order_type_nid" => $orderType['type_nid'],
+                    "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                    "term" => $uOrder['term'],
+                    "create_at" => $uOrder['create_at'],
+                    "logo_url" => $orderType['logo_url'],
+                    "status" => $uOrder['status']
+                ];
+                break;
+            case 'order_report':
+                $res[] = [
+                    "order_no" => $uOrder['order_no'],
+                    "order_type_nid" => $orderType['type_nid'],
+                    "amount" => $uOrder['amount'],
+                    "create_at" => $uOrder['create_at'],
+                    "logo_url" => $orderType['logo_url'],
+                    "status" => $uOrder['status']
+                ];
+                break;
+            case 'order_extra_service':
+                $res[] = [
+                    "order_no" => $uOrder['order_no'],
+                    "order_type_nid" => $orderType['type_nid'],
+                    "amount" => $uOrder['money'],
+                    "term" => $uOrder['term'],
+                    "create_at" => $uOrder['create_at'],
+                    "logo_url" => $orderType['logo_url'],
+                    "status" => $uOrder['status']
+                ];
+                break;
+        }
+        return $res;
+    }
+
 }

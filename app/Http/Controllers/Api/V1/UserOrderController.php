@@ -8,7 +8,6 @@ use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\ExtraProductFactory;
 use App\Models\Factory\Api\UserAuthFactory;
-use App\Models\Factory\Api\UserBorrowLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\FeeFactory;
 use App\Strategies\OrderStrategy;
@@ -28,9 +27,13 @@ class UserOrderController extends ApiController
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
         $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
-        //todo::
+        if (empty($orderTypeApply)){
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1167), 1167);
+        }
         $orderTypeExtra = UserOrderFactory::getOrderTypeByTypeNid('order_extra_service');
-        //todo::
+        if (empty($orderTypeApply)){
+            return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1168), 1168);
+        }
         $typeArr = [$orderTypeApply['id'], $orderTypeExtra['id']];
         $userOrder = UserOrderFactory::getUserOrderByUserIdPage(
             $userId,
@@ -41,48 +44,9 @@ class UserOrderController extends ApiController
         $res = [];
         foreach ($userOrder['data'] as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeById($uOrder['order_type']);
-//            $orderType = UserOrderFactory::getOrderTypeNidByTypeId($uOrder['order_type']);
-//            if (
-//                ($uOrder['status'] == 2 && ($orderType['type_nid'] == 'order_apply' || $orderType['type_nid'] == 'order_extra_service'))
-//                ||
-//                ($uOrder['status'] == 1)
-//            ) {
-                switch ($orderType['type_nid']) {
-                    case 'order_apply':
-                        $res[] = [
-                            "order_no" => $uOrder['order_no'],
-                            "order_type_nid" => $orderType['type_nid'],
-                            "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
-                            "term" => $uOrder['term'],
-                            "create_at" => $uOrder['create_at'],
-                            "logo_url" => $orderType['logo_url'],
-                            "status" => $uOrder['status']
-                        ];
-                        break;
-                    case 'order_report':
-                        $res[] = [
-                            "order_no" => $uOrder['order_no'],
-                            "order_type_nid" => $orderType['type_nid'],
-                            "amount" => $uOrder['amount'],
-                            "create_at" => $uOrder['create_at'],
-                            "logo_url" => $orderType['logo_url'],
-                            "status" => $uOrder['status']
-                        ];
-                        break;
-                    case 'order_extra_service':
-                        $res[] = [
-                            "order_no" => $uOrder['order_no'],
-                            "order_type_nid" => $orderType['type_nid'],
-                            "amount" => $uOrder['money'],
-//                            "amount" => $userBorrowLog['loan_amount'],
-//                            "term" => $userBorrowLog['loan_peroid'],
-                            "term" => $uOrder['term'],
-                            "create_at" => $uOrder['create_at'],
-                            "logo_url" => $orderType['logo_url'],
-                            "status" => $uOrder['status']
-                        ];
-                        break;
-                }
+//            UserOrderStrategy::getListByTypeNid($orderType['type_nid']);
+            $res = UserOrderStrategy::getListByTypeNid($orderType['type_nid'], $orderType, $uOrder, $res);
+
             }
 //        }
         return RestResponseFactory::ok($res);
