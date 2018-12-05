@@ -31,13 +31,13 @@
                 </div>
                 <div>
                     <div>
-                        <label for="">职业：</label> <i class="select-i">{{isset($data['profession']) ? $data['profession'] : '请选择'}}</i>
+                        <label for="">职业：</label>
                         <select name="" id="profession">
                             <option value="" disabled>请选择</option>
-                            <option value="0">上班族</option>
-                            <option value="1">公务员</option>
-                            <option value="2">企业主</option>
-                            <option value="3">自由职业</option>
+                            <option value="0" {{ isset($data['profession']) && $data['profession'] == 0 ? "selected" : ''}}>上班族</option>
+                            <option value="1" {{ isset($data['profession']) && $data['profession'] == 1 ? "selected" : ''}}>公务员</option>
+                            <option value="2" {{ isset($data['profession']) && $data['profession'] == 2 ? "selected" : ''}}>企业主</option>
+                            <option value="3" {{ isset($data['profession']) && $data['profession'] == 3 ? "selected" : ''}}>自由职业</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -61,25 +61,25 @@
                 </div>
                 <div class='showData1'>
                     <div>
-                        <label for="">工作时间：</label> <i class="select-i">{{isset($data['work_time']) ? $data['work_time'] : '请选择'}}</i>
+                        <label for="">工作时间：</label>
                         <select name="" id="work_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0">半年内</option>
-                            <option value="1">一年以内</option>
-                            <option value="2">一年以上</option>
+                            <option value="0" {{ isset($data['work_time']) && $data['work_time'] == 0 ? "selected" : ''}}>半年内</option>
+                            <option value="1" {{ isset($data['work_time']) && $data['work_time'] == 1 ? "selected" : ''}}>一年以内</option>
+                            <option value="2" {{ isset($data['work_time']) && $data['work_time'] == 2 ? "selected" : ''}}>一年以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
                 <div class='showData1'>
                     <div>
-                        <label for="">月收入：</label> <i class="select-i">{{isset($data['month_salary']) ? $data['month_salary'] : '请选择'}}</i>
+                        <label for="">月收入：</label>
                         <select name="" id="month_salary">
                             <option value="" disabled>请选择</option>
-                            <option value="0">2千以下</option>
-                            <option value="1">2千-5千</option>
-                            <option value="2">5千-1万</option>
-                            <option value="3">1万以上</option>
+                            <option value="0" {{ isset($data['month_salary']) && $data['month_salary'] == 0 ? "selected" : ''}}>2千以下</option>
+                            <option value="1" {{ isset($data['month_salary']) && $data['month_salary'] == 1 ? "selected" : ''}}>2千-5千</option>
+                            <option value="2" {{ isset($data['month_salary']) && $data['month_salary'] == 2 ? "selected" : ''}}>5千-1万</option>
+                            <option value="3" {{ isset($data['month_salary']) && $data['month_salary'] == 3 ? "selected" : ''}}>1万以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -89,8 +89,8 @@
                         <label for="">营业执照：</label> <i class="select-i">请选择</i>
                         <select name="" id="company_license_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0">一年以内</option>
-                            <option value="1">一年以上</option>
+                            <option value="0" {{ isset($data['company_license_time']) && $data['company_license_time'] == 0 ? "selected" : ''}}>一年以内</option>
+                            <option value="1" {{ isset($data['company_license_time']) && $data['company_license_time'] == 1 ? "selected" : ''}}>一年以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -105,9 +105,9 @@
                         <label for="">公积金：</label> <i class="select-i">{{isset($data['house_fund_time']) ? $data['house_fund_time'] : '请选择'}}</i>
                         <select name="" id="house_fund_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0">无公积金</option>
-                            <option value="1">一年以下</option>
-                            <option value="2">一年以上</option>
+                            <option value="0" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 0 ? "selected" : ''}}>无公积金</option>
+                            <option value="1" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 1 ? "selected" : ''}}>一年以下</option>
+                            <option value="2" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 2 ? "selected" : ''}}>一年以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
