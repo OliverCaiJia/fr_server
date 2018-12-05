@@ -582,6 +582,23 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
+     * 通过用户id和订单类型和订单状态获取用户订单
+     * @param $userId
+     * @param $orderType
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndOrderTypeAndStatus($userId, $orderType, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->where('order_type', '=', $orderType)
+            ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
      * 通过用户id获取用户订单
      * @param $userId
      * @param array $status
@@ -596,7 +613,7 @@ class UserOrderFactory extends ApiFactory
     }
 
     /**
-     *
+     * 通过用户id、单号、状态获取用户订单
      * @param $userId
      * @param array $status
      * @return array
@@ -606,6 +623,21 @@ class UserOrderFactory extends ApiFactory
         $userOrder = UserOrder::select()
             ->where('user_id', '=', $userId)
             ->where('order_no', '=', $orderNo)
+            ->whereIn('status', $status)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
+    /**
+     * 通过用户id、状态获取用户订单
+     * @param $userId
+     * @param array $status
+     * @return array
+     */
+    public static function getUserOrderByUserIdAndStatus($userId, $status = [])
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
             ->whereIn('status', $status)
             ->first();
         return $userOrder ? $userOrder->toArray() : [];

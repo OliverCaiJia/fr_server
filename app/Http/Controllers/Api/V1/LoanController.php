@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
@@ -86,7 +87,8 @@ class LoanController extends ApiController
         $data = $request->all();
         $userId = $this->getUserId($request);
         $status = [1];//订单处理完成
-        $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $data['order_no'], $status);
+        $userOrderType = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
+        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderTypeAndStatus($userId, $userOrderType['id'], $status);
         if (!empty($userOrder)) {
             return RestResponseFactory::ok($userOrder);
         }
@@ -103,7 +105,7 @@ class LoanController extends ApiController
         $applyUser['money'] = $request->input('money', 0) ?: 0;
         $applyUser['term'] = $request->input('term', 0);
         $applyUser['count'] = 1;
-        $applyUser['status'] = 0;
+        $applyUser['status'] = 1;//默认订单处理完成
         $applyUser['create_ip'] = Utils::ipAddress();
         $applyUser['create_at'] = date('Y-m-d H:i:s', time());
         $applyUser['update_ip'] = Utils::ipAddress();
