@@ -77,15 +77,15 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
             'as' => 'order.index',
             'uses' => 'OrderController@index',
         ]);
-        // 查看详情
-        Route::any('detail/{id}', [
-            'as' => 'order.detail',
-            'uses' => 'OrderController@detail',
+        // 编辑页
+        Route::any('edit/{id}', [
+            'as' => 'order.edit',
+            'uses' => 'OrderController@edit',
         ]);
         // 已拒绝订单
-        Route::any('refused', [
-            'as' => 'order.refused',
-            'uses' => 'OrderController@refused',
+        Route::any('update', [
+            'as' => 'order.update',
+            'uses' => 'OrderController@update',
         ]);
         // 已通过审核订单
         Route::any('passed', [

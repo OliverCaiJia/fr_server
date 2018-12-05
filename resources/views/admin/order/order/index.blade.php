@@ -158,9 +158,9 @@
                             <td>{{ $item->update_at }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{--{{ route('admin.order.detail', ['id' => $item->id]) }}--}}">
+                                    <a href="{{ route('admin.order.edit', ['id' => $item->id]) }}">
                                         <button class="btn btn-primary btn-xs" type="button">
-                                            <i class="fa fa-paste"></i> 详情
+                                            <i class="fa fa-paste"></i> 修改
                                         </button>
                                     </a>
                                 </div>

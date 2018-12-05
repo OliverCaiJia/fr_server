@@ -73,9 +73,14 @@ class YjdPullCommand extends Command
 
             //获取推送结果
             foreach($taskList as $k=>$v){
-                if(strtotime("{$v['create_at']}+30 day") < strtotime(date('Y-m-d H:i:s'))){
-                    UserLoanTaskFactory::updateStatusById($v['id'],9);
-                    DB::commit();
+                if(strtotime("{$v['send_at']}+30 day") < strtotime(date('Y-m-d H:i:s'))){
+                    $resTaskExpire = UserLoanTaskFactory::updateStatusById($v['id'],9); //task任务失效处理
+                    $resOrderExpire = UserOrderFactory::updateOrderStatusByUserIdAndOrderNo($v['user_id'],$v['loan_order_no'],2); //根据失效task对应order_no修改订单
+                    if($resTaskExpire && $resOrderExpire){
+                        DB::commit();
+                    }else{
+                        DB::rollback();
+                    }
                 }else{
                     //获取订单信息
                     $data = UserOrderFactory::getOrderDetailByOrderNo($v['loan_order_no']);
