@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Constants\UserOrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
@@ -94,6 +95,9 @@ class LoanController extends ApiController
         $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeId($userId, $normalStatus, $orderTypeApply['id']);
         $status = [2, 3, 4];//订单过期等非正常状态
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeIdDesc($userId, $status, $orderTypeApply['id']);
+        SLogger::getStream()->error(__CLASS__.'reapply');
+        SLogger::getStream()->error(__CLASS__.json_encode($userOrder));
+        SLogger::getStream()->error(__CLASS__.'reapply');
         $applyUser = [];
         $applyUser['user_id'] = $userId;
         $orderTypeNid = UserOrderConstant::ORDER_APPLY;
