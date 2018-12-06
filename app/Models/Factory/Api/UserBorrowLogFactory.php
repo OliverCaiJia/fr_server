@@ -33,8 +33,7 @@ class UserBorrowLogFactory extends ApiFactory
      */
     public static function getBorrowLogDesc($userId)
     {
-        $borrowLog = UserBorrowLog::select()
-            ->where('user_id', '=', $userId)
+        $borrowLog = UserBorrowLog::where('user_id', '=', $userId)
             ->orderBy('create_at', 'desc')
             ->first();
         return $borrowLog ? $borrowLog->toArray() : [];

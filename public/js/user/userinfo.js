@@ -1,7 +1,6 @@
  var userinfoController = {
      init: function () {
          this.areaSelect('#address');
-         this.areaSelect('#company_location');
          this.selectChange();
          this.radioView();
          this.submitView();
@@ -29,15 +28,15 @@
          showData(text);
          $('#profession').on('change', function () {
              var text = $(this).find("option:selected").text();
-             $('.showData1,.showData3,.showData4').hide();
+             $('.showData1,.showData3').hide();
              showData(text);
          })
 
          function showData(text) {
              if (text == '上班族' || text == '公务员') {
-                 $('.showData1,.showData4').show();
+                 $('.showData1').show();
              } else if (text == '企业主') {
-                 $('.showData3,.showData4').show();
+                 $('.showData3').show();
              }
          }
          $('select').on('change', function () {
@@ -54,12 +53,10 @@
          $('.button').on('click', function () {
              var user_location = $('#address').val(),
                  user_address = $('#user_address').val(),
-                 company_name = $('#company_name').val(),
-                 company_location = $('#company_location').val(),
-                 company_address = $('#company_address').val(),
                  zhima_score = $('#zhima_score').val(),
                  profession = $('#profession').find("option:selected").val() || '',
                  work_time = $('#work_time').find("option:selected").val() || '',
+                 salary_deliver = $('#salary_deliver').find("option:selected").val() || '',
                  month_salary = $('#month_salary').find("option:selected").val() || '',
                  house_fund_time = $('#house_fund_time').find("option:selected").val() || '',
                  company_license_time = $('#company_license_time').find("option:selected").val() || '',
@@ -68,7 +65,6 @@
                  has_auto = $('#has_auto').find('.active').data('val'),
                  has_house_fund = $('#has_house_fund').find('.active').data('val'),
                  has_assurance = $('#has_assurance').find('.active').data('val'),
-                 has_creditcard = $('#has_creditcard').find('.active').data('val'),
                  has_weilidai = $('#has_weilidai').find('.active').data('val');
              var professionText = $('#profession').find("option:selected").text();
              //             if (user_location === '' || user_address === '' || profession === '' || zhima_score === '' || house_fund_time === '' || has_social_security === undefined || has_house === undefined || has_auto === undefined || has_house_fund === undefined || has_assurance === undefined || has_creditcard === undefined || has_weilidai === undefined) {
@@ -90,12 +86,7 @@
              //                 return;
              //             }
              if (professionText === '上班族' || professionText === '公务员') {
-                 if (company_name === '' || company_location === '' || company_address === '' || work_time === '' || month_salary === '') {
-                     console.log(company_name)
-                     console.log(company_location)
-                     console.log(company_address)
-                     console.log(work_time)
-                     console.log(month_salary)
+                 if (work_time === '') {
                      base.popupCover({
                          content: '请填写完整信息！'
                      });
@@ -103,11 +94,7 @@
                  }
              }
              if (professionText === '企业主') {
-                 if (company_license_time === '' || company_name === '' || company_location === '' || company_address === '') {
-                     console.log(company_license_time)
-                     console.log(company_name)
-                     console.log(company_location)
-                     console.log(company_address)
+                 if (company_license_time === '') {
                      base.popupCover({
                          content: '请填写完整信息！'
                      });
@@ -121,10 +108,8 @@
                      user_location: user_location,
                      user_address: user_address,
                      profession: profession,
-                     company_name: company_name,
-                     company_location: company_location,
-                     company_address: company_address,
                      work_time: work_time,
+                     salary_deliver: salary_deliver,
                      month_salary: month_salary,
                      zhima_score: zhima_score,
                      house_fund_time: house_fund_time,
@@ -134,7 +119,6 @@
                      has_auto: has_auto,
                      has_house_fund: has_house_fund,
                      has_assurance: has_assurance,
-                     has_creditcard: has_creditcard,
                      has_weilidai: has_weilidai
                  },
                  success: function (json) {
