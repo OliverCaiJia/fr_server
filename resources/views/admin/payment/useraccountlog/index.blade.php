@@ -62,7 +62,7 @@
                             <td>
                                 <a href="{{ route('admin.useraccountlog.edit', ['id' => $item->id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
-                                        <i class="fa fa-paste"></i> 修改
+                                        <i class="fa fa-paste"></i> 详情
                                     </button>
                                 </a>
                                 {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}

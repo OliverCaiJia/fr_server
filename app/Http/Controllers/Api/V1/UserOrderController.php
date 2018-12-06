@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
@@ -28,11 +29,11 @@ class UserOrderController extends ApiController
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
         $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
-        if (empty($orderTypeApply)){
+        if (empty($orderTypeApply)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1167), 1167);
         }
         $orderTypeExtra = UserOrderFactory::getOrderTypeByTypeNid('order_extra_service');
-        if (empty($orderTypeApply)){
+        if (empty($orderTypeApply)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1168), 1168);
         }
         $typeArr = [$orderTypeApply['id'], $orderTypeExtra['id']];
@@ -47,7 +48,7 @@ class UserOrderController extends ApiController
             $orderType = UserOrderFactory::getOrderTypeById($uOrder['order_type']);
             $res = UserOrderStrategy::getListByTypeNid($orderType['type_nid'], $orderType, $uOrder, $res);
 
-            }
+        }
         return RestResponseFactory::ok($res);
     }
 
@@ -94,9 +95,6 @@ class UserOrderController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        SLogger::getStream()->error('5454454545455455');
-        SLogger::getStream()->error(json_encode($orderNo));
-        SLogger::getStream()->error('5454454545455455');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
 
@@ -110,7 +108,7 @@ class UserOrderController extends ApiController
         //贷款类型订单
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
-            case 'order_extra_service' :
+            case UserOrderConstant::ORDER_EXTRA_SERVICE :
                 $res["extra"]["amount"] = $userOrder['amount'];
                 $res["extra"]["status"] = $userOrder['status'];
                 $res["extra"]["term"] = $userOrder['term'];
@@ -144,7 +142,7 @@ class UserOrderController extends ApiController
                 $res["report"] = null;
                 $res["loan"] = null;
                 break;
-            case 'order_report' :
+            case UserOrderConstant::ORDER_REPORT_FOR_TYPE :
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $userAuth = UserAuthFactory::getUserById($userId);
                 $res["report"]["amount"] = $userOrder['amount'];
@@ -155,10 +153,9 @@ class UserOrderController extends ApiController
                 $res["extra"] = null;
                 $res["loan"] = null;
                 break;
-            case 'order_apply':
-                //todo::
-                $spreadNid = 'oneLoan';
-                $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+            case UserOrderConstant::ORDER_APPLY :
+                $spreadNid = UserOrderConstant::ONE_LOAN;
+                $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndOrderType($userId, $orderNo, [$orderType['id']]);
 
                 $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["term"] = $userOrder['term'];

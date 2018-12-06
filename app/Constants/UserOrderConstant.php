@@ -17,13 +17,14 @@ class UserOrderConstant extends AppConstant
     const ORDER_APPLY = 'order_apply';
     const ORDER_EXTRA_SERVICE = 'order_extra_service';
     const ORDER_PRODUCT = 'order_product';
-    const ORDER_REPORT_FOR_TYPE= 'order_report';
+    const ORDER_REPORT_FOR_TYPE = 'order_report';
+    const ONE_LOAN = 'oneLoan';
 
-    const ORDER_DEALING= 0;
-    const ORDER_FINISH= 1;
-    const ORDER_EXPIRED= 2;
-    const ORDER_CANCEL= 3;
-    const ORDER_FAILURE= 4;
+    const ORDER_DEALING = 0;
+    const ORDER_FINISH = 1;
+    const ORDER_EXPIRED = 2;
+    const ORDER_CANCEL = 3;
+    const ORDER_FAILURE = 4;
 
     const ORDER_REPORT =
         [
