@@ -236,11 +236,11 @@ class UserOrderStrategy extends AppStrategy
                 ];
                 break;
             case 'order_extra_service':
-                $userFreeProduct = UserFreeProductFactory::getUserFreeProductByUserIdAndOrderId($uOrder['user_id'], $uOrder['order_id']);
+                $userFreeProduct = UserFreeProductFactory::getUserFreeProductByUserIdAndOrderId($uOrder['user_id'], $uOrder['id']);
                 if (empty($userFreeProduct)) {
                     return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1169), 1169);
                 }
-                $freeProduct = FreeProductFactory::getFreeProductById($userFreeProduct['id']);
+                $freeProduct = FreeProductFactory::getFreeProductById($userFreeProduct['free_product_id']);
                 if (empty($freeProduct)) {
                     return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1170), 1170);
                 }
