@@ -42,6 +42,14 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::get('account', 'AccountController@index')->name('account.index');
     });
 
+    //---------------------------- 账户管理 ----------------------------------//
+    Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
+        //支付中心
+        Route::resource('paymentaccount', 'PaymentAccountController');
+        //分享配置
+//        Route::resource('inviteconfig', 'InviteConfigController');
+    });
+
 
     //---------------------------- 配置中心 ----------------------------------//
     Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {

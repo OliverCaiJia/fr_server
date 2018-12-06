@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户管理</h5>
+                <h5>支付管理</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -38,13 +38,19 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>交易号</th>
                         <th>用户名</th>
-                        <th>类型</th>
-                        <th>操作金额</th>
-                        <th>收入</th>
-                        <th>支出</th>
+                        <th>银行</th>
+                        <th>支付平台</th>
+                        <th>交易流水号</th>
+                        <th>支付渠道</th>
+                        <th>订单有效期</th>
+                        <th>支付卡的类型</th>
+                        <th>支付卡号</th>
+                        <th>银行卡后四位</th>
+                        <th>订单金额</th>
+                        <th>订单状态</th>
                         <th>创建时间</th>
+                        <th>更新时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -52,15 +58,45 @@
                     @foreach ($query as $k => $item)
                         <tr>
                             <td style="word-break:break-all;max-width:350px;">{{$item->id}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->nid_no}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Users\UsersFactory::getUsername($item->user_id)}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->type}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->money}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->income}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->expend}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{$item->create_at }}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Bank\BankFactory::getBankName($item->bank_id)}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Payment\PaymentFactory::getPaymentName($item->payment_id)}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->payment_order_no}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Payment\PaymentFactory::getPaymentTypeName($item->payment_type)}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->order_expired}}</td>
+                            <td style="word-break:break-all;max-width:350px;">
+                                @if($item->bankcard_type == 1)
+                                    <span style="color : green;font-weight: bold">借记卡</span>
+                                @elseif($item->bankcard_type == 2)
+                                    <span style="color : green;font-weight: bold">信用卡</span>
+                                @elseif($item->bankcard_type == 3)
+                                    <span style="color : green;font-weight: bold">微信</span>
+                                @elseif($item->bankcard_type == 4)
+                                    <span style="color : green;font-weight: bold">支付宝</span>
+                                @endif
+                            </td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->bankcard_id}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->lastno}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->amount}}</td>
+                            <td style="word-break:break-all;max-width:350px;">
+                                @if($item->status == 0)
+                                    <span style="color : mediumvioletred;font-weight: bold">未支付</span>
+                                @elseif($item->status == 1)
+                                    <span style="color : green;font-weight: bold">支付成功</span>
+                                @elseif($item->status == 2)
+                                    <span style="color : green;font-weight: bold">已撤销</span>
+                                @elseif($item->status == 3)
+                                    <span style="color : green;font-weight: bold">阻断交易</span>
+                                @elseif($item->status == 4)
+                                    <span style="color : red;font-weight: bold">失败</span>
+                                @elseif($item->status == 5)
+                                    <span style="color : green;font-weight: bold">处理中</span>
+                                @endif
+                            </td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->create_at}}</td>
+                            <td style="word-break:break-all;max-width:350px;">{{$item->update_at}}</td>
                             <td>
-                                <a href="{{ route('admin.useraccountlog.edit', ['id' => $item->id]) }}">
+                                <a href="{{ route('admin.paymentaccount.edit', ['id' => $item->id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
                                         <i class="fa fa-paste"></i> 详情
                                     </button>
