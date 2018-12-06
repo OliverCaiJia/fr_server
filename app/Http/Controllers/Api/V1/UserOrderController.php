@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
@@ -93,6 +94,9 @@ class UserOrderController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
+        SLogger::getStream()->error('5454454545455455');
+        SLogger::getStream()->error(json_encode($orderNo));
+        SLogger::getStream()->error('5454454545455455');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
 
