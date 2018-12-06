@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\V1;
 
+use App\Models\Factory\Api\UserBorrowLogFactory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Web\WebController;
 use App\Helpers\RestResponseFactory;
@@ -17,12 +18,16 @@ class CostController extends WebController
      */
     public function costDefault(Request $request)
     {
+        $userId = $this->getUserId($request);
         $token = $this->getToken($request);
+
         $fee_res = FeeFactory::getFeeByFeeNid('CREDIT_COST_DEFAULT');
+        $log_res = UserBorrowLogFactory::getBorrowLogDesc($userId);
 
         $data['groom'] = [
             'seq_no' => $fee_res['seq_no'],
-            'name' => $fee_res['name'],
+            'amount' => intval($log_res['loan_amount']),
+            'peroid' => intval($log_res['loan_peroid']/30),
             'remark' => $fee_res['remark'],
             'price' => $fee_res['price'],
             'old_price' => $fee_res['old_price'],
