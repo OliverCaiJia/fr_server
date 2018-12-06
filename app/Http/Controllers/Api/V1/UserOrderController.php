@@ -28,11 +28,11 @@ class UserOrderController extends ApiController
         $pageSize = $request->input('page_size');
         $pageIndex = $request->input('page_index');
         $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
-        if (empty($orderTypeApply)){
+        if (empty($orderTypeApply)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1167), 1167);
         }
         $orderTypeExtra = UserOrderFactory::getOrderTypeByTypeNid('order_extra_service');
-        if (empty($orderTypeApply)){
+        if (empty($orderTypeApply)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1168), 1168);
         }
         $typeArr = [$orderTypeApply['id'], $orderTypeExtra['id']];
@@ -47,7 +47,7 @@ class UserOrderController extends ApiController
             $orderType = UserOrderFactory::getOrderTypeById($uOrder['order_type']);
             $res = UserOrderStrategy::getListByTypeNid($orderType['type_nid'], $orderType, $uOrder, $res);
 
-            }
+        }
         return RestResponseFactory::ok($res);
     }
 
@@ -94,9 +94,6 @@ class UserOrderController extends ApiController
     {
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
-        SLogger::getStream()->error('5454454545455455');
-        SLogger::getStream()->error(json_encode($orderNo));
-        SLogger::getStream()->error('5454454545455455');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
         $orderType = UserOrderFactory::getOrderTypeById($userOrder['order_type']);
 
@@ -158,7 +155,7 @@ class UserOrderController extends ApiController
             case 'order_apply':
                 //todo::
                 $spreadNid = 'oneLoan';
-                $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
+                $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndOrderType($userId, $orderNo, [$orderType['id']]);
 
                 $res["loan"]["amount"] = $userOrder['amount'];
                 $res["loan"]["term"] = $userOrder['term'];

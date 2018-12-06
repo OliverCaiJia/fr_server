@@ -600,6 +600,16 @@ class UserOrderFactory extends ApiFactory
         return $userOrder ? $userOrder->toArray() : [];
     }
 
+    public static function getUserOrderByUserIdOrderNoAndOrderType($userId, $orderNo, $orderType)
+    {
+        $userOrder = UserOrder::select()
+            ->where('user_id', '=', $userId)
+            ->where('order_no', '=', $orderNo)
+            ->whereIn('order_type', $orderType)
+            ->first();
+        return $userOrder ? $userOrder->toArray() : [];
+    }
+
     /**
      * 通过用户id获取用户订单
      * @param $userId
