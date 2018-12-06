@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class UserAccountLogController extends AdminController
     {
         $query = UserAccountLog::orderBy('id', 'desc')->paginate(10);
 
-        return view('admin.users.useraccountlog.index', compact('query'));
+        return view('admin.payment.useraccountlog.index', compact('query'));
     }
 
     /**
@@ -28,7 +28,7 @@ class UserAccountLogController extends AdminController
     {
         $user = UserAccountLog::findOrFail($id);
 
-        return view('admin.users.useraccountlog.edit', compact('user'));
+        return view('admin.payment.useraccountlog.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
