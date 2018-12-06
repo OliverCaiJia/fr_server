@@ -34,14 +34,15 @@
                         <label for="">职业：</label>
                         <select name="" id="profession">
                             <option value="" disabled>请选择</option>
-                            <option value="0" {{ isset($data['profession']) && $data['profession'] == 0 ? "selected" : ''}}>上班族</option>
-                            <option value="1" {{ isset($data['profession']) && $data['profession'] == 1 ? "selected" : ''}}>公务员</option>
-                            <option value="2" {{ isset($data['profession']) && $data['profession'] == 2 ? "selected" : ''}}>企业主</option>
-                            <option value="3" {{ isset($data['profession']) && $data['profession'] == 3 ? "selected" : ''}}>自由职业</option>
+                            <option value="0" {{ isset($data[ 'profession']) && $data[ 'profession']==0 ? "selected" : ''}}>上班族</option>
+                            <option value="1" {{ isset($data[ 'profession']) && $data[ 'profession']==1 ? "selected" : ''}}>公务员</option>
+                            <option value="2" {{ isset($data[ 'profession']) && $data[ 'profession']==2 ? "selected" : ''}}>企业主</option>
+                            <option value="3" {{ isset($data[ 'profession']) && $data[ 'profession']==3 ? "selected" : ''}}>自由职业</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
+                <!--
                 <div class='showData4'>
                     <div>
                         <label for="">公司名称：</label>
@@ -59,27 +60,26 @@
                         <label for="">公司详细地址：</label>
                         <input type="text" placeholder="请填写" value="{{isset($data['company_address']) ? $data['company_address'] : ''}}" id='company_address'> </div>
                 </div>
+-->
                 <div class='showData1'>
                     <div>
                         <label for="">工作时间：</label>
                         <select name="" id="work_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0" {{ isset($data['work_time']) && $data['work_time'] == 0 ? "selected" : ''}}>半年内</option>
-                            <option value="1" {{ isset($data['work_time']) && $data['work_time'] == 1 ? "selected" : ''}}>一年以内</option>
-                            <option value="2" {{ isset($data['work_time']) && $data['work_time'] == 2 ? "selected" : ''}}>一年以上</option>
+                            <option value="0" {{ isset($data[ 'work_time']) && $data[ 'work_time']==0 ? "selected" : ''}}>半年内</option>
+                            <option value="1" {{ isset($data[ 'work_time']) && $data[ 'work_time']==1 ? "selected" : ''}}>一年以内</option>
+                            <option value="2" {{ isset($data[ 'work_time']) && $data[ 'work_time']==2 ? "selected" : ''}}>一年以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
                 </div>
                 <div class='showData1'>
                     <div>
-                        <label for="">月收入：</label>
-                        <select name="" id="month_salary">
+                        <label for="">工资发放：</label>
+                        <select name="" id="wage_payment">
                             <option value="" disabled>请选择</option>
-                            <option value="0" {{ isset($data['month_salary']) && $data['month_salary'] == 0 ? "selected" : ''}}>2千以下</option>
-                            <option value="1" {{ isset($data['month_salary']) && $data['month_salary'] == 1 ? "selected" : ''}}>2千-5千</option>
-                            <option value="2" {{ isset($data['month_salary']) && $data['month_salary'] == 2 ? "selected" : ''}}>5千-1万</option>
-                            <option value="3" {{ isset($data['month_salary']) && $data['month_salary'] == 3 ? "selected" : ''}}>1万以上</option>
+                            <option value="0">现金发放</option>
+                            <option value="1">银行转账</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -89,8 +89,21 @@
                         <label for="">营业执照：</label> <i class="select-i">请选择</i>
                         <select name="" id="company_license_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0" {{ isset($data['company_license_time']) && $data['company_license_time'] == 0 ? "selected" : ''}}>一年以内</option>
-                            <option value="1" {{ isset($data['company_license_time']) && $data['company_license_time'] == 1 ? "selected" : ''}}>一年以上</option>
+                            <option value="0" {{ isset($data[ 'company_license_time']) && $data[ 'company_license_time']==0 ? "selected" : ''}}>一年以内</option>
+                            <option value="1" {{ isset($data[ 'company_license_time']) && $data[ 'company_license_time']==1 ? "selected" : ''}}>一年以上</option>
+                        </select>
+                        <div class="arrow-right"> </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="">月收入：</label>
+                        <select name="" id="month_salary">
+                            <option value="" disabled>请选择</option>
+                            <option value="0" {{ isset($data[ 'month_salary']) && $data[ 'month_salary']==0 ? "selected" : ''}}>2千以下</option>
+                            <option value="1" {{ isset($data[ 'month_salary']) && $data[ 'month_salary']==1 ? "selected" : ''}}>2千-5千</option>
+                            <option value="2" {{ isset($data[ 'month_salary']) && $data[ 'month_salary']==2 ? "selected" : ''}}>5千-1万</option>
+                            <option value="3" {{ isset($data[ 'month_salary']) && $data[ 'month_salary']==3 ? "selected" : ''}}>1万以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -105,9 +118,9 @@
                         <label for="">公积金：</label> <i class="select-i">{{isset($data['house_fund_time']) ? $data['house_fund_time'] : '请选择'}}</i>
                         <select name="" id="house_fund_time">
                             <option value="" disabled>请选择</option>
-                            <option value="0" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 0 ? "selected" : ''}}>无公积金</option>
-                            <option value="1" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 1 ? "selected" : ''}}>一年以下</option>
-                            <option value="2" {{ isset($data['house_fund_time']) && $data['house_fund_time'] == 2 ? "selected" : ''}}>一年以上</option>
+                            <option value="0" {{ isset($data[ 'house_fund_time']) && $data[ 'house_fund_time']==0 ? "selected" : ''}}>无公积金</option>
+                            <option value="1" {{ isset($data[ 'house_fund_time']) && $data[ 'house_fund_time']==1 ? "selected" : ''}}>一年以下</option>
+                            <option value="2" {{ isset($data[ 'house_fund_time']) && $data[ 'house_fund_time']==2 ? "selected" : ''}}>一年以上</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
@@ -136,12 +149,14 @@
                         <p class="radio-box" id='has_assurance'> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_assurance']) && $data[ 'has_assurance']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
+<!--
                 <div>
                     <div>
                         <label for="">信用卡：</label>
                         <p class="radio-box" id='has_creditcard'> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==1 ) class="active" @endif data-val='1'>有</span> <span @if(isset($data[ 'has_creditcard']) && $data[ 'has_creditcard']==0 ) class="active" @endif data-val='0'>无</span> </p>
                     </div>
                 </div>
+-->
                 <div>
                     <div>
                         <label for="">微粒贷：</label>
