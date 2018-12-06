@@ -87,7 +87,7 @@ class ReportPayController extends ApiController
         }
         //记录payment_log
         $paymentData['user_id'] = $userId;
-        $paymentData['payment_id'] = $userId;
+        $paymentData['payment_id'] = 1;
         $paymentData['payment_order_no'] = $data['order_no'];
         $paymentData['payment_type'] = 1;
         $paymentData['order_expired'] = $userOrder['order_expired'];
