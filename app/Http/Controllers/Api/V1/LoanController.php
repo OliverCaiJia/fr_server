@@ -95,9 +95,6 @@ class LoanController extends ApiController
         $userOrderNormal = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeId($userId, $normalStatus, $orderTypeApply['id']);
         $status = [2, 3, 4];//订单过期等非正常状态
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndStatusAndTypeIdDesc($userId, $status, $orderTypeApply['id']);
-        SLogger::getStream()->error(__CLASS__.'reapply');
-        SLogger::getStream()->error(__CLASS__.json_encode($userOrder));
-        SLogger::getStream()->error(__CLASS__.'reapply');
         $applyUser = [];
         $applyUser['user_id'] = $userId;
         $orderTypeNid = UserOrderConstant::ORDER_APPLY;
@@ -127,6 +124,10 @@ class LoanController extends ApiController
         }
         if (empty($userOrderNormal) && !empty($userOrder)) {
             //create-----
+
+            SLogger::getStream()->error(__CLASS__.'1111reapply');
+            SLogger::getStream()->error(__CLASS__.json_encode($userOrder));
+            SLogger::getStream()->error(__CLASS__.'1111reapply');
             $applyUser['amount'] = $userOrder['amount'];
             $applyUser['money'] = $userOrder['money'];
             $applyUser['term'] = $userOrder['term'];
@@ -138,6 +139,9 @@ class LoanController extends ApiController
         }
         if (!empty($userOrderNormal)) {
             //非空返回
+            SLogger::getStream()->error(__CLASS__.'2222reapply');
+            SLogger::getStream()->error(__CLASS__.json_encode($userOrder));
+            SLogger::getStream()->error(__CLASS__.'2222reapply');
             return RestResponseFactory::ok($userOrderNormal);
         }
     }
