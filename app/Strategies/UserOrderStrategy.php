@@ -3,13 +3,17 @@
 namespace App\Strategies;
 
 use App\Helpers\Logger\SLogger;
+use App\Helpers\RestResponseFactory;
+use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Models\Chain\Order\DoAssignHandler;
 use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
 use App\Models\Chain\Payment\PaymentAccount\DoPaymentAccountHandler;
 use App\Models\Chain\Report\Scopion\DoReportOrderHandler;
+use App\Models\Factory\Api\FreeProductFactory;
 use App\Models\Factory\Api\UserAuthFactory;
+use App\Models\Factory\Api\UserFreeProductFactory;
 use App\Models\Factory\Api\UserinfoFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -232,11 +236,19 @@ class UserOrderStrategy extends AppStrategy
                 ];
                 break;
             case 'order_extra_service':
+                $userFreeProduct = UserFreeProductFactory::getUserFreeProductByUserIdAndOrderId($uOrder['user_id'], $uOrder['order_id']);
+                if (empty($userFreeProduct)) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1169), 1169);
+                }
+                $freeProduct = FreeProductFactory::getFreeProductById($userFreeProduct['id']);
+                if (empty($freeProduct)) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1170), 1170);
+                }
                 $res[] = [
                     "order_no" => $uOrder['order_no'],
                     "order_type_nid" => $orderType['type_nid'],
-                    "amount" => $uOrder['money'],
-                    "term" => $uOrder['term'],
+                    "amount" => $freeProduct['money'],
+                    "term" => $freeProduct['term'],
                     "create_at" => $uOrder['create_at'],
                     "logo_url" => $orderType['logo_url'],
                     "status" => $uOrder['status']

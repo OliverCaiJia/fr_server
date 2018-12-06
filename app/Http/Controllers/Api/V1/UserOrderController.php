@@ -184,11 +184,7 @@ class UserOrderController extends ApiController
         $data = $request->all();
         $data['user_id'] = $this->getUserId($request);
         $orderTypeNid = $request->input('order_type_nid');
-        $extraTypeNid = $request->input('extra_type_nid');
-
-        SLogger::getStream()->error('==============================');
-        SLogger::getStream()->error(json_encode($extraTypeNid));
-        SLogger::getStream()->error('==============================');
+        $data['extra_type_nid'] = $request->input('extra_type_nid', '');
         $extra = UserOrderStrategy::getExtra($orderTypeNid);
         $data['order_no'] = UserOrderStrategy::createOrderNo($extra);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
@@ -203,7 +199,6 @@ class UserOrderController extends ApiController
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
         $data['update_at'] = date('Y-m-d H:i:s', time());
-
         $result = OrderStrategy::getDiffOrderTypeChainCreate($data);
         if (isset($result['error'])) {
             $result = UserOrderFactory::getUserOrderByUserIdAndOrderType($data['user_id'], $orderType['id']);
