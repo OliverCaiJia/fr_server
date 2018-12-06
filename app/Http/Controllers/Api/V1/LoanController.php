@@ -86,6 +86,7 @@ class LoanController extends ApiController
      */
     public function reapply(Request $request)
     {
+        SLogger::getStream()->error('==================2323232323232323==');
         $userId = $this->getUserId($request);
         $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
         if (empty($orderTypeApply)) {
