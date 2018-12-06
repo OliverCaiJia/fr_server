@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\UserOrderConstant;
 use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
@@ -107,7 +108,7 @@ class UserOrderController extends ApiController
         //贷款类型订单
         $res["loan"] = [];
         switch ($orderType['type_nid']) {
-            case 'order_extra_service' :
+            case UserOrderConstant::ORDER_EXTRA_SERVICE :
                 $res["extra"]["amount"] = $userOrder['amount'];
                 $res["extra"]["status"] = $userOrder['status'];
                 $res["extra"]["term"] = $userOrder['term'];
@@ -141,7 +142,7 @@ class UserOrderController extends ApiController
                 $res["report"] = null;
                 $res["loan"] = null;
                 break;
-            case 'order_report' :
+            case UserOrderConstant::ORDER_REPORT_FOR_TYPE :
                 $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType['id']);
                 $userAuth = UserAuthFactory::getUserById($userId);
                 $res["report"]["amount"] = $userOrder['amount'];
@@ -152,9 +153,8 @@ class UserOrderController extends ApiController
                 $res["extra"] = null;
                 $res["loan"] = null;
                 break;
-            case 'order_apply':
-                //todo::
-                $spreadNid = 'oneLoan';
+            case UserOrderConstant::ORDER_APPLY :
+                $spreadNid = UserOrderConstant::ONE_LOAN;
                 $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndOrderType($userId, $orderNo, [$orderType['id']]);
 
                 $res["loan"]["amount"] = $userOrder['amount'];
