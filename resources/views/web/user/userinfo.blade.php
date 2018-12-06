@@ -76,10 +76,10 @@
                 <div class='showData1'>
                     <div>
                         <label for="">工资发放：</label>
-                        <select name="" id="wage_payment">
+                        <select name="" id="salary_deliver">
                             <option value="" disabled>请选择</option>
-                            <option value="0">现金发放</option>
-                            <option value="1">银行转账</option>
+                            <option value="1" {{ isset($data[ 'salary_deliver']) && $data[ 'salary_deliver']==1 ? "selected" : ''}}>银行转账</option>
+                            <option value="2" {{ isset($data[ 'salary_deliver']) && $data[ 'salary_deliver']==2 ? "selected" : ''}}>现金发放</option>
                         </select>
                         <div class="arrow-right"> </div>
                     </div>
