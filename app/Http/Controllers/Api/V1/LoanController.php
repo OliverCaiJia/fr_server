@@ -82,11 +82,11 @@ class LoanController extends ApiController
     /**
      * 重新借款免费订单创建
      * @param Request $request
-     * @return bool|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function reapply(Request $request)
     {
-        SLogger::getStream()->error('==================2323232323232323==');
         $userId = $this->getUserId($request);
         $orderTypeApply = UserOrderFactory::getOrderTypeByTypeNid(UserOrderConstant::ORDER_APPLY);
         if (empty($orderTypeApply)) {
@@ -125,10 +125,6 @@ class LoanController extends ApiController
         }
         if (empty($userOrderNormal) && !empty($userOrder)) {
             //create-----
-
-            SLogger::getStream()->error(__CLASS__.'1111reapply');
-            SLogger::getStream()->error(__CLASS__.json_encode($userOrder));
-            SLogger::getStream()->error(__CLASS__.'1111reapply');
             $applyUser['amount'] = $userOrder['amount'];
             $applyUser['money'] = $userOrder['money'];
             $applyUser['term'] = $userOrder['term'];
