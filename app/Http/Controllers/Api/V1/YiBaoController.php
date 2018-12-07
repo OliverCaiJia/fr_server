@@ -41,6 +41,10 @@ class YiBaoController extends ApiController
         $private_key = YiBaoConfig::PRIVATE_KEY;
         $resData = YopSignUtils::decrypt($params, $private_key, $public_key);
         $resData = json_decode($resData, true);
+
+        SLogger::getStream()->error('========================');
+        SLogger::getStream()->error(json_encode($resData));
+        SLogger::getStream()->error('========================');
         //订单支付成功
         if ($resData['status'] != 'SUCCESS') {
             return 'ERROR';
