@@ -59,6 +59,12 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('inviteconfig', 'InviteConfigController');
     });
 
+    //---------------------------- 短信中心 ----------------------------------//
+    Route::group(['namespace' => 'Sms', 'prefix' => 'sms'], function () {
+        //账户管理
+        Route::resource('sms', 'SmsController');
+    });
+
     //---------------------------- 用户中心 ----------------------------------//
     Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
 
