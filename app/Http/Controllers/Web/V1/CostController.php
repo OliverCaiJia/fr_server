@@ -27,7 +27,7 @@ class CostController extends WebController
         $data['groom'] = [
             'seq_no' => $fee_res['seq_no'],
             'amount' => intval($log_res['loan_amount']),
-            'peroid' => intval($log_res['loan_peroid']/30),
+            'peroid' => ($log_res['loan_peroid'] > 30) ? intval($log_res['loan_peroid']/30).'个月' : $log_res['loan_peroid'].'天',
             'remark' => $fee_res['remark'],
             'price' => $fee_res['price'],
             'old_price' => $fee_res['old_price'],
