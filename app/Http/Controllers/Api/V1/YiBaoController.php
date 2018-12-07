@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Strategies\UserOrderStrategy;
@@ -46,6 +47,9 @@ class YiBaoController extends ApiController
         }
         //获取订单编号
         $data['order_no'] = $resData['orderId'];
+        SLogger::getStream()->error('========================');
+        SLogger::getStream()->error(json_encode($data['order_no']));
+        SLogger::getStream()->error('========================');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($data['order_no']);
         if (empty($userOrder)) {
             return 'ERROR';
