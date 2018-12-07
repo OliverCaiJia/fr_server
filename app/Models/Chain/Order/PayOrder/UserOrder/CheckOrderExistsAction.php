@@ -3,6 +3,7 @@
 namespace App\Models\Chain\Order\PayOrder\UserOrder;
 
 use App\Constants\OrderConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Chain\AbstractHandler;
 use App\Models\Factory\Api\UserOrderFactory;
 
@@ -36,7 +37,9 @@ class CheckOrderExistsAction extends AbstractHandler
         $userId = $params['user_id'];
         $orderType = $params['order_type'];
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($userId, $orderType);
-
+        SLogger::getStream()->error('77777777777');
+        SLogger::getStream()->error(json_encode($userOrder));
+        SLogger::getStream()->error('88888888888');
         if (!empty($userOrder) && $userOrder['status'] == 0) {//处理中
 //            return $userOrder;
             $this->error['error'] = "用户您好，您还有未支付订单，请先进行支付！";

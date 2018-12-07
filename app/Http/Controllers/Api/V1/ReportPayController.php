@@ -29,6 +29,7 @@ class ReportPayController extends ApiController
         $userId = $this->getUserId($request);
         $orderNo = $request->input('order_no');
 //        $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderNo($userId, $orderId);
+
         $status = [0];
         $userOrder = UserOrderFactory::getUserOrderByUserIdOrderNoAndStatus($userId, $orderNo, $status);
         if (empty($userOrder)) {
@@ -72,7 +73,6 @@ class ReportPayController extends ApiController
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
-        SLogger::getStream()->error(json_encode($data));
         $res = [];
         $result = YiBaoService::send($data);
 

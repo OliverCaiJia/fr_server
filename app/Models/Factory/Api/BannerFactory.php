@@ -4,6 +4,7 @@ namespace App\Models\Factory\Api;
 
 use App\Models\Orm\Banner;
 use App\Models\Orm\BannerType;
+use App\Models\Orm\BannerLinkType;
 
 class BannerFactory extends ApiFactory
 {
@@ -41,11 +42,15 @@ class BannerFactory extends ApiFactory
             ->orderBy('position')
             ->limit(5)
             ->select('banner_name',
+                'link_type',
                 'position',
                 'img_address',
                 'img_href')
             ->get()->toArray();
-        return $bannerList ? $bannerList : [];
+
+        $bannerLists = self::getLinkTypeName($bannerList);
+
+        return $bannerLists ? $bannerLists : [];
     }
 
     /**
@@ -54,8 +59,19 @@ class BannerFactory extends ApiFactory
      * @param $status
      * @return mixed
      */
-    public static function updateBannerTypeStatus($typeNid, $status)
+    public static function getLinkTypeName($bannerList = [])
     {
-        return BannerType::where(['type_nid' => $typeNid])->update(['status' => $status]);
+        foreach ($bannerList as &$val) {
+
+            $val['link_type'] = self::getLinkName($val['link_type']);
+        }
+        return $bannerList ? $bannerList : '';
+//        return BannerType::where(['type_nid' => $typeNid])->update(['status' => $status]);
+    }
+
+    public static function getLinkName($id)
+    {
+        $LinkType = BannerLinkType::where(['id' => $id])->first();
+        return $LinkType ? $LinkType->link_type_nid : '';
     }
 }
