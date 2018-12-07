@@ -44,7 +44,7 @@ class CheckUserIdCardAction extends AbstractHandler
      */
     private function checkUserBank($params)
     {
-        $userIdCard= UserRealnameFactory::fetchUserRealname($params['user_id']);
+        $userIdCard= UserRealnameFactory::getUserRealnameByIdCard($params['id_card_no']);
             //用户身份证已存在
             if (!empty($userIdCard)) {
                 return false;
