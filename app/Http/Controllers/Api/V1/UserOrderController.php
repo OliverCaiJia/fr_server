@@ -44,14 +44,12 @@ class UserOrderController extends ApiController
             $pageIndex
         );
         $res = [];
-        $result = [];
         foreach ($userOrder['data'] as $uOrder) {
             $orderType = UserOrderFactory::getOrderTypeById($uOrder['order_type']);
-
-            $result = UserOrderStrategy::getListByTypeNid($orderType['type_nid'], $orderType, $uOrder, $res);
+            $res = UserOrderStrategy::getListByTypeNid($orderType['type_nid'], $orderType, $uOrder, $res);
 
         }
-        return RestResponseFactory::ok($result);
+        return RestResponseFactory::ok($res);
     }
 
     /**
