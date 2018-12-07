@@ -18,9 +18,6 @@ class CreateUserOrderAction extends AbstractHandler
 
     public function handleRequest()
     {
-        SLogger::getStream()->error('5555555555');
-        SLogger::getStream()->error(json_encode($this->params));
-        SLogger::getStream()->error('6666666666');
         $result = UserOrderFactory::createOrder($this->params);
 
         if ($result) {
