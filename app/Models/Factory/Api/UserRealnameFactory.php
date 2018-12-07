@@ -91,4 +91,16 @@ class UserRealnameFactory extends ApiFactory
             ->first();
         return $userRealname ? $userRealname->toArray() : [];
     }
+
+    /**
+     * @param $id_card
+     * @return array
+     * 查询户身份证是否存在
+     */
+    public static function getUserRealnameByIdCard($id_card_no){
+        $userIdCard = UserRealname::select()
+            ->where('id_card_no', '=', $id_card_no)
+            ->first();
+        return $userIdCard ? $userIdCard->toArray() : [];
+    }
 }

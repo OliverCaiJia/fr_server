@@ -93,6 +93,12 @@
         }
 
     </script>
+    <script>
+        $(function() {
+            payController.init();
+        })
+
+    </script>
 </body>
 
 </html>
