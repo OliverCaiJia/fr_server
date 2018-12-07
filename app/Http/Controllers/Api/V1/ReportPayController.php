@@ -69,7 +69,8 @@ class ReportPayController extends ApiController
 
         $data['orderId'] = $data['order_no'];
         //todo::先写死金额，测试
-        $data['orderAmount'] = $orderAmount;
+//        $data['orderAmount'] = $orderAmount;
+        $data['orderAmount'] = 0.01;
         $data['goodsParamExt'] = $goodsParamExt;
         $data['paymentParamExt'] = $paymentParamExt;
         $data['userNo'] = $userNo;
