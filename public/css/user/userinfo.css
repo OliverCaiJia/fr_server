@@ -11,6 +11,7 @@ body,
   -webkit-overflow-scrolling: touch;
 }
 .main {
+  width: 100%;
   padding-bottom: 0.4rem;
 }
 .main .tips {
@@ -22,12 +23,15 @@ body,
   background-size: .24rem;
   color: #FD3443;
 }
+.data-list {
+  width: 100%;
+}
 .data-list .showData1,
-.data-list .showData3,
-.data-list .showData4 {
+.data-list .showData3 {
   display: none;
 }
 .data-list > div {
+  width: 100%;
   display: block;
   background: white;
 }
