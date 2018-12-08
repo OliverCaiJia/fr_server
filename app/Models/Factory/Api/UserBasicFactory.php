@@ -31,6 +31,7 @@ class UserBasicFactory extends ApiFactory
             'company_license_time',
             'work_time',
             'month_salary',
+            'salary_deliver',
             'zhima_score',
             'house_fund_time',
             'has_creditcard',
