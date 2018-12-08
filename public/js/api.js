@@ -1,15 +1,7 @@
-//判断定义请求接口
-var host = window.location.host;
-var arr = host.split(".");
-var host_href = arr[arr.length - 2];
-var api_fruitloan_host;
-if (host == "api." + host_href + ".com") {
-    var fruit_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-} else {
-    var fruit_protocol = (("https:" == document.location.protocol) ? "https://uat." : "http://uat.");
-    //    document.write('<script src="/js/vconsole.min.js"></script>');
-}
-api_fruitloan_host = fruit_protocol + "fruit.witlending.com/api";
+var fruit_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+//var fruit_protocol = (("https:" == document.location.protocol) ? "https://uat." : "http://uat.");
+//    document.write('<script src="/js/vconsole.min.js"></script>');
+var api_fruitloan_host = fruit_protocol + "app.haoshijinfu.com/api";
 //utf-8转utf-16
 function utf16to8(str) {
     var out, i, len, c;
