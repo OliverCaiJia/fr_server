@@ -1,7 +1,7 @@
 var fruit_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
 //var fruit_protocol = (("https:" == document.location.protocol) ? "https://uat." : "http://uat.");
 //    document.write('<script src="/js/vconsole.min.js"></script>');
-api_fruitloan_host = fruit_protocol + "app.haoshijinfu.com/api";
+var api_fruitloan_host = fruit_protocol + "app.haoshijinfu.com/api";
 //utf-8转utf-16
 function utf16to8(str) {
     var out, i, len, c;
