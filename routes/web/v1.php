@@ -14,15 +14,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
         $router->any('credit', ['uses' => 'AgreementController@credit']);
         // 
         $router->any('faceid', ['uses' => 'AgreementController@faceid']);
-    }); 
-
-    /**
-     *   Invite API
-     */
-    $router->group(['prefix' => 'invite'], function ($router) {
-        // 
-        $router->any('home', ['middleware' => ['authWeb'],'uses' => 'InviteController@home']);
-    }); 
+    });
 
     /**
      *   User API
@@ -48,7 +40,7 @@ Route::group(['namespace' => 'V1','as' => 'web.','prefix' => 'v1'], function ($r
     /**
      *  Wechat API
      */
-    $router->group(['prefix' => 'invite'], function ($router) {//'middleware' => ['authWeb'],
+    $router->group(['prefix' => 'invite','middleware' => ['authWeb'],], function ($router) {
         //生成好有链接
         $router->any('link', ['uses' => 'InviteController@link']);
         //生成邀请好友二维码
