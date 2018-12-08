@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交子金服 - 登录</title>
-    <meta name="keywords" content="交子金服">
-    <meta name="description" content="交子金服">
+    <title>水果金服 - 登录</title>
+    <meta name="keywords" content="水果金服">
+    <meta name="description" content="水果金服">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <link href="{{ asset('vendor/hui/css/bootstrap.min14ed.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/hui/css/font-awesome.min93e3.css') }}" rel="stylesheet">

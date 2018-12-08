@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>交子金服</title>
+    <title>水果金服</title>
     <meta name="keywords" content="{{$saas_global_name}}">
     <meta name="description" content="{{$saas_global_name}}">
 
