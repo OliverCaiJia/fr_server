@@ -62,9 +62,9 @@ class CreateIdCardUserOcrAction extends AbstractHandler
         $this->data = $res;
         //数据整理
         $res = [
-            'valid_date_start' => $params['valid_date_start'],
+            'valid_date_start' => date('Y.m.d',strtotime($params['valid_date_start'])),
             'issued_by' => $params['issued_by'],
-            'valid_date_end' => $params['valid_date_end'],
+            'valid_date_end' => date('Y.m.d',strtotime($params['valid_date_end'])),
             'idcard_url' => $params['signedUrl']
         ];
 
