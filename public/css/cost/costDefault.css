@@ -76,14 +76,16 @@ body {
   width: 0.5rem;
   height: 1.6rem;
   border-radius: 50%;
+  background: url('/img/cost/selete_no.png') no-repeat center;
+  background-size: .4rem;
+}
+.main .recommend-list .selectIcon {
   background: url('/img/cost/selete_red.png') no-repeat center;
   background-size: .4rem;
 }
-.main .give-list .service-list .selectIcon {
-  display: none;
-}
 .main .give-list .service-list.selectIconShow .selectIcon {
-  display: block;
+  background: url('/img/cost/selete_red.png') no-repeat center;
+  background-size: .4rem;
 }
 footer {
   height: 1rem;

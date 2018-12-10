@@ -20,18 +20,18 @@
 
         .container {
             width: 100%;
-            height: 10.86rem;
-            background: url('/img/user/create_bg.png') no-repeat;
+            min-height: 100%;
+            background: #2170f4 url('/img/user/create_bg.png') no-repeat;
             background-size: 100%;
             font-size: .24rem;
             color: #fff;
             position: relative;
+            overflow: hidden;
         }
 
         .agreement {
-            position: absolute;
-            bottom: .3rem;
-            left: .3rem;
+            margin-top: 10.4rem;
+            margin-left: .3rem;
         }
 
         span {
@@ -42,14 +42,14 @@
             width: 1.2rem;
             position: absolute;
             right: .06rem;
-            bottom: .6rem;
+            top: 8.8rem;
             text-align: center;
         }
 
         .service img {
             display: block;
-            width: .8rem;
-            height: .8rem;
+            width: .78rem;
+            height: .78rem;
             margin: 0 auto .1rem;
         }
 

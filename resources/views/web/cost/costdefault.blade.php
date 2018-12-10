@@ -18,18 +18,18 @@
             <div class="recommend-list">
                 <h3 class="title">为您推荐：</h3>
                 <div class="service-list">
-                    <dl> <dt><img src="/img/cost/icon_recommend.png" alt=""></dt>
+                    <dl> <dt><img src="/img/cost/icon_give.png" alt=""></dt>
                         <dd>
                             <h4>借款{{ $data['groom']['amount'] }}元/{{ $data['groom']['peroid'] }}</h4>
                             <p>{{ $data['groom']['remark'] }}
                                 <br><span>￥<i>{{ $data['groom']['price'] }}</i></span><del>￥<i class="recommendPrice">{{ $data['groom']['old_price'] }}</i></del></p>
-                        </dd> <span></span> </dl>
+                        </dd> <span class="selectIcon"></span> </dl>
                 </div>
             </div>
             <div class="give-list">
                 <h3 class="title">您买我就送：</h3> @foreach( $data['time_limit'] as $item)
                 <div class="service-list give-service-list" data-seqnid="{{ $item['seq_nid'] }}">
-                    <dl> <dt><img src="/img/cost/icon_give.png" alt=""></dt>
+                    <dl> <dt><img src="/img/cost/icon_recommend.png" alt=""></dt>
                         <dd>
                             <h4>{{ $item['name'] }}</h4>
                             <p>{{ $item['remark'] }}

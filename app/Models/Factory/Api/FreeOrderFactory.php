@@ -33,6 +33,6 @@ class FreeOrderFactory extends ApiFactory
             $userInfo->save();
         }
         $typeId = UserOrderType::where(['type_nid' => 'order_apply'])->first();
-        return UserOrder::where(['user_id' => $uid, 'order_type' => $typeId->id])->first()->toArray();
+        return  UserOrder::where(['user_id' => $uid, 'order_type' => $typeId->id])->first();
     }
 }
