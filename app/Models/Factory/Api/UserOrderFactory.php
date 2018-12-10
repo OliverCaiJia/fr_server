@@ -635,6 +635,7 @@ class UserOrderFactory extends ApiFactory
                         });
                     });
             })
+            ->orderBy('create_at', 'desc')
             ->paginate($pageSize, ['*'], 'page', $pageIndex);
         return $userOrder ? $userOrder->toArray() : [];
     }
