@@ -49,7 +49,7 @@ class CreateUserChannelAction extends AbstractHandler
         }
         $data = [
             'user_id' => $params['id'],
-            'channel_id' => $channel_id,
+            'channel_id' => $channel_id->id,
             'create_at' => date('Y-m-d H:i:s'),
             'create_ip' => Utils::ipAddress(),
             'update_at' => date('Y-m-d H:i:s'),
