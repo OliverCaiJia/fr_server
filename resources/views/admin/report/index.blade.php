@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户个人信息管理</h5>
+                <h5>信用报告</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
