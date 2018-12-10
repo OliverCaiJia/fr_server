@@ -54,12 +54,68 @@ class ReportStrategy extends AppStrategy
         SLogger::getStream()->error('11111111111111111111111');
         SLogger::getStream()->error(json_encode($params));
         SLogger::getStream()->error('22222222222222222222222');
+        //        array:5 [
+//        "success" => true
+//  "code" => "0000"
+//  "msg" => "操作成功"
+//  "data" => array:4 [
+//        "trans_id" => "1f7788d0-fc79-11e8-b5a5-00163e0da63a"
+//    "person_info" => array:10 [
+//        "idcard" => "13070219811107****"
+//      "idcard_location" => "河北省/张家口市/桥东区"
+//      "mobile" => "1851053****"
+//      "carrier" => "中国联通"
+//      "mobile_location" => "北京/北京"
+//      "name" => "蔡*"
+//      "age" => 37
+//      "gender" => "男"
+//      "email" => ""
+//      "education_info" => array:2 [
+//        "level" => 0
+//        "is_graduation" => false
+//      ]
+//    ]
+//    "fund_infos" => []
+//    "bank_infos" => array:2 [
+//        "debit_card_info" => array:9 [
+//        "update_date" => ""
+//        "card_amount" => 0
+//        "balance" => ""
+//        "total_income" => ""
+//        "total_salary_income" => ""
+//        "total_loan_income" => ""
+//        "total_outcome" => ""
+//        "total_consume_outcome" => ""
+//        "total_loan_outcome" => ""
+//      ]
+//      "credit_card_info" => array:7 [
+//        "update_date" => ""
+//        "card_amount" => 0
+//        "total_credit_limit" => ""
+//        "total_credit_available" => ""
+//        "max_credit_limit" => ""
+//        "overdue_times" => 0
+//        "overdue_months" => 0
+//      ]
+//    ]
+//  ]
+//  "fee" => "N"
+//]
+
+//        if (isset($credidtEvaluation['data'])) {
+//            $this->params['credit_evaluation'] = $credidtEvaluation;
+//            $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
+//        }
         $userEvaluation['user_id'] = $params['user_id'];
-        $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
-        $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
-        $userEvaluation['year_salary'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'];
-        $userEvaluation['credit_card_num'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'];
-        $userEvaluation['credit_card_limit'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'];
+        if (isset($params['credit_evaluation']['data']['fund_infos'])){
+            $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
+        }
+        if (isset($params['credit_evaluation']['data']['bank_infos'])){
+            $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
+            $userEvaluation['year_salary'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'];
+            $userEvaluation['credit_card_num'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'];
+            $userEvaluation['credit_card_limit'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'];
+        }
         $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
         $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
         $userEvaluation['create_at'] = date('Y-m-d H:i:s', time());

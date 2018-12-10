@@ -94,9 +94,53 @@ class GetLogParamAction extends AbstractHandler
          * 魔杖2.0系列-额度评估(账户)
          */
         $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
-        SLogger::getStream()->error('33333333');
-        SLogger::getStream()->error(json_encode($credidtEvaluation));
-        SLogger::getStream()->error('44444444');
+//        array:5 [
+//        "success" => true
+//  "code" => "0000"
+//  "msg" => "操作成功"
+//  "data" => array:4 [
+//        "trans_id" => "1f7788d0-fc79-11e8-b5a5-00163e0da63a"
+//    "person_info" => array:10 [
+//        "idcard" => "13070219811107****"
+//      "idcard_location" => "河北省/张家口市/桥东区"
+//      "mobile" => "1851053****"
+//      "carrier" => "中国联通"
+//      "mobile_location" => "北京/北京"
+//      "name" => "蔡*"
+//      "age" => 37
+//      "gender" => "男"
+//      "email" => ""
+//      "education_info" => array:2 [
+//        "level" => 0
+//        "is_graduation" => false
+//      ]
+//    ]
+//    "fund_infos" => []
+//    "bank_infos" => array:2 [
+//        "debit_card_info" => array:9 [
+//        "update_date" => ""
+//        "card_amount" => 0
+//        "balance" => ""
+//        "total_income" => ""
+//        "total_salary_income" => ""
+//        "total_loan_income" => ""
+//        "total_outcome" => ""
+//        "total_consume_outcome" => ""
+//        "total_loan_outcome" => ""
+//      ]
+//      "credit_card_info" => array:7 [
+//        "update_date" => ""
+//        "card_amount" => 0
+//        "total_credit_limit" => ""
+//        "total_credit_available" => ""
+//        "max_credit_limit" => ""
+//        "overdue_times" => 0
+//        "overdue_months" => 0
+//      ]
+//    ]
+//  ]
+//  "fee" => "N"
+//]
         if (isset($credidtEvaluation['data'])) {
             $this->params['credit_evaluation'] = $credidtEvaluation;
             $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
