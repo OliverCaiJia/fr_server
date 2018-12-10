@@ -76,11 +76,6 @@ class CreateReportLogAction extends AbstractHandler
         /**
          * 魔杖2.0系列-额度评估(账户)
          */
-
-//        if (isset($credidtEvaluation['data'])) {
-//            $this->params['credit_evaluation'] = $credidtEvaluation;
-//            $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
-//        }
         SLogger::getStream()->error(__CLASS__.'credit_evaluation');
         if (isset($params['credit_evaluation'])) {
             $reportLog['data'] = json_encode($params['credit_evaluation']);

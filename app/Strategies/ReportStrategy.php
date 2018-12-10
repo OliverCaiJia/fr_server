@@ -51,89 +51,12 @@ class ReportStrategy extends AppStrategy
      */
     public static function getEvaluation($params)
     {
-        SLogger::getStream()->error('11111111111111111111111');
-        SLogger::getStream()->error(json_encode($params));
-        SLogger::getStream()->error('22222222222222222222222');
-        //        array:5 [
-//        "success" => true
-//  "code" => "0000"
-//  "msg" => "操作成功"
-//  "data" => array:4 [
-//        "trans_id" => "1f7788d0-fc79-11e8-b5a5-00163e0da63a"
-//    "person_info" => array:10 [
-//        "idcard" => "13070219811107****"
-//      "idcard_location" => "河北省/张家口市/桥东区"
-//      "mobile" => "1851053****"
-//      "carrier" => "中国联通"
-//      "mobile_location" => "北京/北京"
-//      "name" => "蔡*"
-//      "age" => 37
-//      "gender" => "男"
-//      "email" => ""
-//      "education_info" => array:2 [
-//        "level" => 0
-//        "is_graduation" => false
-//      ]
-//    ]
-//    "fund_infos" => []
-//    "bank_infos" => array:2 [
-//        "debit_card_info" => array:9 [
-//        "update_date" => ""
-//        "card_amount" => 0
-//        "balance" => ""
-//        "total_income" => ""
-//        "total_salary_income" => ""
-//        "total_loan_income" => ""
-//        "total_outcome" => ""
-//        "total_consume_outcome" => ""
-//        "total_loan_outcome" => ""
-//      ]
-//      "credit_card_info" => array:7 [
-//        "update_date" => ""
-//        "card_amount" => 0
-//        "total_credit_limit" => ""
-//        "total_credit_available" => ""
-//        "max_credit_limit" => ""
-//        "overdue_times" => 0
-//        "overdue_months" => 0
-//      ]
-//    ]
-//  ]
-//  "fee" => "N"
-//]
-
-//        if (isset($credidtEvaluation['data'])) {
-//            $this->params['credit_evaluation'] = $credidtEvaluation;
-//            $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
-//        }
         $userEvaluation['user_id'] = $params['user_id'];
-//        if (isset($params['credit_evaluation']['data']['fund_infos'])) {
-//            $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
-//        }
-//        CREATE TABLE `sgd_user_estimate_rep` (
-//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
-//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
-//  `fund_money` decimal(15,2) NOT NULL COMMENT '公积金余额',
-//  `year_income` decimal(15,2) NOT NULL COMMENT '年收入',
-//  `year_salary` decimal(15,2) NOT NULL COMMENT '年工资',
-//  `credit_card_num` int(10) NOT NULL COMMENT '信用卡数量',
-//  `credit_card_limit` decimal(15,2) NOT NULL COMMENT '新用卡总额度',
-//  `data` json NOT NULL COMMENT '返回数据',
-//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
-//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-//  PRIMARY KEY (`id`) USING BTREE,
-//  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
-//  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户电商额度数据表'
         $userEvaluation['fund_money'] = !empty($params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance']) ? $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'] : 0;
-//        if (isset($params['credit_evaluation']['data']['bank_infos'])) {
         $userEvaluation['year_income'] = !empty($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'] : 0;
         $userEvaluation['year_salary'] = !empty($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'] : 0;
         $userEvaluation['credit_card_num'] = !empty($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'] : 0;
         $userEvaluation['credit_card_limit'] = !empty($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'] : 0;
-//        }
         $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
         $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
         $userEvaluation['create_at'] = date('Y-m-d H:i:s', time());
