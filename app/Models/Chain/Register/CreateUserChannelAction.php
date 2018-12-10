@@ -43,9 +43,9 @@ class CreateUserChannelAction extends AbstractHandler
     {
         $channel_nid = isset($params['channel_nid']) ? $params['channel_nid'] : '';
         $channel_id = Channel::select('id')->where('channel_nid', '=', $channel_nid)->first();
-        if(!$channel_id){
+        if(!$channel_id->id){
             $channel_id = Channel::select('id')->where('channel_nid', '=', 'channel_001')->first();
-            if(!$channel_id) return false;
+            if(!$channel_id->id) return false;
         }
         $data = [
             'user_id' => $params['id'],
