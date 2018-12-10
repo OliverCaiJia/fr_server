@@ -107,15 +107,33 @@ class ReportStrategy extends AppStrategy
 //            $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
 //        }
         $userEvaluation['user_id'] = $params['user_id'];
-        if (isset($params['credit_evaluation']['data']['fund_infos'])){
-            $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
-        }
-        if (isset($params['credit_evaluation']['data']['bank_infos'])){
-            $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
-            $userEvaluation['year_salary'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'];
-            $userEvaluation['credit_card_num'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'];
-            $userEvaluation['credit_card_limit'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'];
-        }
+//        if (isset($params['credit_evaluation']['data']['fund_infos'])) {
+//            $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
+//        }
+//        CREATE TABLE `sgd_user_estimate_rep` (
+//    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+//  `user_id` int(11) unsigned NOT NULL COMMENT '用户id',
+//  `user_report_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的user_reports表的id',
+//  `fund_money` decimal(15,2) NOT NULL COMMENT '公积金余额',
+//  `year_income` decimal(15,2) NOT NULL COMMENT '年收入',
+//  `year_salary` decimal(15,2) NOT NULL COMMENT '年工资',
+//  `credit_card_num` int(10) NOT NULL COMMENT '信用卡数量',
+//  `credit_card_limit` decimal(15,2) NOT NULL COMMENT '新用卡总额度',
+//  `data` json NOT NULL COMMENT '返回数据',
+//  `fee` varchar(255) NOT NULL DEFAULT '' COMMENT '是否收费',
+//  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+//  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+//  PRIMARY KEY (`id`) USING BTREE,
+//  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
+//  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+//) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户电商额度数据表'
+        $userEvaluation['fund_money'] = isset($params['credit_evaluation']['data']['fund_infos']) ? $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'] : 0;
+//        if (isset($params['credit_evaluation']['data']['bank_infos'])) {
+        $userEvaluation['year_income'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'] : 0;
+        $userEvaluation['year_salary'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'] : 0;
+        $userEvaluation['credit_card_num'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'] : 0;
+        $userEvaluation['credit_card_limit'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'] : 0;
+//        }
         $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
         $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
         $userEvaluation['create_at'] = date('Y-m-d H:i:s', time());
