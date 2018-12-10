@@ -57,12 +57,16 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('bannerconfig', 'BannerConfigController');
         //分享配置
         Route::resource('inviteconfig', 'InviteConfigController');
+        //渠道配置
+        Route::resource('channelconfig', 'ChannelConfigController');
     });
 
     //---------------------------- 短信中心 ----------------------------------//
     Route::group(['namespace' => 'Sms', 'prefix' => 'sms'], function () {
         //账户管理
         Route::resource('sms', 'SmsController');
+        //短信配置
+        Route::resource('smstype', 'SmsTypeController');
     });
 
     //---------------------------- 用户中心 ----------------------------------//
@@ -82,6 +86,8 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('userinvitecode', 'UserInviteCodeController');
         //用户贷款数据
         Route::resource('usertask', 'UserTaskController');
+        //用户个人资料
+        Route::resource('userbasic', 'UserBasicController');
 
     });
 

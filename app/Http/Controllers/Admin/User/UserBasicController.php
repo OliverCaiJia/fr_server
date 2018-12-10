@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Models\Orm\UserInfo;
+use App\Models\Orm\UserBasic;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
-class UserInfoController extends AdminController
+class UserBasicController extends AdminController
 {
     /**注册用户
      * @param Request $request
@@ -15,19 +15,20 @@ class UserInfoController extends AdminController
     public function index(Request $request)
     {
         //查询条件
-        $status = $request->input('status');
-        $service_status = $request->input('service_status');
-        $has_userinfo = $request->input('has_userinfo');
+//        $status = $request->input('status');
+//        $service_status = $request->input('service_status');
+//        $has_userinfo = $request->input('has_userinfo');
 
-        $query = UserInfo::when($status, function ($query) use ($status) {
-            return $query->where('status', '=', $status);
-        })->when($service_status, function ($query) use ($service_status) {
-            return $query->where('service_status', '=', $service_status);
-        })->when($has_userinfo, function ($query) use ($has_userinfo) {
-            return $query->where('has_userinfo', '=', $has_userinfo);
-        })->orderBy('id', 'desc')->paginate(10);
+        $query = UserBasic::orderBy('id', 'desc')->paginate(10);
+//        $query = UserBasic::when($status, function ($query) use ($status) {
+//            return $query->where('status', '=', $status);
+//        })->when($service_status, function ($query) use ($service_status) {
+//            return $query->where('service_status', '=', $service_status);
+//        })->when($has_userinfo, function ($query) use ($has_userinfo) {
+//            return $query->where('has_userinfo', '=', $has_userinfo);
+//        })->orderBy('id', 'desc')->paginate(10);
 
-        return view('admin.users.userinfo.index', compact('query'));
+        return view('admin.users.userbasic.index', compact('query'));
     }
 
     /**

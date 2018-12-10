@@ -21,7 +21,7 @@
         .container {
             width: 100%;
             min-height: 100%;
-            background: url('/img/user/create_bg.png') no-repeat;
+            background: #2170f4 url('/img/user/create_bg.png') no-repeat;
             background-size: 100%;
             font-size: .24rem;
             color: #fff;
