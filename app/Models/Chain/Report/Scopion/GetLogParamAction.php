@@ -94,6 +94,9 @@ class GetLogParamAction extends AbstractHandler
          * 魔杖2.0系列-额度评估(账户)
          */
         $credidtEvaluation = MozhangService::o()->getMoZhangContent($userRealName['real_name'], $userRealName['id_card_no'], $userAuth['mobile'], 'evaluation');
+        SLogger::getStream()->error('33333333');
+        SLogger::getStream()->error(json_encode($credidtEvaluation));
+        SLogger::getStream()->error('44444444');
         if (isset($credidtEvaluation['data'])) {
             $this->params['credit_evaluation'] = $credidtEvaluation;
             $this->params['report_data']['credit_evaluation'] = $credidtEvaluation['data'];
