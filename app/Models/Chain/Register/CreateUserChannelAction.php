@@ -41,24 +41,24 @@ class CreateUserChannelAction extends AbstractHandler
      */
     public function createUserChannel($params)
     {
-        if (isset($params['channel_nid']) && !empty($params['channel_nid'])) {
-            $channel_id = Channel::select('id')->where('channel_nid', '=', $params['channel_nid'])->first();
-            if($channel_id){
-                $data = [
-                    'user_id' => $params['id'],
-                    'channel_id' => $channel_id,
-                    'create_at' => date('Y-m-d H:i:s'),
-                    'create_ip' => Utils::ipAddress(),
-                    'update_at' => date('Y-m-d H:i:s'),
-                    'update_ip' => Utils::ipAddress(),
-                ];
-                $userChannel = UserChannel::insert($data);
-                return $userChannel ? true : false;
-            }else{
-                return false;
-            }
+        $channel_nid = isset($params['channel_nid']) ? isset($params['channel_nid']) : '';
+        $channel_id = Channel::select('id')->where('channel_nid', '=', $channel_nid)->first();
+        if(!$channel_id){
+            $channel_id = Channel::select('id')->where('channel_nid', '=', 'channel_001')->first();
+            if(!$channel_id) return false;
         }
-        return true;
+        $data = [
+            'user_id' => $params['id'],
+            'channel_id' => $channel_id,
+            'create_at' => date('Y-m-d H:i:s'),
+            'create_ip' => Utils::ipAddress(),
+            'update_at' => date('Y-m-d H:i:s'),
+            'update_ip' => Utils::ipAddress(),
+        ];
+        $userChannel = UserChannel::insert($data);
+        return $userChannel ? true : false;
+
+
     }
 
 }

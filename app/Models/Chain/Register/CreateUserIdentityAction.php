@@ -43,7 +43,6 @@ class CreateUserIdentityAction extends AbstractHandler
         if (isset($params['invite_code']) && !empty($params['invite_code'])) {
             //如果邀请码存在并且不为空,则根据邀请码获得邀请人id
             $user_id = InviteFactory::fetchInviteUserIdByCode($params['invite_code']);
-            //
             if($user_id){
                 $params['user_id'] = $user_id;
                 $userInvite = InviteFactory::createUserInvite($params);
