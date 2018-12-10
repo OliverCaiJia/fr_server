@@ -23,7 +23,7 @@
                             <h4>借款{{ $data['groom']['amount'] }}元/{{ $data['groom']['peroid'] }}</h4>
                             <p>{{ $data['groom']['remark'] }}
                                 <br><span>￥<i>{{ $data['groom']['price'] }}</i></span><del>￥<i class="recommendPrice">{{ $data['groom']['old_price'] }}</i></del></p>
-                        </dd> <span></span> </dl>
+                        </dd> <span class="selectIconShow"></span> </dl>
                 </div>
             </div>
             <div class="give-list">
