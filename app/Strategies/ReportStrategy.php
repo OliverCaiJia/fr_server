@@ -2,6 +2,7 @@
 
 namespace App\Strategies;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 
 class ReportStrategy extends AppStrategy
@@ -50,6 +51,9 @@ class ReportStrategy extends AppStrategy
      */
     public static function getEvaluation($params)
     {
+        SLogger::getStream()->error('11111111111111111111111');
+        SLogger::getStream()->error(json_encode($params));
+        SLogger::getStream()->error('22222222222222222222222');
         $userEvaluation['user_id'] = $params['user_id'];
         $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
         $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
