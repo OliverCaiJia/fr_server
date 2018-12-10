@@ -25,7 +25,7 @@ class CreateUserIdentityAction extends AbstractHandler
     {
         if ($this->createUserIdentity($this->params) == true)
         {
-            $this->setSuccessor(new RenovateTokenAction($this->params));
+            $this->setSuccessor(new CreateUserChannelAction($this->params));
             return $this->getSuccessor()->handleRequest();
         }
         else
