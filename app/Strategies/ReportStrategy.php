@@ -127,12 +127,12 @@ class ReportStrategy extends AppStrategy
 //  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户电商额度数据表'
-        $userEvaluation['fund_money'] = isset($params['credit_evaluation']['data']['fund_infos']) ? $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'] : 0;
+        $userEvaluation['fund_money'] = isset($params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance']) ? $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'] : 0;
 //        if (isset($params['credit_evaluation']['data']['bank_infos'])) {
-        $userEvaluation['year_income'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'] : 0;
-        $userEvaluation['year_salary'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'] : 0;
-        $userEvaluation['credit_card_num'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'] : 0;
-        $userEvaluation['credit_card_limit'] = isset($params['credit_evaluation']['data']['bank_infos']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'] : 0;
+        $userEvaluation['year_income'] = isset($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'] : 0;
+        $userEvaluation['year_salary'] = isset($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'] : 0;
+        $userEvaluation['credit_card_num'] = isset($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'] : 0;
+        $userEvaluation['credit_card_limit'] = isset($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'] : 0;
 //        }
         $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
         $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
