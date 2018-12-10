@@ -4,6 +4,7 @@ namespace App\Models\Factory\Api;
 
 use App\Constants\UserOrderConstant;
 use App\Constants\UserVipConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Orm\Platform;
 use App\Models\Orm\UserAmountEst;
 use App\Models\Orm\UserAntifraud;
@@ -210,6 +211,9 @@ class UserOrderFactory extends ApiFactory
 //  UNIQUE KEY `FK_USER_MULTIINFO_USER_ID` (`user_id`) USING BTREE,
 //  CONSTRAINT `sgd_user_estimate_rep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sgd_user_auth` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 //) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户电商额度数据表'
+        SLogger::getStream()->error('55555555');
+        SLogger::getStream()->error(json_encode($params));
+        SLogger::getStream()->error('66666666');
         $userEvaluation->user_id = $params['user_id'];
         $userEvaluation->fund_money = $params['fund_money'];
         $userEvaluation->year_income = $params['year_income'];
