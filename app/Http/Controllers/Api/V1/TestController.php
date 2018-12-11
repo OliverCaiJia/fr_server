@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ApiController;
 use App\Models\Chain\Order\NoPayOrder\LoanOrder\DoApplyOrderHandler;
 use App\Models\Chain\Order\NoPayOrder\ProductOrder\DoProductOrderHandler;
 use App\Models\Chain\Order\PayOrder\PaidOrder\DoPaidOrderHandler;
+use App\Services\Core\Message\OCR\FaceConfig;
+use App\Services\Core\Message\OCR\FaceService;
 use App\Services\Core\Validator\Scorpion\Mozhang\MozhangService;
 use App\Services\Core\Validator\ValidatorService;
 use App\Services\Core\Payment\YiBao\YiBaoService;
@@ -65,54 +67,57 @@ class TestController extends ApiController
 
     //face++
     public function getFace() {//$image
-        $appKey = 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
-//        $appKey = ValidatorService::o()->getFaceidAppKey();
-        $appSecret = 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
-//        $appSecret = ValidatorService::o()->getFaceidAppSecret();
-//        $url = ValidatorService::o()::FACEID_API_URL . ValidatorService::o()::FACEID_API_URI;
-
-        $url = 'https://api.megvii.com/faceid/v3/ocridcard';
-//        $url = ValidatorService::FACEID_API_URL . '/faceid/v3/ocridcard';
-//        $apiKey = ValidatorService::getFaceidAppKey();
-//        $apiSecret = ValidatorService::getFaceidAppSecret();
+//        $appKey = 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
+////        $appKey = ValidatorService::o()->getFaceidAppKey();
+//        $appSecret = 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
+////        $appSecret = ValidatorService::o()->getFaceidAppSecret();
+////        $url = ValidatorService::o()::FACEID_API_URL . ValidatorService::o()::FACEID_API_URI;
 //
-
-        $image = '/home/zhijie/下载/600921248.jpg';
-//        $image = file_get_contents($imgUrl);
-        //将字符串进行base64加密
-//        $image = base64_encode($image);
-        $request = [
-            'multipart' => [
-                [
-                    'name' => 'image',
-                    'contents' => fopen($image, 'r'),
-                ],
-                [
-                    'name' => 'api_key',
-                    'contents' => $appKey,
-
-
-
-
-
-
-                ],
-                [
-                    'name' => 'api_secret',
-                    'contents' => $appSecret,
-                ],
-                // 是否返回身份证照片合法性检查结果 “1”：返回； “0”：不返回。
-                [
-                    'name' => 'legality',
-                    'contents' => 1,
-                ],
-            ],
-        ];
-        //请求face++
-        $response = HttpClient::i()->request('POST', $url, $request);
-        $result = $response->getBody()->getContents();
-        $res = json_decode($result, true);
-        return $res;
+//        $url = 'https://api.megvii.com/faceid/v3/ocridcard';
+////        $url = ValidatorService::FACEID_API_URL . '/faceid/v3/ocridcard';
+////        $apiKey = ValidatorService::getFaceidAppKey();
+////        $apiSecret = ValidatorService::getFaceidAppSecret();
+////
+//
+//        $image = '/home/zhijie/下载/600921248.jpg';
+////        $image = file_get_contents($imgUrl);
+//        //将字符串进行base64加密
+////        $image = base64_encode($image);
+//        $request = [
+//            'multipart' => [
+//                [
+//                    'name' => 'image',
+//                    'contents' => fopen($image, 'r'),
+//                ],
+//                [
+//                    'name' => 'api_key',
+//                    'contents' => $appKey,
+//
+//
+//
+//
+//
+//
+//                ],
+//                [
+//                    'name' => 'api_secret',
+//                    'contents' => $appSecret,
+//                ],
+//                // 是否返回身份证照片合法性检查结果 “1”：返回； “0”：不返回。
+//                [
+//                    'name' => 'legality',
+//                    'contents' => 1,
+//                ],
+//            ],
+//        ];
+//        //请求face++
+//        $response = HttpClient::i()->request('POST', $url, $request);
+//        $result = $response->getBody()->getContents();
+//        $res = json_decode($result, true);
+//        return $res;
+        $data['imgUrl'] = '/home/zhijie/下载/600921248.jpg';
+        $faceService = new FaceService();
+        return $faceService->fetchBackOrFront($data);
     }
 
 

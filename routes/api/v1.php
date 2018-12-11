@@ -192,7 +192,7 @@ Route::group(['namespace' => 'V1', 'middleware' => ['sign'], 'as' => 'api.', 'pr
      *  Test API（调试）
      */
     $router->group(['prefix' => 'test'], function ($router) {
-//        $router->any('product', ['uses' => 'TestController@product']);
+        $router->any('face', ['uses' => 'TestController@getFace']);
         $router->post('doReport', ['uses' => 'TestController@doReport']);
         $router->post('doApply', ['uses' => 'TestController@doApply']);
     });
