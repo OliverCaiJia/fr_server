@@ -48,7 +48,7 @@ class CreateApplyOrderAction extends AbstractHandler
         $data['money'] = $borrowLog['loan_amount'];
         $data['term'] = $borrowLog['loan_peroid'];
         $data['count'] = 1;//订单数量为一
-        $data['status'] = 1;//订单状态（默认）为已支付
+        $data['status'] = 0;//订单状态（默认）为已支付??????????
         $data['create_ip'] = Utils::ipAddress();
         $data['create_at'] = date('Y-m-d H:i:s', time());
         $data['update_ip'] = Utils::ipAddress();
