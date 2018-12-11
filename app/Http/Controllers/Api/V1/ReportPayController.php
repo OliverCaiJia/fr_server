@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Factory\Api\UserAuthFactory;
 use App\Models\Factory\Api\UserBankcardFactory;
 use App\Models\Factory\Api\UserOrderFactory;
 use App\Models\Factory\Api\UserRealnameFactory;
@@ -51,20 +53,26 @@ class ReportPayController extends ApiController
         if (empty($userBankcard)) {
             return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该银行卡信息', 12350, '未找到该银行卡信息');
         }
+        $userAuth = UserAuthFactory::getUserById($userId);
+        if (empty($userAuth)) {
+            return RestResponseFactory::ok(RestUtils::getStdObj(), '未找到该用户', 12351, '未找到该用户');
+        }
 
         $data = [];
         $data['order_id'] = $dataUpdate['order_no'];
         $data['amount'] = (int)($userOrder['amount'] * 100);
         $data['productname'] = $orderType['name'];
         $data['productdesc'] = $orderType['remark'];
-        $data['mobile'] = $userBankcard['bank_card_mobile'];
+        $data['mobile'] = $userAuth['mobile'];
         $data['cardno'] = $request->input('bank_card_no');
         $data['idcard'] = $userBankcard['idcard'];
         $data['owner'] = $userRealName['real_name'];
 
         $yibaoParams = PaymentStrategy::orderYibaoParams($data);
         //todo::先写死金额，测试
-
+        SLogger::getStream()->info(__CLASS__);
+        SLogger::getStream()->info(json_encode($yibaoParams));
+        SLogger::getStream()->info(__CLASS__);
         $res = [];
         $result = PaymentService::i()->order($yibaoParams);
         if (empty($result)) {

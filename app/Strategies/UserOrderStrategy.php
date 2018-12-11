@@ -215,15 +215,24 @@ class UserOrderStrategy extends AppStrategy
     {
         switch ($orderTypeNid) {
             case 'order_apply':
-                $res[] = [
-                    "order_no" => $uOrder['order_no'],
-                    "order_type_nid" => $orderType['type_nid'],
-                    "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
-                    "term" => $uOrder['term'],
-                    "create_at" => $uOrder['create_at'],
-                    "logo_url" => $orderType['logo_url'],
-                    "status" => $uOrder['status']
-                ];
+                $userInfo = UserinfoFactory::getUserInfoByUserId($uOrder['user_id']);
+                if (empty($userInfo)) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1198), 1198);
+                }
+                if ($userInfo['service_status'] < 4) {
+                    $res = [];
+                }
+                if ($userInfo['service_status'] >= 4) {
+                    $res[] = [
+                        "order_no" => $uOrder['order_no'],
+                        "order_type_nid" => $orderType['type_nid'],
+                        "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                        "term" => $uOrder['term'],
+                        "create_at" => $uOrder['create_at'],
+                        "logo_url" => $orderType['logo_url'],
+                        "status" => $uOrder['status']
+                    ];
+                }
                 break;
             case 'order_report':
                 $res[] = [
