@@ -222,15 +222,17 @@ class UserOrderStrategy extends AppStrategy
                 if ($userInfo['service_status'] < 4) {
                     $res = [];
                 }
-                $res[] = [
-                    "order_no" => $uOrder['order_no'],
-                    "order_type_nid" => $orderType['type_nid'],
-                    "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
-                    "term" => $uOrder['term'],
-                    "create_at" => $uOrder['create_at'],
-                    "logo_url" => $orderType['logo_url'],
-                    "status" => $uOrder['status']
-                ];
+                if ($userInfo['service_status'] >= 4) {
+                    $res[] = [
+                        "order_no" => $uOrder['order_no'],
+                        "order_type_nid" => $orderType['type_nid'],
+                        "amount" => $uOrder['money'],//前端不改字段，用money， ××（金额）/××（天）
+                        "term" => $uOrder['term'],
+                        "create_at" => $uOrder['create_at'],
+                        "logo_url" => $orderType['logo_url'],
+                        "status" => $uOrder['status']
+                    ];
+                }
                 break;
             case 'order_report':
                 $res[] = [
