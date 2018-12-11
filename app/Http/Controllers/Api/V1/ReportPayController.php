@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\RestResponseFactory;
 use App\Helpers\RestUtils;
 use App\Helpers\Utils;
@@ -64,7 +65,9 @@ class ReportPayController extends ApiController
 
         $yibaoParams = PaymentStrategy::orderYibaoParams($data);
         //todo::先写死金额，测试
-
+        SLogger::getStream()->info(__CLASS__);
+        SLogger::getStream()->info(json_encode($yibaoParams));
+        SLogger::getStream()->info(__CLASS__);
         $res = [];
         $result = PaymentService::i()->order($yibaoParams);
         if (empty($result)) {
