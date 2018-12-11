@@ -191,7 +191,6 @@ class PaymentStrategy extends AppStrategy
 //            'callbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_ASYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
             'fcallbackurl' => YiBaoConfig::NOTIFYURL,
             'callbackurl' => YiBaoConfig::REDIRECTURL,
-            'orderexpdate' => $data['order_expired_time'],
             'cardno' => $data['cardno'],
             'idcardtype' => '01',
             'idcard' => $data['idcard'],
