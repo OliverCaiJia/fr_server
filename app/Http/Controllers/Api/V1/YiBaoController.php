@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\Logger\SLogger;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Factory\Api\UserOrderFactory;
+use App\Services\Core\Payment\YiBao\YiBaoService;
 use App\Strategies\UserOrderStrategy;
 use Illuminate\Http\Request;
-use App\Services\Core\Payment\YiBao\YiBaoConfig;
-use App\Services\Core\Payment\YiBao\YopSignUtils;
 
 /**
  * Class YiBaoController
@@ -35,22 +34,22 @@ class YiBaoController extends ApiController
     public function async(Request $request)
     {
         //获取回调结果
-        $params = $request->input('response');
-        //获取配置信息
-        $public_key = YiBaoConfig::YOP_PUBLIC_KEY;
-        $private_key = YiBaoConfig::PRIVATE_KEY;
-        $resData = YopSignUtils::decrypt($params, $private_key, $public_key);
-        $resData = json_decode($resData, true);
+        $params = $request->input();
+        if(!isset($params['data']) || !isset($params['encryptkey']))
+        {
+            return 'ERROR';
+        }
+        $resData = YiBaoService::i()->undoData($params['data'], $params['encryptkey']);
 
         SLogger::getStream()->error('========================');
         SLogger::getStream()->error(json_encode($resData));
         SLogger::getStream()->error('========================');
         //订单支付成功
-        if ($resData['status'] != 'SUCCESS') {
+        if ($resData['status'] != 1) {
             return 'ERROR';
         }
         //获取订单编号
-        $data['order_no'] = $resData['orderId'];
+        $data['order_no'] = $resData['orderid'];
         SLogger::getStream()->error('========================');
         SLogger::getStream()->error(json_encode($data['order_no']));
         SLogger::getStream()->error('========================');

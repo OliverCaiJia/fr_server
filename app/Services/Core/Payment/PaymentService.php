@@ -14,14 +14,12 @@ class PaymentService extends AppService
 	public static $services;
 	public static $nid;
 
-	public static function i($shadowNid = 'sudaizhijia')
+	public static function i()
 	{
 
 		if (!(self::$services instanceof static))
 		{
-            $paymentId = PaymentFactory::getPaymentConfig($shadowNid);
 			self::$services = new static();
-			self::$nid = PaymentFactory::getPaymentNid($paymentId);
 		}
 
 		return self::$services;
@@ -35,15 +33,7 @@ class PaymentService extends AppService
      */
     public function order($params)
     {
-        switch (self::$nid)
-        {
-            case 'YBZF':
-                $re = YiBaoService::i()->orderPay($params);
-                break;
-            default:
-                $re = YiBaoService::i()->orderPay($params);
-                break;
-        }
+        $re = YiBaoService::i()->orderPay($params);
 
         return $re;
     }

@@ -50,6 +50,12 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('useraccountlog', 'UserAccountLogController');
     });
 
+    //---------------------------- 数据管理 ----------------------------------//
+    Route::group(['namespace' => 'Data', 'prefix' => 'data'], function () {
+        //渠道统计
+        Route::resource('channeldata', 'ChannelDataController');
+    });
+
 
     //---------------------------- 配置中心 ----------------------------------//
     Route::group(['namespace' => 'Config', 'prefix' => 'config'], function () {

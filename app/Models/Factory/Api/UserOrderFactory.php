@@ -4,6 +4,7 @@ namespace App\Models\Factory\Api;
 
 use App\Constants\UserOrderConstant;
 use App\Constants\UserVipConstant;
+use App\Helpers\Logger\SLogger;
 use App\Models\Orm\Platform;
 use App\Models\Orm\UserAmountEst;
 use App\Models\Orm\UserAntifraud;
@@ -194,9 +195,11 @@ class UserOrderFactory extends ApiFactory
             $userEvaluation = new UserEvaluation();
         }
         $userEvaluation->user_id = $params['user_id'];
-        $userEvaluation->zm_score = $params['zm_score'];
-        $userEvaluation->huabai_limit = $params['huabai_limit'];
-        $userEvaluation->credit_amt = $params['credit_amt'];
+        $userEvaluation->fund_money = $params['fund_money'];
+        $userEvaluation->year_income = $params['year_income'];
+        $userEvaluation->year_salary = $params['year_salary'];
+        $userEvaluation->credit_card_num = $params['credit_card_num'];
+        $userEvaluation->credit_card_limit = $params['credit_card_limit'];
         $userEvaluation->data = $params['data'];
         $userEvaluation->fee = $params['fee'];
         $userEvaluation->create_at = $params['create_at'];

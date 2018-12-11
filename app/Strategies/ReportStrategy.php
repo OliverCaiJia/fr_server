@@ -2,6 +2,7 @@
 
 namespace App\Strategies;
 
+use App\Helpers\Logger\SLogger;
 use App\Helpers\Utils;
 
 class ReportStrategy extends AppStrategy
@@ -51,11 +52,11 @@ class ReportStrategy extends AppStrategy
     public static function getEvaluation($params)
     {
         $userEvaluation['user_id'] = $params['user_id'];
-        $userEvaluation['fund_money'] = $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'];
-        $userEvaluation['year_income'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'];
-        $userEvaluation['year_salary'] = $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'];
-        $userEvaluation['credit_card_num'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'];
-        $userEvaluation['credit_card_limit'] = $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'];
+        $userEvaluation['fund_money'] = !empty($params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance']) ? $params['credit_evaluation']['data']['fund_infos']['fund_basic']['balance'] : 0;
+        $userEvaluation['year_income'] = !empty($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_income'] : 0;
+        $userEvaluation['year_salary'] = !empty($params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income']) ? $params['credit_evaluation']['data']['bank_infos']['debit_card_info']['total_salary_income'] : 0;
+        $userEvaluation['credit_card_num'] = !empty($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['card_amount'] : 0;
+        $userEvaluation['credit_card_limit'] = !empty($params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit']) ? $params['credit_evaluation']['data']['bank_infos']['credit_card_info']['total_credit_limit'] : 0;
         $userEvaluation['data'] = json_encode($params['credit_evaluation']['data']);
         $userEvaluation['fee'] = $params['credit_evaluation']['fee'];
         $userEvaluation['create_at'] = date('Y-m-d H:i:s', time());

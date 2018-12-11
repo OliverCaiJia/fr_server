@@ -10,9 +10,9 @@ class FaceService extends AppService
 {
     public function fetchBackOrFront($data)
     {
-        $appKey = 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
-        $appSecret = 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
-        $url = 'https://api.megvii.com/faceid/v3/ocridcard';
+        $appKey = FaceConfig::APPKEY;
+        $appSecret = FaceConfig::APPSECRET;
+        $url = FaceConfig::getUrl();
         $image = $data['imgUrl'];
         $request = [
             'multipart' => [

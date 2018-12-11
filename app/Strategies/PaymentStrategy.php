@@ -22,6 +22,7 @@ use App\Models\Factory\UserVipFactory;
 use App\Models\Orm\UserVip;
 use App\Services\AppService;
 use App\Services\Core\Payment\PaymentService;
+use App\Services\Core\Payment\YiBao\YiBaoConfig;
 
 /**
  * payment
@@ -170,25 +171,46 @@ class PaymentStrategy extends AppStrategy
      * @param array $data
      * @return array
      */
-    public static function orderYibaoParams($data = [], $params = [])
+    //参数名	必选	类型	说明
+//order_id	是	string	订单号
+//amount	是	string	订单金额(分)
+//productname	是	string	商品名称
+//productdesc	是	string	商品描述
+//mobile	是	string	用户手机号
+//cardno	是	string	银行卡号
+//idcard	是	string	身份证号
+//owner	是	string	用户名
+//
+
+//$data = [];
+//$data['order_id'] = $data['order_no'];
+//$data['amount'] = $userOrder['amount'];
+//$data['productname'] = $orderType['name'];
+//$data['productdesc'] = $orderType['remark'];
+//$data['mobile'] = $userBankcard['bank_card_mobile'];
+//$data['cardno'] = $request->input('bank_card_no');
+//$data['idcard'] = $userBankcard['idcard'];
+//$data['owner'] = $userRealName['real_name'];
+    public static function orderYibaoParams($data = [])
     {
         return [
             'orderid' => $data['order_id'],
             'transtime' => time(),
-            'amount' => $params['amount'],
+            'amount' => $data['amount'],
             'productcatalog' => '1',
-            'productname' => $params['productname'],
-            'productdesc' => $params['productdesc'],
-            'identitytype' => 2,//用户id
-            'identityid' => $data['user_id'],
+            'productname' => $data['productname'],
+            'productdesc' => $data['productdesc'],
+            'identitytype' => 4,
+            'identityid' => $data['mobile'],
             'terminaltype' => 0,
-            'terminalid' => $data['terminal_id'],
+            'terminalid' => $data['mobile'],
             'userip' => Utils::ipAddress(),
-            'directpaytype' => $data['pay_type'],
+            'directpaytype' => 3,
             'userua' => UserAgent::i()->getUserAgent(),
-            'fcallbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_SYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
-            'callbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_ASYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
-            'orderexpdate' => $data['order_expired_time'],
+//            'fcallbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_SYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
+//            'callbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_ASYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
+            'fcallbackurl' => YiBaoConfig::NOTIFYURL,
+            'callbackurl' => YiBaoConfig::REDIRECTURL,
             'cardno' => $data['cardno'],
             'idcardtype' => '01',
             'idcard' => $data['idcard'],
