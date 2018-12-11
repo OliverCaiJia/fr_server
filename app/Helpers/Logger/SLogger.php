@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Logger;
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\WebProcessor;
@@ -53,6 +54,9 @@ class SLogger
     {
         $logpath = storage_path() . '/logs/saas.jietiao-' . date('Y-m-d') . '.log';
         $handler = new StreamHandler($logpath, MonologLogger::INFO, true, 0777);
+        $lineFormatter = new LineFormatter();
+        $lineFormatter->includeStacktraces(true);
+        $handler->setFormatter($lineFormatter);
 
         return $handler;
     }
