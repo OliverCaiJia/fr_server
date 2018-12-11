@@ -2,13 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\Logger\SLogger;
 use Exception;
 use Log;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Helpers\AdminResponseFactory;
-use App\Helpers\UserAgent;
+use Illuminate\Auth\Access\AuthorizationException;
 use Request;
 
 class Handler extends ExceptionHandler
@@ -39,12 +40,10 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     * @param \Exception $exception
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
-     * @return void
+     * @return mixed|void
+     * @throws \Exception
      */
     public function report(Exception $exception)
     {
@@ -52,22 +51,20 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return $this|\App\Helpers\type|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function render($request, Exception $exception)
     {
         //记录异常
-        Log::error($exception);
+        SLogger::getStream()->error($exception);
 
-        if ($exception instanceof NotFoundHttpException)
-        {
+        if ($exception instanceof NotFoundHttpException) {
             $routeType = $request->segment(1);
-            switch ($routeType)
-            {
+            switch ($routeType) {
                 case 'api':
                     return response()->json(['error' => 'Not Found'], 404);
                     break;
@@ -77,17 +74,11 @@ class Handler extends ExceptionHandler
                 default:
                     return redirect('/admin');
             }
-        }
-        elseif ($exception instanceof AuthenticationException || $exception instanceof \Illuminate\Auth\Access\AuthorizationException)
-        {
+        } elseif ($exception instanceof AuthenticationException || $exception instanceof AuthorizationException) {
             return redirect('/admin/login');
-        }
-        else
-        {
-            if (app()->environment('production') || app()->environment('test'))
-            {
-                if (Request::segment(1) == 'admin')
-                {
+        } else {
+            if (app()->environment('production') || app()->environment('test')) {
+                if (Request::segment(1) == 'admin') {
                     return AdminResponseFactory::ajaxError($exception->getMessage());
                 }
                 return redirect()->back()->withErrors($exception->getMessage());
@@ -100,24 +91,22 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param  \Illuminate\Http\Request                 $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
         // 后台系统
-        if ($request->segment(1) == 'admin')
-        {
+        if ($request->segment(1) == 'admin') {
             return redirect()->guest('admin/login');
         }
 
         return redirect()->guest('web/login');
     }
-
 }
