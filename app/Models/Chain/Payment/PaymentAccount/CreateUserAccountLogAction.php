@@ -41,8 +41,8 @@ class CreateUserAccountLogAction extends AbstractHandler
         $accountLog->user_id = $params['user_id'];
         $accountLog->type = $params['type'];
         $accountLog->status = 1;
-        $accountLog->money = $params['orderAmount'];
-        $accountLog->expend = $params['payAmount'];
+        $accountLog->money = $params['amount']/100;
+        $accountLog->expend = $params['amount']/100;
         $accountLog->create_at = date('Y-m-d H:i:s');
         $accountLog->create_ip = Utils::ipAddress();
         $result = $accountLog->save();
