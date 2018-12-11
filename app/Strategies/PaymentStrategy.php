@@ -171,6 +171,26 @@ class PaymentStrategy extends AppStrategy
      * @param array $data
      * @return array
      */
+    //参数名	必选	类型	说明
+//order_id	是	string	订单号
+//amount	是	string	订单金额(分)
+//productname	是	string	商品名称
+//productdesc	是	string	商品描述
+//mobile	是	string	用户手机号
+//cardno	是	string	银行卡号
+//idcard	是	string	身份证号
+//owner	是	string	用户名
+//
+
+//$data = [];
+//$data['order_id'] = $data['order_no'];
+//$data['amount'] = $userOrder['amount'];
+//$data['productname'] = $orderType['name'];
+//$data['productdesc'] = $orderType['remark'];
+//$data['mobile'] = $userBankcard['bank_card_mobile'];
+//$data['cardno'] = $request->input('bank_card_no');
+//$data['idcard'] = $userBankcard['idcard'];
+//$data['owner'] = $userRealName['real_name'];
     public static function orderYibaoParams($data = [])
     {
         return [
@@ -180,7 +200,7 @@ class PaymentStrategy extends AppStrategy
             'productcatalog' => '1',
             'productname' => $data['productname'],
             'productdesc' => $data['productdesc'],
-            'identitytype' => 4,//用户id
+            'identitytype' => 4,
             'identityid' => $data['mobile'],
             'terminaltype' => 0,
             'terminalid' => $data['mobile'],
