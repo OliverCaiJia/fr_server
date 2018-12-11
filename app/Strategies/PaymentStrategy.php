@@ -22,6 +22,7 @@ use App\Models\Factory\UserVipFactory;
 use App\Models\Orm\UserVip;
 use App\Services\AppService;
 use App\Services\Core\Payment\PaymentService;
+use App\Services\Core\Payment\YiBao\YiBaoConfig;
 
 /**
  * payment
@@ -170,24 +171,26 @@ class PaymentStrategy extends AppStrategy
      * @param array $data
      * @return array
      */
-    public static function orderYibaoParams($data = [], $params = [])
+    public static function orderYibaoParams($data = [])
     {
         return [
             'orderid' => $data['order_id'],
             'transtime' => time(),
-            'amount' => $params['amount'],
+            'amount' => $data['amount'],
             'productcatalog' => '1',
-            'productname' => $params['productname'],
-            'productdesc' => $params['productdesc'],
-            'identitytype' => 2,//用户id
-            'identityid' => $data['user_id'],
+            'productname' => $data['productname'],
+            'productdesc' => $data['productdesc'],
+            'identitytype' => 4,//用户id
+            'identityid' => $data['mobile'],
             'terminaltype' => 0,
-            'terminalid' => $data['terminal_id'],
+            'terminalid' => $data['mobile'],
             'userip' => Utils::ipAddress(),
-            'directpaytype' => $data['pay_type'],
+            'directpaytype' => 3,
             'userua' => UserAgent::i()->getUserAgent(),
-            'fcallbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_SYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
-            'callbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_ASYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
+//            'fcallbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_SYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
+//            'callbackurl' => AppService::YIBAO_CALLBACK_URL . AppService::API_URL_YIBAO_ASYN . $params['url_params'] . PaymentStrategy::getDiffOrderCallback($params['url_params']),
+            'fcallbackurl' => YiBaoConfig::NOTIFYURL,
+            'callbackurl' => YiBaoConfig::REDIRECTURL,
             'orderexpdate' => $data['order_expired_time'],
             'cardno' => $data['cardno'],
             'idcardtype' => '01',
