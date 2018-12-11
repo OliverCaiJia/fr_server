@@ -215,6 +215,13 @@ class UserOrderStrategy extends AppStrategy
     {
         switch ($orderTypeNid) {
             case 'order_apply':
+                $userInfo = UserinfoFactory::getUserInfoByUserId($uOrder['user_id']);
+                if (empty($userInfo)) {
+                    return RestResponseFactory::ok(RestUtils::getStdObj(), RestUtils::getErrorMessage(1198), 1198);
+                }
+                if ($userInfo['service_status'] < 4) {
+                    $res = [];
+                }
                 $res[] = [
                     "order_no" => $uOrder['order_no'],
                     "order_type_nid" => $orderType['type_nid'],
