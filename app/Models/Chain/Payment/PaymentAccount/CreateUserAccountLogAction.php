@@ -37,7 +37,7 @@ class CreateUserAccountLogAction extends AbstractHandler
     {
         $accountLog = new UserAccountLog();
 
-        $accountLog->nid_no = $params['orderId'];
+        $accountLog->nid_no = $params['orderid'];
         $accountLog->user_id = $params['user_id'];
         $accountLog->type = $params['type'];
         $accountLog->status = 1;

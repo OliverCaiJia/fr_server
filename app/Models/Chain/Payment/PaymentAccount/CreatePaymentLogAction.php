@@ -27,7 +27,7 @@ class CreatePaymentLogAction extends AbstractHandler
     {
         if($this->createPaymentLog($this->params)){
             //根据订单号获取用户id
-            $order = UserOrderFactory::getOrderDetailByOrderNo($this->params['orderId']);
+            $order = UserOrderFactory::getOrderDetailByOrderNo($this->params['orderid']);
             $this->params['user_id'] = $order['user_id'];
             $orderType = UserOrderFactory::getOrderTypeNidByTypeId($order['order_type']);
             $this->params['type'] = $orderType['type_nid'];
@@ -41,7 +41,7 @@ class CreatePaymentLogAction extends AbstractHandler
 
     public function createPaymentLog($params)
     {
-        $order_no = $params['orderId'];
+        $order_no = $params['orderid'];
         $response_data = json_encode($params);
         //根据订单号修改payment_log
         $data['response_data'] = $response_data;
