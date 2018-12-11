@@ -60,13 +60,16 @@ class UserBankcardFactory extends ApiFactory
         $data = [];
         foreach ($params as $key => $val) {
             $bankinfo = BankFactory::fetchBankinfoById($val['bank_code']);
-            $data[$key]['user_bank_id'] = $val['id'];
-            $data[$key]['bank_name'] = $bankinfo['bank_name'];
-            $data[$key]['bank_short_name'] = $bankinfo['bank_short_name'];
-            $data[$key]['banklogo'] = $bankinfo['bank_logo'];
-            $data[$key]['bank_color'] = $bankinfo['bank_color'];
-            $data[$key]['is_default'] = $val['is_default'];
-            $data[$key]['bank_card_no'] = $val['bank_card_no'];
+            if (!empty($bankinfo)) {
+                $data[$key]['user_bank_id'] = $val['id'];
+                $data[$key]['bank_name'] = $bankinfo['bank_name'];
+                $data[$key]['bank_short_name'] = $bankinfo['bank_short_name'];
+                $data[$key]['banklogo'] = $bankinfo['bank_logo'];
+                $data[$key]['bank_color'] = $bankinfo['bank_color'];
+                $data[$key]['is_default'] = $val['is_default'];
+                $data[$key]['bank_card_no'] = $val['bank_card_no'];
+            }
+
         }
 
         return $data ? $data : [];

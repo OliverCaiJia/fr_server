@@ -68,10 +68,6 @@ class BanksController extends ApiController
     {
         $userId = $this->getUserId($request);
 
-
-        SLogger::getStream()->error(__CLASS__);
-        SLogger::getStream()->error(json_encode($userId));
-        SLogger::getStream()->error(__CLASS__);
         //用户绑定银行卡列表
         $userbanks['list'] = UserBankcardFactory::getUserBankList($userId);
 
@@ -82,10 +78,6 @@ class BanksController extends ApiController
             $cards = UserBankcardFactory::fetchUserbanksinfo($userbanks['list']);
         }
         $banks['list'] = $cards;
-
-        SLogger::getStream()->error(__CLASS__);
-        SLogger::getStream()->error(json_encode($banks));
-        SLogger::getStream()->error(__CLASS__);
 
         return RestResponseFactory::ok($banks);
     }
