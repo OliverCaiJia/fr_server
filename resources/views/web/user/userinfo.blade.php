@@ -111,7 +111,7 @@
                 <div>
                     <div>
                         <label for="">芝麻分：</label>
-                        <input type="number" placeholder="请填写" value="{{isset($data['zhima_score']) ? $data['zhima_score'] : ''}}" id='zhima_score' oninput="if(value.length>3)value=value.slice(0,3)"> </div>
+                        <input type="number" id='zhima_score' onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请填写" value="{{isset($data['zhima_score']) ? $data['zhima_score'] : ''}}" oninput="if(value.length>3)value=value.slice(0,3)"> </div>
                 </div>
                 <div>
                     <div>
