@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace App\Http\Controllers\Admin\Data;
 
-use App\Models\Orm\UserBorrowLog;
+use App\Models\Orm\UserChannel;
+use App\Models\Orm\Channel;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
+use DB;
 
-class UserBorrowController extends AdminController
+class ChannelDataController extends AdminController
 {
     /**用户贷款流水
      * @param Request $request
@@ -14,10 +16,13 @@ class UserBorrowController extends AdminController
      */
     public function index(Request $request)
     {
+        //查询条件
+//        $channel_title = $request->input('channel_title');
 
-        $query = UserBorrowLog::orderBy('id', 'desc')->paginate(10);
-
-        return view('admin.users.userborrow.index', compact('query'));
+        $query = UserChannel::select('status','id','channel_id','create_at','update_at')
+            ->groupBy('channel_id')
+            ->orderBy('id', 'desc')->paginate(10);
+        return view('admin.data.channeldata.index', compact('query'));
     }
 
 
