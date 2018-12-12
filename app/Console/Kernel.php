@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\OrderStatusCommand::class, //订单过期状态跑批
         Commands\YjdPullCommand::class, //一键结果
         Commands\YjdPushCommand::class, //一键贷数据推送跑批
+        Commands\ChannelUserCountCommand::class,//渠道用户统计
     ];
 
     /**
@@ -31,7 +32,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('command:yjdpush')->everyFiveMinutes(); //一键贷数据推送跑批，5分钟
         $schedule->command('command:yjdpush')->everyMinute(); //一键贷数据推送跑批，1分钟
         $schedule->command('command:tasknotactivehandle')->everyTenMinutes(); //task表未激活状态跑批处理,10分钟
-
+        $schedule->command('command:channelusercount')->dailyAt('01:00'); //每天01:00统计前一天的数据
     }
 
     /**
