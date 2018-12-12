@@ -3,6 +3,7 @@
 namespace App\Services\Core\Message\OCR;
 
 use App\Helpers\Http\HttpClient;
+use App\Helpers\Logger\SLogger;
 use App\Services\AppService;
 
 
@@ -36,7 +37,16 @@ class FaceService extends AppService
             ],
         ];
         //请求face++
-        $response = HttpClient::i()->request('POST', $url, $request);
+        $res = [];
+        try
+        {
+            $response = HttpClient::i()->request('POST', $url, $request);
+        }
+        catch (\Exception $e)
+        {
+            $res['ERROR'] = 1;
+            return $res;
+        }
         $result = $response->getBody()->getContents();
         $res = json_decode($result, true);
         return $res;
