@@ -107,10 +107,10 @@ class YjdPushCommand extends Command
                     } else {
                         $error_num++;
                         DB::rollback();
-                        SLogger::getStream()->warn('yjdpush', $data);
+                        SLogger::getStream()->warn('push_error', $data);
                     }
                 }
-                SLogger::getStream()->warn('yjdpush', $data);
+                SLogger::getStream()->warn('error', $data);
             }
 
             if (count($res_task) < $count) {
