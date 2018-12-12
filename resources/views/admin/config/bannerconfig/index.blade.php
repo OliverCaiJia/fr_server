@@ -8,11 +8,11 @@
             @include('admin.common.status')
             <div class="ibox-content">
                 <div class="col-sm-3">
-                    {{--<a href="{{ route('admin.user.create') }}" link-url="javascript:void(0)">--}}
-                        {{--<button class="btn btn-primary btn-sm" type="button">--}}
-                            {{--<i class="fa fa-plus-circle"></i> 添加管理员--}}
-                        {{--</button>--}}
-                    {{--</a>--}}
+                    <a href="{{ route('admin.bannerconfig.create') }}" link-url="javascript:void(0)">
+                        <button class="btn btn-primary btn-sm" type="button">
+                            <i class="fa fa-plus-circle"></i> 添加banner
+                        </button>
+                    </a>
                 </div>
                 <div class="row">
                     <div class="col-sm-8" style="text-align: right">
@@ -69,14 +69,14 @@
                                         <i class="fa fa-paste"></i> 详情
                                     </button>
                                 </a>
-                                {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}
-                                      {{--class="inline">--}}
-                                    {{--{{ csrf_field() }}--}}
-                                    {{--{{ method_field('DELETE') }}--}}
-                                    {{--<button class="btn btn-danger btn-xs" type="submit">--}}
-                                        {{--<i class="fa fa-trash-o"></i> 删除--}}
-                                    {{--</button>--}}
-                                {{--</form>--}}
+                                <form action="{{ route('admin.bannerconfig.destroy', ['id' => $item->id]) }}" method="post"
+                                      class="inline">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button class="btn btn-danger btn-xs" type="submit">
+                                        <i class="fa fa-trash-o"></i> 删除
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
