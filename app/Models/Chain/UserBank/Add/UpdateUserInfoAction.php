@@ -27,7 +27,7 @@ class UpdateUserInfoAction extends AbstractHandler
      */
     public function handleRequest()
     {
-        if ($this->UpdateUserInfo($this->params) == true) {
+        if ($this->updateUserInfo($this->params) == true) {
             $this->setSuccessor(new CreateUserBanksAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
@@ -41,13 +41,13 @@ class UpdateUserInfoAction extends AbstractHandler
      * @param $params
      * @return bool
      */
-    private function UpdateUserInfo($params)
+    private function updateUserInfo($params)
     {
         //获取当前状态
         $userInfoRes = UserinfoFactory::getUserInfoByUserId($params['user_id']);
-        if($userInfoRes['service_status'] == 1){
+        if ($userInfoRes['service_status'] == 1) {
             $data = ['service_status' => 2];
-            $userInfo = UserinfoFactory::UpdateUserInfoStatus($params['user_id'],$data);
+            $userInfo = UserinfoFactory::updateUserInfoStatus($params['user_id'], $data);
             return $userInfo ? true : false;
         }
 

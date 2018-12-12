@@ -179,7 +179,7 @@ class UserOrderStrategy extends AppStrategy
                     //更新
                     $userInfo['service_status'] = 5;//增值服务状态
                     $userInfo['update_at'] = date('Y-m-d H:i:s');
-                    $extraOrder = UserInfoFactory::UpdateUserInfoStatus($userId, $userInfo);
+                    $extraOrder = UserInfoFactory::updateUserInfoStatus($userId, $userInfo);
                     if (!$extraOrder) {
                         return 'ERROR';
                     }
@@ -266,5 +266,4 @@ class UserOrderStrategy extends AppStrategy
         }
         return $res;
     }
-
 }

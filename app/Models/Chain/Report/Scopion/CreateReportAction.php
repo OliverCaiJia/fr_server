@@ -37,7 +37,7 @@ class CreateReportAction extends AbstractHandler
 
     private function createReport($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
         $report['user_id'] = $params['user_id'];
         $report['report_code'] = 'R-' . UserOrderStrategy::createOrderNo();
         $report['report_data'] = json_encode($params['report_data']);

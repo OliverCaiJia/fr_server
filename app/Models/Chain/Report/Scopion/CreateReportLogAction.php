@@ -37,7 +37,7 @@ class CreateReportLogAction extends AbstractHandler
 
     private function createReportLog($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
 
         $reportLog['user_report_type_id'] = $params['user_report_type_id'];
         $reportLog['user_id'] = $params['user_id'];
@@ -52,7 +52,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          * 反欺诈
          */
-        SLogger::getStream()->error(__CLASS__.'anti_fraud');
+        SLogger::getStream()->info(__CLASS__.'anti_fraud');
 
         if (isset($params['anti_fraud'])) {
             $reportLog['data'] = json_encode($params['anti_fraud']);
@@ -65,7 +65,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          * 申请准入
          */
-        SLogger::getStream()->error(__CLASS__.'application');
+        SLogger::getStream()->info(__CLASS__.'application');
         if (isset($params['application'])) {
             $reportLog['data'] = json_encode($params['application']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -76,7 +76,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          * 魔杖2.0系列-额度评估(账户)
          */
-        SLogger::getStream()->error(__CLASS__.'credit_evaluation');
+        SLogger::getStream()->info(__CLASS__.'credit_evaluation');
         if (isset($params['credit_evaluation'])) {
             $reportLog['data'] = json_encode($params['credit_evaluation']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -87,7 +87,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          *额度评估(电商)
          */
-        SLogger::getStream()->error(__CLASS__.'credit_qualification');
+        SLogger::getStream()->info(__CLASS__.'credit_qualification');
         if (isset($params['credit_qualification'])) {
             $reportLog['data'] = json_encode($params['credit_qualification']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -98,7 +98,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          *贷后行为
          */
-        SLogger::getStream()->error(__CLASS__.'post_load');
+        SLogger::getStream()->info(__CLASS__.'post_load');
         if (isset($params['post_load'])) {
             $reportLog['data'] = json_encode($params['post_load']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -109,7 +109,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          *黑灰名单
          */
-        SLogger::getStream()->error(__CLASS__.'black_gray');
+        SLogger::getStream()->info(__CLASS__.'black_gray');
         if (isset($params['black_gray'])) {
             $reportLog['data'] = json_encode($params['black_gray']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -120,7 +120,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          *多头报告
          */
-        SLogger::getStream()->error(__CLASS__.'multi_info');
+        SLogger::getStream()->info(__CLASS__.'multi_info');
         if (isset($params['multi_info'])) {
             $reportLog['data'] = json_encode($params['multi_info']);
             $reportLog = UserOrderFactory::createReportLog($reportLog);
@@ -132,7 +132,7 @@ class CreateReportLogAction extends AbstractHandler
         /**
          * 个人信息
          */
-        SLogger::getStream()->error(__CLASS__.'credit_qualification');
+        SLogger::getStream()->info(__CLASS__.'credit_qualification');
         if (isset($params['credit_qualification'])) {
             $userPersonal = ReportStrategy::getPersonal($params);
             UserOrderFactory::createPersonal($userPersonal);

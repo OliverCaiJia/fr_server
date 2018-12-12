@@ -38,7 +38,7 @@ class GetLogParamAction extends AbstractHandler
 
     private function getParams($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
         //查询订单
         $orderNo = $params['order_no'];
         if (!$orderNo) {
@@ -46,7 +46,7 @@ class GetLogParamAction extends AbstractHandler
             return false;
         }
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
-        if (!$userOrder){
+        if (!$userOrder) {
             $this->error['error'] = '未找到该订单';
             return false;
         }

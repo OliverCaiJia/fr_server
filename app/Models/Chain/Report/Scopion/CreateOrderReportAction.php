@@ -34,7 +34,7 @@ class CreateOrderReportAction extends AbstractHandler
 
     private function createOrderReport($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
 
         $orderReportParam = [];
         $orderReportParam['order_id'] = $params['order_id'];

@@ -39,7 +39,7 @@ class CreatePushTaskAction extends AbstractHandler
 
     private function getLoanParams($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
         $userBasic = UserBasicFactory::getUserBasicByUserId($params['user_id']);
         $userLocationArr = explode(',', $userBasic['user_location']);
         if (isset($userLocationArr) && count($userLocationArr) >= 2) {
@@ -79,7 +79,7 @@ class CreatePushTaskAction extends AbstractHandler
             'city' => $city,
             'money' => empty($userOrder['money']) ? 10000 : $userOrder['money']
         );
-        SLogger::getStream()->error(__CLASS__ . '====' . json_encode($requestData));
+        SLogger::getStream()->info(__CLASS__ . '====' . json_encode($requestData));
 
         $data['user_id'] = $params['user_id'];
         $data['type_id'] = 0;//平台推送

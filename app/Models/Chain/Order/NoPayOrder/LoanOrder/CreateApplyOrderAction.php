@@ -33,7 +33,7 @@ class CreateApplyOrderAction extends AbstractHandler
 
     private function createApplyOrder($params)
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
         $data = [];
         $data['user_id'] = $params['user_id'];
         $orderTypeNid = 'order_apply';
@@ -42,7 +42,7 @@ class CreateApplyOrderAction extends AbstractHandler
         $orderType = UserOrderFactory::getOrderTypeByTypeNid($orderTypeNid);
         $data['order_type'] = $orderType['id'];
         $data['p_order_id'] = 0;//没有父级订单
-        $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));;
+        $data['order_expired'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
         $data['amount'] = 0;//免费订单金额为零
         $borrowLog = UserOrderFactory::getBorrowLogByUserId($params['user_id']);
         $data['money'] = $borrowLog['loan_amount'];

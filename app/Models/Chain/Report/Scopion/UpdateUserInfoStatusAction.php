@@ -18,12 +18,12 @@ class UpdateUserInfoStatusAction extends AbstractHandler
 
     public function handleRequest()
     {
-        SLogger::getStream()->error(__CLASS__);
+        SLogger::getStream()->info(__CLASS__);
 
         //todo::
         $data['service_status'] = 3;//信用报告状态
         $data['update_at'] = date('Y-m-d H:i:s', time());
-        $result = UserinfoFactory::UpdateUserInfoStatus($this->params['user_id'], $data);
+        $result = UserinfoFactory::updateUserInfoStatus($this->params['user_id'], $data);
         if ($result) {
             return $result;
         }

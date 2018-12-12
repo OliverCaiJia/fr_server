@@ -27,7 +27,7 @@ class UpdateUserInfoAction extends AbstractHandler
      */
     public function handleRequest()
     {
-        if ($this->UpdateUserInfo($this->params) == true) {
+        if ($this->updateUserInfo($this->params) == true) {
             $this->setSuccessor(new CreateUserIdCardAction($this->params));
             return $this->getSuccessor()->handleRequest();
         } else {
@@ -41,10 +41,10 @@ class UpdateUserInfoAction extends AbstractHandler
      * @param $params
      * @return bool
      */
-    private function UpdateUserInfo($params)
+    private function updateUserInfo($params)
     {
         $data = ['service_status' => 1];
-        $userInfo = UserinfoFactory::UpdateUserInfoStatus($params['user_id'],$data);
+        $userInfo = UserinfoFactory::updateUserInfoStatus($params['user_id'], $data);
         return $userInfo ? true : false;
     }
 }

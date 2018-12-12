@@ -136,9 +136,6 @@ class LoanController extends ApiController
         }
         if (!empty($userOrderNormal)) {
             //非空返回
-            SLogger::getStream()->error(__CLASS__.'2222reapply');
-            SLogger::getStream()->error(__CLASS__.json_encode($userOrderNormal));
-            SLogger::getStream()->error(__CLASS__.'2222reapply');
             return RestResponseFactory::ok($userOrderNormal);
         }
     }

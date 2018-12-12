@@ -31,7 +31,7 @@ class IfOrderPaidAction extends AbstractHandler
     {
         $orderNo = $params['order_no'];
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($orderNo);
-        SLogger::getStream()->error('==================================='.json_encode($orderNo).'===========================================');
+        SLogger::getStream()->info('==================='.json_encode($orderNo).'=======================');
         if (empty($userOrder)) {//处理中
             $this->error['error'] = "您好，订单不存在！";
             return false;

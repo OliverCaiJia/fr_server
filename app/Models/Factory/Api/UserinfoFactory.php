@@ -12,14 +12,14 @@ use App\Models\Orm\UserInfo;
  */
 class UserinfoFactory extends AbsModelFactory
 {
-
     /**
      * 获取用户信息
      * @param $user_id
      * @return array
      */
-    public static function getUserInfoByUserId($user_id){
-        $user_res = UserInfo::where('user_id','=',$user_id)->first();
+    public static function getUserInfoByUserId($user_id)
+    {
+        $user_res = UserInfo::where('user_id', '=', $user_id)->first();
         return $user_res ? $user_res->toArray() : [];
     }
 
@@ -36,8 +36,9 @@ class UserinfoFactory extends AbsModelFactory
      * @return mixed
      * 修改用户状态
      */
-    public static function UpdateUserInfoStatus($user_id,$data){
-        return UserInfo::where('user_id','=',$user_id)
+    public static function updateUserInfoStatus($user_id, $data)
+    {
+        return UserInfo::where('user_id', '=', $user_id)
             ->update($data);
     }
 
@@ -47,7 +48,8 @@ class UserinfoFactory extends AbsModelFactory
      * 修改用户信息
      */
 
-    public static function updateUserInfoData($whereInfo,$data){
+    public static function updateUserInfoData($whereInfo, $data)
+    {
         return UserInfo::where($whereInfo)->update($data);
     }
 }

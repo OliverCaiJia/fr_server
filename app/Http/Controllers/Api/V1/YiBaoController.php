@@ -35,24 +35,23 @@ class YiBaoController extends ApiController
     {
         //获取回调结果
         $params = $request->input();
-        if(!isset($params['data']) || !isset($params['encryptkey']))
-        {
+        if (!isset($params['data']) || !isset($params['encryptkey'])) {
             return 'ERROR';
         }
         $resData = YiBaoService::i()->undoData($params['data'], $params['encryptkey']);
 
-        SLogger::getStream()->error('========================');
-        SLogger::getStream()->error(json_encode($resData));
-        SLogger::getStream()->error('========================');
+        SLogger::getStream()->info('========================');
+        SLogger::getStream()->info(json_encode($resData));
+        SLogger::getStream()->info('========================');
         //订单支付成功
         if ($resData['status'] != 1) {
             return 'ERROR';
         }
         //获取订单编号
         $data['order_no'] = $resData['orderid'];
-        SLogger::getStream()->error('========================');
-        SLogger::getStream()->error(json_encode($data['order_no']));
-        SLogger::getStream()->error('========================');
+        SLogger::getStream()->info('========================');
+        SLogger::getStream()->info(json_encode($data['order_no']));
+        SLogger::getStream()->info('========================');
         $userOrder = UserOrderFactory::getUserOrderByOrderNo($data['order_no']);
         if (empty($userOrder)) {
             return 'ERROR';
