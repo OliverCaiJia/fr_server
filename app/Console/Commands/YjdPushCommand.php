@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\UserinfoFactory;
 use App\Models\Factory\Api\UserLoanTaskFactory;
 use App\Models\Orm\UserLoanTask;
@@ -52,19 +53,21 @@ class YjdPushCommand extends Command
         $error_num = 0;
         DB::beginTransaction();
 
-        while(true){
-            $res_task = UserLoanTask::where('status','=',1)->skip($start)->take($count)->get()->toArray();
+        while (true) {
+            $res_task = UserLoanTask::where('status', '=', 1)->skip($start)->take($count)->get()->toArray();
 
-            if(empty($res_task)) break;
+            if (empty($res_task)) {
+                break;
+            }
 
-            foreach ($res_task as $task_key => $task_val){
-                $request_data = json_decode($res_task[$task_key]['request_data'],true);
+            foreach ($res_task as $task_key => $task_val) {
+                $request_data = json_decode($res_task[$task_key]['request_data'], true);
                 $data = [
-                    'mobile' => isset($request_data['mobile'] ) ? $request_data['mobile'] : '',
-                    'name' => isset($request_data['name'] ) ? $request_data['name'] : '',
-                    'certificate_no' => isset($request_data['certificate_no'] ) ? $request_data['certificate_no'] : '',
+                    'mobile' => isset($request_data['mobile']) ? $request_data['mobile'] : '',
+                    'name' => isset($request_data['name']) ? $request_data['name'] : '',
+                    'certificate_no' => isset($request_data['certificate_no']) ? $request_data['certificate_no'] : '',
                     'sex' => isset($request_data['sex']) ? $request_data['sex'] : '',
-                    'birthday' => isset($request_data['birthday']) ? date('Ymd',strtotime($request_data['birthday'])) : '',
+                    'birthday' => isset($request_data['birthday']) ? date('Ymd', strtotime($request_data['birthday'])) : '',
                     'has_insurance' => isset($request_data['has_insurance']) ? $request_data['has_insurance'] : '',
                     'house_info' => isset($request_data['house_info']) ? $request_data['house_info'] : '',
                     'car_info' => isset($request_data['car_info']) ? $request_data['car_info'] : '',
@@ -81,35 +84,41 @@ class YjdPushCommand extends Command
                     'money' => isset($request_data['money']) ? $request_data['money'] : '',
                 ];
                 $yjd_result = YiJianDaiPushService::o()->sendPush($data);
-                $yjd_res = json_decode($yjd_result,true);
-                if($yjd_res['error_code'] == 0){
+                $yjd_res = json_decode($yjd_result, true);
+                if ($yjd_res['error_code'] == 0) {
                     //update task status
                     $task_data = [
                         'status' => 2,
                         'response_data' => $yjd_result,
                         'update_at' => date('Y-m-d H:i:s')
                     ];
-                    $task_up = UserLoanTaskFactory::updateDataById($task_val['id'],$task_data);
+                    $task_up = UserLoanTaskFactory::updateDataById($task_val['id'], $task_data);
 
                     //update user_info
-                    $whereInfo = ['user_id' => $task_val['user_id'],'service_status' => 3];
+                    $whereInfo = ['user_id' => $task_val['user_id'], 'service_status' => 3];
                     $userInfo_data = [
                         'service_status' => 4,
                         'update_at' => date('Y-m-d H:i:s')
                     ];
-                    $userInfo_up = UserinfoFactory::updateUserInfoData($whereInfo,$userInfo_data);
+                    $userInfo_up = UserinfoFactory::updateUserInfoData($whereInfo, $userInfo_data);
 
-                    if($task_up && $userInfo_up !== false){
+                    if ($task_up && $userInfo_up !== false) {
                         DB::commit();
-                    }else{
+                    } else {
                         $error_num++;
                         DB::rollback();
+                        SLogger::getStream()->warn('yjdpush', $data);
                     }
                 }
+                SLogger::getStream()->warn('yjdpush', $data);
             }
 
-            if(count($res_task) < $count) break;
-            if($error_num >= $count) break;
+            if (count($res_task) < $count) {
+                break;
+            }
+            if ($error_num >= $count) {
+                break;
+            }
         }
     }
 }

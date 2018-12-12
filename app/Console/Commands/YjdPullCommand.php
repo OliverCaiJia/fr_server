@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Factory\Api\UserLoanFactory;
 use App\Models\Factory\Api\UserLoanLogFactory;
 use App\Models\Factory\Api\UserOrderFactory;
@@ -58,34 +59,37 @@ class YjdPullCommand extends Command
         $error_num = 0;
         DB::beginTransaction();
 
-        while(true){
+        while (true) {
             //获取任务列表
-            $taskList = UserLoanTask::leftjoin(UserAuth::TABLE_NAME,'user_id','=',UserAuth::TABLE_NAME.'.id')
-                        ->select(UserLoanTask::TABLE_NAME.'.*',UserAuth::TABLE_NAME.'.mobile')
-                        ->where(UserLoanTask::TABLE_NAME.'.type_id',0)
-                        ->where(UserLoanTask::TABLE_NAME.'.status',2)
-                        ->skip($start)
-                        ->take($count)
-                        ->get()
-                        ->toArray();
+            $taskList = UserLoanTask::leftjoin(UserAuth::TABLE_NAME, 'user_id', '=', UserAuth::TABLE_NAME . '.id')
+                ->select(UserLoanTask::TABLE_NAME . '.*', UserAuth::TABLE_NAME . '.mobile')
+                ->where(UserLoanTask::TABLE_NAME . '.type_id', 0)
+                ->where(UserLoanTask::TABLE_NAME . '.status', 2)
+                ->skip($start)
+                ->take($count)
+                ->get()
+                ->toArray();
 
-            if(empty($taskList)) break;
+            if (empty($taskList)) {
+                break;
+            }
 
             //获取推送结果
-            foreach($taskList as $k=>$v){
-                if(strtotime("{$v['send_at']}+30 day") < strtotime(date('Y-m-d H:i:s'))){
-                    $resTaskExpire = UserLoanTaskFactory::updateStatusById($v['id'],9); //task任务失效处理
-                    $resOrderExpire = UserOrderFactory::updateOrderStatusByUserIdAndOrderNo($v['user_id'],$v['loan_order_no'],2); //根据失效task对应order_no修改订单
-                    if($resTaskExpire && $resOrderExpire){
+            foreach ($taskList as $k => $v) {
+                if (strtotime("{$v['send_at']}+30 day") < strtotime(date('Y-m-d H:i:s'))) {
+                    $resTaskExpire = UserLoanTaskFactory::updateStatusById($v['id'], 9); //task任务失效处理
+                    $resOrderExpire = UserOrderFactory::updateOrderStatusByUserIdAndOrderNo($v['user_id'], $v['loan_order_no'], 2); //根据失效task对应order_no修改订单
+                    if ($resTaskExpire && $resOrderExpire) {
                         DB::commit();
-                    }else{
+                    } else {
                         DB::rollback();
+                        SLogger::getStream()->warn('yjdpull', $v);
                     }
-                }else{
+                } else {
                     //获取订单信息
                     $data = UserOrderFactory::getOrderDetailByOrderNo($v['loan_order_no']);
 
-                    if(empty($data)){
+                    if (empty($data)) {
                         continue;
                     }
 
@@ -104,13 +108,13 @@ class YjdPullCommand extends Command
                     UserLoanLogFactory::createUserLoanLog($data);
 
                     //更新数据
-                    if($res['error_code'] == 0 && !empty($res['data']['list'])){
+                    if ($res['error_code'] == 0 && !empty($res['data']['list'])) {
                         //更新loan_task
                         $taskRes = UserLoanTaskFactory::updateTaskResult($data);
                         //记录loan
                         $arr = [];
                         $resData = [];
-                        foreach($res['data']['list'] as $res_key=>$res_val){
+                        foreach ($res['data']['list'] as $res_key => $res_val) {
                             $arr['user_id'] = $data['user_id'];
                             $arr['platform_id'] = 1;
                             $arr['loan_order_no'] = $data['order_no'];
@@ -122,20 +126,25 @@ class YjdPullCommand extends Command
                             $resData[] = $arr;
                         }
                         $loanRes = UserLoan::insert($resData);
-                        if($taskRes && $loanRes){
+                        if ($taskRes && $loanRes) {
                             DB::commit();
-                        }else{
+                        } else {
                             $error_num++;
                             DB::rollback();
+                            SLogger::getStream()->warn('yjdpull', $resData);
                         }
-                    }else{
+                    } else {
                         DB::commit();
                     }
                 }
             }
 
-            if(count($taskList) < $count) break;
-            if($error_num >= $count) break;
+            if (count($taskList) < $count) {
+                break;
+            }
+            if ($error_num >= $count) {
+                break;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Logger\SLogger;
 use App\Models\Orm\ChannelDataCount;
 use App\Models\Orm\UserChannel;
 use Illuminate\Console\Command;
@@ -41,11 +42,11 @@ class ChannelUserCountCommand extends Command
     public function handle()
     {
         $date = date('Y-m-d', strtotime('-1 day'));
-        $start = $date.' 00:00:00';
-        $end = $date.' 23:59:59';
+        $start = $date . ' 00:00:00';
+        $end = $date . ' 23:59:59';
         UserChannel::join('channel', 'user_channel.channel_id', '=', 'channel.id')
             ->select(DB::raw('count(sgd_user_channel.channel_id) as register_count'), 'user_channel.channel_id', 'channel.channel_title', 'channel.channel_nid')
-            ->whereBetween('user_channel.create_at', [$start,$end])
+            ->whereBetween('user_channel.create_at', [$start, $end])
             ->groupBy('user_channel.channel_id')
             ->chunk(100, function ($channel_res) {
                 foreach ($channel_res as $channel_val) {
@@ -57,7 +58,10 @@ class ChannelUserCountCommand extends Command
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ];
-                    ChannelDataCount::insert($data);
+                    $res = ChannelDataCount::insert($data);
+                    if (!$res) {
+                        SLogger::getStream()->warn('yjdpull', $data);
+                    }
                 }
             });
     }
