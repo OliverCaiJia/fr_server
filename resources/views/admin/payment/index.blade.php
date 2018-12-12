@@ -39,7 +39,6 @@
                     <tr>
                         <th>ID</th>
                         <th>用户名</th>
-                        <th>银行</th>
                         <th>支付平台</th>
                         <th>交易流水号</th>
                         <th>支付渠道</th>
@@ -59,7 +58,6 @@
                         <tr>
                             <td style="word-break:break-all;max-width:350px;">{{$item->id}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Users\UsersFactory::getUsername($item->user_id)}}</td>
-                            <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Bank\BankFactory::getBankName($item->bank_id)}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Payment\PaymentFactory::getPaymentName($item->payment_id)}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->payment_order_no}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{App\Models\Factory\Admin\Payment\PaymentFactory::getPaymentTypeName($item->payment_type)}}</td>
