@@ -5,6 +5,7 @@
  * Date: 17-10-26
  * Time: 上午10:05
  */
+
 namespace App\Services\Core\Payment\YiBao;
 
 use App\Helpers\Http\HttpClient;
@@ -25,11 +26,10 @@ class YiBaoService extends PaymentService
      */
     public function bankCardInfo($params = [])
     {
-        if(!is_array($params))
-        {
+        if (!is_array($params)) {
             return '参数必须是数组！';
         }
-        $url = YiBaoConfig::YIBAO_URL .'/payapi/api/bankcard/check';
+        $url = YiBaoConfig::YIBAO_URL . '/payapi/api/bankcard/check';
         $data = self::getParams($params);
         $request = [
             'form_params' => $data
@@ -40,15 +40,13 @@ class YiBaoService extends PaymentService
         $res = json_decode($result, true);
 
         //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
+        if (isset($res['error_code'])) {
             return [];
         }
 
         //对返回结果进行解码
         $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
+        if (!is_array($arr)) {
             return [];
         }
 
@@ -71,11 +69,10 @@ class YiBaoService extends PaymentService
      */
     public function orderRefund($params = [])
     {
-        if(!is_array($params))
-        {
+        if (!is_array($params)) {
             return '参数必须是数组！';
         }
-        $url = YiBaoConfig::YIBAO_URL .'/merchant/query_server/direct_refund';
+        $url = YiBaoConfig::YIBAO_URL . '/merchant/query_server/direct_refund';
         $data = self::getParams($params);
 
         $request = [
@@ -86,15 +83,13 @@ class YiBaoService extends PaymentService
         $result = $response->getBody()->getContents();
         $res = json_decode($result, true);
         //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
+        if (isset($res['error_code'])) {
             return [];
         }
 
         //对返回结果进行解码
         $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
+        if (!is_array($arr)) {
             return [];
         }
 
@@ -112,11 +107,10 @@ class YiBaoService extends PaymentService
      */
     public function orderQuery($params = [])
     {
-        if(!is_array($params))
-        {
+        if (!is_array($params)) {
             return '参数必须是数组！';
         }
-        $url = YiBaoConfig::YIBAO_URL .'/merchant/query_server/pay_single';
+        $url = YiBaoConfig::YIBAO_URL . '/merchant/query_server/pay_single';
         $data = self::getParams($params);
         $request = [
             'query' => $data
@@ -126,15 +120,13 @@ class YiBaoService extends PaymentService
         $result = $response->getBody()->getContents();
         $res = json_decode($result, true);
         //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
+        if (isset($res['error_code'])) {
             return [];
         }
 
         //对返回结果进行解码
         $arr = self::undoData($res['data'], $res['encryptkey']);
-        if(!is_array($arr))
-        {
+        if (!is_array($arr)) {
             return [];
         }
 
@@ -149,11 +141,10 @@ class YiBaoService extends PaymentService
      */
     public function orderPay($params = [])
     {
-        if(!is_array($params))
-        {
+        if (!is_array($params)) {
             return '参数必须是数组！';
         }
-        $url = YiBaoConfig::YIBAO_URL .'/paymobile/payapi/request';
+        $url = YiBaoConfig::YIBAO_URL . '/paymobile/payapi/request';
         $data = self::getParams($params);
 
         $request = [
@@ -164,18 +155,16 @@ class YiBaoService extends PaymentService
         $result = $response->getBody()->getContents();
         $res = json_decode($result, true);
 
-//        SLogger::getStream()->info('orderPay',['message'=>$res,'code'=>1001]);
+        SLogger::getStream()->info('orderPay', ['message' => $res, 'code' => 1001]);
         //对返回结果进行解码
-        if(isset($res['error_code']))
-        {
+        if (isset($res['error_code'])) {
             return [];
         }
 
         $arr = self::undoData($res['data'], $res['encryptkey']);
 
-//        SLogger::getStream()->info('orderPayUndo',['message'=>$arr,'code'=>1002]);
-        if(!is_array($arr))
-        {
+        SLogger::getStream()->info('orderPayUndo', ['message' => $arr, 'code' => 1002]);
+        if (!is_array($arr)) {
             return [];
         }
 
@@ -189,31 +178,27 @@ class YiBaoService extends PaymentService
      * @param string $encryptkey 接口返回的encryptkey数据
      * @return mixed|string
      */
-    public static function undoData($data ,$encryptkey)
+    public static function undoData($data, $encryptkey)
     {
         //获取解密的码
-        $AESKey = YiBaoConfig::getYeepayAESKey($encryptkey ,YiBaoConfig::MERCHANT_PRIVATE_KEY);
+        $AESKey = YiBaoConfig::getYeepayAESKey($encryptkey, YiBaoConfig::MERCHANT_PRIVATE_KEY);
 
         $return = YiBaoConfig::AESDecryptData($data, $AESKey);
         $return = json_decode($return, true);
 
-        if (!array_key_exists('sign', $return))
-        {
-            if (array_key_exists('error_code', $return))
-            {
-                return $return['error_msg']. '-不存在sign-' .$return['error_code'];
+        if (!array_key_exists('sign', $return)) {
+            if (array_key_exists('error_code', $return)) {
+                return $return['error_msg'] . '-不存在sign-' . $return['error_code'];
             }
         } else {
-            if (!YiBaoConfig::RSAVerify($return, $return['sign'], YiBaoConfig::YOP_PUBLIC_KEY))
-            {
+            if (!YiBaoConfig::RSAVerify($return, $return['sign'], YiBaoConfig::YOP_PUBLIC_KEY)) {
                 return '请求返回签名验证失败';
             }
         }
-        if (array_key_exists('error', $return))
-        {
-            return $return['error'].$return['error_code'];
-        } elseif(array_key_exists('error_msg', $return)) {
-            return $return['error_msg'].$return['error_code'];
+        if (array_key_exists('error', $return)) {
+            return $return['error'] . $return['error_code'];
+        } elseif (array_key_exists('error_msg', $return)) {
+            return $return['error_msg'] . $return['error_code'];
         }
 
         return $return;
@@ -230,10 +215,10 @@ class YiBaoService extends PaymentService
     {
         $params['merchantaccount'] = YiBaoConfig::MERCHANTNO;
         //生成签名
-        $params['sign'] = YiBaoConfig::RSASign($params ,YiBaoConfig::MERCHANT_PRIVATE_KEY);
+        $params['sign'] = YiBaoConfig::RSASign($params, YiBaoConfig::MERCHANT_PRIVATE_KEY);
         //生成参数encryptkey
         $AESKey = YiBaoConfig::generateAESKey();
-        $arr['encryptkey'] = YiBaoConfig::getEncryptkey($AESKey ,YiBaoConfig::YOP_PUBLIC_KEY);
+        $arr['encryptkey'] = YiBaoConfig::getEncryptkey($AESKey, YiBaoConfig::YOP_PUBLIC_KEY);
 
         //生成参数merchantaccount
         $arr['merchantaccount'] = YiBaoConfig::MERCHANTNO;
@@ -243,6 +228,4 @@ class YiBaoService extends PaymentService
 
         return $arr;
     }
-
-
 }

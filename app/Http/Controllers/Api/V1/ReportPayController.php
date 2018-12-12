@@ -70,9 +70,6 @@ class ReportPayController extends ApiController
 
         $yibaoParams = PaymentStrategy::orderYibaoParams($data);
         //todo::先写死金额，测试
-        SLogger::getStream()->info(__CLASS__);
-        SLogger::getStream()->info(json_encode($yibaoParams));
-        SLogger::getStream()->info(__CLASS__);
         $res = [];
         $result = PaymentService::i()->order($yibaoParams);
         if (empty($result)) {
