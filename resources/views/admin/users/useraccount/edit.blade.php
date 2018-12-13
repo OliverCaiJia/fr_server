@@ -3,11 +3,11 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>修改用户</h5>
+                <h5>修改用户贷款流水</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
-                <a href="{{route('admin.user.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回用户列表</button></a>
+                <a href="{{route('admin.useraccount.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回用户列表</button></a>
                 <div class="hr-line-dashed m-t-sm m-b-sm"></div>
                 <form class="form-horizontal m-t-md" action="{{ route('admin.useraccount.update', $user->id) }}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                     {!! csrf_field() !!}

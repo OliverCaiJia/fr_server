@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
     Route::group(['namespace' => 'Data', 'prefix' => 'data'], function () {
         //渠道统计
         Route::resource('channeldata', 'ChannelDataController');
+        //产品统计
+        Route::resource('productdata', 'ProductDataController');
     });
 
 

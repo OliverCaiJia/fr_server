@@ -47,7 +47,6 @@
                         <th>发送状态</th>
                         <th>发送时间</th>
                         <th>返回时间</th>
-                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -77,21 +76,7 @@
                             </td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->send_time or ''}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->response_time or ''}}</td>
-                            <td>
-                                {{--<a href="{{ route('admin.sms.destroy', ['id' => $item->id]) }}">--}}
-                                    {{--<button class="btn btn-primary btn-xs" type="button">--}}
-                                        {{--<i class="fa fa-paste"></i> 删除--}}
-                                    {{--</button>--}}
-                                {{--</a>--}}
-                                <form action="{{ route('admin.sms.destroy', ['id' => $item->id]) }}" method="post"
-                                      class="inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger btn-xs" type="submit">
-                                        <i class="fa fa-trash-o"></i> 删除
-                                    </button>
-                                </form>
-                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>

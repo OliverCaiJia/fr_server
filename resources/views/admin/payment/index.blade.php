@@ -24,11 +24,11 @@
                                        autocomplete="off"
                                        id="user_name">
                             </div>
-                            <div class="form-group">
-                                <label for="username">手机号:</label>
-                                <input placeholder="手机号" name="mobile" class="form-control input-sm"
-                                       autocomplete="off" id="mobile">
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label for="username">手机号:</label>--}}
+                                {{--<input placeholder="手机号" name="mobile" class="form-control input-sm"--}}
+                                       {{--autocomplete="off" id="mobile">--}}
+                            {{--</div>--}}
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
                         </form>
