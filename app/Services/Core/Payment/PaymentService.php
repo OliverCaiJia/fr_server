@@ -46,15 +46,8 @@ class PaymentService extends AppService
      */
     public function orderQuery($params)
     {
-        switch (self::$nid)
-        {
-            case 'YBZF':
-                $re = YiBaoService::i()->orderQuery($params);
-                break;
-            default:
-                $re = YiBaoService::i()->orderQuery($params);
-                break;
-        }
+
+        $re = YiBaoService::i()->orderQuery($params);
 
         return $re;
     }
