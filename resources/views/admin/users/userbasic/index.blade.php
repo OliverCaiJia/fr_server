@@ -18,6 +18,12 @@
                     <div class="col-sm-8" style="text-align: right">
                         <form action="{{ Request::url() }}" class="form-inline" method="get" id="myform">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label for="name">用户名:</label>
+                                <input placeholder="用户名" name="user_name" class="form-control input-sm"
+                                       autocomplete="off"
+                                       id="user_name">
+                            </div>
                             {{--<div class="form-group">--}}
                             {{--<label for="status">状态:</label>--}}
                             {{--<select class="form-control m-b" name="status">--}}
@@ -75,7 +81,7 @@
                         <th>微粒贷</th>
                         <th>创建时间</th>
                         <th>更新时间</th>
-                        <th>操作</th>
+                        {{--<th>操作</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -179,12 +185,13 @@
                             </td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->create_at }}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->update_at}}</td>
-                            <td>
-                                <a href="{{--{{ route('admin.userinfo.edit', ['id' => $item->id]) }}--}}">
-                                    <button class="btn btn-primary btn-xs" type="button">
-                                        <i class="fa fa-paste"></i> 修改
-                                    </button>
-                                </a>
+                            {{--<td>--}}
+                                {{--<a href="{{ route('admin.userinfo.edit', ['id' => $item->id]) }}">--}}
+                                {{--<a href="">--}}
+                                    {{--<button class="btn btn-primary btn-xs" type="button">--}}
+                                        {{--<i class="fa fa-paste"></i> 修改--}}
+                                    {{--</button>--}}
+                                {{--</a>--}}
                                 {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}
                                 {{--class="inline">--}}
                                 {{--{{ csrf_field() }}--}}
@@ -193,7 +200,7 @@
                                 {{--<i class="fa fa-trash-o"></i> 删除--}}
                                 {{--</button>--}}
                                 {{--</form>--}}
-                            </td>
+                            {{--</td>--}}
                         </tr>
                     @endforeach
                     </tbody>
@@ -207,8 +214,7 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#user_name').val('{{ Request::input('user_name') }}');
 
         function refresh() {
             document.getElementById("myform").reset();

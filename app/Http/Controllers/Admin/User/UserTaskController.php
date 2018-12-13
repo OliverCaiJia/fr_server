@@ -19,7 +19,6 @@ class UserTaskController extends AdminController
     public function index(Request $request)
     {
         //查询条件
-        $mobile = $request->input('mobile');
         $username = $request->input('user_name');
 
         $userIds = $query = UserAuth::when($username, function ($query) use ($username) {
