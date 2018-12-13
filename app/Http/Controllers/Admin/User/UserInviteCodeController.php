@@ -2,32 +2,44 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Models\Orm\UserAuth;
 use App\Models\Orm\UserInviteCode;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
 class UserInviteCodeController extends AdminController
 {
-    /**注册用户
-     * @param Request $request
+    /**
+     * 用户生成邀请码页.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         //查询条件
-//        $status = $request->input('status');
-//        $service_status = $request->input('service_status');
-//        $has_userinfo = $request->input('has_userinfo');
+        $username = $request->input('user_name');
 
-        $query = UserInviteCode::orderBy('id', 'desc')->paginate(10);
+        $userIds = UserAuth::when($username, function ($query) use ($username) {
+            return $query->where('user_name', 'like', '%' . $username . '%');
+        })->pluck('id');
+
+        $query = new UserInviteCode();
+        if ($userIds) {
+            $query = $query->whereIn('user_id', $userIds);
+        }
+        $query = $query->orderBy('id', 'desc')->paginate(10);
 
         return view('admin.users.userinvitecode.index', compact('query'));
     }
 
     /**
-     * 编辑页
-     * @param Request $request
-     * @return type
+     * 编辑页.
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -39,10 +51,10 @@ class UserInviteCodeController extends AdminController
     /**
      * 更新用户信息
      *
-     * @param \App\Http\Requests\UserRequest $request
-     * @param                                $id
+     * @param \Illuminate\Http\Request $request
+     * @param                          $id
      *
-     * @return $this|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -55,5 +67,4 @@ class UserInviteCodeController extends AdminController
 
         return redirect()->route('admin.userinvitecode.index', ['id' => $id])->with('success', '修改成功');
     }
-
 }

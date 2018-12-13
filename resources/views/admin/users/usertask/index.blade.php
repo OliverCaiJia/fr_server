@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户管理</h5>
+                <h5>用户贷款</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -23,11 +23,6 @@
                                 <input placeholder="用户名" name="user_name" class="form-control input-sm"
                                        autocomplete="off"
                                        id="user_name">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">手机号:</label>
-                                <input placeholder="手机号" name="mobile" class="form-control input-sm"
-                                       autocomplete="off" id="mobile">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
@@ -98,7 +93,9 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$query->links()}}
+                {{$query->appends([
+                'user_name' => Request::input('user_name')
+                ])->links()}}
             </div>
         </div>
         <div class="clearfix"></div>
@@ -107,8 +104,7 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#user_name').val('{{ Request::input('user_name') }}');
 
         function refresh() {
             document.getElementById("myform").reset();

@@ -85,7 +85,10 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$query->links()}}
+                {{$query->appends([
+                'user_name' => Request::input('user_name'),
+                'mobile' => Request::input('mobile')
+                ])->links()}}
             </div>
         </div>
         <div class="clearfix"></div>
