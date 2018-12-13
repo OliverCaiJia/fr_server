@@ -19,33 +19,14 @@
                         <form action="{{ Request::url() }}" class="form-inline" method="get" id="myform">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label for="status">状态:</label>
-                                <select class="form-control m-b" name="status">
-                                    <option>{{Request::input('status')}}</option>
-                                    <option @if(Request::input('status') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('status') == 0) selected @endif  value='0'>无效</option>
-                                    <option @if(Request::input('status') == 1) selected @endif value='1'>有效</option>
-                                </select>
+                                <label for="username">手机号:</label>
+                                <input placeholder="手机号" name="mobile" class="form-control input-sm"
+                                autocomplete="off" id="mobile" @if(Request::input('mobile')) value="{{ Request::input('mobile') }}" @endif>
                             </div>
                             <div class="form-group">
-                                <label for="service_status">服务状态:</label>
-                                <select class="form-control m-b" name="service_status">
-                                    <option @if(Request::input('service_status') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('service_status') == 0) selected @endif value='0'>未认证</option>
-                                    <option @if(Request::input('service_status') == 1) selected @endif value='1'>身份认证</option>
-                                    <option @if(Request::input('service_status') == 2) selected @endif value='2'>绑定银行卡</option>
-                                    <option @if(Request::input('service_status') == 3) selected @endif value='3'>信用报告</option>
-                                    <option @if(Request::input('service_status') == 4) selected @endif value='4'>申请贷款</option>
-                                    <option @if(Request::input('service_status') == 5) selected @endif value='5'>增值服务</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="has_userinfo">用户资料:</label>
-                                <select class="form-control m-b" name="has_userinfo">
-                                    <option @if(Request::input('has_userinfo') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('has_userinfo') == 0) selected @endif  value='0'>未填写</option>
-                                    <option @if(Request::input('has_userinfo') == 1) selected @endif value='1'>已填写</option>
-                                </select>
+                                <label for="report_code">报告编号:</label>
+                                <input placeholder="报告编号" name="report_code" class="form-control input-sm"
+                                       autocomplete="off" id="report_code" @if(Request::input('report_code')) value="{{ Request::input('report_code') }}" @endif>
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
@@ -74,17 +55,9 @@
                             <td>
                                 <a href="{{ route('admin.report.edit', ['id' => $item->id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
-                                        <i class="fa fa-paste"></i> 修改
+                                        <i class="fa fa-paste"></i> 详情
                                     </button>
                                 </a>
-                                {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}
-                                {{--class="inline">--}}
-                                {{--{{ csrf_field() }}--}}
-                                {{--{{ method_field('DELETE') }}--}}
-                                {{--<button class="btn btn-danger btn-xs" type="submit">--}}
-                                {{--<i class="fa fa-trash-o"></i> 删除--}}
-                                {{--</button>--}}
-                                {{--</form>--}}
                             </td>
                         </tr>
                     @endforeach
