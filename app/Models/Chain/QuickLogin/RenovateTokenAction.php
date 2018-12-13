@@ -26,41 +26,35 @@ class RenovateTokenAction extends AbstractHandler
 
     public function handleRequest()
     {
-        if ($this->renovateToken($this->params) == true)
-        {
+        if ($this->renovateToken($this->params) == true) {
             $this->setSuccessor(new FetchUserInfoAction($this->params));
             return $this->getSuccessor()->handleRequest();
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
-	
-	/**
-	 * 刷新用户token
-	 * @param $params
-	 * @return bool
-	 */
+
+    /**
+     * 刷新用户token
+     * @param $params
+     * @return bool
+     */
     private function renovateToken($params)
     {
-	    $user = UserAuthFactory::getUserById($params['id']);
-        if (!empty($user))
-        {
+        $user = UserAuthFactory::getUserById($params['id']);
+        if (!empty($user)) {
             $data = [
-                'access_token' => TokenGenerator::generateToken(),
                 'last_login_at' => date('Y-m-d H:i:s'),
                 'last_login_ip' => Utils::ipAddress(),
             ];
             $user_id = $user['id'];
 
-           $user_res = UserAuthFactory::updateUserData($user_id,$data);
-           if($user_res){
-               return true;
-           }
+            $user_res = UserAuthFactory::updateUserData($user_id, $data);
+            if ($user_res) {
+                return true;
+            }
             return false;
         }
         return false;
     }
-
 }
