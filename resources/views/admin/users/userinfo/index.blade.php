@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户个人信息管理</h5>
+                <h5>用户个人信息</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -20,31 +20,30 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="status">状态:</label>
-                                <select class="form-control m-b" name="status">
-                                    <option>{{Request::input('status')}}</option>
-                                    <option @if(Request::input('status') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('status') == 0) selected @endif  value='0'>无效</option>
-                                    <option @if(Request::input('status') == 1) selected @endif value='1'>有效</option>
+                                <select class="form-control m-b" name="status" id="status">
+                                    <option selected value=''>全部</option>
+                                    <option value='0'>无效</option>
+                                    <option value='1'>有效</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="service_status">服务状态:</label>
-                                <select class="form-control m-b" name="service_status">
-                                    <option @if(Request::input('service_status') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('service_status') == 0) selected @endif value='0'>未认证</option>
-                                    <option @if(Request::input('service_status') == 1) selected @endif value='1'>身份认证</option>
-                                    <option @if(Request::input('service_status') == 2) selected @endif value='2'>绑定银行卡</option>
-                                    <option @if(Request::input('service_status') == 3) selected @endif value='3'>信用报告</option>
-                                    <option @if(Request::input('service_status') == 4) selected @endif value='4'>申请贷款</option>
-                                    <option @if(Request::input('service_status') == 5) selected @endif value='5'>增值服务</option>
+                                <select class="form-control m-b" name="service_status" id="service_status">
+                                    <option selected value=''>全部</option>
+                                    <option value='0'>未认证</option>
+                                    <option value='1'>身份认证</option>
+                                    <option value='2'>绑定银行卡</option>
+                                    <option value='3'>信用报告</option>
+                                    <option value='4'>申请贷款</option>
+                                    <option value='5'>增值服务</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="has_userinfo">用户资料:</label>
-                                <select class="form-control m-b" name="has_userinfo">
-                                    <option @if(Request::input('has_userinfo') == '') selected @endif value=''>全部</option>
-                                    <option @if(Request::input('has_userinfo') == 0) selected @endif  value='0'>未填写</option>
-                                    <option @if(Request::input('has_userinfo') == 1) selected @endif value='1'>已填写</option>
+                                <select class="form-control m-b" name="has_userinfo" id="has_userinfo">
+                                    <option selected value=''>全部</option>
+                                    <option value='0'>未填写</option>
+                                    <option value='1'>已填写</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
@@ -74,11 +73,11 @@
                             <td style="word-break:break-all;max-width:350px;">
                                 @if($item->dev_type == 0)
                                     <span style="color : green;font-weight: bold">H5</span>
-                                @elseif($item->status == 1)
+                                @elseif($item->dev_type == 1)
                                     <span style="color : green;font-weight: bold">ios</span>
-                                @elseif($item->status == 2)
+                                @elseif($item->dev_type == 2)
                                     <span style="color : green;font-weight: bold">Android</span>
-                                @elseif($item->status == 3)
+                                @elseif($item->dev_type == 3)
                                     <span style="color : green;font-weight: bold">wechat</span>
                                 @endif
                             </td>
@@ -141,8 +140,9 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#status').val('{{ (Request::input('status') === '0' || Request::input('status')) ? Request::input('status') : '' }}');
+        $('#service_status').val('{{ (Request::input('service_status') === '0' || Request::input('service_status')) ? Request::input('service_status') : '' }}');
+        $('#has_userinfo').val('{{ (Request::input('has_userinfo') === '0' || Request::input('has_userinfo')) ? Request::input('has_userinfo') : '' }}');
 
         function refresh() {
             document.getElementById("myform").reset();
