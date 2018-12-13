@@ -2,7 +2,6 @@
 
 namespace App\Models\Chain\UserIdentity\IdcardFront;
 
-
 use App\Models\Chain\AbstractHandler;
 use App\Services\Core\Message\OCR\FaceService;
 
@@ -47,7 +46,7 @@ class FetchFaceidToCardfrontInfoAction extends AbstractHandler
         ];
         $face_res = FaceService::o()->fetchBackOrFront($data_img);
         unlink($params['card_file']);
-        if(isset($face_res['ERROR'])){
+        if (isset($face_res['ERROR']) || $face_res['side'] != 0) {
             return false;
         }
         $this->params['request_id'] = $face_res['request_id'];
@@ -64,5 +63,4 @@ class FetchFaceidToCardfrontInfoAction extends AbstractHandler
 
         return true;
     }
-
 }

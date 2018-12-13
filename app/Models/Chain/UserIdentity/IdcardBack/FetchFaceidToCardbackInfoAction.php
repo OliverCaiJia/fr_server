@@ -5,7 +5,6 @@ namespace App\Models\Chain\UserIdentity\IdcardBack;
 use App\Models\Chain\AbstractHandler;
 use App\Services\Core\Message\OCR\FaceService;
 
-
 /**
  * Class SendImageToQiniuAction
  * @package App\Models\Chain\UserIdentity\IdcardFront
@@ -48,7 +47,7 @@ class FetchFaceidToCardbackInfoAction extends AbstractHandler
         ];
         $face_res = FaceService::o()->fetchBackOrFront($data_img);
         unlink($params['card_file']);
-        if(isset($face_res['ERROR'])){
+        if (isset($face_res['ERROR']) || $face_res['side'] != 1) {
             return false;
         }
         $this->params['request_id'] = $face_res['request_id'];
@@ -57,12 +56,10 @@ class FetchFaceidToCardbackInfoAction extends AbstractHandler
         $this->params['card_rect'] = json_encode($face_res['card_rect']);
         $this->params['legality'] = json_encode($face_res['legality']);
         $this->params['error'] = isset($face_res['ERROR']) ? $face_res['ERROR'] : '';
-        $this->params['valid_date_start'] =$face_res['valid_date_start']['result'];
+        $this->params['valid_date_start'] = $face_res['valid_date_start']['result'];
         $this->params['issued_by'] = $face_res['issued_by']['result'];
         $this->params['valid_date_end'] = $face_res['valid_date_end']['result'];
 
-
         return true;
     }
-
 }
