@@ -18,9 +18,3 @@
         </div>
     </div>
 @endsection
-@section('js')
-    @if(\App\Models\Factory\Admin\Saas\SaasAccountFactory::getBalanceById(Auth::user()->saas_auth_id) < 1000)
-        <script src="{{ asset('vendor/hui/js/plugins/layer/layer.min.js') }}"></script>
-        <script src="{{ asset('vendor/hui/js/welcome.min.js') }}"></script>
-    @endif
-@endsection

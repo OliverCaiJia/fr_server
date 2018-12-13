@@ -1,6 +1,8 @@
 var fruit_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-//var fruit_protocol = (("https:" == document.location.protocol) ? "https://uat." : "http://uat.");
-//    document.write('<script src="/js/vconsole.min.js"></script>');
+if (document.location.href.indexOf('uat') > -1) {
+    var fruit_protocol = (("https:" == document.location.protocol) ? "https://uat." : "http://uat.");
+    document.write('<script src="/js/vconsole.min.js"></script>');
+}
 var api_fruitloan_host = fruit_protocol + "app.haoshijinfu.com/api";
 //utf-8转utf-16
 function utf16to8(str) {

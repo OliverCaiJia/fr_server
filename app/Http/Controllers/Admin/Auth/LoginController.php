@@ -105,17 +105,6 @@ class LoginController extends Controller
             return true;
         }
 
-        $saasInfo = SaasAuthFactory::getSaasInfoById($user->saas_auth_id);
-        if (!$saasInfo) {                                                    // 主帐号不存在，禁止登录
-            return true;
-        } elseif ($saasInfo->is_locked) {                                    // 合作方账户冻结，禁止登录
-            return true;
-        } elseif (strtotime($saasInfo->valid_deadline) < time()) {           // 合作方帐号超过有效期，禁止登录
-            return true;
-        } elseif ($saasInfo->is_deleted) {
-            return true;
-        }
-
         return false;
     }
 }
