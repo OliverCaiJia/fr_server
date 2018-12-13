@@ -18,7 +18,9 @@ class AuthController extends ApiController
 
     /**
      * 普通登录
-     * @param Request $request
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -27,8 +29,7 @@ class AuthController extends ApiController
         #调用普通登录责任链
         $login = new DoLoginHandler($data);
         $re = $login->handleRequest();
-        if (isset($re['error']))
-        {
+        if (isset($re['error'])) {
             if ($re['code'] == 403403) {
                 return RestResponseFactory::forbidden($re['error'], 403, $re['error']);
             }
@@ -46,8 +47,11 @@ class AuthController extends ApiController
 
     /**
      * 登出
-     * @param Request $request
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function logout(Request $request)
     {
@@ -61,7 +65,9 @@ class AuthController extends ApiController
 
     /**
      * 快捷登录 手机号+验证码
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function quickLogin(Request $request)
@@ -72,13 +78,11 @@ class AuthController extends ApiController
         $data['dev_version'] = $request->header('X-DevVersion') ? $request->header('X-DevVersion') : '';
         #查库检查用户手机号是否存在
         $user = UserAuthFactory::getMobileAndIndent($data['mobile']);
-        if ($user)
-        {
+        if ($user) {
             #如果用户激活则调用登录责任链
             $login = new DoQuickLoginHandler($data);
             $re = $login->handleRequest();
-            if (isset($re['error']))
-            {
+            if (isset($re['error'])) {
                 if ($re['code'] == 403403) {
                     return RestResponseFactory::forbidden($re['error'], 403, $re['error']);
                 }
@@ -91,14 +95,11 @@ class AuthController extends ApiController
                 'access_token' => $re['access_token'],
             ];
             return RestResponseFactory::ok($re);
-        }
-        else
-        {
+        } else {
             #如果用户未激活调用注册责任链
             $register = new DoRegisterHandler($data);
             $re = $register->handleRequest();
-            if (isset($re['error']))
-            {
+            if (isset($re['error'])) {
                 return RestResponseFactory::ok(RestUtils::getStdObj(), $re['error'], $re['code'], $re['error']);
             }
         }
@@ -110,5 +111,4 @@ class AuthController extends ApiController
         ];
         return RestResponseFactory::ok($re);
     }
-
 }

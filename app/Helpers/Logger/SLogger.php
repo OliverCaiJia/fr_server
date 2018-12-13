@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Logger;
 
+use Request;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\StreamHandler;
@@ -39,6 +40,12 @@ class SLogger
             self::$logger = new MonologLogger('sdjt-stream');
             self::$logger->pushHandler(self::getStreamHandler());
             self::$logger->pushProcessor(new WebProcessor(null, $extraFields));
+
+            //添加请求参数到日志
+            self::$logger->pushProcessor(function ($record) {
+                $record['extra']['request'] = Request::all();
+                return $record;
+            });
             self::$logger->setTimezone(new \DateTimeZone('PRC'));
         }
         return self::$logger;
