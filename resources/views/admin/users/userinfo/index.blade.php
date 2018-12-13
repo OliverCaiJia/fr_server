@@ -131,7 +131,11 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$query->links()}}
+                {{$query->appends([
+                'status' => (Request::input('status') === '0' || Request::input('status')) ? Request::input('status') : '',
+                'service_status' => (Request::input('service_status') === '0' || Request::input('service_status')) ? Request::input('service_status') : '',
+                'has_userinfo' => (Request::input('has_userinfo') === '0' || Request::input('has_userinfo')) ? Request::input('has_userinfo') : ''
+                ])->links()}}
             </div>
         </div>
         <div class="clearfix"></div>

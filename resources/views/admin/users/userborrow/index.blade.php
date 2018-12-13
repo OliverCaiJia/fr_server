@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户个人信息管理</h5>
+                <h5>用户贷款流水</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -58,7 +58,10 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$query->links()}}
+                {{$query->appends([
+                'user_name' => Request::input('user_name'),
+                'mobile' => Request::input('mobile')
+                ])->links()}}
             </div>
         </div>
         <div class="clearfix"></div>
@@ -67,8 +70,8 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#user_name').val('{{ Request::input('user_name') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
 
         function refresh() {
             document.getElementById("myform").reset();

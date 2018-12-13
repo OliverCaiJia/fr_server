@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户管理</h5>
+                <h5>用户邀请好友</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -94,8 +94,8 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#user_name').val('{{ Request::input('user_name') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
 
         function refresh() {
             document.getElementById("myform").reset();
