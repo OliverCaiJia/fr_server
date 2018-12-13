@@ -14,7 +14,11 @@ class ChannelConfigController extends AdminController
      */
     public function index(Request $request)
     {
-        $query = Channel::orderBy('id', 'desc')->paginate(10);
+        $channel_nid = $request->input('channel_nid');
+
+        $query = Channel::when($channel_nid, function ($query) use ($channel_nid) {
+            return $query->where('channel_nid', $channel_nid);
+        })->orderBy('id', 'desc')->paginate(10);
 
         return view('admin.config.channelconfig.index', compact('query'));
     }
