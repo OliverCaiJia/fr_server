@@ -85,6 +85,7 @@ class YjdPushCommand extends Command
                 ];
                 $yjd_result = YiJianDaiPushService::o()->sendPush($data);
                 $yjd_res = json_decode($yjd_result, true);
+                SLogger::getStream()->warn('yjd_result', $yjd_res);
                 if ($yjd_res['error_code'] == 0) {
                     //update task status
                     $task_data = [
