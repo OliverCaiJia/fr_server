@@ -89,7 +89,7 @@
                                 </a>
                                 <a href="{{ route('admin.useraccountlog.edit', ['id' => $item->user_id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
-                                        <i class="fa fa-paste"></i> 查看流水
+                                        <i class="fa fa-paste"></i> 流水
                                     </button>
                                 </a>
                                 {{--<form action="{{ route('admin.useraccountlog.index', ['id' => $item->id]) }}" method="post"--}}
