@@ -50,7 +50,7 @@ class RenovateTokenAction extends AbstractHandler
             $user_id = $user['id'];
 
             $user_res = UserAuthFactory::updateUserData($user_id, $data);
-            if ($user_res) {
+            if ($user_res !== false) {
                 return true;
             }
             return false;
