@@ -36,6 +36,6 @@ class SaasRole extends AbsBaseModel
 
     public function persons()
     {
-        return $this->belongsToMany(SaasPerson::class, 'admin_role_user', 'role_id', 'user_id');
+        return $this->belongsToMany(AdminPersons::class, 'admin_role_user', 'role_id', 'user_id');
     }
 }

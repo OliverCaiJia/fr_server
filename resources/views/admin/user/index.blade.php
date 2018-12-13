@@ -8,7 +8,7 @@
             @include('admin.common.status')
             <div class="ibox-content">
                 <div class="col-sm-3">
-                    <a href="{{ route('admin.user.create') }}" link-url="javascript:void(0)">
+                    <a href="{{ route('admin.person.create') }}" link-url="javascript:void(0)">
                         <button class="btn btn-primary btn-sm" type="button">
                             <i class="fa fa-plus-circle"></i> 添加管理员
                         </button>
@@ -36,10 +36,10 @@
                     <tr>
                         <th>ID</th>
                         <th>姓名</th>
-                        <th>邮箱</th>
+                        {{--<th>邮箱</th>--}}
                         <th>账户名</th>
-                        <th>部门</th>
-                        <th>职位</th>
+                        {{--<th>部门</th>--}}
+                        {{--<th>职位</th>--}}
                         <th>角色</th>
                         <th>操作</th>
                     </tr>
@@ -49,19 +49,19 @@
                         <tr>
                             <td>{{App\Helpers\Utils::generalAutoIncrementId($users, $loop)}}</td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->email}}</td>
+{{--                            <td>{{$item->email}}</td>--}}
                             <td>{{$item->username}}</td>
-                            <td>{{$item->department}}</td>
-                            <td>{{$item->position}}</td>
+{{--                            <td>{{$item->department}}</td>--}}
+{{--                            <td>{{$item->position}}</td>--}}
                             <td>{{ App\Models\Factory\Admin\Saas\SaasPersonFactory::getFirstRoleById($item->id) }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.user.edit', ['id' => $item->id]) }}">
+                                    <a href="{{ route('admin.person.edit', ['id' => $item->id]) }}">
                                         <button class="btn btn-primary btn-xs" type="button">
                                             <i class="fa fa-paste"></i> 修改
                                         </button>
                                     </a>
-                                    <form action="{{ route('admin.user.destroy', ['id' => $item->id]) }}" method="post" class="inline">
+                                    <form action="{{ route('admin.person.destroy', ['id' => $item->id]) }}" method="post" class="inline">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-danger btn-xs" type="submit">

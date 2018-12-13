@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
 
     Route::group(['namespace' => 'Saas', 'prefix' => 'saas'], function () {
         //用户设置相关
-        Route::resource('user', 'UserController');
+        Route::resource('person', 'UserController');
         Route::resource('role', 'RoleController');
 
         //账户管理
@@ -96,7 +96,6 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('usertask', 'UserTaskController');
         //用户个人资料
         Route::resource('userbasic', 'UserBasicController');
-
     });
 
     //---------------------------- 报告管理 ----------------------------------//

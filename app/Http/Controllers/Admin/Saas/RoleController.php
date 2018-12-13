@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Saas;
 
-use App\Events\OperationLogEvent;
 use App\Http\Requests\RoleRequest;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
 use App\Models\Orm\SaasPermission;
@@ -75,7 +74,6 @@ class RoleController extends Controller
         ]);
 
         $role->permissions()->attach($request->input('permissions'));
-        event(new OperationLogEvent(1, json_encode($role->toArray())));
 
         return redirect()->route('admin.role.index')->with('success', '添加成功！');
     }
@@ -102,7 +100,6 @@ class RoleController extends Controller
         } else {
             $role->permissions()->detach();
         }
-        event(new OperationLogEvent(3, json_encode($role->toArray())));
 
         return redirect()->route('admin.role.edit', ['id' => $id])->with('success', '修改成功');
     }
@@ -125,7 +122,6 @@ class RoleController extends Controller
 
         $role->permissions()->detach();
         $role->delete();
-        event(new OperationLogEvent(2, json_encode($role->toArray())));
 
         return redirect()->route('admin.role.index')->with('success', '删除成功！');
     }

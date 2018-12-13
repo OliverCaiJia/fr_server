@@ -6,12 +6,11 @@ use App\Constants\SaasConstant;
 use App\Events\OperationLogEvent;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserRequest;
-use App\Models\Factory\Admin\Order\OrderFactory;
 use App\Models\Factory\Admin\Order\SaasOrderFactory;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Factory\Admin\Saas\SaasRoleFactory;
 use App\Models\Orm\SaasOrderSaas;
-use App\Models\Orm\SaasPerson;
+use App\Models\Orm\AdminPersons;
 use App\Strategies\AdminPersonStrategy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,7 +32,7 @@ class UserController extends Controller
         $name = $request->input('name');
         $username = $request->input('username');
 
-        $users = SaasPerson::when($name, function ($query) use ($name) {
+        $users = AdminPersons::when($name, function ($query) use ($name) {
             return $query->where('name', $name);
         })->when($username, function ($query) use ($username) {
             return $query->where('username', $username);
@@ -71,9 +70,9 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $authUser = Auth::user();
-        $user = SaasPerson::updateOrCreate([
+        $user = AdminPersons::updateOrCreate([
             'username' => $request->input('username'),
-            'is_deleted' => SaasConstant::SAAS_USER_DELETED_TRUE
+            'is_deleted' => 1
         ], [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -83,20 +82,19 @@ class UserController extends Controller
             'password' => bcrypt($request->input('password')),
             'saas_auth_id' => $authUser->saas_auth_id,
             'create_id' => $authUser->id,
-            'is_deleted' => SaasConstant::SAAS_USER_DELETED_FALSE,
+            'is_deleted' => 0,
             'mobilephone' => $request->input('mobilephone')
         ]);
 
         $user->roles()->attach($request->input('role'));
-        event(new OperationLogEvent(10, json_encode($user->toArray())));
 
-        return redirect()->route('admin.user.index')->with('success', '添加成功！');
+        return redirect()->route('admin.person.index')->with('success', '添加成功！');
     }
 
     public function edit($id)
     {
         $saasAuthId = Auth::user()->saas_auth_id;
-        $user = SaasPerson::where('saas_auth_id', $saasAuthId)->findOrFail($id);
+        $user = AdminPersons::where('saas_auth_id', $saasAuthId)->findOrFail($id);
 
         $roleId = $user->roles->first()->id;
         $roles = SaasRoleFactory::getBySaasAuthId($saasAuthId);
@@ -114,7 +112,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $user = SaasPerson::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
+        $user = AdminPersons::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
         $password = $request->input('password');
 
         $userData = [
@@ -134,9 +132,8 @@ class UserController extends Controller
         } else {
             $user->roles()->detach();
         }
-        event(new OperationLogEvent(12, json_encode($user->toArray())));
 
-        return redirect()->route('admin.user.edit', ['id' => $id])->with('success', '修改成功');
+        return redirect()->route('admin.person.edit', ['id' => $id])->with('success', '修改成功');
     }
 
     /**
@@ -148,7 +145,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = SaasPerson::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
+        $user = AdminPersons::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
         //检查是否有子用户
         if (SaasPersonFactory::getAllPersonByPersonId($user->id)) {
             return redirect()->back()->with('error', '该账户有下级账户, 不能删除!');
@@ -185,7 +182,6 @@ class UserController extends Controller
             }
 
             if ($result) {
-                event(new OperationLogEvent(200, $request->input('password')));
                 return redirect()->back()->with('success', '成功！');
             }
 
