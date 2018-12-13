@@ -55,14 +55,14 @@ class AdminPersons extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(AdminRoles::class, 'admin_role_user', 'user_id', 'role_id');
+        return $this->belongsToMany(SaasRole::class, 'admin_role_user', 'user_id', 'role_id');
     }
 
     // 判断用户是否具有某权限
     public function hasPermission($permission)
     {
         if (is_string($permission)) {
-            $permission = AdminPermissions::where('name', $permission)->first();
+            $permission = SaasPermission::where('name', $permission)->first();
             if (!$permission) {
                 return false;
             }

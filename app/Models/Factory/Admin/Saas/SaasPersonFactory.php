@@ -4,7 +4,7 @@ namespace App\Models\Factory\Admin\Saas;
 
 use App\Constants\SaasConstant;
 use App\Models\AbsModelFactory;
-use App\Models\Orm\SaasPerson;
+use App\Models\Orm\AdminPersons;
 use Hash;
 
 class SaasPersonFactory extends AbsModelFactory
@@ -18,7 +18,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getSaasAuthById($personId)
     {
-        $person = SaasPerson::select('saas_auth_id')->find($personId);
+        $person = AdminPersons::select('saas_auth_id')->find($personId);
 
         return $person ? $person->saas_auth_id : 0;
     }
@@ -30,7 +30,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getAllPersonByPersonId($psnId)
     {
-        return SaasPerson::where([
+        return AdminPersons::where([
             'create_id' => $psnId,
             'is_deleted' => SaasConstant::SAAS_USER_DELETED_FALSE
         ])->get()->toArray();
@@ -43,7 +43,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getList()
     {
-        return SaasPerson::select('id', 'create_id')->get()->toArray();
+        return AdminPersons::select('id', 'create_id')->get()->toArray();
     }
 
     /**
@@ -53,7 +53,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getAllPersonBySaasId($saasId)
     {
-        $personIds = SaasPerson::where([
+        $personIds = AdminPersons::where([
             'saas_auth_id' => $saasId,
             'is_deleted' => SaasConstant::SAAS_USER_DELETED_FALSE
         ])->pluck('id');
@@ -67,7 +67,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getPersonInfo($personId)
     {
-        return SaasPerson::whereKey($personId)->first();
+        return AdminPersons::whereKey($personId)->first();
     }
 
     /**
@@ -78,7 +78,7 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function changePsw($personId, $newPsw)
     {
-        return SaasPerson::whereKey($personId)->update([
+        return AdminPersons::whereKey($personId)->update([
             'password' => Hash::make($newPsw)
         ]);
     }
@@ -90,6 +90,6 @@ class SaasPersonFactory extends AbsModelFactory
      */
     public static function getFirstRoleById($perosnId)
     {
-        return SaasPerson::whereKey($perosnId)->first()->roles()->value('name') ?? '';
+        return AdminPersons::whereKey($perosnId)->first()->roles()->value('name') ?? '';
     }
 }

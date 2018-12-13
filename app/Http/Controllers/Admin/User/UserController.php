@@ -6,14 +6,17 @@ use App\Events\OperationLogEvent;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Models\Factory\Admin\Saas\SaasPersonFactory;
 use App\Models\Orm\UserAuth;
-use App\Models\Orm\SaasPerson;
+use App\Models\Orm\AdminPersons;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 
 class UserController extends AdminController
 {
-    /**注册用户
-     * @param Request $request
+    /**
+     * 注册用户
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -21,12 +24,11 @@ class UserController extends AdminController
         //查询条件
         $mobile = $request->input('mobile');
         $username = $request->input('user_name');
-//
 
         $query = UserAuth::when($mobile, function ($query) use ($mobile) {
             return $query->where('mobile', '=', $mobile);
         })->when($username, function ($query) use ($username) {
-            return $query->where('user_name', 'like',  '%' . $username . '%');
+            return $query->where('user_name', 'like', '%' . $username . '%');
         })->orderBy('id', 'desc')->paginate(10);
 
         return view('admin.users.index', compact('query'));
@@ -34,8 +36,10 @@ class UserController extends AdminController
 
     /**
      * 编辑页
-     * @param Request $request
-     * @return type
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -54,7 +58,6 @@ class UserController extends AdminController
      */
     public function update(Request $request, $id)
     {
-
         $user = UserAuth::findOrFail($id);
 
         $userData = [
@@ -75,7 +78,7 @@ class UserController extends AdminController
      */
     public function destroy($id)
     {
-        $user = SaasPerson::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
+        $user = AdminPersons::where('saas_auth_id', Auth::user()->saas_auth_id)->findOrFail($id);
         //检查是否有子用户
         if (SaasPersonFactory::getAllPersonByPersonId($user->id)) {
             return redirect()->back()->with('error', '该账户有下级账户, 不能删除!');

@@ -24,7 +24,7 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:saas_permissions,name|max:255',
+            'name' => 'required|unique:admin_permissions,name|max:255',
             'description' => 'required',
         ];
     }

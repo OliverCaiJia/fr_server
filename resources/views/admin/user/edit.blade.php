@@ -7,9 +7,9 @@
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
-                <a href="{{route('admin.user.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回管理员列表</button></a>
+                <a href="{{route('admin.person.index')}}"><button class="btn btn-primary btn-sm" type="button"><i class="fa fa-home"></i>返回管理员列表</button></a>
                 <div class="hr-line-dashed m-t-sm m-b-sm"></div>
-                <form class="form-horizontal m-t-md" action="{{ route('admin.user.update', ['id' => $user->id]) }}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                <form class="form-horizontal m-t-md" action="{{ route('admin.person.update', ['id' => $user->id]) }}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     <input type="hidden" name="_method" value="PUT">
                     <div class="form-group">
@@ -21,45 +21,45 @@
                             @endif
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">手机号：</label>
-                        <div class="input-group col-sm-2">
-                            <input type="text" class="form-control" name="mobilephone" value="{{ $user->mobilephone }}">
-                            @if ($errors->has('mobilephone'))
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{ $errors->first('mobilephone')}}</span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed m-t-sm m-b-sm"></div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">部门(*)：</label>
-                        <div class="input-group col-sm-2">
-                            <input type="text" class="form-control" name="department" value="{{ $user->department }}" required data-msg-required="请输入部门">
-                            @if ($errors->has('department'))
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('department')}}</span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed m-t-sm m-b-sm"></div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">职位：</label>
-                        <div class="input-group col-sm-2">
-                            <input type="text" class="form-control" name="position" value="{{ $user->position }}">
-                            @if ($errors->has('position'))
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('position')}}</span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed m-t-sm m-b-sm"></div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">邮箱：</label>
-                        <div class="input-group col-sm-2">
-                            <input type="text" class="form-control" name="email" value="{{ $user->email }}">
-                            @if ($errors->has('email'))
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('email')}}</span>
-                            @endif
-                        </div>
-                    </div>
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-sm-2 control-label">手机号：</label>--}}
+                        {{--<div class="input-group col-sm-2">--}}
+                            {{--<input type="text" class="form-control" name="mobilephone" value="{{ $user->mobilephone }}">--}}
+                            {{--@if ($errors->has('mobilephone'))--}}
+                                {{--<span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{ $errors->first('mobilephone')}}</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="hr-line-dashed m-t-sm m-b-sm"></div>--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-sm-2 control-label">部门(*)：</label>--}}
+                        {{--<div class="input-group col-sm-2">--}}
+                            {{--<input type="text" class="form-control" name="department" value="{{ $user->department }}" required data-msg-required="请输入部门">--}}
+                            {{--@if ($errors->has('department'))--}}
+                                {{--<span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('department')}}</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="hr-line-dashed m-t-sm m-b-sm"></div>--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-sm-2 control-label">职位：</label>--}}
+                        {{--<div class="input-group col-sm-2">--}}
+                            {{--<input type="text" class="form-control" name="position" value="{{ $user->position }}">--}}
+                            {{--@if ($errors->has('position'))--}}
+                                {{--<span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('position')}}</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="hr-line-dashed m-t-sm m-b-sm"></div>--}}
+                    {{--<div class="form-group">--}}
+                        {{--<label class="col-sm-2 control-label">邮箱：</label>--}}
+                        {{--<div class="input-group col-sm-2">--}}
+                            {{--<input type="text" class="form-control" name="email" value="{{ $user->email }}">--}}
+                            {{--@if ($errors->has('email'))--}}
+                                {{--<span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('email')}}</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="hr-line-dashed m-t-sm m-b-sm"></div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">帐户名(*)：</label>

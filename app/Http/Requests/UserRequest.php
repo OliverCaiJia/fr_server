@@ -23,9 +23,37 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'user_name' => 'required|unique:user_auth,user_name|max:255',
-            'mobile' =>'numeric|digits_between:11,15',
-        ];
+        if ($this->isMethod('post')) {
+            $rule =  [
+                'name' => 'required|max:255',
+                'username' => 'required|unique:admin_persons|max:255',
+//                'department' => 'required|max:255',
+                'password' => 'required|confirmed|min:8|max:16|alpha_num',
+                'role' => 'required'
+            ];
+        } else {
+            $id = $this->route('person');
+
+            $rule = [
+                'name' => 'required|max:255',
+                'username' => 'required|unique:admin_persons,username,' . $id . '|max:255',
+//                'department' => 'required|max:255',
+                'password' => 'confirmed',
+                'role' => 'required'
+            ];
+            if ($this->input('password')) {
+                $rule['password'] = 'required|confirmed|min:8|max:16|alpha_num';
+            }
+        }
+
+        if ($this->input('email')) {
+            $rule['email'] = 'email';
+        }
+
+        if ($this->input('mobilephone')) {
+            $rule['mobilephone'] = 'numeric|digits_between:11,15';
+        }
+
+        return $rule;
     }
 }
