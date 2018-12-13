@@ -11,92 +11,71 @@
                         <input type="hidden" name="_token" autocomplete="off" value="{{ csrf_token() }}">
                         <table>
                             <tr>
-                            <td colspan="3">
-                            <a href="{{ route('admin.order.index', [
-                            'start' => Request::input('start') ?: \Carbon\Carbon::now()->subMonth()->format('Y-m-d') . ' 00:00:00',
-                            'end' => Request::input('end') ?: \Carbon\Carbon::now()->format('Y-m-d') . ' 23:59:59',
-                            'status' => Request::input('status') ?: 0,
-                            'province' => Request::input('province') ?: 0,
-                            'user_name' => Request::input('user_name') ?: '',
-                            'user_id_card' => Request::input('user_id_card') ?: 0,
-                            'user_mobile' => Request::input('user_mobile') ?: 0,
-                            'export' => 1
-                            ]) }}">
-                            <button class="btn btn-primary btn-sm" type="button">
-                            <i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">全部导出</span>
-                            </button></a>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                            <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
-                            <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
-                            </td>
+                                <td colspan="9">
+                                {{--<a href="{{ route('admin.order.index', [--}}
+                                {{--'start' => Request::input('start') ?: \Carbon\Carbon::now()->subMonth()->format('Y-m-d') . ' 00:00:00',--}}
+                                {{--'end' => Request::input('end') ?: \Carbon\Carbon::now()->format('Y-m-d') . ' 23:59:59',--}}
+                                {{--'status' => Request::input('status') ?: 0,--}}
+                                {{--'province' => Request::input('province') ?: 0,--}}
+                                {{--'user_name' => Request::input('user_name') ?: '',--}}
+                                {{--'user_id_card' => Request::input('user_id_card') ?: 0,--}}
+                                {{--'user_mobile' => Request::input('user_mobile') ?: 0,--}}
+                                {{--'export' => 1--}}
+                                {{--]) }}">--}}
+                                <button class="btn btn-primary btn-sm" type="button">
+                                <i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">全部导出</span>
+                                </button></a>
+                                </td>
                             </tr>
                             <tr>
-                            <td>&nbsp;</td>
+                                <td></td>
                             </tr>
                             <tr>
-                            <td>
-                            <label>申请时间：</label>
-                            </td>
-                            <td>
-                            <input placeholder="开始日期" name="start" autocomplete="off" class="form-control layer-date input-sm" id="start"
-                            value="{{ Request::input('start') }}">
-                            <input placeholder="结束日期" name="end" autocomplete="off" class="form-control layer-date input-sm" id="end"
-                            value="{{ Request::input('end') }}">
-                            </td>
-                            <td>
-                            <label for="status">&nbsp;&nbsp;订单状态：</label>
-                            </td>
-                            <td>
-                            <select name="status" class="form-control" id="status" autocomplete="off">
-                            <option value="0">全部</option>
-                            <option value="1" @if(Request::input('status') == '1') selected @endif>待初审订单</option>
-                            <option value="3" @if(Request::input('status') == '3') selected @endif>审核不通过</option>
-                            <option value="2" @if(Request::input('status') == '2') selected @endif>待放款订单</option>
-                            <option value="4" @if(Request::input('status') == '4') selected @endif>已拒绝放款</option>
-                            <option value="5" @if(Request::input('status') == '5') selected @endif>待还款订单</option>
-                            <option value="6" @if(Request::input('status') == '6') selected @endif>逾期未还订单</option>
-                            <option value="7" @if(Request::input('status') == '7') selected @endif>已还款订单</option>
-                            </select>
-                            </td>
-                            <td>
-                            <label>&nbsp;&nbsp;户籍省份：</label>
-                            </td>
-                            <td>
-                            <input placeholder="户籍省份" name="province" autocomplete="off" class="form-control input-sm" id="province"
-                            value="{{ Request::input('province') }}">
-                            </td>
-                            <td>
-                            <label for="status">&nbsp;&nbsp;状态：</label>
-                            </td>
-                            <td>
-                            <select name="apply_status" class="form-control" id="apply_status" autocomplete="off">
-                            <option value="0">全部</option>
-                            <option value="1" @if(Request::input('apply_status') == '1') selected @endif>注册完成</option>
-                            <option value="2" @if(Request::input('apply_status') == '2') selected @endif>实名完成</option>
-                            <option value="3" @if(Request::input('apply_status') == '3') selected @endif>申请完成</option>
-                            </select>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                            <td>
-                            <label>姓名：</label>
-                            </td>
-                            <td>
-                            <input placeholder="姓名" name="user_name" autocomplete="off" class="form-control input-sm" id="user_name"
-                            value="{{ Request::input('user_name') }}">
-                            </td>
-                            <td>
-                            <label>&nbsp;&nbsp;手机号：</label>
-                            </td>
-                            <td>
-                            <input placeholder="手机号" name="user_mobile" autocomplete="off" class="form-control input-sm" id="user_mobile"
-                            value="{{ Request::input('user_mobile') }}">
-                            </td>
+                                <td>
+                                    <label>申请时间：</label>
+                                </td>
+                                <td>
+                                    <input placeholder="开始日期" name="start" autocomplete="off" class="form-control layer-date input-sm" id="start"
+                                value="{{ Request::input('start') }}">
+                                    <input placeholder="结束日期" name="end" autocomplete="off" class="form-control layer-date input-sm" id="end"
+                                value="{{ Request::input('end') }}">
+                                </td>
+                                <td>
+                                    <label>&nbsp;&nbsp;手机号：</label>
+                                </td>
+                                <td>
+                                    <input placeholder="手机号" name="mobile" autocomplete="off" class="form-control input-sm" id="mobile"
+                                           value="{{ Request::input('mobile') }}">
+                                </td>
+                                <td>
+                                    <label for="order_type">&nbsp;&nbsp;订单类型：</label>
+                                </td>
+                                <td>
+                                    <select name="order_type" class="form-control" id="order_type" autocomplete="off">
+                                        <option value="0">全部</option>
+                                        @foreach($type as $k=>$v)
+                                            <option value="{{ $k }}" @if(Request::input('order_type') == $k) selected @endif>{{ $v }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <label for="order_status">&nbsp;&nbsp;订单状态：</label>
+                                </td>
+                                <td>
+                                    <select name="order_status" class="form-control" id="order_status" autocomplete="off">
+                                        <option value="">全部</option>
+                                        <option value="0" @if(Request::input('order_status') == '0') selected @endif>订单处理中</option>
+                                        <option value="1" @if(Request::input('order_status') == '1') selected @endif>订单完成</option>
+                                        <option value="2" @if(Request::input('order_status') == '2') selected @endif>订单过期</option>
+                                        <option value="3" @if(Request::input('order_status') == '3') selected @endif>订单撤销</option>
+                                        <option value="4" @if(Request::input('order_status') == '4') selected @endif>订单失败</option>
+                                    </select>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
+                                </td>
                             </tr>
                         </table>
                     </form>
@@ -132,7 +111,7 @@
                             <td>{{$item->id}}</td>
                             <td>{{App\Models\Factory\Admin\Users\UsersFactory::getUsername($item->user_id)}}</td>
                             <td>{{ $item->order_no }}</td>
-                            <td>{{App\Models\Factory\Admin\Order\OrderFactory::getOrderTypeByName($item->order_type)}}</td>
+                            <td>{{App\Models\Factory\Admin\Order\OrderFactory::getOrderTypeById($item->order_type)}}</td>
                             <td>{{ $item->order_expired }}</td>
                             <td>{{ $item->amount }}</td>
                             <td>{{ $item->card_no }}</td>
@@ -170,17 +149,9 @@
                     </tbody>
                     </table>
                 </div>
-                {{--{{ $query->appends([--}}
-                {{--'start' => Request::input('start') ?: \Carbon\Carbon::now()->subMonth()->format('Y-m-d') . ' 00:00:00',--}}
-                {{--'end' => Request::input('end') ?: \Carbon\Carbon::now()->format('Y-m-d') . ' 23:59:59',--}}
-                {{--'status' => Request::input('status') ?: 0,--}}
-                {{--'apply_status' => Request::input('apply_status'),--}}
-                {{--'user_name' => Request::input('user_name') ?: '',--}}
-                {{--'user_id_card' => Request::input('user_id_card') ?: '',--}}
-                {{--'user_mobile' => Request::input('user_mobile') ?: '',--}}
-                {{--'province' => Request::input('province'),--}}
-                {{--])->links() }}--}}
-                {{$query->links()}}
+                {{$query->appends([
+                'status' => (Request::input('status') === '0' || Request::input('status')) ? Request::input('status') : ''
+                ])->links()}}
                 {{--<div>总计金额：{{ $totalPrice }} 元</div>--}}
             </div>
         </div>
@@ -215,14 +186,12 @@
         laydate(end);
         $('#start').val('{{ Request::input('start') ?: \Carbon\Carbon::now()->subMonth()->format('Y-m-d') . ' 00:00:00' }}');
         $('#end').val('{{ Request::input('end') ?: \Carbon\Carbon::now()->format('Y-m-d') . ' 23:59:59' }}');
-        $('#user_name').val('{{ Request::input('user_name') }}');
-        $('#user_id_card').val('{{ Request::input('user_id_card') }}');
-        $('#user_mobile').val('{{ Request::input('user_mobile') }}');
-        $('#province').val('{{ Request::input('province') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
 
         function refresh() {
             document.getElementById("myform").reset();
-            $('#status').val(0);
+            $('#order_status').val('');
+            $('#order_type').val(0);
             $('#myform').submit();
         }
     </script>

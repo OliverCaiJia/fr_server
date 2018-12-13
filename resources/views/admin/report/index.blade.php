@@ -19,14 +19,12 @@
                         <form action="{{ Request::url() }}" class="form-inline" method="get" id="myform">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label for="username">手机号:</label>
-                                <input placeholder="手机号" name="mobile" class="form-control input-sm"
-                                autocomplete="off" id="mobile" @if(Request::input('mobile')) value="{{ Request::input('mobile') }}" @endif>
+                                <label for="mobile">手机号:</label>
+                                <input placeholder="手机号" name="mobile" class="form-control input-sm" autocomplete="off" id="mobile">
                             </div>
                             <div class="form-group">
                                 <label for="report_code">报告编号:</label>
-                                <input placeholder="报告编号" name="report_code" class="form-control input-sm"
-                                       autocomplete="off" id="report_code" @if(Request::input('report_code')) value="{{ Request::input('report_code') }}" @endif>
+                                <input placeholder="报告编号" name="report_code" class="form-control input-sm" autocomplete="off" id="report_code">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
@@ -72,8 +70,8 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
+        $('#report_code').val('{{ Request::input('report_code') }}');
 
         function refresh() {
             document.getElementById("myform").reset();

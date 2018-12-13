@@ -14,10 +14,10 @@ class OrderFactory extends AbsModelFactory
      *
      * @return mixed|string
      */
-    public static function getOrderTypeByName($id)
+    public static function getOrderTypeById($id)
     {
-        $order = UserOrderType::select('name')->find($id)->first();
+        $order = UserOrderType::where('id', $id)->value('name');
 
-        return $order ? $order->name : '未知';
+        return $order ?? '';
     }
 }
