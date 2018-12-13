@@ -69,14 +69,6 @@
                                         <i class="fa fa-paste"></i> 详情
                                     </button>
                                 </a>
-                                <form action="{{ route('admin.bannerconfig.destroy', ['id' => $item->id]) }}" method="post"
-                                      class="inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger btn-xs" type="submit">
-                                        <i class="fa fa-trash-o"></i> 删除
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                     @endforeach

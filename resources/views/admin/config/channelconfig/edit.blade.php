@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">渠道标识：</label>
                         <div class="input-group col-sm-2">
-                            <input type="text" class="form-control" name="channel_nid" value="{{$user->channel_nid }}" required data-msg-required="" >
+                            <input type="text" class="form-control" name="channel_nid" value="{{$user->channel_nid }}" required data-msg-required=""  readonly="readonly">
                             @if ($errors->has('channel_nid'))
                                 <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>{{$errors->first('channel_nid')}}</span>
                             @endif

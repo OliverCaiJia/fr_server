@@ -43,7 +43,6 @@
                         <th>申请周期</th>
                         <th>创建时间</th>
                         <th>更新时间</th>
-                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -55,21 +54,6 @@
                             <td style="word-break:break-all;max-width:350px;">{{$item->loan_peroid}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->create_at or ''}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->update_at or ''}}</td>
-                            <td>
-                                {{--<a href="{{ route('admin.user.edit', ['id' => $item->id]) }}">--}}
-                                    {{--<button class="btn btn-primary btn-xs" type="button">--}}
-                                        {{--<i class="fa fa-paste"></i> 修改--}}
-                                    {{--</button>--}}
-                                {{--</a>--}}
-                                <form action="{{ route('admin.userborrow.destroy', ['id' => $item->id]) }}" method="post"
-                                      class="inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger btn-xs" type="submit">
-                                        <i class="fa fa-trash-o"></i> 删除
-                                    </button>
-                                </form>
-                            </td>
                         </tr>
                     @endforeach
                     </tbody>
