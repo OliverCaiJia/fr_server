@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-title">
-                <h5>用户管理</h5>
+                <h5>用户个人账户</h5>
             </div>
             @include('admin.common.status')
             <div class="ibox-content">
@@ -87,12 +87,17 @@
                                         <i class="fa fa-paste"></i> 修改
                                     </button>
                                 </a>
-                                {{--<form action="{{ route('admin.role.destroy', ['id' => $item->id]) }}" method="post"--}}
+                                <a href="{{ route('admin.useraccountlog.edit', ['id' => $item->user_id]) }}">
+                                    <button class="btn btn-primary btn-xs" type="button">
+                                        <i class="fa fa-paste"></i> 查看流水
+                                    </button>
+                                </a>
+                                {{--<form action="{{ route('admin.useraccountlog.index', ['id' => $item->id]) }}" method="post"--}}
                                       {{--class="inline">--}}
                                     {{--{{ csrf_field() }}--}}
                                     {{--{{ method_field('DELETE') }}--}}
                                     {{--<button class="btn btn-danger btn-xs" type="submit">--}}
-                                        {{--<i class="fa fa-trash-o"></i> 删除--}}
+                                        {{--<i class="fa fa-trash-o"></i> 查看流水--}}
                                     {{--</button>--}}
                                 {{--</form>--}}
                             </td>

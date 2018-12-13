@@ -20,15 +20,22 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="name">用户名:</label>
-                                <input placeholder="用户名" name="user_name" class="form-control input-sm"
+                                <input placeholder="用户名" name="mobile" class="form-control input-sm"
                                        autocomplete="off"
-                                       id="user_name">
+                                       id="mobile">
                             </div>
-                            {{--<div class="form-group">--}}
-                                {{--<label for="username">手机号:</label>--}}
-                                {{--<input placeholder="手机号" name="mobile" class="form-control input-sm"--}}
-                                       {{--autocomplete="off" id="mobile">--}}
-                            {{--</div>--}}
+                            <div class="form-group">
+                                <label for="status">订单状态:</label>
+                                <select class="form-control m-b" name="status" id="status">
+                                    <option selected value=''>全部</option>
+                                    <option value="0" >未支付</option>
+                                    <option value="1">支付完成</option>
+                                    <option value="2" >已撤销</option>
+                                    <option value="3" >阻断交易</option>
+                                    <option value="4" >失败</option>
+                                    <option value="5" >处理中</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
                         </form>
@@ -112,7 +119,9 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$query->links()}}
+                {{$query->appends([
+                'status' => (Request::input('status') === '0' || Request::input('status')) ? Request::input('status') : ''
+                ])->links()}}
             </div>
         </div>
         <div class="clearfix"></div>
@@ -121,8 +130,8 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
+        $('#status').val('{{ (Request::input('status') === '0' || Request::input('status')) ? Request::input('status') : '' }}');
 
         function refresh() {
             document.getElementById("myform").reset();

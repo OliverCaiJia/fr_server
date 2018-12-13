@@ -22,11 +22,11 @@
                                     {{--@endforeach--}}
                                 {{--</select>--}}
                             {{--</div>--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="username">渠道标识:</label>--}}
-                                {{--<input placeholder="手机号" name="mobile" class="form-control input-sm"--}}
-                                       {{--autocomplete="off" id="mobile" value="{{Request::input("channel") }}">--}}
-                            {{--</div>--}}
+                            <div class="form-group">
+                                <label for="username">用户名:</label>
+                                <input placeholder="用户名" name="mobile" class="form-control input-sm"
+                                       autocomplete="off" id="mobile">
+                            </div>
                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                             <button class="btn btn-white btn-sm" type="button" onclick="refresh()">清空</button>
                         </form>
@@ -83,8 +83,8 @@
 
 @section('js')
     <script>
-        $('#name').val('{{ Request::input('name') }}');
-        $('#username').val('{{ Request::input('username') }}');
+        $('#mobile').val('{{ Request::input('mobile') }}');
+        {{--$('#username').val('{{ Request::input('username') }}');--}}
 
         function refresh() {
             document.getElementById("myform").reset();

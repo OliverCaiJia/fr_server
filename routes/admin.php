@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
     Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
         //支付中心
         Route::resource('paymentaccount', 'PaymentAccountController');
+        //用户账户信息
+        Route::resource('useraccount', 'UserAccountController');
         //用户账户流水
         Route::resource('useraccountlog', 'UserAccountLogController');
     });
@@ -86,8 +88,6 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
         Route::resource('userinfo', 'UserInfoController');
         //用户贷款流水
         Route::resource('userborrow', 'UserBorrowController');
-        //用户账户信息
-        Route::resource('useraccount', 'UserAccountController');
         //用户邀请好友
         Route::resource('userinvite', 'UserInviteController');
         //用户邀请好友生成code
