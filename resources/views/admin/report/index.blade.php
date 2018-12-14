@@ -51,7 +51,7 @@
                             <td style="word-break:break-all;max-width:350px;">{{$item->create_at or ''}}</td>
                             <td style="word-break:break-all;max-width:350px;">{{$item->update_at or ''}}</td>
                             <td>
-                                <a href="{{ route('admin.report.edit', ['id' => $item->id]) }}">
+                                <a href="{{ route('admin.report.detail', ['id' => $item->id]) }}">
                                     <button class="btn btn-primary btn-xs" type="button">
                                         <i class="fa fa-paste"></i> 详情
                                     </button>

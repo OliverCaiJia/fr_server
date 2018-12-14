@@ -41,7 +41,46 @@ class ReportController extends AdminController
     {
         $report = UserReport::findOrFail($id);
         $request_data = $report->report_data;
+        $requestData = json_decode($request_data);
+        $postLoad = $requestData->post_load;
+        $antiFraud = $requestData->anti_fraud;
+        $blackGray = $requestData->black_gray;
+        $multiInfo = $requestData->multi_info;
+        $application = $requestData->application;
+        $creditEvaluation = $requestData->credit_evaluation;
+        $creditQualification = $requestData->credit_qualification;
+
+//        dd($postLoad->trans_id);
+
+        $transId = $postLoad->trans_id;
+
 
         return view('admin.report.edit', compact('request_data'));
+    }
+
+    /**
+     * 报告详情页
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function detail($id)
+    {
+        $report = UserReport::findOrFail($id);
+        $request_data = $report->report_data;
+        $requestData = json_decode($request_data);
+        $postLoad = $requestData->post_load;
+        $antiFraud = $requestData->anti_fraud;
+        $blackGray = $requestData->black_gray;
+        $multiInfo = $requestData->multi_info;
+        $application = $requestData->application;
+        $creditEvaluation = $requestData->credit_evaluation;
+        $creditQualification = $requestData->credit_qualification;
+
+//        dd($request_data);
+
+        $transId = $postLoad->trans_id;
+
+
+        return view('admin.report.detail', compact('request_data', 'postLoad'));
     }
 }

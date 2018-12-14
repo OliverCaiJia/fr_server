@@ -35,15 +35,6 @@
                     <a class="menuid btn btn-primary btn-sm" href="URL::previous()">返回</a>
                 </div>
                 <div class="row">
-                    <div class="col-sm-8" style="text-align: right">
-
-                                <a href=" route('admin.order.pending.detail.passOrder') ?order_id=111">
-                                    <button class="btn btn-primary btn-sm" type="button">
-                                        通过审批
-                                    </button>
-                                </a>
-
-                    </div>
                 </div>
             </div>
         </div>
@@ -52,32 +43,37 @@
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a data-toggle="tab" href="#tab-1" aria-expanded="true">
-                            申请信息
+                            反欺诈
                         </a>
                     </li>
                     <li class="">
                         <a data-toggle="tab" href="#tab-2" aria-expanded="false">
-                            运营商
+                            申请准入
                         </a>
                     </li>
                     <li class="">
                         <a data-toggle="tab" href="#tab-4" aria-expanded="false">
-                            淘宝
+                            (额度评估)账户
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#tab-4" aria-expanded="false">
+                            (额度评估)电商
                         </a>
                     </li>
                     <li class="">
                         <a data-toggle="tab" href="#tab-5" aria-expanded="false">
-                            支付宝
+                            贷后行为
                         </a>
                     </li>
                     <li>
                         <a href="#multilateral-lending" role="tab" data-toggle="tab">
-                            多头借贷
+                            黑灰名单
                         </a>
                     </li>
                     <li class="">
                         <a data-toggle="tab" href="#tab-6" aria-expanded="false">
-                            综合信用
+                            多头
                         </a>
                     </li>
                 </ul>

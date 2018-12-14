@@ -102,6 +102,11 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin'], 'as' => 'admi
     Route::group(['namespace' => 'Report', 'prefix' => 'report'], function () {
         //用户管理
         Route::resource('report', 'ReportController');
+        // 查看详情
+        Route::any('detail/{id}', [
+            'as' => 'report.detail',
+            'uses' => 'ReportController@detail',
+        ]);
     });
 
     //---------------------------- 订单管理 ----------------------------------//
