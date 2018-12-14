@@ -52,9 +52,7 @@ class CreatePushTaskAction extends AbstractHandler
 
         $birthday = Utils::getBirthdayByIdCard($userRealName['id_card_no']);
         $licenseDay = $userBasic['company_license_time'];
-        $now = date('Y-m-d H:i:s');
 
-        $days = $this->diffBetweenTwoDays($licenseDay, $now);
         $orderType = UserOrderFactory::getOrderTypeByTypeNid('order_apply');
         $userOrder = UserOrderFactory::getUserOrderByUserIdAndOrderType($params['user_id'], $orderType['id']);
 
@@ -72,7 +70,7 @@ class CreatePushTaskAction extends AbstractHandler
             'salary' => '00' . $userBasic['month_salary'],
             'accumulation_fund' => '00' . $userBasic['has_house_fund'],
             'work_hours' => '00' . $userBasic['work_time'],
-            'business_license' => ($days < 365) ? '001' : '002',
+            'business_license' => ($licenseDay == 0) ? '001' : '002',
             'has_creditcard' => $userBasic['has_creditcard'],
             'social_security' => $userBasic['has_social_security'],
             'is_micro' => $userBasic['has_weilidai'],
@@ -94,18 +92,5 @@ class CreatePushTaskAction extends AbstractHandler
         $data['send_at'] = date('Y-m-d H:i:s', time());
         $data['update_at'] = date('Y-m-d H:i:s', time());
         return $data;
-    }
-
-    private function diffBetweenTwoDays($day1, $day2)
-    {
-        $second1 = strtotime($day1);
-        $second2 = strtotime($day2);
-
-        if ($second1 < $second2) {
-            $tmp = $second2;
-            $second2 = $second1;
-            $second1 = $tmp;
-        }
-        return ($second1 - $second2) / 86400;
     }
 }

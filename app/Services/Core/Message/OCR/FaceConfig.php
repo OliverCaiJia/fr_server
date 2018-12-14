@@ -9,9 +9,9 @@ class FaceConfig
 
     const URI = '/faceid/v3/ocridcard';
 
-    const APPKEY = PRODUCTION_ENV ? 'bAUfY44DsTVcJOlIjU3pL8NtDUltGz4A' : 'i-EgIJJiMieGKRWTt55_T4I9xVIl8hmP';
+    const APPKEY = PRODUCTION_ENV ? 'bAUfY44DsTVcJOlIjU3pL8NtDUltGz4A' : 'bAUfY44DsTVcJOlIjU3pL8NtDUltGz4A';
 
-    const APPSECRET = PRODUCTION_ENV ? 'EPjP-uraLYTc-H6wfwy1e6kUxMTRypWH' : 'bYBRxiVg43eZQbKxMYkNnc6g-aZE-naT';
+    const APPSECRET = PRODUCTION_ENV ? 'EPjP-uraLYTc-H6wfwy1e6kUxMTRypWH' : 'EPjP-uraLYTc-H6wfwy1e6kUxMTRypWH';
 
     public static function getUrl()
     {
