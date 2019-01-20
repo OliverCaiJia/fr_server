@@ -5,9 +5,6 @@ namespace App\Http\Validators\Web\V1;
 use App\Helpers\Utils;
 use App\Http\Validators\Web\WebValidator;
 
-/**
- * @author zhaoqiying
- */
 class AbcValidator extends WebValidator
 {
 

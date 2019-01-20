@@ -14,7 +14,7 @@ class OssUploadFileController extends ApiController
     public function uploadImage(Request $request)
     {
         $imageFile = $request->input('image');
-//        dd(__DIR__);///data/website/sd_fruitloan-server/app/Http/Controllers/Api/V1
+//        dd(__DIR__);///data/website/fr-server/app/Http/Controllers/Api/V1
 
 //        vendor/aliyuncs/oss-sdk-php/ccc.jpg
 //        dd($imageFile);

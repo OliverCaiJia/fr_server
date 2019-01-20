@@ -16,15 +16,15 @@ class BannerController extends ApiController
     public function order()
     {
         $res = [
-            ["src" => "http://image.sudaizhijia.com/test/20170802/banner/20170802152334-780.jpg",
+            ["src" => "http://image.jdt.com/test/20170802/banner/20170802152334-780.jpg",
                 "app_url" => "zixun79",
-                "h5_link" => "http://uat.m.sudaizhijia.com/html/login.html",
+                "h5_link" => "http://at.m.jdt.com/html/login.html",
                 "name" => "我的",
-                "footer_img_h5_link" => "https://uat.m.sudaizhijia.com/html/consultApp2.2.html?newsId=79"],
-            ["src" => "http://image.sudaizhijia.com/test/20170802/banner/20170802150412-225.jpg",
+                "footer_img_h5_link" => "https://at.m.jdt.com/html/consultApp2.2.html?newsId=79"],
+            ["src" => "http://image.jdt.com/test/20170802/banner/20170802150412-225.jpg",
                 "app_url" => "205",
-                "h5_link" => "https://www.baidu.com/",
-                "name" => "速贷大全",
+                "h5_link" => "https://www.google.com/",
+                "name" => "jdt",
                 "footer_img_h5_link" => ""]
         ];
         return RestResponseFactory::ok($res);

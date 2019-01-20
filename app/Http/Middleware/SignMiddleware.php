@@ -7,9 +7,6 @@ use Closure;
 use App\Helpers\RestResponseFactory;
 use Illuminate\Http\Request;
 
-/**
- * @author zhaoqiying
- */
 class SignMiddleware
 {
 

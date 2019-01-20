@@ -7,9 +7,6 @@ use App\Services\Core\Store\Qiniu\QiniuService;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 
-/**
- * @author zhaoqiying
- */
 class QiniuUpload extends QiniuService
 {
 
@@ -28,12 +25,12 @@ class QiniuUpload extends QiniuService
                 return back();
             }
             // 需要填写你的 Access Key 和 Secret Key
-            $accessKey = config('sudai.qiniu.ak');
-            $secretKey = config('sudai.qiniu.sk');
+            $accessKey = config('jdt.qiniu.ak');
+            $secretKey = config('jdt.qiniu.sk');
             // 构建鉴权对象
             $auth = new Auth($accessKey, $secretKey);
             // 要上传的空间
-            $bucket = config('sudai.qiniu.bucket');
+            $bucket = config('jdt.qiniu.bucket');
             // 生成上传 Token
             $token = $auth->uploadToken($bucket);
             // 要上传文件的本地路径
@@ -69,12 +66,12 @@ class QiniuUpload extends QiniuService
             //扩展名
             $ext = empty($file->getClientOriginalExtension()) ? 'jpg' : $file->getClientOriginalExtension();
             // 需要填写你的 Access Key 和 Secret Key
-            $accessKey = config('sudai.qiniu.ak');
-            $secretKey = config('sudai.qiniu.sk');
+            $accessKey = config('jdt.qiniu.ak');
+            $secretKey = config('jdt.qiniu.sk');
             // 构建鉴权对象
             $auth = new Auth($accessKey, $secretKey);
             // 要上传的空间
-            $bucket = config('sudai.qiniu.bucket');
+            $bucket = config('jdt.qiniu.bucket');
             // 生成上传 Token
             $token = $auth->uploadToken($bucket);
             // 要上传文件的本地路径
@@ -110,12 +107,12 @@ class QiniuUpload extends QiniuService
             //扩展名
             $ext = empty($file->getClientOriginalExtension()) ? 'jpg' : $file->getClientOriginalExtension();
             // 需要填写你的 Access Key 和 Secret Key
-            $accessKey = config('sudai.qiniu.ak');
-            $secretKey = config('sudai.qiniu.sk');
+            $accessKey = config('jdt.qiniu.ak');
+            $secretKey = config('jdt.qiniu.sk');
             // 构建鉴权对象
             $auth = new Auth($accessKey, $secretKey);
             // 要上传的空间
-            $bucket = config('sudai.qiniu.bucket');
+            $bucket = config('jdt.qiniu.bucket');
             // 生成上传 Token
             $token = $auth->uploadToken($bucket);
             // 要上传文件的本地路径

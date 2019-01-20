@@ -6,9 +6,6 @@ use App\Helpers\RestUtils;
 use Closure;
 use App\Helpers\RestResponseFactory;
 
-/**
- * @author zhaoqiying
- */
 class CrossMiddleware
 {
 

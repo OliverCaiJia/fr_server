@@ -4,9 +4,6 @@ namespace App\Helpers;
 
 use App\Helpers\RestUtils;
 
-/**
- * @author zhaoqiying
- */
 class RestResponse
 {
 

@@ -6,9 +6,6 @@ use Monolog\Logger as MonologLogger;
 use Monolog\Handler\NativeMailerHandler;
 use Monolog\Processor\WebProcessor;
 
-/**
- * @author zhaoqiying
- */
 class MailLogger
 {
 
@@ -21,7 +18,7 @@ class MailLogger
     public static function getMailer()
     {
         if (!(self::$nativeMailer instanceof MonologLogger)) {
-            self::$nativeMailer = new MonologLogger('sdzj');
+            self::$nativeMailer = new MonologLogger('jdt');
             self::$nativeMailer->pushHandler(self::getNativeMailerHandler());
             self::$nativeMailer->pushProcessor(new WebProcessor());
         }
@@ -30,7 +27,7 @@ class MailLogger
 
     private static function getNativeMailerHandler()
     {
-        $handler = new NativeMailerHandler('tech-report@sudaizhijia.com', 'SDZJ-Log', 'tech-report@sudaizhijia.com');
+        $handler = new NativeMailerHandler('tech-report@jdt.com', 'JDT-Log', 'tech-report@jdt.com');
         return $handler;
     }
 

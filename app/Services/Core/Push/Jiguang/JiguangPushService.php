@@ -15,8 +15,8 @@ use JPush\Exceptions\JPushException;
  */
 class JiguangPushService extends AppService
 {
-    private static $app_key = '379c9d171d78a03a18412f80';              //填入你的app_key
-    private static $master_secret = '59305dedeccdc420d6c08951';        //填入你的master_secret
+    private static $app_key = '379c9d171d78a03a18412';              //填入你的app_key
+    private static $master_secret = '59305dedeccdc420d6c08';        //填入你的master_secret
     
     /**
      * @param array $params

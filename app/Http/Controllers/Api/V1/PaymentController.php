@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-10-26
- * Time: 上午11:43
- */
 
 namespace App\Http\Controllers\Api\V1;
 
@@ -51,7 +45,7 @@ class PaymentController extends Controller
         ],
             "price" => "19.90",
             "price_twice" =>"19.9",
-            "business_name" => "速贷之家",
+            "business_name" => "jdt",
             "bug_name" => "信用报告",
             "expired_time" => "永久有效",
             "wechat" =>0,

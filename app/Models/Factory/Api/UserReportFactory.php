@@ -11,6 +11,7 @@ use App\Models\Orm\UserBlacklist;
 use App\Models\Orm\UserLoanLog;
 use App\Models\Orm\UserMultiinfo;
 use App\Models\Orm\UserOrder;
+use App\Models\Orm\UserOrderReport;
 use App\Models\Orm\UserOrderType;
 use App\Models\Orm\UserPersonal;
 use App\Models\Orm\UserPostloan;
@@ -43,5 +44,18 @@ class UserReportFactory extends ApiFactory
     {
         $reportData = UserReport::where(['user_id'=>$userId])->first();
         return $reportData ? $reportData->toArray() : [];
+    }
+
+    /**
+     * 根据报告id获取报告订单关系
+     * @param $reportId
+     * @return array
+     */
+    public static function getReportOrderByReportId($reportId)
+    {
+        $reportOrder = UserOrderReport::select()
+            ->where('report_id', '=', $reportId)
+            ->first();
+        return $reportOrder ? $reportOrder->toArray() : [];
     }
 }

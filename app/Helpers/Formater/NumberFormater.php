@@ -2,9 +2,6 @@
 
 namespace App\Helpers\Formater;
 
-/**
- * @author zhaoqiying
- */
 class NumberFormater
 {
     // 金额加单位

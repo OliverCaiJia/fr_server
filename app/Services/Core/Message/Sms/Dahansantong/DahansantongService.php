@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-8-16
- * Time: 上午10:14
- */
+
 namespace App\Services\Core\Message\Sms\Dahansantong;
 
 use App\Helpers\Http\HttpClient;

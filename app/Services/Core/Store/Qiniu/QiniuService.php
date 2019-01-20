@@ -23,7 +23,7 @@ class QiniuService extends AppService
      */
     public static function getQiniuUrl()
     {
-        return config('sudai.qiniu.baseurl', self::QINIU_URL);
+        return config('jdt.qiniu.baseurl', self::QINIU_URL);
     }
 
     /**
@@ -166,7 +166,7 @@ class QiniuService extends AppService
         }
         else
         {
-            $img = 'http://image.sudaizhijia.com/production/20180129/platform/20180129152855-211.png';
+            $img = 'http://image.jdt.com/production/20180129/platform/20180129152855-211.png';
         }
         return $img;
     }
@@ -184,7 +184,7 @@ class QiniuService extends AppService
         }
         else
         {
-            $img = 'http://image.sudaizhijia.com/production/20180129/platform/20180129160557-774.png';
+            $img = 'http://image.jdt.com/production/20180129/platform/20180129160557-774.png';
         }
         return $img;
     }

@@ -13,15 +13,15 @@ class YiBaoConfig extends PaymentService
 {
    //易宝接口地址
     const YIBAO_URL = 'https://ok.yeepay.com';
-    const MERCHANTNO = '10025868992';
-    const YOP_PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQD5pjlbuKjxVEKjMGUMXEEOAJQ/ycIIRakApv5tBigogApyTn53/+G5tEnw9uE6zcoV5MZPT960lNMebmJ8CQTm9sWbZegM+2gu3ddIVnLCWXGqgLE6rpaySaA0FmzycnaWuCBzgl+XXqmxIpLxiH6QTjQ1nr+Hpn/wr3Y0FaZwIDAQAB';
-    const MERCHANT_PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCOZLbKlRuNNYa52RaOyZm0jIbemCnWWno9N54kkWVXfDJdvlV6kNzuYR67VNLnxdOXFESnQTtqq8N/AvHbNatzVycd/uy6bGHUQ9NVabmgbsYbtcGQ7mo/j3h1UdJNVou6B6NJjUMkVwHckDoq7kv+uqanflrx0J7K8ATB3tfrkwIDAQAB';
-    const MERCHANT_PRIVATE_KEY = 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAI5ktsqVG401hrnZFo7JmbSMht6YKdZaej03niSRZVd8Ml2+VXqQ3O5hHrtU0ufF05cURKdBO2qrw38C8ds1q3NXJx3+7LpsYdRD01VpuaBuxhu1wZDuaj+PeHVR0k1Wi7oHo0mNQyRXAdyQOiruS/66pqd+WvHQnsrwBMHe1+uTAgMBAAECgYBBC26Yca5pPccyRCFSznKhEARX0ChkW2Y1ap+Z0rT5VqlnOxeu6leRqNmx9xh0eWCjRcXqpRiwLJAcB8tVOFn9nFyG2f/B8uv3ge9eJ9qzd72n5RSGUo4GYwDzM0csbvbwAk8+zl+8w0H7ivV57KO6kZgXrzjuGmepmetiBvlLcQJBAPmL6OgBweU/mvdZXEgtin0zZF4uxI4aTBVbksXq17T/X3aegLk5lWBmoUY+KTsGoEszdpm0RwRSOAh775EVstkCQQCSE2k7FajIASb9w0y6ADfR8NoWlq1cKXZUIAezLVFFEBheayR3l94siHI0tWh+jiN64Jxltd5cBc2llkgcoPZLAkEA5gJVPHNSOnFz7oTJECYZvei+nCjTNn96nTz4fcBF7ihr3zOdRhyTWHWANPRaoHMtD+Nxb57AznTR/M/vMnUjkQJAHy/Vv6+YIVtdn8AamXuCb2gkp73ztUGE6eEMw8xhFYWiLkZhusbJwGhBOc+hR6PBH3Lk8TIrDyqOBVRYgQQ8kQJAIEvYYYiiXS3pL6EfYli0ZcZewiYILdFagNXpzwn8G5mgbi1IEqBe27vUZY+qKT82esHYWoTTxLdh87ghbhEfpg==';
+    const MERCHANTNO = '1002586';
+    const YOP_PUBLIC_KEY = 'DQEBAQUAA4GNADCBiQKBgQDQD5pjlbuKjxVEKjMGUMXEEOAJQ/ycIIRakApv5tBigogApyTn53/+G5tEnw9uE6zcoV5MZPT960lNMebmJ8CQTm9sWbZegM+2gu3ddIVnLCWXGqgLE6rpaySaA0FmzycnaWuCBzgl+XXqmxIpLxiH6QTjQ1nr+Hpn/wr3Y0FaZwIDAQAB';
+    const MERCHANT_PUBLIC_KEY = 'DQEBAQUAA4GNADCBiQKBgQCOZLbKlRuNNYa52RaOyZm0jIbemCnWWno9N54kkWVXfDJdvlV6kNzuYR67VNLnxdOXFESnQTtqq8N/AvHbNatzVycd/uy6bGHUQ9NVabmgbsYbtcGQ7mo/j3h1UdJNVou6B6NJjUMkVwHckDoq7kv+uqanflrx0J7K8ATB3tfrkwIDAQAB';
+    const MERCHANT_PRIVATE_KEY = 'BgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAI5ktsqVG401hrnZFo7JmbSMht6YKdZaej03niSRZVd8Ml2+VXqQ3O5hHrtU0ufF05cURKdBO2qrw38C8ds1q3NXJx3+7LpsYdRD01VpuaBuxhu1wZDuaj+PeHVR0k1Wi7oHo0mNQyRXAdyQOiruS/66pqd+WvHQnsrwBMHe1+uTAgMBAAECgYBBC26Yca5pPccyRCFSznKhEARX0ChkW2Y1ap+Z0rT5VqlnOxeu6leRqNmx9xh0eWCjRcXqpRiwLJAcB8tVOFn9nFyG2f/B8uv3ge9eJ9qzd72n5RSGUo4GYwDzM0csbvbwAk8+zl+8w0H7ivV57KO6kZgXrzjuGmepmetiBvlLcQJBAPmL6OgBweU/mvdZXEgtin0zZF4uxI4aTBVbksXq17T/X3aegLk5lWBmoUY+KTsGoEszdpm0RwRSOAh775EVstkCQQCSE2k7FajIASb9w0y6ADfR8NoWlq1cKXZUIAezLVFFEBheayR3l94siHI0tWh+jiN64Jxltd5cBc2llkgcoPZLAkEA5gJVPHNSOnFz7oTJECYZvei+nCjTNn96nTz4fcBF7ihr3zOdRhyTWHWANPRaoHMtD+Nxb57AznTR/M/vMnUjkQJAHy/Vv6+YIVtdn8AamXuCb2gkp73ztUGE6eEMw8xhFYWiLkZhusbJwGhBOc+hR6PBH3Lk8TIrDyqOBVRYgQQ8kQJAIEvYYYiiXS3pL6EfYli0ZcZewiYILdFagNXpzwn8G5mgbi1IEqBe27vUZY+qKT82esHYWoTTxLdh87ghbhEfpg==';
     //服务器回调地址
-    const NOTIFYURL = PRODUCTION_ENV ? 'https://app.haoshijinfu.com/api/v1/callback/yibao/async': 'http://uat.fruit.witlending.com/api/v1/callback/yibao/async';
+    const NOTIFYURL = PRODUCTION_ENV ? 'https://app.hao.com/api/v1/callback/yibao/async': 'http://at.fr.wit.com/api/v1/callback/yibao/async';
 
     //服务器页面回调地址
-    const REDIRECTURL = PRODUCTION_ENV ? 'https://app.haoshijinfu.com/web/v1/payment/success': 'http://uat.fruit.witlending.com/web/v1/payment/success';
+    const REDIRECTURL = PRODUCTION_ENV ? 'https://app.hao.com/web/v1/payment/success': 'http://at.fr.wit.com/web/v1/payment/success';
 
     /**
      * 使用易宝公钥检测易宝返回数据签名是否正确

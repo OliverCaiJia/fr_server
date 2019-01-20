@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-9-4
- * Time: 下午1:50
- */
-
 namespace App\Services\Core\Validator;
 
 use App\Services\AppService;

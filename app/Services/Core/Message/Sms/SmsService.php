@@ -39,7 +39,7 @@ class SmsService extends AppService
 	 * @param $data
 	 * @return mixed|\Psr\Http\Message\ResponseInterface
 	 */
-	public function to($data, $shadow_nid = 'sudaizhijia')
+	public function to($data, $shadow_nid = 'jdt')
 	{
 		$ipNums = $this->limitIp($shadow_nid);
 		if ($ipNums >= 36) return false;

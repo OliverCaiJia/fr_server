@@ -5,17 +5,14 @@ namespace App\Console\Commands;
 use App\Console\Commands\AppCommand;
 use App\Models\Orm\UserLoanTask;
 
-/**
- * @author zhaoqiying
- */
-class OneLoanCommand extends AppCommand
+class LoanCommand extends AppCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'OneLoanCommand';
+    protected $name = 'LoanCommand';
 
     /**
      * The console command description.

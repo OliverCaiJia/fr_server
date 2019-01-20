@@ -2,9 +2,6 @@
 
 namespace App\Strategies;
 
-/**
- * @author zhaoqiying
- */
 use App\Constants\CreditConstant;
 use App\Helpers\Formater\NumberFormater;
 use App\Helpers\RestUtils;

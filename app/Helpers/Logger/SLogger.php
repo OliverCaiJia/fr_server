@@ -37,7 +37,7 @@ class SLogger
                 'query' => 'QUERY_STRING',
                 'ser_ip' => 'SERVER_ADDR'
             ];
-            self::$logger = new MonologLogger('sdjt-stream');
+            self::$logger = new MonologLogger('jdt-stream');
             self::$logger->pushHandler(self::getStreamHandler());
             self::$logger->pushProcessor(new WebProcessor(null, $extraFields));
 
@@ -59,7 +59,7 @@ class SLogger
      */
     private static function getStreamHandler()
     {
-        $logpath = storage_path() . '/logs/saas.jietiao-' . date('Y-m-d') . '.log';
+        $logpath = storage_path() . '/logs/saas.jt-' . date('Y-m-d') . '.log';
         $handler = new StreamHandler($logpath, MonologLogger::INFO, true, 0777);
         $lineFormatter = new LineFormatter();
         $lineFormatter->includeStacktraces(true);

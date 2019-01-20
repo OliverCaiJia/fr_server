@@ -11,8 +11,6 @@ use App\Helpers\RestResponseFactory;
 
 /**
  * 获取用户中间件
- *
- * @author zhaoqiying
  */
 class AuthApiMiddleware
 {

@@ -4,9 +4,6 @@ namespace App\Helpers\Generator;
 
 use Exception;
 
-/**
- * @author zhaoqiying
- */
 class TokenGenerator
 {
 

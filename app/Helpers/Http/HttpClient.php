@@ -4,9 +4,6 @@ namespace App\Helpers\Http;
 
 use \GuzzleHttp\Client;
 
-/**
- * @author zhaoqiying
- */
 class HttpClient
 {
 

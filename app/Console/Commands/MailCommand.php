@@ -4,9 +4,6 @@ namespace App\Console\Commands;
 
 use App\Console\Commands\AppCommand;
 
-/**
- * @author zhaoqiying
- */
 class MailCommand extends AppCommand
 {
       /**

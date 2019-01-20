@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Report;
 
 use App\Models\Factory\Api\UserAuthFactory;
+use App\Models\Factory\Api\UserOrderFactory;
+use App\Models\Factory\Api\UserReportFactory;
 use App\Models\Orm\UserReport;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
@@ -41,20 +43,6 @@ class ReportController extends AdminController
     {
         $report = UserReport::findOrFail($id);
         $request_data = $report->report_data;
-        $requestData = json_decode($request_data);
-        $postLoad = $requestData->post_load;
-        $antiFraud = $requestData->anti_fraud;
-        $blackGray = $requestData->black_gray;
-        $multiInfo = $requestData->multi_info;
-        $application = $requestData->application;
-        $creditEvaluation = $requestData->credit_evaluation;
-        $creditQualification = $requestData->credit_qualification;
-
-//        dd($postLoad->trans_id);
-
-        $transId = $postLoad->trans_id;
-
-
         return view('admin.report.edit', compact('request_data'));
     }
 
@@ -65,6 +53,8 @@ class ReportController extends AdminController
      */
     public function detail($id)
     {
+        $reportOrder = UserReportFactory::getReportOrderByReportId($id);
+
         $report = UserReport::findOrFail($id);
         $request_data = $report->report_data;
         $requestData = json_decode($request_data);
@@ -76,11 +66,13 @@ class ReportController extends AdminController
         $creditEvaluation = $requestData->credit_evaluation;
         $creditQualification = $requestData->credit_qualification;
 
-//        dd($request_data);
+//        dd($antiFraud->person_info->education_info->level);
 
         $transId = $postLoad->trans_id;
 
 
-        return view('admin.report.detail', compact('request_data', 'postLoad'));
+        return view('admin.report.detail',
+            compact('postLoad', 'antiFraud', 'blackGray', 'multiInfo',
+                'application', 'creditEvaluation', 'creditQualification'));
     }
 }

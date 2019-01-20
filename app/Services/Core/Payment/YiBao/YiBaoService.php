@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-10-26
- * Time: 上午10:05
- */
 
 namespace App\Services\Core\Payment\YiBao;
 

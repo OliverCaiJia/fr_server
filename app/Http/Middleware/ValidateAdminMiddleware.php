@@ -6,9 +6,6 @@ use Closure;
 use App\Helpers\AdminResponseFactory;
 use \Illuminate\Http\Request;
 
-/**
- * @author zhaoqiying
- */
 class ValidateAdminMiddleware
 {
 

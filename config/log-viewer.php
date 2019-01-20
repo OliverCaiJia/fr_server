@@ -17,7 +17,7 @@ return [
      */
 
     'pattern'       => [
-        'prefix'    => 'saas.jietiao-',    // 'laravel-'
+        'prefix'    => 'saas.jt-',    // 'laravel-'
         'date'      => Filesystem::PATTERN_DATE,      // '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
         'extension' => Filesystem::PATTERN_EXTENSION, // '.log'
     ],

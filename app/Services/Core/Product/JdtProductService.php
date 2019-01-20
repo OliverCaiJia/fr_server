@@ -9,10 +9,10 @@ use App\Services\AppService;
  * @package App\Services\Core\Store\Push
  * 推送
  */
-class SuDaiZhiJiaProductService extends AppService
+class JdtProductService extends AppService
 {
     /**
-     * 获取速贷之家合作贷产品数据
+     * 获取jdt合作贷产品数据
      * @param array $params
      * @return Json
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -20,14 +20,14 @@ class SuDaiZhiJiaProductService extends AppService
     public static function productCooperate($data = [])
     {
         //获取config
-        $url = SuDaiZhiJiaProductConfig::SUDAIZHIJIA_PRODUCT_URL."?pageSize={$data['pageSize']}&pageNum={$data['pageNum']}&productType=1&terminalType={$data['terminalType']}";
+        $url = JdtProductConfig::SUDAIZHIJIA_PRODUCT_URL."?pageSize={$data['pageSize']}&pageNum={$data['pageNum']}&productType=1&terminalType={$data['terminalType']}";
         $response = HttpClient::i()->request('GET', $url);
         $result = $response->getBody()->getContents();
         return $result;
     }
 
     /**
-     * 速贷之家立即申请产品url
+     * jdt立即申请产品url
      * @param array $data
      * @return Json
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -35,7 +35,7 @@ class SuDaiZhiJiaProductService extends AppService
     public static function cooperateApplication($data = [])
     {
         //获取config
-        $url = SuDaiZhiJiaProductConfig::SUDAIZHIJIA_APPLY_URL."?productId={$data['productId']}";
+        $url = JdtProductConfig::SUDAIZHIJIA_APPLY_URL."?productId={$data['productId']}";
         $response = HttpClient::i()->request('GET', $url);
         $result = $response->getBody()->getContents();
         return $result;

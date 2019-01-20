@@ -4,9 +4,6 @@ namespace App\Helpers;
 
 use Jenssegers\Agent\Agent;
 
-/**
- * @author zhaoqiying
- */
 class UserAgent
 {
 

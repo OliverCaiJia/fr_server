@@ -2,9 +2,6 @@
 
 namespace App\Strategies;
 
-/**
- * @author zhaoqiying
- */
 use App\Constants\CreditConstant;
 use App\Helpers\RestUtils;
 use App\Strategies\AppStrategy;

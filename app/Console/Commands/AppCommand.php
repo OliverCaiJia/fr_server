@@ -4,9 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-/**
- * @author zhaoqiying
- */
 class AppCommand extends Command
 {
 

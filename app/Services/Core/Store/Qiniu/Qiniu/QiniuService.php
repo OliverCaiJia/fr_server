@@ -21,9 +21,9 @@ class QiniuService extends AppService
 
     public function __construct()
     {
-        $this->bucket = config('sudai.qiniu.bucket');
-        $this->prefix = config('sudai.qiniu.prefix');
-        $this->domain = config('sudai.qiniu.domain');
+        $this->bucket = config('jdt.qiniu.bucket');
+        $this->prefix = config('jdt.qiniu.prefix');
+        $this->domain = config('jdt.qiniu.domain');
     }
 
     public static function getInstance()

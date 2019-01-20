@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-/**
- * @author zhaoqiying
- */
 abstract class AbsBaseModel extends Eloquent
 {
     public $timestamps = false;

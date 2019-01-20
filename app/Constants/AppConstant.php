@@ -3,7 +3,6 @@
 namespace App\Constants;
 
 /**
- * @author zhaoqiying
  * 简易枚举实现
  */
 abstract class AppConstant

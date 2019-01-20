@@ -4,8 +4,6 @@ namespace App\Models\Chain;
 
 /**
  * Description of TenderChain
- *
- * @author zhaoqiying
  */
 abstract class AbstractHandler
 {

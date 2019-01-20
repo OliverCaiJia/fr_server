@@ -2,9 +2,6 @@
 
 namespace App\Helpers;
 
-/**
- * @author zhaoqiying
- */
 class AdminResponseFactory
 {
 

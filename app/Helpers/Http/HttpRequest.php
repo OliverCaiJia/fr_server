@@ -1,9 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: sudai
- * Date: 17-7-11
- * Time: 下午1:37
  *
  * 用于微信媒体上传的处理类
  */

@@ -18,7 +18,7 @@ class PhoneService extends ToolsService
      */
     public static function getPhoneInfo($phone)
     {
-        $url = self::PHONE_API_URL."?app=phone.get&phone=$phone&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
+        $url = self::PHONE_API_URL."?app=phone.get&phone=$phone&appkey=1003&sign=b59bc3ef6191eb9f7e83c99f2a4&format=json";
         $response = HttpClient::i()->request('GET', $url);
         $result = $response->getBody()->getContents();
         $result =  json_decode($result, true);

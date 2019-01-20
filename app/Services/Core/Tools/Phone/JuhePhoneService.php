@@ -10,7 +10,7 @@ class JuhePhoneService extends ToolsService
     //地址
     const PHONE_API_URL = 'http://apis.juhe.cn/mobile/get';
     //key
-    const PHONE_API_KEY = '7c02c644a1dc55bde68aebfaccca2cd2';
+    const PHONE_API_KEY = '7c02c644a1dc55bdeaccca2cd2';
 
     /**
      * 获取手机信息地址信息

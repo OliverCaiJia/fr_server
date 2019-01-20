@@ -4,9 +4,6 @@ namespace App\Http\Validators\Api\V1;
 
 use App\Http\Validators\AbstractValidator;
 
-/**
- * @author zhaoqiying
- */
 class QuickloginValidator extends AbstractValidator
 {
 
